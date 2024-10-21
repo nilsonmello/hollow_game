@@ -1,5 +1,7 @@
+#region sprite draw
 var _dir = floor((point_direction(x, y, mouse_x, mouse_y) + 45) mod 360 / 90);
 draw_sprite_ext(sprite_index, image_index, x, y, image_xscale, image_yscale, 0, c_white, 1);
+#endregion
 
 #region switch dash indication
 switch(dash_num){
