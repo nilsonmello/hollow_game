@@ -19,7 +19,7 @@ spd_v = 0;
 spd= 1;
 
 dash_dir = 0;
-dash_veloc = 8;
+dash_veloc = 10;
 
 dash_num = 3;
 
@@ -135,3 +135,5 @@ trail_thickness = 2;
 
 candust = true;
 #endregion
+
+state_timer = 0;

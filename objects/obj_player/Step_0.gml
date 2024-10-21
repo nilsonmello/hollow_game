@@ -62,21 +62,32 @@ switch(state){
 			state = STATES.DASH;
 			dash_num--; 
 			dash_cooldown = dash_time;
-			
 		}
 	break;
 	#endregion
 	
 	#region dash
+	// Inicialize a variável para o timer
+	if(state_timer == undefined){
+		state_timer = 0;
+	}
+
 	case STATES.DASH:
 		can_take_dmg = false;
 		alarm[6] = 15;
-		
+
 		spd_h = lengthdir_x(dash_veloc, dash_dir);
 		spd_v = lengthdir_y(dash_veloc, dash_dir);
-    
+
+		state_timer += 1;
+
+		if(state_timer >= 2){
+		    part_particles_create(obj_particle_setup.particle_system, x, y, obj_particle_setup.particle_shadow, 1);
+		    state_timer = 0;
+		}
+
 		player_colide();	
-	
+
 		x += spd_h;
 		y += spd_v;
 	break;
