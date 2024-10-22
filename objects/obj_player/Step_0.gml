@@ -45,7 +45,7 @@ switch(state){
 			andar = true;
 		}
 		
-		dash_dir = point_direction(x, y, mouse_x, mouse_y);
+		dash_dir = move_dir
 		
 		if(keyboard_check_pressed(vk_space) && dash_num > 0){
 			global.is_dashing = true;
@@ -80,10 +80,10 @@ switch(state){
 			state = STATES.IDLE;
 		}
 		
-		dash_dir = point_direction(x, y, mouse_x, mouse_y);
+		dash_dir = move_dir;
 		if(keyboard_check_pressed(vk_space) && dash_num > 0){
 			global.is_dashing = true;
-			alarm[0] = 12;
+			alarm[0] = 8;
 			state = STATES.DASH;
 			dash_num--; 
 			dash_cooldown = dash_time;
