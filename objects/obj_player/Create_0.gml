@@ -10,6 +10,9 @@ with(my_weapon){
 #endregion
 
 #region variáveis de movimento
+state_timer = 0;
+sprite_index = spr_player;
+
 move_dir = 0;
 andar = false;
 
@@ -71,23 +74,6 @@ function player_colide(){
 	spd_v = 0;
 
 	}
-	//Colisão Horizontal
-	if(place_meeting(x + spd_h, y, obj_enemy)){
-		while(!place_meeting(x + sign(spd_h), y, obj_enemy)){
-			x += sign(spd_h);
-		}
-	spd_h = 0;
-
-	}
-
-	// Colisão Vertical
-	if(place_meeting(x, y+ spd_v, obj_enemy)){
-		while(!place_meeting(x, y + sign(spd_v), obj_enemy)){
-			y += sign(spd_v);
-		}
-	spd_v = 0;
-
-	}
 }
 #endregion
 
@@ -133,7 +119,3 @@ trail_thickness = 2;
 
 candust = true;
 #endregion
-
-state_timer = 0;
-
-sprite_index = spr_player;

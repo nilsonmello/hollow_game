@@ -70,8 +70,5 @@ function scr_colide(){
 			    }
 		break;
 	}
-	
-	
-    
 }
 #endregion
