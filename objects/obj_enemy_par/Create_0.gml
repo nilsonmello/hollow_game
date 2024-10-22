@@ -47,10 +47,10 @@ function scr_colide(){
 		break;
 		
 		case 1:
-			var _collidable_objects = [obj_wall];
+			var _collidable_object = [obj_wall];
     
-			    for(var _i = 0; _i < array_length(_collidable_objects); _i++){
-			        var _obj = _collidable_objects[_i];
+			    for(var _i = 0; _i < array_length(_collidable_object); _i++){
+			        var _obj = _collidable_object[_i];
 			        if(place_meeting(x + vel_h, y, _obj)){
 			            while (!place_meeting(x + sign(vel_h), y, _obj)){
 			                x += sign(vel_h);
@@ -59,8 +59,8 @@ function scr_colide(){
 			        }
 			    }
 
-			    for(var _i = 0; _i < array_length(_collidable_objects); _i++){
-			        var _obj = _collidable_objects[_i];
+			    for(var _i = 0; _i < array_length(_collidable_object); _i++){
+			        var _obj = _collidable_object[_i];
 			        if(place_meeting(x, y + vel_v, _obj)){
 			            while(!place_meeting(x, y + sign(vel_v), _obj)){
 			                y += sign(vel_v);

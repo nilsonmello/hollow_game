@@ -1,7 +1,7 @@
 {
   "$GMShader":"",
-  "%Name":"shd_vignette",
-  "name":"shd_vignette",
+  "%Name":"sh_shd_vignette",
+  "name":"sh_shd_vignette",
   "parent":{
     "name":"Shaders",
     "path":"folders/Shaders.yy",

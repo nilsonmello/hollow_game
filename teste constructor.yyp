@@ -55,7 +55,7 @@
     {"id":{"name":"Room1","path":"rooms/Room1/Room1.yy",},},
     {"id":{"name":"scr_variables","path":"scripts/scr_variables/scr_variables.yy",},},
     {"id":{"name":"search_for_player","path":"scripts/search_for_player/search_for_player.yy",},},
-    {"id":{"name":"shd_vignette","path":"shaders/shd_vignette/shd_vignette.yy",},},
+    {"id":{"name":"sh_shd_vignette","path":"shaders/sh_shd_vignette/sh_shd_vignette.yy",},},
     {"id":{"name":"spr_bullet","path":"sprites/spr_bullet/spr_bullet.yy",},},
     {"id":{"name":"spr_dust","path":"sprites/spr_dust/spr_dust.yy",},},
     {"id":{"name":"spr_enemy_life_2","path":"sprites/spr_enemy_life_2/spr_enemy_life_2.yy",},},

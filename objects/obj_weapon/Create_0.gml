@@ -7,7 +7,7 @@ function scr_create_weapon(_name, _dmg, _fire_rate, _bullet_sprite, _automatic, 
         bullet_sprite: _bullet_sprite,
         automatic: _automatic,
         bp_shoot: _bps,
-        cost_per_shot: _cost_per_shot, // Adiciona custo por cartucho
+        cost_per_shot: _cost_per_shot,
         shot_cooldown: 0,
         weapon_sprite: _weapon_spr,
         custom_function: _custom_function,
@@ -24,7 +24,7 @@ function scr_create_weapon(_name, _dmg, _fire_rate, _bullet_sprite, _automatic, 
                     _bullet.damage = damage;
                     _bullet.x = _x;
                     _bullet.y = _y;
-
+					
                     var _dir = _base_dir + (_spread * (_i - (bp_shoot - 1) / 2));
                     _bullet.direction = _dir;
 
@@ -51,7 +51,7 @@ function scr_create_weapon(_name, _dmg, _fire_rate, _bullet_sprite, _automatic, 
 #region guns
 vazio = scr_create_weapon("vazio", 0, 0, 0, 0, false, 0, function(){}, 0);
 
-shotgun = scr_create_weapon("Shotgun", 4, 1, spr_bullet, false, 5, spr_weapon, function colide_shotgun(_bullet){
+shotgun = scr_create_weapon("Shotgun", 4, .10, spr_bullet, false, 5, spr_weapon, function colide_shotgun(_bullet){
     with(other){
         state = ENEMY_STATES.HIT;
         path_end();
@@ -114,4 +114,8 @@ slot_at = 0;
 
 recoil = 0;
 recoil_force = 0;
+
+recoil_gun = 0;
+
+recoil_pause_timer = 0;
 #endregion

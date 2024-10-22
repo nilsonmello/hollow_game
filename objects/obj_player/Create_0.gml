@@ -7,9 +7,11 @@ with(my_weapon){
 	weapon_slots[0] = vazio;
 	current_weapon = weapon_slots[slot_at];
 }
+recoil_pause_timer = 0;
 #endregion
 
 #region variáveis de movimento
+timer = 0;
 state_timer = 0;
 sprite_index = spr_player;
 

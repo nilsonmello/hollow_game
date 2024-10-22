@@ -7,7 +7,7 @@ particle_shadow = part_type_create();
 
 part_type_sprite(particle_shadow, spr_player, 1, 0, 1);
 part_type_size(particle_shadow, 1, 1, 0, 0);
-part_type_life(particle_shadow, 25, 25);
+part_type_life(particle_shadow, 25, 45);
 part_type_alpha1(particle_shadow, 0.1);
 
 var _red = make_color_rgb(51, 0, 25);

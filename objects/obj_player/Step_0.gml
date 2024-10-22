@@ -92,10 +92,7 @@ switch(state){
 	#endregion
 	
 	#region dash
-	// Inicialize a variável para o timer
-	if(state_timer == undefined){
-		state_timer = 0;
-	}
+
 
 	case STATES.DASH:
 		can_take_dmg = false;
@@ -198,93 +195,78 @@ if(dash_num < 3){
 
 #region weapon
 with(my_weapon){
-	#region target
-	alvo_x = mouse_x;
-	alvo_y = mouse_y;
-	#endregion
-	
-	#region comand keys
-	var _ma = mouse_check_button(mb_right);
-	var _mb = noone;
-	weapon_drop = instance_nearest(x, y, obj_weapon_drop);
-	
-	if(current_weapon.automatic){
-	    _mb = mouse_check_button(mb_left);
-	}else{
-	    _mb = mouse_check_button_pressed(mb_left);
-	}
-	#endregion
+    #region target
+    alvo_x = mouse_x;
+    alvo_y = mouse_y;
+    #endregion
+    
+    #region comand keys
+    var _ma = mouse_check_button(mb_right);
+    var _mb = noone;
+    weapon_drop = instance_nearest(x, y, obj_weapon_drop);
+    
+    if(current_weapon.automatic){
+        _mb = mouse_check_button(mb_left);
+    } else {
+        _mb = mouse_check_button_pressed(mb_left);
+    }
+    #endregion
 
-	#region shoot
-	if(_ma){
-		aiming = true;	
-	}else{
-		aiming = false;	
-	}
-	
-	if(_ma && _mb && current_weapon != vazio && global.energy > 0){
-	    current_weapon.shoot(weapon_x, weapon_y);
-	    
-		recoil = 3;
-		recoil_force = recoil;
-	}
-	
-	recoil = lerp(recoil, 0, 0.5);
-	#endregion
-	
-	#region slots
-	slot_at = clamp(slot_at, 0, 2);
-		
-	if(keyboard_check_pressed(ord("F"))){
-		slot_at++;
-		if(slot_at > 2){
-			slot_at = 0;	
-		}
-	}
-		
-	switch(slot_at){
-		case 0:
-			current_weapon = weapon_slots[slot_at];
-		break;
-			
-		case 1:
-			current_weapon = weapon_slots[slot_at];
-		break;
-			
-		case 2:
-			current_weapon = weapon_slots[slot_at];
-		break;
-	}
-	#endregion
-	
-	#region functions
-	if(keyboard_check_pressed(ord("E"))){
-		weapon_pickup();
-	}
-	if(keyboard_check_pressed(ord("Q"))){
-		drop_weapon();
-	}
-	#endregion
+    #region shoot
+    if(_ma){
+        aiming = true;    
+    } else {
+        aiming = false;    
+    }
+    
+    if(_ma && _mb && current_weapon != vazio && global.energy > 0){
+        current_weapon.shoot(weapon_x, weapon_y);
+        recoil = 3;
+		recoil_gun = 12;
+    }
+    recoil = lerp(recoil, 0, 0.5);
+	recoil_gun= lerp(recoil_gun, 0, 0.5);
+    #endregion
+    
+    #region slots
+    slot_at = clamp(slot_at, 0, 2);
+        
+    if(keyboard_check_pressed(ord("F"))){
+        slot_at++;
+        if(slot_at > 2){
+            slot_at = 0;    
+        }
+    }
+        
+    current_weapon = weapon_slots[slot_at];
+    #endregion
+    
+    #region functions
+    if(keyboard_check_pressed(ord("E"))){
+        weapon_pickup();
+    }
+    if(keyboard_check_pressed(ord("Q"))){
+        drop_weapon();
+    }
+    #endregion
+    
+    #region player recoil
+    var _target_x = obj_player.x - lengthdir_x(recoil, weapon_dir);
+    var _target_y = obj_player.y - lengthdir_y(recoil, weapon_dir);
+
+    if (!place_meeting(_target_x, _target_y, obj_wall)) {
+        obj_player.x = _target_x;
+        obj_player.y = _target_y;
+    } else {
+        while (recoil > 0 && !place_meeting(obj_player.x, obj_player.y, obj_wall)) {
+            obj_player.x -= lengthdir_x(1, weapon_dir);
+            obj_player.y -= lengthdir_y(1, weapon_dir);
+        }
+    }
+    #endregion
 }
 #endregion
 
-#region player recoil
-if(my_weapon.recoil_force > 0){
-	var _target_x = x - lengthdir_x(my_weapon.recoil_force, my_weapon.weapon_dir);
-	var _target_y = y - lengthdir_y(my_weapon.recoil_force, my_weapon.weapon_dir);
-
-	if(!place_meeting(_target_x, _target_y, obj_wall)){
-	    x = _target_x;
-	    y = _target_y;
-	}else{
-	    while(my_weapon.recoil_force > 0 && place_meeting(x, y, obj_wall) == false){
-	        x -= lengthdir_x(1, my_weapon.weapon_dir);
-	        y -= lengthdir_y(1, my_weapon.weapon_dir);
-	    }
-	}
-	my_weapon.recoil_force = max(0, my_weapon.recoil_force - 1);
-}
-#endregion
 
 #region sword dash
 var _mb = mouse_check_button_pressed(mb_left);
@@ -380,9 +362,16 @@ if(moving_along_path && ds_list_size(path_list) > 0){
 
         var _dir = point_direction(x, y, _target_x, _target_y);
         var _dist = point_distance(x, y, _target_x, _target_y);
-
+		
         if(move_speed > 0){
+			
+			timer++;
+			show_debug_message(timer)
+			if(timer >= 2){
             part_particles_create(obj_particle_setup.particle_system, x, y, obj_particle_setup.particle_shadow, 1);    
+			timer = 0;
+			}
+			
 			part_particles_create(obj_particle_setup.particle_system_dust, x, y + 8, obj_particle_setup.particle_dust, 10);
         }
         

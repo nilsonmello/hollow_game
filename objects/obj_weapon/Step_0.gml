@@ -1,7 +1,6 @@
 #region cooldown e direção
 //weapon cooldown
 current_weapon.update_cooldown();
-
 //weapon direction
 weapon_dir = point_direction(x, y, alvo_x, alvo_y);
 
