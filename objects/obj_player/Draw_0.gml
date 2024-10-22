@@ -23,7 +23,6 @@ switch(dash_num){
 
 #region hability draw debug
 if(keyboard_check(ord("R")) && global.stamina >= global.stamina_max){
-    draw_circle(x, y, area, true);
 	draw_sprite(spr_area, 0, x, y)
 
     if(enemy_list != undefined && ds_list_size(enemy_list) > 0){
@@ -116,10 +115,10 @@ for (var i = 0; i < ds_list_size(trail_fixed_positions); i++) {
 draw_set_alpha(1.0);
 #endregion
 
-
+#region hit effect
 if(hit_alpha > 0){
-	
 	gpu_set_fog(true, hit_color,0, 0);
 	draw_sprite_ext(sprite_index, image_index, x, y, image_xscale, image_yscale, 0, c_white, hit_alpha);
 	gpu_set_fog(false, hit_color,0, 0);
 }
+#endregion

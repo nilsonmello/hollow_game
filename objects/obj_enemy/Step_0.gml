@@ -97,16 +97,18 @@ switch(state){
 		                        state = STATES.HIT;
 		                        alarm[5] = 10;
 								hit_alpha = 1;
+								
 
 		                        emp_dir = point_direction(other.x, other.y, x, y);
 		                        emp_veloc = 6;
 		                        global.life_at -= 2;
 								
 								can_take_dmg = false;
-								alarm[6] = 40;
+								alarm[6] = 60;
 							}
 	                    }
 	                    has_attacked = true;
+						obj_cam.alarm[0] = 60;
 	                }
 	            }
 	        }else{

@@ -10,7 +10,7 @@ if(!atingido){
 	            case 2:
 	                state = ENEMY_STATES.HIT;
 	                vida -= 1;
-	                alarm[0] = 3;
+	                alarm[0] = 5;
                     
 	                emp_dir = point_direction(obj_player.x, obj_player.y, x, y);
 	                emp_veloc = 6;

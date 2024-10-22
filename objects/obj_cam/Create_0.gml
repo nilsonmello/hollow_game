@@ -4,5 +4,7 @@ cam_veloc = 0.05;
 
 target = obj_player;
 
-// Variável de escuridão inicial
-darkness = 0.0; // Começa sem escurecer
+darkness = 0.0;
+
+raio = 1;
+leveza = 0.3;

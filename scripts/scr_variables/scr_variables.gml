@@ -24,3 +24,5 @@ global.energy = global.energy_max;
 global.slow_motion = false;
 
 global.is_dashing = false;
+
+global.slashing = false;

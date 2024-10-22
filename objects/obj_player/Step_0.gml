@@ -280,7 +280,7 @@ if(_mb && state != STATES.ATTAKING && alarm[4] <= 0){
 
     var _melee_dir = point_direction(x, y, obj_mouse.x, obj_mouse.y);
     var _advance_dir = 25;
-    var _advance_distance = 15;
+    var _advance_distance = 25;
 
     var _box_x = x + lengthdir_x(_advance_dir, _melee_dir);
     var _box_y = y + lengthdir_y(_advance_dir, _melee_dir);
@@ -300,11 +300,11 @@ if(_mb && state != STATES.ATTAKING && alarm[4] <= 0){
 #region hability activation
 #region Habilidade de Ativação
 area = clamp(area, 0, 170);
-
+show_debug_message(global.slashing)
 if(keyboard_check(ord("R")) && global.stamina >= global.stamina_max){
-	
+	global.slashing = true
     global.slow_motion = true;
-    layer_set_visible("screenshake_1", 1);
+    layer_set_visible("screenshake_charging", 1);
     if(global.energy > 0){
         global.energy--;
         area += 10;
@@ -339,7 +339,7 @@ if(keyboard_check(ord("R")) && global.stamina >= global.stamina_max){
 }else{
     area = 0;
     global.slow_motion = false;
-	layer_set_visible("screenshake_1", 0);
+	layer_set_visible("screenshake_charging", 0);
     
     if(!moving_along_path && ds_list_size(path_list) > 0){
         moving_along_path = true;
@@ -362,7 +362,6 @@ if(moving_along_path && ds_list_size(path_list) > 0){
         if(move_speed > 0){
 			
 			timer++;
-			show_debug_message(timer)
 			if(timer >= 2){
             part_particles_create(obj_particle_setup.particle_system, x, y, obj_particle_setup.particle_shadow, 1);    
 			timer = 0;
@@ -395,10 +394,12 @@ if(moving_along_path && ds_list_size(path_list) > 0){
                 moving_along_path = false;
                 path_position_index = ds_list_size(path_list) - 1;
                 move_speed = 0;
+				global.slashing = false;
             }
            var _enemy_index = instance_position(_target_x, _target_y, obj_enemy_par);
 		   
 			if(_enemy_index != noone){
+				_enemy_index.state = ENEMY_STATES.IDLE;
 			    _enemy_index.vida -= 3;
 			    _enemy_index.emp_dir = point_direction(obj_player.x, obj_player.y, _enemy_index.x, _enemy_index.y);
 			    _enemy_index.state = ENEMY_STATES.HIT;
@@ -410,11 +411,11 @@ if(moving_along_path && ds_list_size(path_list) > 0){
     
 			    // Registrar a posição do ataque
 				ds_list_add(trail_fixed_positions, [x, y, direction]); // Adiciona a direção
-				ds_list_add(trail_fixed_timer, 60);// Duração do trail (30 frames, ajuste conforme necessário)
+				ds_list_add(trail_fixed_timer, 30);// Duração do trail (30 frames, ajuste conforme necessário)
 		
-			    layer_set_visible("screenshake", 1);
+			    layer_set_visible("screenshake_damaging_enemies", 1);
 			}
-            layer_set_visible("screenshake", 0);
+            layer_set_visible("screenshake_damaging_enemies", 0);
         }
     }else{
         moving_along_path = false;
