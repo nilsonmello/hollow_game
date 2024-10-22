@@ -269,7 +269,7 @@ var _mb = mouse_check_button_pressed(mb_left);
 var _ma = mouse_check_button(mb_right);
 
 if(_mb && state != STATES.ATTAKING && alarm[4] <= 0){
-	alarm[4] = 15;
+	alarm[4] = 17;
 
     if(_ma){
         return false;

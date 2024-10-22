@@ -3,11 +3,11 @@ if(!atingido){
 	    if(hit == true && !attacking && alarm[1] <= 0){ 
 	        combo_visible++;
 			hit_alpha = 1;
-			layer_set_visible("screenshake", 1);
 
 	        switch(combo_visible){
 	            case 1:
 	            case 2:
+				layer_set_visible("screenshake_damaging_enemies", 1);
 	                state = ENEMY_STATES.HIT;
 	                vida -= 1;
 	                alarm[0] = 5;
@@ -21,6 +21,7 @@ if(!atingido){
 	            break;
 
 	            case 3:
+					layer_set_visible("screenshake_damaging_enemies", 1);
 	                state = ENEMY_STATES.KNOCKED;
 	                vida -= 1;
 	                alarm[7] = 8;

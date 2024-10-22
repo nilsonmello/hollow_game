@@ -1,2 +1,2 @@
-layer_set_visible("screenshake", 0);
+layer_set_visible("screenshake_damaging_enemies", 0);
 instance_destroy();
