@@ -21,6 +21,7 @@ switch(state){
 	        hit = false;
 	        alarm[1] = 80;
 	    }
+		part_particles_create(obj_particle_setup.particle_hit, x, y, obj_particle_setup.particle_slash, 4); 
 
 	    vel_h = lengthdir_x(emp_veloc, emp_dir);
 	    vel_v = lengthdir_y(emp_veloc, emp_dir);
@@ -95,6 +96,7 @@ switch(state){
 							if(can_take_dmg){
 		                        state = STATES.HIT;
 		                        alarm[5] = 10;
+								hit_alpha = 1;
 
 		                        emp_dir = point_direction(other.x, other.y, x, y);
 		                        emp_veloc = 6;
@@ -118,8 +120,10 @@ switch(state){
 	#endregion
 	
 	#region death
-	case ENEMY_STATES.DEATH:			
+	case ENEMY_STATES.DEATH:	
+	part_particles_create(obj_particle_setup.particle_system_explosion, x, y, obj_particle_setup.particle_circle, 1); 
 	part_particles_create(obj_particle_setup.particle_system_explosion, x, y, obj_particle_setup.particle_explosion, 8); 
+	part_particles_create(obj_particle_setup.particle_system_explosion, x, y, obj_particle_setup.particle_explosion_2, 8); 
 		repeat(6){
 			var _exp = instance_create_layer(x, y, "Instances", obj_energy_dust);
 			_exp.direction = irandom(360);

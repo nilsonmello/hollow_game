@@ -1,5 +1,5 @@
 if(global.slow_motion){
-    darkness = lerp(darkness, .6, .1);
+    darkness = lerp(darkness, 0, .1);
 }else{
     darkness = lerp(darkness, 1, .1);
 }

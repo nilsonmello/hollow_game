@@ -2,12 +2,12 @@
 var _dir_sprite = floor((point_direction(x, y, mouse_x, mouse_y) + 90) mod 360 / 180);
 
 switch(_dir_sprite){
-	case 0:
-		image_xscale = 1;
-	break;
-	
-	case 1:
-		image_xscale = -1;
+    case 0:
+        image_xscale = 1;
+        break;
+        
+    case 1:
+        image_xscale = -1;
 	break;
 }
 #endregion
@@ -15,7 +15,6 @@ switch(_dir_sprite){
 #region state machine
 
 #region comand keys
-
 global.energy = clamp(global.energy, 0, global.energy_max);
 
 var _right = keyboard_check(ord("D"));
@@ -92,8 +91,6 @@ switch(state){
 	#endregion
 	
 	#region dash
-
-
 	case STATES.DASH:
 		can_take_dmg = false;
 		alarm[6] = 15;
@@ -267,7 +264,6 @@ with(my_weapon){
 }
 #endregion
 
-
 #region sword dash
 var _mb = mouse_check_button_pressed(mb_left);
 var _ma = mouse_check_button(mb_right);
@@ -383,7 +379,7 @@ if(moving_along_path && ds_list_size(path_list) > 0){
 
             // Limitar o tamanho do rastro
             if(ds_queue_size(trail_positions) > trail_length){
-                ds_queue_dequeue(trail_positions); // Remover a posição mais antiga
+                ds_queue_dequeue(trail_positions);
             }
             
             if(move_speed > 0){
@@ -400,19 +396,24 @@ if(moving_along_path && ds_list_size(path_list) > 0){
                 path_position_index = ds_list_size(path_list) - 1;
                 move_speed = 0;
             }
-
-            var _enemy_index = instance_position(_target_x, _target_y, obj_enemy_par);
-            if(_enemy_index != noone){
-                _enemy_index.vida -= 3;
-                _enemy_index.emp_dir = point_direction(obj_player.x, obj_player.y, _enemy_index.x, _enemy_index.y);
-                _enemy_index.state = ENEMY_STATES.HIT;
-                _enemy_index.alarm[0] = 3;
-                _enemy_index.alarm[1] = 10;
-                _enemy_index.alarm[5] = 80;
-                _enemy_index.emp_veloc = 20;
-                _enemy_index.hit_alpha = 1;
-                layer_set_visible("screenshake", 1);
-            }
+           var _enemy_index = instance_position(_target_x, _target_y, obj_enemy_par);
+		   
+			if(_enemy_index != noone){
+			    _enemy_index.vida -= 3;
+			    _enemy_index.emp_dir = point_direction(obj_player.x, obj_player.y, _enemy_index.x, _enemy_index.y);
+			    _enemy_index.state = ENEMY_STATES.HIT;
+			    _enemy_index.alarm[0] = 3;
+			    _enemy_index.alarm[1] = 10;
+			    _enemy_index.alarm[5] = 80;
+			    _enemy_index.emp_veloc = 20;
+			    _enemy_index.hit_alpha = 1;
+    
+			    // Registrar a posição do ataque
+				ds_list_add(trail_fixed_positions, [x, y, direction]); // Adiciona a direção
+				ds_list_add(trail_fixed_timer, 60);// Duração do trail (30 frames, ajuste conforme necessário)
+		
+			    layer_set_visible("screenshake", 1);
+			}
             layer_set_visible("screenshake", 0);
         }
     }else{
@@ -420,6 +421,8 @@ if(moving_along_path && ds_list_size(path_list) > 0){
     }
 }
 #endregion
+
+
 
 #region Regeneração de Stamina
 if(stamina_timer_regen > 0){
@@ -449,4 +452,8 @@ if(yprevious != y and candust == true){
 	alarm_set(3, 8 + _random_time);
 	part_particles_create(obj_particle_setup.particle_system_dust, x, y + 12, obj_particle_setup.particle_dust, 10);
 }
+#endregion
+
+#region hit indication
+hit_alpha = lerp(hit_alpha, 0, 0.1);
 #endregion
