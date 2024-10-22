@@ -21,7 +21,7 @@ switch(state){
 	        hit = false;
 	        alarm[1] = 80;
 	    }
-		part_particles_create(obj_particle_setup.particle_hit, x, y, obj_particle_setup.particle_slash, 4); 
+		part_particles_create(obj_particle_setup.particle_hit, x, y, obj_particle_setup.particle_slash, 1); 
 
 	    vel_h = lengthdir_x(emp_veloc, emp_dir);
 	    vel_v = lengthdir_y(emp_veloc, emp_dir);
@@ -105,10 +105,10 @@ switch(state){
 								
 								can_take_dmg = false;
 								alarm[6] = 60;
+								obj_cam.alarm[0] = 60;
 							}
 	                    }
 	                    has_attacked = true;
-						obj_cam.alarm[0] = 60;
 	                }
 	            }
 	        }else{

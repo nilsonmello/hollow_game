@@ -92,8 +92,8 @@ part_type_size(particle_slash, .3, .4, .001, 0);
 
 part_type_color1(particle_slash, _color1);
 
-part_type_direction(particle_slash, 0, 359, 0, 1);
-part_type_speed(particle_slash, 1.2, 1.5, -0.004, 0);
+part_type_direction(particle_slash, 0, 180, 1, 1);
+part_type_speed(particle_slash, .8, 1, -0.004, 0);
 
 part_type_life(particle_slash, 20, 30);
 part_type_orientation(particle_slash, 0, 359, .1, 1, 0);
