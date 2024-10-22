@@ -22,3 +22,5 @@ global.energy = global.energy_max;
 
 //slow enemies
 global.slow_motion = false;
+
+global.is_dashing = false;

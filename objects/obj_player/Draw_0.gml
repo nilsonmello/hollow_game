@@ -1,5 +1,4 @@
 #region sprite draw
-var _dir = floor((point_direction(x, y, mouse_x, mouse_y) + 45) mod 360 / 90);
 draw_sprite_ext(sprite_index, image_index, x, y, image_xscale, image_yscale, 0, c_white, 1);
 #endregion
 
@@ -23,29 +22,29 @@ switch(dash_num){
 #endregion
 
 #region hability draw debug
-if(keyboard_check(ord("R")) && global.stamina >= global.stamina_max){
-    draw_circle(x, y, area, true);
+//if(keyboard_check(ord("R")) && global.stamina >= global.stamina_max){
+//    draw_circle(x, y, area, true);
 
-    if(enemy_list != undefined && ds_list_size(enemy_list) > 0){
-        var _enemy_data_1 = enemy_list[| 0];
-        var _enemy_1 = _enemy_data_1[0];
+//    if(enemy_list != undefined && ds_list_size(enemy_list) > 0){
+//        var _enemy_data_1 = enemy_list[| 0];
+//        var _enemy_1 = _enemy_data_1[0];
 
-        if (instance_exists(_enemy_1)){
-            draw_line(x, y, _enemy_1.x, _enemy_1.y);
+//        if (instance_exists(_enemy_1)){
+//            draw_line(x, y, _enemy_1.x, _enemy_1.y);
 
-            for(var _i = 1; _i < ds_list_size(enemy_list); _i++){
-                var _enemy_data_prev = enemy_list[| _i - 1];
-                var _enemy_data_curr = enemy_list[| _i];
-                var _enemy_prev = _enemy_data_prev[0];
-                var _enemy_curr = _enemy_data_curr[0];
+//            for(var _i = 1; _i < ds_list_size(enemy_list); _i++){
+//                var _enemy_data_prev = enemy_list[| _i - 1];
+//                var _enemy_data_curr = enemy_list[| _i];
+//                var _enemy_prev = _enemy_data_prev[0];
+//                var _enemy_curr = _enemy_data_curr[0];
 
-                if (instance_exists(_enemy_prev) && instance_exists(_enemy_curr)) {
-                    draw_line(_enemy_prev.x, _enemy_prev.y, _enemy_curr.x, _enemy_curr.y);
-                }
-            }
-        }
-    }
-}
+//                if (instance_exists(_enemy_prev) && instance_exists(_enemy_curr)) {
+//                    draw_line(_enemy_prev.x, _enemy_prev.y, _enemy_curr.x, _enemy_curr.y);
+//                }
+//            }
+//        }
+//    }
+//}
 #endregion
 
 #region trail with dynamic extension

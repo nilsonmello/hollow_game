@@ -112,8 +112,6 @@ advance_x = 0;
 advance_y = 0;
 
 advancing = false;
-
-sprite_index = spr_player;
 #endregion
 
 #region hability variables
@@ -137,3 +135,5 @@ candust = true;
 #endregion
 
 state_timer = 0;
+
+sprite_index = spr_player;

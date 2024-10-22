@@ -1,3 +1,17 @@
+#region sprite direction
+var _dir_sprite = floor((point_direction(x, y, mouse_x, mouse_y) + 90) mod 360 / 180);
+
+switch(_dir_sprite){
+	case 0:
+		image_xscale = 1;
+	break;
+	
+	case 1:
+		image_xscale = -1;
+	break;
+}
+#endregion
+
 #region state machine
 
 #region comand keys
@@ -30,6 +44,16 @@ switch(state){
 			state = STATES.MOVING;
 			andar = true;
 		}
+		
+		dash_dir = point_direction(x, y, mouse_x, mouse_y);
+		
+		if(keyboard_check_pressed(vk_space) && dash_num > 0){
+			global.is_dashing = true;
+			alarm[0] = 12;
+			state = STATES.DASH;
+			dash_num--; 
+			dash_cooldown = dash_time;
+		}
 	break;
 	#endregion
 	
@@ -56,9 +80,10 @@ switch(state){
 			state = STATES.IDLE;
 		}
 		
-		dash_dir = move_dir;
+		dash_dir = point_direction(x, y, mouse_x, mouse_y);
 		if(keyboard_check_pressed(vk_space) && dash_num > 0){
-			alarm[0] = 10;
+			global.is_dashing = true;
+			alarm[0] = 12;
 			state = STATES.DASH;
 			dash_num--; 
 			dash_cooldown = dash_time;
@@ -357,7 +382,7 @@ if(moving_along_path && ds_list_size(path_list) > 0){
         var _dist = point_distance(x, y, _target_x, _target_y);
 
         if(move_speed > 0){
-            part_particles_create(obj_particle_setup.particle_system, x, y, obj_particle_setup.particle_shadow, 8);    
+            part_particles_create(obj_particle_setup.particle_system, x, y, obj_particle_setup.particle_shadow, 1);    
 			part_particles_create(obj_particle_setup.particle_system_dust, x, y + 8, obj_particle_setup.particle_dust, 10);
         }
         
@@ -426,13 +451,13 @@ if(xprevious != x and candust == true){
 	alarm[7] = 10;
 	var _random_time = irandom_range(-1, 2);
 	alarm_set(3, 8 + _random_time);
-	part_particles_create(obj_particle_setup.particle_system_dust, x, y + 8, obj_particle_setup.particle_dust, 10);
+	part_particles_create(obj_particle_setup.particle_system_dust, x, y + 12, obj_particle_setup.particle_dust, 10);
 }
 if(yprevious != y and candust == true){
 	candust = false;
 	alarm[7] = 10;
 	var _random_time = irandom_range(-1, 2);
 	alarm_set(3, 8 + _random_time);
-	part_particles_create(obj_particle_setup.particle_system_dust, x, y + 8, obj_particle_setup.particle_dust, 10);
+	part_particles_create(obj_particle_setup.particle_system_dust, x, y + 12, obj_particle_setup.particle_dust, 10);
 }
 #endregion
