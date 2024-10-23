@@ -300,14 +300,16 @@ if(_mb && state != STATES.ATTAKING && alarm[4] <= 0){
 #region hability activation
 #region Habilidade de Ativação
 area = clamp(area, 0, 170);
-show_debug_message(global.slashing)
+
 if(keyboard_check(ord("R")) && global.stamina >= global.stamina_max){
-	global.slashing = true
-    global.slow_motion = true;
+
     layer_set_visible("screenshake_charging", 1);
     if(global.energy > 0){
         global.energy--;
+		global.slashing = true
+	    global.slow_motion = true;
         area += 10;
+
     }
 
     ds_list_clear(enemy_list);
@@ -397,7 +399,6 @@ if(moving_along_path && ds_list_size(path_list) > 0){
 				global.slashing = false;
             }
            var _enemy_index = instance_position(_target_x, _target_y, obj_enemy_par);
-		   
 			if(_enemy_index != noone){
 			    _enemy_index.vida -= 3;
 			    _enemy_index.emp_dir = point_direction(obj_player.x, obj_player.y, _enemy_index.x, _enemy_index.y);

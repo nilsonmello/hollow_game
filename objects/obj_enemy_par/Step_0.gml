@@ -1,4 +1,4 @@
-if(global.slashing > 0 && distance_to_object(obj_player) < 150){
+if(global.slashing && distance_to_object(obj_player) < 150){
 	move_speed = lerp(move_speed, .2, .07);
 	vel = .1;
 }else{
