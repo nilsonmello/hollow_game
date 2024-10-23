@@ -14,7 +14,6 @@ void main()
     vec4 object_space_pos = vec4(in_Position.x, in_Position.y, in_Position.z, 1.0);
     gl_Position = gm_Matrices[MATRIX_WORLD_VIEW_PROJECTION] * object_space_pos;
     
-    // Modificando a cor para preto
-    v_vColour = vec4(0.0, 0.0, 0.0, 1.0); // Preto com alfa 1.0
+    v_vColour = vec4(0.0, 0.0, 0.0, 1.0);
     v_vTexcoord = in_TextureCoord;
 }

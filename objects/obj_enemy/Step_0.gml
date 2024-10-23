@@ -105,7 +105,7 @@ switch(state){
 								
 								can_take_dmg = false;
 								alarm[6] = 60;
-								obj_cam.alarm[0] = 60;
+								obj_control.alarm[0] = 60;
 							}
 	                    }
 	                    has_attacked = true;

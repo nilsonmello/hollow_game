@@ -93,25 +93,25 @@ if(move_speed > 0){
 #endregion
 
 #region static trail
-for (var i = 0; i < ds_list_size(trail_fixed_positions); i++) {
-    var position = trail_fixed_positions[| i];
+for (var _i = 0; _i < ds_list_size(trail_fixed_positions); _i++) {
+    var _position = trail_fixed_positions[| _i];
    
-    trail_fixed_timer[| i]--;
+    trail_fixed_timer[| _i]--;
 
-    var alpha = clamp(trail_fixed_timer[| i] / 60, 0, 1);
+    var _alpha = clamp(trail_fixed_timer[| _i] / 60, 0, 1);
 
-    draw_set_alpha(alpha);
+    draw_set_alpha(_alpha);
 
-    var trail_x = position[0];
-    var trail_y = position[1];
+    var _trail_x = _position[0];
+    var _trail_y = _position[1];
 
-    var _next_position = (i < ds_list_size(trail_fixed_positions) - 1) ? trail_fixed_positions[| i + 1] : position;
-    var next_x = _next_position[0];
-    var next_y = _next_position[1];
+    var _next_position = (_i < ds_list_size(trail_fixed_positions) - 1) ? trail_fixed_positions[| _i + 1] : _position;
+    var _next_x = _next_position[0];
+    var _next_y = _next_position[1];
 
-    var trail_angle = point_direction(trail_x, trail_y, next_x, next_y);
+    var _trail_angle = point_direction(_trail_x, _trail_y, _next_x, _next_y);
 
-    draw_sprite_ext(spr_trail_2, 0, trail_x, trail_y, 1, 1, trail_angle, c_white, alpha);
+    draw_sprite_ext(spr_trail_2, 0, _trail_x, _trail_y, 1, 1, _trail_angle, c_white, _alpha);
 }
 draw_set_alpha(1.0);
 #endregion

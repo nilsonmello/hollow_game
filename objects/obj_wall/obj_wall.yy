@@ -6,8 +6,8 @@
   "name":"obj_wall",
   "overriddenProperties":[],
   "parent":{
-    "name":"mapa",
-    "path":"folders/Objetos/mapa.yy",
+    "name":"controle",
+    "path":"folders/Objetos/controle.yy",
   },
   "parentObjectId":null,
   "persistent":false,

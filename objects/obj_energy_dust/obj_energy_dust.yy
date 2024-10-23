@@ -9,8 +9,8 @@
   "name":"obj_energy_dust",
   "overriddenProperties":[],
   "parent":{
-    "name":"arma",
-    "path":"folders/Objetos/arma.yy",
+    "name":"player",
+    "path":"folders/Objetos/player.yy",
   },
   "parentObjectId":null,
   "persistent":false,
