@@ -1,3 +1,4 @@
+#region player damage shader
 if(alarm[0] > 1){
     raio = lerp(raio, .6, .1);
 }else{
@@ -13,3 +14,4 @@ if(!obj_player.can_take_dmg && !global.slashing){
 
     shader_reset();
 }
+#endregion

@@ -1,3 +1,4 @@
+#region camera setting target
 if(instance_exists(target)){
     var _dist = 100;
 
@@ -14,3 +15,4 @@ if(instance_exists(target)){
 }else{
     target = -1;
 }
+#endregion

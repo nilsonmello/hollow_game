@@ -1,3 +1,4 @@
+#region shadow slash shader
 if(global.slow_motion){
     darkness = lerp(darkness, 0, .1);
 }else{
@@ -10,3 +11,4 @@ shader_set_uniform_f(shader_get_uniform(sh_shd_vignette, "darkness"), darkness);
 draw_sprite(spr_vignette, 0, 0, 0);
 
 shader_reset();
+#endregion

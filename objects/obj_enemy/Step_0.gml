@@ -32,6 +32,7 @@ switch(state){
     
 	    x += vel_h;
 	    y += vel_v;
+		layer_set_visible("screenshake_damaging_enemies", 0);
 	break;
 	#endregion
 	
@@ -123,9 +124,12 @@ switch(state){
 	
 	#region death
 	case ENEMY_STATES.DEATH:	
-	part_particles_create(obj_particle_setup.particle_system_explosion, x, y, obj_particle_setup.particle_circle, 1); 
-	part_particles_create(obj_particle_setup.particle_system_explosion, x, y, obj_particle_setup.particle_explosion, 8); 
-	part_particles_create(obj_particle_setup.particle_system_explosion, x, y, obj_particle_setup.particle_explosion_2, 8); 
+		part_particles_create(obj_particle_setup.particle_system_explosion, x, y, obj_particle_setup.particle_circle, 1); 
+		part_particles_create(obj_particle_setup.particle_system_explosion, x, y, obj_particle_setup.particle_explosion, 8); 
+		part_particles_create(obj_particle_setup.particle_system_explosion, x, y, obj_particle_setup.particle_explosion_2, 8); 
+	
+		layer_set_visible("screenshake_damaging_enemies", 0);
+		
 		repeat(6){
 			var _exp = instance_create_layer(x, y, "Instances", obj_energy_dust);
 			_exp.direction = irandom(360);

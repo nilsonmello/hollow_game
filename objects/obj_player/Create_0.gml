@@ -41,6 +41,7 @@ alarm[1] = 0;
 #endregion
 
 #region hability variables
+can_activate_slash = false
 area = 20;
 enemy_list = ds_list_create();
 path_list = ds_list_create();

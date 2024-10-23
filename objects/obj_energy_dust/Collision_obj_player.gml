@@ -1,3 +1,3 @@
 //increase players energy and destroy
-global.energy += 10;
+global.energy += 1;
 instance_destroy();
