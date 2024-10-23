@@ -22,15 +22,15 @@ switch(dash_num){
 #endregion
 
 #region hability draw debug
-if(keyboard_check(ord("R")) && global.stamina >= global.stamina_max){
-	draw_sprite(spr_area, 0, x, y)
+if(global.slashing){
+	draw_sprite(spr_area, 0, x, y);
 
     if(enemy_list != undefined && ds_list_size(enemy_list) > 0){
         var _enemy_data_1 = enemy_list[| 0];
         var _enemy_1 = _enemy_data_1[0];
 
         if (instance_exists(_enemy_1)){
-            draw_line(x, y, _enemy_1.x, _enemy_1.y);
+            draw_sprite(spr_sign, 0, _enemy_1.x, _enemy_1.y)
 
             for(var _i = 1; _i < ds_list_size(enemy_list); _i++){
                 var _enemy_data_prev = enemy_list[| _i - 1];
@@ -39,7 +39,8 @@ if(keyboard_check(ord("R")) && global.stamina >= global.stamina_max){
                 var _enemy_curr = _enemy_data_curr[0];
 
                 if (instance_exists(_enemy_prev) && instance_exists(_enemy_curr)) {
-                    draw_line(_enemy_prev.x, _enemy_prev.y, _enemy_curr.x, _enemy_curr.y);
+					draw_sprite(spr_sign, 0, _enemy_prev.x, _enemy_prev.y);
+					draw_sprite(spr_sign, 0, _enemy_curr.x, _enemy_curr.y);
                 }
             }
         }
