@@ -24,7 +24,7 @@ spd_v = 0;
 spd = 1;
 
 dash_dir = 0;
-dash_veloc = 10;
+dash_veloc = 12;
 
 dash_num = 3;
 

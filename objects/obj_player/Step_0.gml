@@ -59,7 +59,7 @@ switch(state){
 	#region walking
 	case STATES.MOVING:
 		if(!keyboard_check(ord("R"))){
-			spd = 1.3;
+			spd = 1.6;
 		}else{
 			spd = 0;
 		}
@@ -269,7 +269,7 @@ var _mb = mouse_check_button_pressed(mb_left);
 var _ma = mouse_check_button(mb_right);
 
 if(_mb && state != STATES.ATTAKING && alarm[4] <= 0){
-	alarm[4] = 17;
+	alarm[4] = 15;
 
     if(_ma){
         return false;
@@ -280,7 +280,7 @@ if(_mb && state != STATES.ATTAKING && alarm[4] <= 0){
 
     var _melee_dir = point_direction(x, y, obj_mouse.x, obj_mouse.y);
     var _advance_dir = 25;
-    var _advance_distance = 25;
+    var _advance_distance = 28;
 
     var _box_x = x + lengthdir_x(_advance_dir, _melee_dir);
     var _box_y = y + lengthdir_y(_advance_dir, _melee_dir);
@@ -399,7 +399,6 @@ if(moving_along_path && ds_list_size(path_list) > 0){
            var _enemy_index = instance_position(_target_x, _target_y, obj_enemy_par);
 		   
 			if(_enemy_index != noone){
-				_enemy_index.state = ENEMY_STATES.IDLE;
 			    _enemy_index.vida -= 3;
 			    _enemy_index.emp_dir = point_direction(obj_player.x, obj_player.y, _enemy_index.x, _enemy_index.y);
 			    _enemy_index.state = ENEMY_STATES.HIT;
@@ -410,8 +409,8 @@ if(moving_along_path && ds_list_size(path_list) > 0){
 			    _enemy_index.hit_alpha = 1;
     
 			    // Registrar a posição do ataque
-				ds_list_add(trail_fixed_positions, [x, y, direction]); // Adiciona a direção
-				ds_list_add(trail_fixed_timer, 30);// Duração do trail (30 frames, ajuste conforme necessário)
+				ds_list_add(trail_fixed_positions, [x, y, direction]);
+				ds_list_add(trail_fixed_timer, 30);
 		
 			    layer_set_visible("screenshake_damaging_enemies", 1);
 			}

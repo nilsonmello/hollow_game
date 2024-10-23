@@ -18,7 +18,8 @@ part_type_color3(particle_shadow, _red, _red_2, _red_3);
 #endregion
 
 #region walk particle
-particle_system_dust = part_system_create();
+
+particle_system_dust = part_system_create_layer("Instance_particle", true);
 particle_dust = part_type_create();
 
 part_type_sprite(particle_dust, spr_dust, 0, 0, 0);
@@ -34,7 +35,7 @@ part_type_alpha3(particle_dust, 0.6, 0.4, 0.1);
 #endregion
 
 #region explosion particle
-particle_system_explosion =  part_system_create();
+particle_system_explosion  = part_system_create_layer("Instance_particle", true);
 //first particle
 particle_explosion = part_type_create();
 //second particle
@@ -84,7 +85,7 @@ part_type_alpha3(particle_circle, .2, .8, .1);
 #endregion
 
 #region hit particles
-particle_hit = part_system_create();
+particle_hit  = part_system_create_layer("Instance_particle", true);
 particle_slash = part_type_create();
 
 part_type_sprite(particle_slash, spr_explosion, 0, 0, 0);
