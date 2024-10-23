@@ -340,7 +340,6 @@ if(keyboard_check(ord("R")) && global.stamina >= global.stamina_max && global.ca
             }
         }
     }
-
     move_speed = 20;
     moving_along_path = false;
     path_position_index = 0;

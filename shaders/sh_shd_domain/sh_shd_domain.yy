@@ -1,0 +1,12 @@
+{
+  "$GMShader":"",
+  "%Name":"sh_shd_domain",
+  "name":"sh_shd_domain",
+  "parent":{
+    "name":"Shaders",
+    "path":"folders/Shaders.yy",
+  },
+  "resourceType":"GMShader",
+  "resourceVersion":"2.0",
+  "type":1,
+}
