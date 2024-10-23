@@ -22,9 +22,7 @@ switch(dash_num){
 #endregion
 
 #region hability draw debug
-if(global.slashing){
-	draw_sprite(spr_area, 0, x, y);
-
+if(keyboard_check(ord("R")) && global.slashing){
     if(enemy_list != undefined && ds_list_size(enemy_list) > 0){
         var _enemy_data_1 = enemy_list[| 0];
         var _enemy_1 = _enemy_data_1[0];

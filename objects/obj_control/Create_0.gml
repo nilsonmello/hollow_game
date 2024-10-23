@@ -10,7 +10,7 @@ darkness = 0.0;
 raio = 1;
 leveza = 0.3;
 #endregion
-
+focus_strength = 0;
 #region mp grid and enemy state enum create
 #macro TS 16
 

@@ -265,14 +265,6 @@ with(my_weapon){
 }
 #endregion
 
-if(global.energy >= global.energy_max){
-	global.can_attack = true;	
-}
-
-show_debug_message(global.can_attack)
-
-#region power activation
-
 #region sword dash
 var _mb = mouse_check_button_pressed(mb_left);
 var _ma = mouse_check_button(mb_right);
@@ -306,44 +298,39 @@ if(_mb && state != STATES.ATTAKING && alarm[4] <= 0){
 }
 #endregion
 
+#region power activation
+
 #region hability activation
-// Define o valor da área de alcance, limitando entre 0 e 170
 area = clamp(area, 0, 170);
 
-// Verifica se o jogador está pressionando a tecla "R" e se a stamina está no valor máximo
+if(global.energy >= global.energy_max){
+	global.can_attack = true;	
+}
+
 if(keyboard_check(ord("R")) && global.stamina >= global.stamina_max && global.can_attack){
-    
-    // Torna visível a camada de tela tremendo enquanto carrega a habilidade
     layer_set_visible("screenshake_charging", 1);
 
-    // Se ainda houver energia, diminui a energia e ativa a habilidade de corte e o efeito de slow motion
     if(global.energy > 0){
-        global.energy--;  // Consome energia
-        global.slashing = true;  // Indica que o jogador está em modo de ataque
-        global.slow_motion = true;  // Ativa o efeito de slow motion
-        area += 10;  // Aumenta a área de alcance conforme o botão é pressionado
+        global.energy -= .1;
+        global.slashing = true;
+        global.slow_motion = true;
+        area += 3;
     }
 
-    // Limpa as listas de inimigos e caminhos antes de começar a nova verificação
     ds_list_clear(enemy_list);
     ds_list_clear(path_list);
 
-    // Detecta inimigos dentro da área de alcance (circular) e armazena na lista de inimigos
     var _circ = collision_circle_list(x, y, area, obj_enemy_par, false, false, enemy_list, true);
 
-    // Se houver inimigos dentro da área de alcance
     if(ds_list_size(enemy_list) > 0){
         for(var _i = 0; _i < ds_list_size(enemy_list); _i++){
             var _enemy = enemy_list[| _i];
             var _dist = point_distance(x, y, _enemy.x, _enemy.y);
-            // Armazena a posição e a distância de cada inimigo
             ds_list_set(enemy_list, _i, [_enemy, _dist]);
         }
 
-        // Ordena os inimigos pela distância, para atacar os mais próximos primeiro
         ds_list_sort(enemy_list, true);
 
-        // Adiciona as posições dos inimigos na lista de caminhos a serem seguidos
         for(var _i = 0; _i < ds_list_size(enemy_list); _i++){
             var _enemy_data = enemy_list[| _i];
             var _enemy = _enemy_data[0];
@@ -354,18 +341,16 @@ if(keyboard_check(ord("R")) && global.stamina >= global.stamina_max && global.ca
         }
     }
 
-    // Define a velocidade de movimento e inicializa a movimentação ao longo do caminho
     move_speed = 20;
     moving_along_path = false;
     path_position_index = 0;
 
 } else { 
-    // Se a habilidade não puder ser ativada (por falta de energia ou stamina), reseta os valores
     area = 0;
     global.slow_motion = false;
     layer_set_visible("screenshake_charging", 0);
+	global.slashing = false;
 
-    // Se já houver um caminho estabelecido, começa a mover ao longo do caminho
     if(!moving_along_path && ds_list_size(path_list) > 0){
         moving_along_path = true;
         path_position_index = 0;
@@ -374,22 +359,17 @@ if(keyboard_check(ord("R")) && global.stamina >= global.stamina_max && global.ca
 #endregion
 
 #region Movimento ao Longo do Caminho
-// Verifica se o jogador está se movendo ao longo de um caminho e se há um caminho definido
 if(moving_along_path && ds_list_size(path_list) > 0){
     if(path_position_index < ds_list_size(path_list)){
 
-        // Obtém a posição alvo no caminho
         var _target_pos = path_list[| path_position_index];
         var _target_x = _target_pos[0];
         var _target_y = _target_pos[1];
 
-        // Calcula a direção e a distância até o próximo ponto no caminho
         var _dir = point_direction(x, y, _target_x, _target_y);
         var _dist = point_distance(x, y, _target_x, _target_y);
 
-        // Se o jogador está se movendo (velocidade maior que 0)
         if(move_speed > 0){
-            // Cria partículas de sombra e poeira enquanto o jogador se move
             timer++;
             if(timer >= 2){
                 part_particles_create(obj_particle_setup.particle_system, x, y, obj_particle_setup.particle_shadow, 1);
@@ -399,80 +379,66 @@ if(moving_along_path && ds_list_size(path_list) > 0){
             part_particles_create(obj_particle_setup.particle_system_dust, x, y + 8, obj_particle_setup.particle_dust, 10);
         }
 
-        // Se a distância até o alvo é maior que a velocidade de movimento, continua se movendo
         if(_dist > move_speed){
-            // Move o jogador na direção do alvo
             x += lengthdir_x(move_speed, _dir);
             y += lengthdir_y(move_speed, _dir);
 
-            // Adiciona a posição atual à fila de posições do rastro
             ds_queue_enqueue(trail_positions, [x, y]);
 
-            // Limita o tamanho do rastro
             if(ds_queue_size(trail_positions) > trail_length){
                 ds_queue_dequeue(trail_positions);
             }
 
-            // Durante o movimento, o jogador não pode tomar dano e gasta toda a stamina
             if(move_speed > 0){
                 can_take_dmg = false;    
                 alarm[6] = 20;
                 global.stamina = 0;
-				global.can_attack = false;
+                global.can_attack = false;
             }
 
         } else {
-            // Se o jogador chegou ao alvo, passa para o próximo ponto no caminho
             path_position_index++;
 
-            // Se o jogador chegou ao último ponto, finaliza o movimento
             if(path_position_index >= ds_list_size(path_list)){
                 moving_along_path = false;
                 path_position_index = ds_list_size(path_list) - 1;
                 move_speed = 0;
-                global.slashing = false;  // Desativa o modo de corte
+                global.slashing = false;
             }
 
-            // Verifica se há um inimigo na posição alvo e aplica dano
             var _enemy_index = instance_position(_target_x, _target_y, obj_enemy_par);
             if(_enemy_index != noone){
-                _enemy_index.vida -= 3;  // Diminui a vida do inimigo
-                _enemy_index.emp_dir = point_direction(obj_player.x, obj_player.y, _enemy_index.x, _enemy_index.y);  // Define a direção de empurrão do inimigo
-                _enemy_index.state = ENEMY_STATES.HIT;  // Define o estado de dano no inimigo
-                _enemy_index.alarm[0] = 3;  // Alarme para ações relacionadas ao estado de dano
+                _enemy_index.vida -= 3;
+                _enemy_index.emp_dir = point_direction(obj_player.x, obj_player.y, _enemy_index.x, _enemy_index.y);
+                _enemy_index.state = ENEMY_STATES.HIT;
+                _enemy_index.alarm[0] = 3;
                 _enemy_index.alarm[1] = 10;
                 _enemy_index.alarm[5] = 80;
-                _enemy_index.emp_veloc = 20;  // Velocidade de empurrão
-                _enemy_index.hit_alpha = 1;  // Indica a animação de acerto
+                _enemy_index.emp_veloc = 20;
+                _enemy_index.hit_alpha = 1;
 
-                // Adiciona a posição do ataque ao rastro fixo
                 ds_list_add(trail_fixed_positions, [x, y, direction]);
                 ds_list_add(trail_fixed_timer, 30);
 
-                // Torna visível o efeito de tremor ao atingir inimigos
                 layer_set_visible("screenshake_damaging_enemies", 1);
             }
-            layer_set_visible("screenshake_damaging_enemies", 0);  // Reseta o tremor após o ataque
+            layer_set_visible("screenshake_damaging_enemies", 0);
         }
     } else {
-        // Se não há mais pontos no caminho, para o movimento
         moving_along_path = false;
     }
 }
 #endregion
 
 #region Regeneração de Stamina
-// Controla o tempo de regeneração da stamina
 if(stamina_timer_regen > 0){
     stamina_timer_regen--;
-} else {
-    // Regenera a stamina até o máximo
+}else{
     if(global.stamina < global.stamina_max){
-        global.stamina += 5;  // Aumenta a stamina em 5 unidades
-        stamina_timer_regen = stamina_timer;  // Reseta o temporizador
+        global.stamina += 5;
+        stamina_timer_regen = stamina_timer;
     }
 }
-// Garante que a stamina não ultrapasse o valor máximo
 global.stamina = clamp(global.stamina, 0, global.stamina_max);
 #endregion
 
