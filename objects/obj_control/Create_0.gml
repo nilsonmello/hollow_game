@@ -9,8 +9,10 @@ darkness = 0.0;
 
 raio = 1;
 leveza = 0.3;
-#endregion
+
 focus_strength = 0;
+#endregion
+
 #region mp grid and enemy state enum create
 #macro TS 16
 
@@ -30,3 +32,5 @@ enum ENEMY_STATES{
 	DEATH
 }
 #endregion
+
+surf_dist = surface_create(room_width, room_height);

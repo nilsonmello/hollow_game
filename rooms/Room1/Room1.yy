@@ -6,7 +6,6 @@
   "inheritCreationOrder":false,
   "inheritLayers":false,
   "instanceCreationOrder":[
-    {"name":"inst_59FEC963","path":"rooms/Room1/Room1.yy",},
     {"name":"inst_3105F050","path":"rooms/Room1/Room1.yy",},
     {"name":"inst_99B0D96","path":"rooms/Room1/Room1.yy",},
     {"name":"inst_7D9FD12E","path":"rooms/Room1/Room1.yy",},
@@ -28,6 +27,7 @@
     {"name":"inst_448D5A4D","path":"rooms/Room1/Room1.yy",},
     {"name":"inst_7F7AE7F","path":"rooms/Room1/Room1.yy",},
     {"name":"inst_54569D22","path":"rooms/Room1/Room1.yy",},
+    {"name":"inst_59FEC963","path":"rooms/Room1/Room1.yy",},
   ],
   "isDnd":false,
   "layers":[
