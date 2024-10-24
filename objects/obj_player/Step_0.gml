@@ -307,8 +307,6 @@ if(_mb && state != STATES.ATTAKING && alarm[4] <= 0){
 #region power activation
 
 #region hability activation
-
-
 if(global.energy >= global.energy_max){
 	global.can_attack = true;	
 }
@@ -376,11 +374,9 @@ if(moving_along_path && ds_list_size(path_list) > 0){
         if(move_speed > 0){
             timer++;
             if(timer >= 2){
-                part_particles_create(obj_particle_setup.particle_system, x, y, obj_particle_setup.particle_shadow, 1);
+                
                 timer = 0;
             }
-
-            part_particles_create(obj_particle_setup.particle_system_dust, x, y + 8, obj_particle_setup.particle_dust, 10);
         }
 
         if(_dist > move_speed){

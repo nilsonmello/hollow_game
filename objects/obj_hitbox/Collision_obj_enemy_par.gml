@@ -3,7 +3,6 @@ if(!atingido){
 	    if(hit == true && !attacking && alarm[1] <= 0){ 
 	        combo_visible++;
 			hit_alpha = 1;
-
 	        switch(combo_visible){
 	            case 1:
 	            case 2:

@@ -44,6 +44,7 @@
   "resources":[
     {"id":{"name":"obj_bullet","path":"objects/obj_bullet/obj_bullet.yy",},},
     {"id":{"name":"obj_control","path":"objects/obj_control/obj_control.yy",},},
+    {"id":{"name":"obj_enemy_2","path":"objects/obj_enemy_2/obj_enemy_2.yy",},},
     {"id":{"name":"obj_enemy_par","path":"objects/obj_enemy_par/obj_enemy_par.yy",},},
     {"id":{"name":"obj_enemy","path":"objects/obj_enemy/obj_enemy.yy",},},
     {"id":{"name":"obj_energy_dust","path":"objects/obj_energy_dust/obj_energy_dust.yy",},},
@@ -63,6 +64,7 @@
     {"id":{"name":"spr_circle_outline","path":"sprites/spr_circle_outline/spr_circle_outline.yy",},},
     {"id":{"name":"spr_circle","path":"sprites/spr_circle/spr_circle.yy",},},
     {"id":{"name":"spr_dust","path":"sprites/spr_dust/spr_dust.yy",},},
+    {"id":{"name":"spr_enemy_2","path":"sprites/spr_enemy_2/spr_enemy_2.yy",},},
     {"id":{"name":"spr_enemy_life_2","path":"sprites/spr_enemy_life_2/spr_enemy_life_2.yy",},},
     {"id":{"name":"spr_enemy_life_3","path":"sprites/spr_enemy_life_3/spr_enemy_life_3.yy",},},
     {"id":{"name":"spr_enemy","path":"sprites/spr_enemy/spr_enemy.yy",},},

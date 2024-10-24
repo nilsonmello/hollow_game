@@ -1,12 +1,12 @@
 {
   "$GMObject":"",
-  "%Name":"obj_enemy",
+  "%Name":"obj_enemy_2",
   "eventList":[
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":8,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
-  "name":"obj_enemy",
+  "name":"obj_enemy_2",
   "overriddenProperties":[
     {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"obj_enemy_par","path":"objects/obj_enemy_par/obj_enemy_par.yy",},"propertyId":{"name":"vel","path":"objects/obj_enemy_par/obj_enemy_par.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"1",},
     {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"obj_enemy_par","path":"objects/obj_enemy_par/obj_enemy_par.yy",},"propertyId":{"name":"vel_h","path":"objects/obj_enemy_par/obj_enemy_par.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"0",},
@@ -14,7 +14,7 @@
     {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"obj_enemy_par","path":"objects/obj_enemy_par/obj_enemy_par.yy",},"propertyId":{"name":"dest_x","path":"objects/obj_enemy_par/obj_enemy_par.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"0",},
     {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"obj_enemy_par","path":"objects/obj_enemy_par/obj_enemy_par.yy",},"propertyId":{"name":"dest_y","path":"objects/obj_enemy_par/obj_enemy_par.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"0",},
     {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"obj_enemy_par","path":"objects/obj_enemy_par/obj_enemy_par.yy",},"propertyId":{"name":"dire","path":"objects/obj_enemy_par/obj_enemy_par.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"0",},
-    {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"obj_enemy_par","path":"objects/obj_enemy_par/obj_enemy_par.yy",},"propertyId":{"name":"vida","path":"objects/obj_enemy_par/obj_enemy_par.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"3",},
+    {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"obj_enemy_par","path":"objects/obj_enemy_par/obj_enemy_par.yy",},"propertyId":{"name":"vida","path":"objects/obj_enemy_par/obj_enemy_par.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"5",},
     {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"obj_enemy_par","path":"objects/obj_enemy_par/obj_enemy_par.yy",},"propertyId":{"name":"emp_veloc","path":"objects/obj_enemy_par/obj_enemy_par.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"0",},
     {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"obj_enemy_par","path":"objects/obj_enemy_par/obj_enemy_par.yy",},"propertyId":{"name":"move_speed","path":"objects/obj_enemy_par/obj_enemy_par.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"1",},
     {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"obj_enemy_par","path":"objects/obj_enemy_par/obj_enemy_par.yy",},"propertyId":{"name":"combo_visible","path":"objects/obj_enemy_par/obj_enemy_par.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"0",},
@@ -52,8 +52,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_enemy",
-    "path":"sprites/spr_enemy/spr_enemy.yy",
+    "name":"spr_enemy_2",
+    "path":"sprites/spr_enemy_2/spr_enemy_2.yy",
   },
   "spriteMaskId":null,
   "visible":true,
