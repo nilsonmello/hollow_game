@@ -218,7 +218,7 @@ with(my_weapon){
     
     if(_ma && _mb && current_weapon != vazio && global.energy > 0){
         current_weapon.shoot(weapon_x, weapon_y);
-        recoil = 3;
+        recoil = 5;
 		recoil_gun = 12;
     }
     recoil = lerp(recoil, 0, 0.5);

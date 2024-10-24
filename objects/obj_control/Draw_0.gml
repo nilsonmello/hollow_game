@@ -1,4 +1,4 @@
-if (surface_exists(surf_dist)) {
+if(surface_exists(surf_dist)){
 	
     surface_set_target(surf_dist);
     draw_clear_alpha(c_black, 0);
