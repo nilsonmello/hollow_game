@@ -307,7 +307,7 @@ if(_mb && state != STATES.ATTAKING && alarm[4] <= 0){
 #region power activation
 
 #region hability activation
-area = clamp(area, 0, 170);
+
 
 if(global.energy >= global.energy_max){
 	global.can_attack = true;	
@@ -317,7 +317,7 @@ if(keyboard_check(ord("R")) && global.stamina >= global.stamina_max && global.ca
     layer_set_visible("screenshake_charging", 1);
 
     if(global.energy > 0){
-        global.energy -= .1;
+        global.energy -= .3;
         global.slashing = true;
         global.slow_motion = true;
         area += 3;

@@ -23,6 +23,7 @@ switch(dash_num){
 
 #region hability draw debug
 if(keyboard_check(ord("R")) && global.slashing){
+	draw_circle(x, y, area, true);
     if(enemy_list != undefined && ds_list_size(enemy_list) > 0){
         var _enemy_data_1 = enemy_list[| 0];
         var _enemy_1 = _enemy_data_1[0];
