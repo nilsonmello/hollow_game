@@ -28,4 +28,5 @@ if(instance_exists(_target)){
 	part_type_alpha2(_part_shoot, 1, 0.1);
 	
 	part_particles_create(_particle, x, y, _part_shoot, 8);
+	part_particles_create(part_sys, x, y, part_type, 3); 
 }

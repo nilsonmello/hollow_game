@@ -51,7 +51,7 @@ function scr_create_weapon(_name, _dmg, _fire_rate, _bullet_sprite, _automatic, 
 #region guns
 vazio = scr_create_weapon("vazio", 0, 0, 0, 0, false, 0, function(){}, 0);
 
-shotgun = scr_create_weapon("Shotgun", 4, .10, spr_bullet, false, 5, spr_weapon, function colide_shotgun(_bullet){
+shotgun = scr_create_weapon("Shotgun", 4, 100, spr_bullet, false, 5, spr_weapon, function colide_shotgun(_bullet){
     with(other){
         state = ENEMY_STATES.HIT;
         path_end();
@@ -65,7 +65,7 @@ shotgun = scr_create_weapon("Shotgun", 4, .10, spr_bullet, false, 5, spr_weapon,
     instance_destroy(_bullet);
 }, 5);
 
-pistol = scr_create_weapon("Pistol", 5, 0.5, spr_bullet, false, 1, spr_weapon_2, function colide_pistol(_bullet){
+pistol = scr_create_weapon("Pistol", 5, 100, spr_bullet, false, 1, spr_weapon_2, function colide_pistol(_bullet){
     with(other){
         state = ENEMY_STATES.HIT;
         path_end();
@@ -79,7 +79,7 @@ pistol = scr_create_weapon("Pistol", 5, 0.5, spr_bullet, false, 1, spr_weapon_2,
     instance_destroy(_bullet);
 }, 3);
 
-rifle = scr_create_weapon("Rifle", 1, 10, spr_bullet, true, 1, spr_weapon_3, function colide_rifle(_bullet){
+rifle = scr_create_weapon("Rifle", 1, 7, spr_bullet, true, 1, spr_weapon_3, function colide_rifle(_bullet){
     with(other){
         state = ENEMY_STATES.HIT;
         path_end();
@@ -116,6 +116,4 @@ recoil = 0;
 recoil_force = 0;
 
 recoil_gun = 0;
-
-recoil_pause_timer = 0;
 #endregion
