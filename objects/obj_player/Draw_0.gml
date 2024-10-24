@@ -22,29 +22,46 @@ switch(dash_num){
 #endregion
 
 #region hability draw debug
-if(keyboard_check(ord("R")) && global.slashing){
-	draw_circle(x, y, area, true);
-    if(enemy_list != undefined && ds_list_size(enemy_list) > 0){
+if (keyboard_check(ord("R")) && global.slashing) {
+    // Desenha o círculo de alcance
+    draw_circle(x, y, area, true);
+
+    // Verifica se a lista de inimigos não está vazia
+    if (enemy_list != undefined && ds_list_size(enemy_list) > 0) {
         var _enemy_data_1 = enemy_list[| 0];
         var _enemy_1 = _enemy_data_1[0];
 
-        if (instance_exists(_enemy_1)){
-            draw_sprite(spr_sign, 0, _enemy_1.x, _enemy_1.y)
+        // Se o primeiro inimigo existe
+        if (instance_exists(_enemy_1)) {
+            //draw_sprite(spr_sign, 0, _enemy_1.x, _enemy_1.y); // Desenha o sprite no primeiro inimigo
 
-            for(var _i = 1; _i < ds_list_size(enemy_list); _i++){
+            // Loop pelos outros inimigos para desenhar as linhas
+            for (var _i = 1; _i < ds_list_size(enemy_list); _i++) {
                 var _enemy_data_prev = enemy_list[| _i - 1];
                 var _enemy_data_curr = enemy_list[| _i];
                 var _enemy_prev = _enemy_data_prev[0];
                 var _enemy_curr = _enemy_data_curr[0];
 
                 if (instance_exists(_enemy_prev) && instance_exists(_enemy_curr)) {
-					draw_sprite(spr_sign, 0, _enemy_prev.x, _enemy_prev.y);
-					draw_sprite(spr_sign, 0, _enemy_curr.x, _enemy_curr.y);
+                    // Calcula a direção e a distância entre dois inimigos
+                    var _dir = point_direction(_enemy_prev.x, _enemy_prev.y, _enemy_curr.x, _enemy_curr.y);
+                    var _dist = point_distance(_enemy_prev.x, _enemy_prev.y, _enemy_curr.x, _enemy_curr.y);
+
+                    // Desenha o sprite da linha tracejada, escalado pela distância e rotacionado pela direção
+                    draw_sprite_ext(spr_line, 0, _enemy_prev.x, _enemy_prev.y, _dist / sprite_width, 1, _dir, c_white, 1);
                 }
+            }
+
+            // Desenha o sprite somente no último inimigo
+            var _last_enemy_data = enemy_list[| ds_list_size(enemy_list) - 1];
+            var _last_enemy = _last_enemy_data[0];
+            if (instance_exists(_last_enemy)) {
+                draw_sprite(spr_sign, 0, _last_enemy.x, _last_enemy.y); // Sprite especial no último inimigo
             }
         }
     }
 }
+
 #endregion
 
 #region trail with dynamic extension

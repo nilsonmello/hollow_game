@@ -315,7 +315,6 @@ if(global.energy >= global.energy_max){
 
 if(keyboard_check(ord("R")) && global.stamina >= global.stamina_max && global.can_attack){
     layer_set_visible("screenshake_charging", 1);
-
     if(global.energy > 0){
         global.energy -= .3;
         global.slashing = true;
