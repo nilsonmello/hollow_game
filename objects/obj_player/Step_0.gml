@@ -172,7 +172,11 @@ switch(state){
 
 	#region death
 	case STATES.DEATH:
-
+		if(keyboard_check_pressed(ord("Y"))){
+			state = STATES.IDLE;
+			global.life_at = global.life;
+			game_restart();
+		}
 	break;
 	#endregion
 }
