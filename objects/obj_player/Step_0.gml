@@ -210,45 +210,28 @@ with(my_weapon){
     #endregion
 
     #region shoot
-#region shoot
-if(_ma){
-    aiming = true;    
-} else {
-    aiming = false;    
-}
+	if(_ma){
+	    aiming = true;    
+	} else {
+	    aiming = false;    
+	}
 
-if(_ma && _mb && current_weapon != vazio && global.energy > 0){
-    current_weapon.shoot(weapon_x, weapon_y);
-    recoil = 5;
-    recoil_gun = 12;
-}
+	if(_ma && _mb && current_weapon != vazio && global.energy > 0){
+	    current_weapon.shoot(weapon_x, weapon_y);
+	    recoil = 5;
+	    recoil_gun = 12;
+	}
 
-// Atualiza o cooldown da arma
-current_weapon.update_cooldown();
+	// Atualiza o cooldown da arma
+	current_weapon.update_cooldown();
 
-// Aplica o recuo somente enquanto o cooldown estiver ativo
-if(current_weapon.shot_cooldown > 0){
-    recoil = lerp(recoil, 0, 0.5);
-    recoil_gun = lerp(recoil_gun, 0, 0.5);
+	// Aplica o recuo somente enquanto o cooldown estiver ativo
+	if(current_weapon.shot_cooldown > 0){
+	    recoil = lerp(recoil, 0, 0.5);
+	    recoil_gun = lerp(recoil_gun, 0, 0.5);
+	}
+	#endregion
 
-    #region player recoil
-    var _target_x = obj_player.x - lengthdir_x(recoil, weapon_dir);
-    var _target_y = obj_player.y - lengthdir_y(recoil, weapon_dir);
-
-    if (!place_meeting(_target_x, _target_y, obj_wall)) {
-        obj_player.x = _target_x;
-        obj_player.y = _target_y;
-    } else {
-        while (recoil > 0 && !place_meeting(obj_player.x, obj_player.y, obj_wall)) {
-            obj_player.x -= lengthdir_x(1, weapon_dir);
-            obj_player.y -= lengthdir_y(1, weapon_dir);
-        }
-    }
-    #endregion
-}
-#endregion
-    #endregion
-    
     #region slots
     slot_at = clamp(slot_at, 0, 2);
         
@@ -270,8 +253,21 @@ if(current_weapon.shot_cooldown > 0){
         drop_weapon();
     }
     #endregion
-    
+}
+#endregion
 
+#region player recoil
+var _target_x = x - lengthdir_x(my_weapon.recoil, my_weapon.weapon_dir);
+var _target_y = y - lengthdir_y(my_weapon.recoil, my_weapon.weapon_dir);
+
+if (!place_meeting(_target_x, _target_y, obj_wall)) {
+	x = _target_x;
+	y = _target_y;
+} else {
+	while (my_weapon.recoil > 0 && !place_meeting(x, y, obj_wall)) {
+	x -= lengthdir_x(1, my_weapon.weapon_dir);
+	y -= lengthdir_y(1, my_weapon.weapon_dir);
+	}
 }
 #endregion
 
