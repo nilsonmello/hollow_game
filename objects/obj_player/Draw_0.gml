@@ -22,41 +22,55 @@ switch(dash_num){
 #endregion
 
 #region hability draw debug
-if(keyboard_check(ord("R")) && global.slashing){
-
+if (keyboard_check(ord("R")) && global.slashing) {
+    // Desenha o círculo de alcance
     draw_circle(x, y, area, true);
 
-    if(enemy_list != undefined && ds_list_size(enemy_list) > 0){
-        var _enemy_data_1 = enemy_list[| 0];
-        var _enemy_1 = _enemy_data_1[0];
+    // Lista temporária para armazenar inimigos válidos e suas distâncias
+    var ordered_enemy_list = ds_list_create();
 
-        if(instance_exists(_enemy_1)){
-            for(var _i = 1; _i < ds_list_size(enemy_list); _i++){
-                var _enemy_data_prev = enemy_list[| _i - 1];
-                var _enemy_data_curr = enemy_list[| _i];
-                var _enemy_prev = _enemy_data_prev[0];
-                var _enemy_curr = _enemy_data_curr[0];
+    // Popula a lista com inimigos válidos dentro do alcance, registrando a distância
+    for (var _i = 0; _i < ds_list_size(enemy_list); _i++) {
+        var _enemy_data = enemy_list[| _i];
+        var _enemy = _enemy_data[0];
 
-                if(instance_exists(_enemy_prev) && instance_exists(_enemy_curr)){
-                    if((_enemy_prev.object_index == obj_enemy || _enemy_prev.object_index == obj_enemy_2) &&
-                        (_enemy_curr.object_index == obj_enemy || _enemy_curr.object_index == obj_enemy_2)){
-                        
-                        var _dir = point_direction(_enemy_prev.x, _enemy_prev.y, _enemy_curr.x, _enemy_curr.y);
-                        var _dist = point_distance(_enemy_prev.x, _enemy_prev.y, _enemy_curr.x, _enemy_curr.y);
-                        draw_sprite_ext(spr_line, 0, _enemy_prev.x, _enemy_prev.y, _dist / sprite_width, 1, _dir, c_white, 1);
-                    }
-                }
-            }
-
-            var _last_enemy_data = enemy_list[| ds_list_size(enemy_list) - 1];
-            var _last_enemy = _last_enemy_data[0];
-            if(instance_exists(_last_enemy)){
-                draw_sprite(spr_sign, 0, _last_enemy.x, _last_enemy.y);
-            }
+        if (instance_exists(_enemy)) {
+            var _distance = point_distance(x, y, _enemy.x, _enemy.y);
+            ds_list_add(ordered_enemy_list, [_enemy, _distance]);
         }
     }
+
+    // Ordena a lista de inimigos pelo valor da distância ao jogador
+    ds_list_sort(ordered_enemy_list, 1);
+
+    // Desenha as conexões de um inimigo para o próximo na lista ordenada
+    if (ds_list_size(ordered_enemy_list) > 0) {
+        for (var _i = 1; _i < ds_list_size(ordered_enemy_list); _i++) {
+            var _enemy_data_prev = ordered_enemy_list[| _i - 1];
+            var _enemy_data_curr = ordered_enemy_list[| _i];
+            var _enemy_prev = _enemy_data_prev[0];
+            var _enemy_curr = _enemy_data_curr[0];
+
+            if (instance_exists(_enemy_prev) && instance_exists(_enemy_curr)) {
+                var _dir = point_direction(_enemy_prev.x, _enemy_prev.y, _enemy_curr.x, _enemy_curr.y);
+                var _dist = point_distance(_enemy_prev.x, _enemy_prev.y, _enemy_curr.x, _enemy_curr.y);
+                draw_sprite_ext(spr_line, 0, _enemy_prev.x, _enemy_prev.y, _dist / sprite_width, 1, _dir, c_white, 1);
+            }
+        }
+
+        // Desenha o sprite de aviso no último inimigo da lista
+        var _last_enemy_data = ordered_enemy_list[| ds_list_size(ordered_enemy_list) - 1];
+        var _last_enemy = _last_enemy_data[0];
+        if (instance_exists(_last_enemy)) {
+            draw_sprite(spr_sign, 0, _last_enemy.x, _last_enemy.y);
+        }
+    }
+
+    // Limpa a lista temporária
+    ds_list_destroy(ordered_enemy_list);
 }
 #endregion
+
 
 #region trail with dynamic extension
 if(move_speed > 0){
