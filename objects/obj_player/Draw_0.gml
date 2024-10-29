@@ -22,84 +22,76 @@ switch(dash_num){
 #endregion
 
 #region hability draw debug
-if (keyboard_check(ord("R")) && global.slashing) {
-    // Desenha o círculo de alcance
+if(keyboard_check(ord("R")) && global.slashing){
+
     draw_circle(x, y, area, true);
 
-    // Verifica se a lista de inimigos não está vazia
-    if (enemy_list != undefined && ds_list_size(enemy_list) > 0) {
+    if(enemy_list != undefined && ds_list_size(enemy_list) > 0){
         var _enemy_data_1 = enemy_list[| 0];
         var _enemy_1 = _enemy_data_1[0];
 
-        // Se o primeiro inimigo existe
-        if (instance_exists(_enemy_1)) {
-            //draw_sprite(spr_sign, 0, _enemy_1.x, _enemy_1.y); // Desenha o sprite no primeiro inimigo
-
-            // Loop pelos outros inimigos para desenhar as linhas
-            for (var _i = 1; _i < ds_list_size(enemy_list); _i++) {
+        if(instance_exists(_enemy_1)){
+            for(var _i = 1; _i < ds_list_size(enemy_list); _i++){
                 var _enemy_data_prev = enemy_list[| _i - 1];
                 var _enemy_data_curr = enemy_list[| _i];
                 var _enemy_prev = _enemy_data_prev[0];
                 var _enemy_curr = _enemy_data_curr[0];
 
-                if (instance_exists(_enemy_prev) && instance_exists(_enemy_curr)) {
-                    // Calcula a direção e a distância entre dois inimigos
-                    var _dir = point_direction(_enemy_prev.x, _enemy_prev.y, _enemy_curr.x, _enemy_curr.y);
-                    var _dist = point_distance(_enemy_prev.x, _enemy_prev.y, _enemy_curr.x, _enemy_curr.y);
-
-                    // Desenha o sprite da linha tracejada, escalado pela distância e rotacionado pela direção
-                    draw_sprite_ext(spr_line, 0, _enemy_prev.x, _enemy_prev.y, _dist / sprite_width, 1, _dir, c_white, 1);
+                if(instance_exists(_enemy_prev) && instance_exists(_enemy_curr)){
+                    if((_enemy_prev.object_index == obj_enemy || _enemy_prev.object_index == obj_enemy_2) &&
+                        (_enemy_curr.object_index == obj_enemy || _enemy_curr.object_index == obj_enemy_2)){
+                        
+                        var _dir = point_direction(_enemy_prev.x, _enemy_prev.y, _enemy_curr.x, _enemy_curr.y);
+                        var _dist = point_distance(_enemy_prev.x, _enemy_prev.y, _enemy_curr.x, _enemy_curr.y);
+                        draw_sprite_ext(spr_line, 0, _enemy_prev.x, _enemy_prev.y, _dist / sprite_width, 1, _dir, c_white, 1);
+                    }
                 }
             }
 
-            // Desenha o sprite somente no último inimigo
             var _last_enemy_data = enemy_list[| ds_list_size(enemy_list) - 1];
             var _last_enemy = _last_enemy_data[0];
-            if (instance_exists(_last_enemy)) {
-                draw_sprite(spr_sign, 0, _last_enemy.x, _last_enemy.y); // Sprite especial no último inimigo
+            if(instance_exists(_last_enemy)){
+                draw_sprite(spr_sign, 0, _last_enemy.x, _last_enemy.y);
             }
         }
     }
 }
-
 #endregion
 
 #region trail with dynamic extension
 if(move_speed > 0){
-
     var _prev_x, _prev_y;
     var _alpha_step = 1 / trail_length;
     var _current_alpha = 1.0;
-    
-    if(ds_queue_size(trail_positions) > 1){
 
+    if(ds_queue_size(trail_positions) > 1){
         var _first_position = ds_queue_head(trail_positions);
         _prev_x = _first_position[0];
         _prev_y = _first_position[1];
-    
+
         var _temp_queue = ds_queue_create();
         ds_queue_copy(_temp_queue, trail_positions);
 
         ds_queue_dequeue(_temp_queue);
-    
+
         while(!ds_queue_empty(_temp_queue)){
             var _current_position = ds_queue_dequeue(_temp_queue);
             var _current_x = _current_position[0];
             var _current_y = _current_position[1];
-        
+
             var _dx = _current_x - _prev_x;
             var _dy = _current_y - _prev_y;
             var _distance = point_distance(_prev_x, _prev_y, _current_x, _current_y);
             var _angle = point_direction(_prev_x, _prev_y, _current_x, _current_y);
-        
+
             draw_set_alpha(_current_alpha);
-        
+
             draw_sprite_ext(spr_trail, 0, (_prev_x + _current_x) / 2, (_prev_y + _current_y) / 2,
                             _distance / 32, 1, _angle, c_white, _current_alpha);
-        
-           _prev_x = _current_x;
+
+            _prev_x = _current_x;
             _prev_y = _current_y;
-        
+
             _current_alpha -= _alpha_step;
         }
         ds_queue_destroy(_temp_queue);
@@ -109,27 +101,21 @@ if(move_speed > 0){
 #endregion
 
 #region static trail
-for (var _i = 0; _i < ds_list_size(trail_fixed_positions); _i++) {
+for(var _i = 0; _i < ds_list_size(trail_fixed_positions); _i++){
     var _position = trail_fixed_positions[| _i];
    
-    trail_fixed_timer[| _i]--;
+    trail_fixed_timer[| _i] -= 1;
+    if(trail_fixed_timer[| _i] <= 0){
+        ds_list_delete(trail_fixed_positions, _i);
+        ds_list_delete(trail_fixed_timer, _i);
+        continue;
+    }
 
-    var _alpha = clamp(trail_fixed_timer[| _i] / 60, 0, 1);
-
+    var _alpha = trail_fixed_timer[| _i] / 30;
     draw_set_alpha(_alpha);
-
-    var _trail_x = _position[0];
-    var _trail_y = _position[1];
-
-    var _next_position = (_i < ds_list_size(trail_fixed_positions) - 1) ? trail_fixed_positions[| _i + 1] : _position;
-    var _next_x = _next_position[0];
-    var _next_y = _next_position[1];
-
-    var _trail_angle = point_direction(_trail_x, _trail_y, _next_x, _next_y);
-
-    draw_sprite_ext(spr_trail_2, 0, _trail_x, _trail_y, 1, 1, _trail_angle, c_white, _alpha);
+    draw_sprite_ext(spr_trail, 0, _position[0], _position[1], 1, 1, _position[2], c_white, _alpha);
 }
-draw_set_alpha(1.0);
+draw_set_alpha(1);
 #endregion
 
 #region hit effect

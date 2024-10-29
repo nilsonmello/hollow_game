@@ -261,14 +261,14 @@ with(my_weapon){
 #endregion
 
 #region player recoil
-var _target_x = x - lengthdir_x(my_weapon.recoil, my_weapon.weapon_dir);
-var _target_y = y - lengthdir_y(my_weapon.recoil, my_weapon.weapon_dir);
+var _target_playerx = x - lengthdir_x(my_weapon.recoil, my_weapon.weapon_dir);
+var _target_playery = y - lengthdir_y(my_weapon.recoil, my_weapon.weapon_dir);
 
-if (!place_meeting(_target_x, _target_y, obj_wall)) {
-	x = _target_x;
-	y = _target_y;
-} else {
-	while (my_weapon.recoil > 0 && !place_meeting(x, y, obj_wall)) {
+if(!place_meeting(_target_playerx, _target_playery, obj_wall)){
+	x = _target_playerx;
+	y = _target_playery;
+}else{
+	while(my_weapon.recoil > 0 && !place_meeting(x, y, obj_wall)){
 	x -= lengthdir_x(1, my_weapon.weapon_dir);
 	y -= lengthdir_y(1, my_weapon.weapon_dir);
 	}
@@ -312,7 +312,7 @@ if(_mb && state != STATES.ATTAKING && alarm[4] <= 0){
 
 #region hability activation
 if(global.energy >= global.energy_max){
-	global.can_attack = true;	
+    global.can_attack = true;    
 }
 
 if(keyboard_check(ord("R")) && global.stamina >= global.stamina_max && global.can_attack){
@@ -328,6 +328,13 @@ if(keyboard_check(ord("R")) && global.stamina >= global.stamina_max && global.ca
     ds_list_clear(path_list);
 
     var _circ = collision_circle_list(x, y, area, obj_enemy_par, false, false, enemy_list, true);
+
+    for(var _i = ds_list_size(enemy_list) - 1; _i >= 0; _i--){
+        var _enemy = enemy_list[| _i];
+        if(!instance_exists(_enemy)){
+            ds_list_delete(enemy_list, _i);
+        }
+    }
 
     if(ds_list_size(enemy_list) > 0){
         for(var _i = 0; _i < ds_list_size(enemy_list); _i++){
@@ -351,11 +358,11 @@ if(keyboard_check(ord("R")) && global.stamina >= global.stamina_max && global.ca
     moving_along_path = false;
     path_position_index = 0;
 
-} else { 
+}else{ 
     area = 0;
     global.slow_motion = false;
     layer_set_visible("screenshake_charging", 0);
-	global.slashing = false;
+    global.slashing = false;
 
     if(!moving_along_path && ds_list_size(path_list) > 0){
         moving_along_path = true;
@@ -378,7 +385,6 @@ if(moving_along_path && ds_list_size(path_list) > 0){
         if(move_speed > 0){
             timer++;
             if(timer >= 2){
-                
                 timer = 0;
             }
         }
@@ -400,7 +406,7 @@ if(moving_along_path && ds_list_size(path_list) > 0){
                 global.can_attack = false;
             }
 
-        } else {
+        }else{
             path_position_index++;
 
             if(path_position_index >= ds_list_size(path_list)){
@@ -428,7 +434,7 @@ if(moving_along_path && ds_list_size(path_list) > 0){
             }
             layer_set_visible("screenshake_damaging_enemies", 0);
         }
-    } else {
+    }else{
         moving_along_path = false;
     }
 }
