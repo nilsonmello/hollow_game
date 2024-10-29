@@ -18,11 +18,11 @@ function search_for_player(){
 		}else{
 			if(_dis <= attack_dis){
 				path_end();	
-				alarm[3] = 30;
+				alarm[3] = 50;
 				if(global.slow_motion){
 					alarm[4] = 120;
 				}else{
-					alarm[4] = 50;
+					alarm[4] = 70;
 				}
 				dire = point_direction(x, y, obj_player.x, obj_player.y);
 				state = ENEMY_STATES.ATTACK;

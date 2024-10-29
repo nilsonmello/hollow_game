@@ -88,23 +88,28 @@ enum STATES {
 //estado atual
 state = STATES.MOVING;
 
-//função de colisão
-function player_colide() {
-    //Colisão Horizontal
-    if (place_meeting(x + spd_h, y, obj_wall)) {
-        while (!place_meeting(x + sign(spd_h), y, obj_wall)) {
-            x += sign(spd_h);
-        }
-        spd_h = 0;
-    }
+function player_colide(){
+	var _collidable_objects = [obj_wall, obj_enemy_par];
+    
+	for(var _i = 0; _i < array_length(_collidable_objects); _i++){
+		var _obj = _collidable_objects[_i];
+		if(place_meeting(x + spd_h, y, _obj)){
+			while (!place_meeting(x + sign(spd_h), y, _obj)){
+				x += sign(spd_h);
+			}
+			spd_h = 0;
+		}
+	}
 
-    // Colisão Vertical
-    if (place_meeting(x, y + spd_v, obj_wall)) {
-        while (!place_meeting(x, y + sign(spd_v), obj_wall)) {
-            y += sign(spd_v);
-        }
-        spd_v = 0;
-    }
+	for(var _i = 0; _i < array_length(_collidable_objects); _i++){
+		var _obj = _collidable_objects[_i];
+		if(place_meeting(x, y + spd_v, _obj)){
+			while(!place_meeting(x, y + sign(spd_v), _obj)){
+				y += sign(spd_v);
+			}
+			spd_v = 0;
+		}
+	}
 }
 #endregion
 

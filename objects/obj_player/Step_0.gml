@@ -1,17 +1,3 @@
-#region sprite direction
-var _dir_sprite = floor((point_direction(x, y, mouse_x, mouse_y) + 90) mod 360 / 180);
-
-switch(_dir_sprite){
-    case 0:
-        image_xscale = 1;
-        break;
-        
-    case 1:
-        image_xscale = -1;
-	break;
-}
-#endregion
-
 #region state machine
 
 #region comand keys
@@ -92,7 +78,7 @@ switch(state){
 	
 	#region dash
 	case STATES.DASH:
-		can_take_dmg = false;
+		//can_take_dmg = false;
 		alarm[6] = 15;
 
 		spd_h = lengthdir_x(dash_veloc, dash_dir);
@@ -323,7 +309,7 @@ if(keyboard_check(ord("R")) && global.stamina >= global.stamina_max && global.ca
         global.slow_motion = true;
         area += 3;
     }
-
+	
     ds_list_clear(enemy_list);
     ds_list_clear(path_list);
 
