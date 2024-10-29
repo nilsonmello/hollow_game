@@ -1,6 +1,8 @@
 //weapon custom function to colide with enemies
 custom_function = function(_custom_id){}
 
+coliding_walls = function(_custom_id){}
+
 
 part_sys = part_system_create();
 part_type = part_type_create();

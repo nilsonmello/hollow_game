@@ -1,3 +1,11 @@
+#region debugging
+if(keyboard_check_pressed(ord("Y"))){
+	state = STATES.IDLE;
+	global.life_at = global.life;
+	game_restart();
+}
+#endregion
+
 #region state machine
 
 #region comand keys
@@ -208,18 +216,18 @@ with(my_weapon){
 
 	if(_ma && _mb && current_weapon != vazio && global.energy > 0){
 	    current_weapon.shoot(weapon_x, weapon_y);
-	    recoil = 5;
-	    recoil_gun = 12;
+	    //recoil = 5;
+	    //recoil_gun = 12;
 	}
 
 	// Atualiza o cooldown da arma
 	current_weapon.update_cooldown();
 
 	// Aplica o recuo somente enquanto o cooldown estiver ativo
-	if(current_weapon.shot_cooldown > 0){
-	    recoil = lerp(recoil, 0, 0.5);
-	    recoil_gun = lerp(recoil_gun, 0, 0.5);
-	}
+	//if(current_weapon.shot_cooldown > 0){
+	//    recoil = lerp(recoil, 0, 0.5);
+	//    recoil_gun = lerp(recoil_gun, 0, 0.5);
+	//}
 	#endregion
 
     #region slots
@@ -247,18 +255,18 @@ with(my_weapon){
 #endregion
 
 #region player recoil
-var _target_playerx = x - lengthdir_x(my_weapon.recoil, my_weapon.weapon_dir);
-var _target_playery = y - lengthdir_y(my_weapon.recoil, my_weapon.weapon_dir);
+//var _target_playerx = x - lengthdir_x(my_weapon.recoil, my_weapon.weapon_dir);
+//var _target_playery = y - lengthdir_y(my_weapon.recoil, my_weapon.weapon_dir);
 
-if(!place_meeting(_target_playerx, _target_playery, obj_wall)){
-	x = _target_playerx;
-	y = _target_playery;
-}else{
-	while(my_weapon.recoil > 0 && !place_meeting(x, y, obj_wall)){
-	x -= lengthdir_x(1, my_weapon.weapon_dir);
-	y -= lengthdir_y(1, my_weapon.weapon_dir);
-	}
-}
+//if(!place_meeting(_target_playerx, _target_playery, obj_wall)){
+//	x = _target_playerx;
+//	y = _target_playery;
+//}else{
+//	while(my_weapon.recoil > 0 && !place_meeting(x, y, obj_wall)){
+//	x -= lengthdir_x(1, my_weapon.weapon_dir);
+//	y -= lengthdir_y(1, my_weapon.weapon_dir);
+//	}
+//}
 #endregion
 
 #region sword dash

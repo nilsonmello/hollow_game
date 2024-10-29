@@ -20,7 +20,7 @@ function search_for_player(){
 				path_end();	
 				alarm[3] = 50;
 				if(global.slow_motion){
-					alarm[4] = 120;
+					alarm[4] = 0;
 				}else{
 					alarm[4] = 70;
 				}

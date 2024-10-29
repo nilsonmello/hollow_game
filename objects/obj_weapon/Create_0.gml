@@ -1,5 +1,5 @@
 #region constructor
-function scr_create_weapon(_name, _dmg, _fire_rate, _bullet_sprite, _automatic, _bps, _weapon_spr, _custom_function, _cost_per_shot){
+function scr_create_weapon(_name, _dmg, _fire_rate, _bullet_sprite, _automatic, _bps, _weapon_spr, _custom_function, _wall_colide,_cost_per_shot){
     return{
         name: _name,
         damage: _dmg,
@@ -11,6 +11,7 @@ function scr_create_weapon(_name, _dmg, _fire_rate, _bullet_sprite, _automatic, 
         shot_cooldown: 0,
         weapon_sprite: _weapon_spr,
         custom_function: _custom_function,
+		coliding_walls: _wall_colide,
 
         shoot: function(_x, _y){
             if(global.energy >= cost_per_shot && shot_cooldown <= 0){
@@ -28,13 +29,16 @@ function scr_create_weapon(_name, _dmg, _fire_rate, _bullet_sprite, _automatic, 
                     var _dir = _base_dir + (_spread * (_i - (bp_shoot - 1) / 2));
                     _bullet.direction = _dir;
 
-                    _bullet.custom_function = function(_bullet) {
+                    _bullet.custom_function = function(_bullet){
                         custom_function(_bullet);
+                    };
+					
+                    _bullet.coliding_walls = function(_bullet){
+                        coliding_walls(_bullet);
                     };
                 }
 
                 global.energy -= cost_per_shot;
-
                 shot_cooldown = fire_rate;
             }
         },
@@ -49,7 +53,7 @@ function scr_create_weapon(_name, _dmg, _fire_rate, _bullet_sprite, _automatic, 
 #endregion
 
 #region guns
-vazio = scr_create_weapon("vazio", 0, 0, 0, 0, false, 0, function(){}, 0);
+vazio = scr_create_weapon("vazio", 0, 0, 0, 0, false, 0, function(){}, function(){}, 0);
 
 shotgun = scr_create_weapon("Shotgun", 4, 100, spr_bullet, false, 5, spr_weapon, function colide_shotgun(_bullet){
     with(other){
@@ -63,7 +67,7 @@ shotgun = scr_create_weapon("Shotgun", 4, 100, spr_bullet, false, 5, spr_weapon,
 		hit_alpha = 1;
     }
     instance_destroy(_bullet);
-}, 5);
+}, function wall_colide(_bullet){instance_destroy(_bullet);}, 5);
 
 pistol = scr_create_weapon("Pistol", 5, 100, spr_bullet, false, 1, spr_weapon_2, function colide_pistol(_bullet){
     with(other){
@@ -77,7 +81,7 @@ pistol = scr_create_weapon("Pistol", 5, 100, spr_bullet, false, 1, spr_weapon_2,
 		hit_alpha = 1;
     }
     instance_destroy(_bullet);
-}, 3);
+}, function wall_colide(_bullet){instance_destroy(_bullet);}, 3);
 
 rifle = scr_create_weapon("Rifle", 1, 7, spr_bullet, true, 1, spr_weapon_3, function colide_rifle(_bullet){
     with(other){
@@ -91,8 +95,7 @@ rifle = scr_create_weapon("Rifle", 1, 7, spr_bullet, true, 1, spr_weapon_3, func
 		hit_alpha = 1;
     }
     instance_destroy(_bullet);
-}, 3);
-
+}, function wall_colide(_bullet){instance_destroy(_bullet);}, 1);
 
 current_weapon = vazio;
 #endregion
