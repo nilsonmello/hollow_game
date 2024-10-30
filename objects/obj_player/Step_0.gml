@@ -216,8 +216,8 @@ with(my_weapon){
 
 	if(_ma && _mb && current_weapon != vazio && global.energy > 0){
 	    current_weapon.shoot(weapon_x, weapon_y);
-	    //recoil = 5;
-	    //recoil_gun = 12;
+	    recoil = 5;
+	    recoil_gun = 12;
 	}
 
 	// Atualiza o cooldown da arma
@@ -225,8 +225,8 @@ with(my_weapon){
 
 	// Aplica o recuo somente enquanto o cooldown estiver ativo
 	//if(current_weapon.shot_cooldown > 0){
-	//    recoil = lerp(recoil, 0, 0.5);
-	//    recoil_gun = lerp(recoil_gun, 0, 0.5);
+	    //recoil = lerp(recoil, 0, 0.5);
+	    recoil_gun = lerp(recoil_gun, 0, 0.5);
 	//}
 	#endregion
 
@@ -284,7 +284,7 @@ if(_mb && state != STATES.ATTAKING && alarm[4] <= 0){
     state = STATES.ATTAKING;
 
     var _melee_dir = point_direction(x, y, obj_mouse.x, obj_mouse.y);
-    var _advance_dir = 25;
+    var _advance_dir = 20;
     var _advance_distance = 28;
 
     var _box_x = x + lengthdir_x(_advance_dir, _melee_dir);
@@ -292,7 +292,9 @@ if(_mb && state != STATES.ATTAKING && alarm[4] <= 0){
 
     advance_x = x + lengthdir_x(_advance_distance, _melee_dir);
     advance_y = y + lengthdir_y(_advance_distance, _melee_dir);
-
+	
+	player_colide();
+	
 	if(!instance_exists(obj_hitbox)){
     var _box = instance_create_layer(_box_x, _box_y, "Instances", obj_hitbox);
 	_box.image_angle = _melee_dir;
