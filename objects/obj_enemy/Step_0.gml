@@ -8,6 +8,8 @@ if(vida <= 0){
 }
 #endregion
 
+scr_colide();
+
 switch(state){
 	#region movement
 	case ENEMY_STATES.MOVE:

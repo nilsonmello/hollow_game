@@ -445,7 +445,7 @@ if(stamina_timer_regen > 0){
     stamina_timer_regen--;
 }else{
     if(global.stamina < global.stamina_max){
-        global.stamina += 5;
+        global.stamina += 1;
         stamina_timer_regen = stamina_timer;
     }
 }
