@@ -80,6 +80,7 @@
     {"id":{"name":"spr_warning","path":"sprites/spr_warning/spr_warning.yy",},},
     {"id":{"name":"spr_weapon_2","path":"sprites/spr_weapon_2/spr_weapon_2.yy",},},
     {"id":{"name":"spr_weapon_3","path":"sprites/spr_weapon_3/spr_weapon_3.yy",},},
+    {"id":{"name":"spr_weapon_4","path":"sprites/spr_weapon_4/spr_weapon_4.yy",},},
     {"id":{"name":"spr_weapon","path":"sprites/spr_weapon/spr_weapon.yy",},},
   ],
   "resourceType":"GMProject",
