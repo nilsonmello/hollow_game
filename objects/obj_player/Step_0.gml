@@ -189,6 +189,7 @@ if(dash_num < 3){
 #endregion
 
 #region weapon
+
 with(my_weapon){
     #region target
     alvo_x = mouse_x;
@@ -207,27 +208,29 @@ with(my_weapon){
     }
     #endregion
 
-    #region shoot
+	#region shoot
 	if(_ma){
 	    aiming = true;    
-	} else {
+	}else{
 	    aiming = false;    
 	}
 
-	if(_ma && _mb && current_weapon != vazio && global.energy > 0){
+	if(_ma && _mb && current_weapon.can_shoot && global.energy > current_weapon.cost_per_shot){
+
+	    if(current_weapon == vazio){
+	        return false;    
+	    }
+
 	    current_weapon.shoot(weapon_x, weapon_y);
-	    recoil = 5;
-	    recoil_gun = 12;
+		recoil = current_weapon.recoil_player;
+	    recoil_gun = 8;
 	}
 
-	// Atualiza o cooldown da arma
 	current_weapon.update_cooldown();
 
-	// Aplica o recuo somente enquanto o cooldown estiver ativo
-	//if(current_weapon.shot_cooldown > 0){
-	    //recoil = lerp(recoil, 0, 0.5);
-	    recoil_gun = lerp(recoil_gun, 0, 0.5);
-	//}
+	if(current_weapon.shot_cooldown > 0){
+	    recoil_gun = lerp(recoil_gun, 0, 0.1);
+	}
 	#endregion
 
     #region slots
@@ -252,21 +255,23 @@ with(my_weapon){
     }
     #endregion
 }
+
 #endregion
 
 #region player recoil
-//var _target_playerx = x - lengthdir_x(my_weapon.recoil, my_weapon.weapon_dir);
-//var _target_playery = y - lengthdir_y(my_weapon.recoil, my_weapon.weapon_dir);
+if(my_weapon.recoil > 0){
+	var _target_playerx = x - lengthdir_x(my_weapon.recoil, my_weapon.weapon_dir);
+	var _target_playery = y - lengthdir_y(my_weapon.recoil, my_weapon.weapon_dir);
 
-//if(!place_meeting(_target_playerx, _target_playery, obj_wall)){
-//	x = _target_playerx;
-//	y = _target_playery;
-//}else{
-//	while(my_weapon.recoil > 0 && !place_meeting(x, y, obj_wall)){
-//	x -= lengthdir_x(1, my_weapon.weapon_dir);
-//	y -= lengthdir_y(1, my_weapon.weapon_dir);
-//	}
-//}
+	if(!place_meeting(_target_playerx, _target_playery, obj_wall)){
+	    x = _target_playerx;
+	    y = _target_playery;
+
+	    my_weapon.recoil = max(0, my_weapon.recoil - 0.5);
+	}else{
+	    my_weapon.recoil = 0;
+	}
+}
 #endregion
 
 #region sword dash
@@ -279,7 +284,6 @@ if(_mb && state != STATES.ATTAKING && alarm[4] <= 0){
     if(_ma){
         return false;
     }
-	
     image_index = 0;
     state = STATES.ATTAKING;
 
@@ -289,15 +293,15 @@ if(_mb && state != STATES.ATTAKING && alarm[4] <= 0){
 
     var _box_x = x + lengthdir_x(_advance_dir, _melee_dir);
     var _box_y = y + lengthdir_y(_advance_dir, _melee_dir);
-
-    advance_x = x + lengthdir_x(_advance_distance, _melee_dir);
-    advance_y = y + lengthdir_y(_advance_distance, _melee_dir);
 	
 	player_colide();
 	
+    advance_x = x + lengthdir_x(_advance_distance, _melee_dir);
+    advance_y = y + lengthdir_y(_advance_distance, _melee_dir);
+	
 	if(!instance_exists(obj_hitbox)){
-    var _box = instance_create_layer(_box_x, _box_y, "Instances", obj_hitbox);
-	_box.image_angle = _melee_dir;
+		var _box = instance_create_layer(_box_x, _box_y, "Instances", obj_hitbox);
+		_box.image_angle = _melee_dir;
 	}
     advancing = true;
     alarm[3] = 20;

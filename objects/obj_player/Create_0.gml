@@ -2,10 +2,12 @@
 my_weapon = instance_create_layer(x, y, "Instances", obj_weapon);
 my_weapon.weapon_id = self;
 
-with(my_weapon) {
+with(my_weapon){
     slot = 0;
     weapon_slots[0] = vazio;
     current_weapon = weapon_slots[slot_at];
+	shot_cooldown = current_weapon.shot_cooldown;
+	cost_per_shot = current_weapon.cost_per_shot;
 }
 recoil_pause_timer = 0;
 #endregion
