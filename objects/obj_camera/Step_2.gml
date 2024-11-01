@@ -27,3 +27,4 @@ if (instance_exists(view_target)) {
     
     camera_set_view_pos(view_camera[0], lerp(_cx, _x1, view_spd), lerp(_cy, _y1, view_spd));
 }
+
