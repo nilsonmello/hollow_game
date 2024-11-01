@@ -125,12 +125,14 @@ sniper = scr_create_weapon("sniper", 4, 6, 100, spr_bullet, false, 1, spr_weapon
 		hit_alpha = 1;
     }
     instance_destroy(_bullet);
-}, function wall_colide(_bullet){instance_destroy(_bullet);}, 4, 5);
+}, function wall_colide(_bullet){instance_destroy(_bullet);}, 5, 5);
 
 current_weapon = vazio;
 #endregion
 
 #region variables
+shoots = 0;
+
 weapon_dir = 0;
 weapon_id = 0;
 

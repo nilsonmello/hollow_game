@@ -59,6 +59,8 @@
     {"id":{"name":"search_for_player","path":"scripts/search_for_player/search_for_player.yy",},},
     {"id":{"name":"sh_shd_take_dmg","path":"shaders/sh_shd_take_dmg/sh_shd_take_dmg.yy",},},
     {"id":{"name":"sh_shd_vignette","path":"shaders/sh_shd_vignette/sh_shd_vignette.yy",},},
+    {"id":{"name":"spr_bar","path":"sprites/spr_bar/spr_bar.yy",},},
+    {"id":{"name":"spr_bullet_hud","path":"sprites/spr_bullet_hud/spr_bullet_hud.yy",},},
     {"id":{"name":"spr_bullet","path":"sprites/spr_bullet/spr_bullet.yy",},},
     {"id":{"name":"spr_circle_outline","path":"sprites/spr_circle_outline/spr_circle_outline.yy",},},
     {"id":{"name":"spr_circle","path":"sprites/spr_circle/spr_circle.yy",},},

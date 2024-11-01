@@ -215,7 +215,7 @@ with(my_weapon){
 	    aiming = false;    
 	}
 
-	if(_ma && _mb && current_weapon.can_shoot && global.energy > current_weapon.cost_per_shot){
+	if(_ma && _mb && current_weapon.can_shoot && global.energy >= current_weapon.cost_per_shot){
 
 	    if(current_weapon == vazio){
 	        return false;    
