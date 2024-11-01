@@ -1,3 +1,4 @@
+#region mouse config
 if(instance_exists(obj_player)){
 
     var _dir = point_direction(obj_player.x, obj_player.y, mouse_x, mouse_y);
@@ -10,3 +11,4 @@ if(instance_exists(obj_player)){
     x = _tar_x;
     y = _tar_y;
 }
+#endregion

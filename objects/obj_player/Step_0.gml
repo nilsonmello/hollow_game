@@ -287,7 +287,7 @@ if(_mb && state != STATES.ATTAKING && alarm[4] <= 0){
     image_index = 0;
     state = STATES.ATTAKING;
 
-    var _melee_dir = point_direction(x, y, obj_mouse.x, obj_mouse.y);
+    var _melee_dir = point_direction(x, y, obj_control.x, obj_control.y);
     var _advance_dir = 20;
     var _advance_distance = 28;
 
