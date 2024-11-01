@@ -1,16 +1,16 @@
 #region camera settings
-cam_largura = camera_get_view_width(view_camera[0]);
-cam_altura = camera_get_view_height(view_camera[0]);
-cam_veloc = 0.05; 
+//cam_largura = camera_get_view_width(view_camera[0]);
+//cam_altura = camera_get_view_height(view_camera[0]);
+//cam_veloc = 0.05; 
 
-target = obj_player;
+//target = obj_player;
 
 darkness = 0.0;
 
 raio = 1;
 leveza = 0.3;
 
-focus_strength = 0;
+//focus_strength = 0;
 #endregion
 
 #region mp grid and enemy state enum create
