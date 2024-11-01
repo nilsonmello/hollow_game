@@ -7,16 +7,16 @@ switch(dash_num){
     case 0:
         break;
     case 1:
-        draw_sprite(spr_warning, 5, x, y - 20);
+        draw_sprite(spr_warning, 5, x, y + 20);
         break;
     case 2:
-        draw_sprite(spr_warning, 6, x, y - 20);
+        draw_sprite(spr_warning, 6, x, y + 20);
         break;
     case 3:
-        draw_sprite(spr_warning, 7, x, y - 20);
+        draw_sprite(spr_warning, 7, x, y + 20);
         break;
     case 4:
-        draw_sprite(spr_warning, 8, x, y - 20);
+        draw_sprite(spr_warning, 8, x, y + 20);
         break;
 }
 #endregion
