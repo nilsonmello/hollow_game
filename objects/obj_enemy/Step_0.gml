@@ -132,10 +132,14 @@ switch(state){
 	
 		layer_set_visible("screenshake_damaging_enemies", 0);
 		
-		repeat(6){
-			var _exp = instance_create_layer(x, y, "Instances", obj_energy_dust);
-			_exp.direction = irandom(360);
-			_exp.speed = 2;
+		var _chances = irandom(2);
+		
+		if(_chances == 2){
+			repeat(6){
+				var _exp = instance_create_layer(x, y, "Instances", obj_energy_dust);
+				_exp.direction = irandom(360);
+				_exp.speed = 2;
+			}
 		}
         instance_destroy();
 	break;
