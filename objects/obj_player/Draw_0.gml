@@ -2,25 +2,6 @@
 draw_sprite_ext(sprite_index, 0, x, y, image_xscale, image_yscale, 0, c_white, 1);
 #endregion
 
-#region switch dash indication
-switch(dash_num){
-    case 0:
-        break;
-    case 1:
-        draw_sprite(spr_warning, 5, x, y + 20);
-        break;
-    case 2:
-        draw_sprite(spr_warning, 6, x, y + 20);
-        break;
-    case 3:
-        draw_sprite(spr_warning, 7, x, y + 20);
-        break;
-    case 4:
-        draw_sprite(spr_warning, 8, x, y + 20);
-        break;
-}
-#endregion
-
 #region hability draw debug
 if(keyboard_check(ord("R")) && global.slashing){
 

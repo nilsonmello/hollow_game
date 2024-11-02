@@ -22,7 +22,7 @@ function search_for_player(){
 				if(global.slow_motion){
 					alarm[4] = 0;
 				}else{
-					alarm[4] = 60;
+					alarm[4] = 53;
 				}
 				dire = point_direction(x, y, obj_player.x, obj_player.y);
 				state = ENEMY_STATES.ATTACK;

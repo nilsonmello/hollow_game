@@ -40,12 +40,11 @@ switch(state){
 		
 		dash_dir = move_dir
 		
-		if(keyboard_check_pressed(vk_space) && dash_num > 0){
+		if(keyboard_check_pressed(vk_space) && alarm[1] <= 0){
 			global.is_dashing = true;
-			alarm[0] = 12;
+			alarm[0] = 8;
+			alarm[1] = 20;
 			state = STATES.DASH;
-			dash_num--; 
-			dash_cooldown = dash_time;
 		}
 	break;
 	#endregion
@@ -53,7 +52,7 @@ switch(state){
 	#region walking
 	case STATES.MOVING:
 		if(!keyboard_check(ord("R"))){
-			spd = 1.6;
+			spd = 1.3;
 		}else{
 			spd = 0;
 		}
@@ -74,19 +73,17 @@ switch(state){
 		}
 		
 		dash_dir = move_dir;
-		if(keyboard_check_pressed(vk_space) && dash_num > 0){
+		if(keyboard_check_pressed(vk_space) && alarm[1] <= 0){
 			global.is_dashing = true;
 			alarm[0] = 8;
+			alarm[1] = 20;
 			state = STATES.DASH;
-			dash_num--; 
-			dash_cooldown = dash_time;
 		}
 	break;
 	#endregion
 	
 	#region dash
 	case STATES.DASH:
-		//can_take_dmg = false;
 		alarm[6] = 15;
 
 		spd_h = lengthdir_x(dash_veloc, dash_dir);
@@ -173,18 +170,6 @@ switch(state){
 		}
 	break;
 	#endregion
-}
-#endregion
-
-#region dash config
-if(dash_num < 3){
-	
-	dash_cooldown--;
-	
-	if(dash_cooldown <= 0){
-		dash_num++;	
-		dash_cooldown = dash_time
-	}
 }
 #endregion
 
@@ -474,3 +459,5 @@ if(yprevious != y and candust == true){
 #region hit indication
 hit_alpha = lerp(hit_alpha, 0, 0.1);
 #endregion
+
+show_debug_message(alarm[1])

@@ -28,11 +28,6 @@ spd = 1;
 dash_dir = 0;
 dash_veloc = 12;
 
-dash_num = 3;
-
-dash_cooldown = 0;
-dash_time = 60;
-
 can_take_dmg = true;
 
 emp_veloc = 4;
