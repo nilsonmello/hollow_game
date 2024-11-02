@@ -71,7 +71,7 @@ function scr_create_weapon(_name, _dmg, _spd, _fire_rate, _bullet_sprite, _autom
 #region guns
 vazio = scr_create_weapon("vazio", 0, 0, 0, 0, 0, false, 0, function(){}, function(){}, 0, 0);
 
-shotgun = scr_create_weapon("Shotgun", 2, 4, 100, spr_bullet, false, 5, spr_weapon, function colide_shotgun(_bullet){
+shotgun = scr_create_weapon("Shotgun", 1, 4, 100, spr_bullet, false, 5, spr_weapon, function colide_shotgun(_bullet){
     with(other){
         state = ENEMY_STATES.HIT;
         path_end();
@@ -85,7 +85,7 @@ shotgun = scr_create_weapon("Shotgun", 2, 4, 100, spr_bullet, false, 5, spr_weap
     instance_destroy(_bullet);
 }, function wall_colide(_bullet){instance_destroy(_bullet);}, 5, 6);
 
-pistol = scr_create_weapon("Pistol", 3, 4, 100, spr_bullet, false, 1, spr_weapon_2, function colide_pistol(_bullet){
+pistol = scr_create_weapon("Pistol", 2, 4, 100, spr_bullet, false, 1, spr_weapon_2, function colide_pistol(_bullet){
     with(other){
         state = ENEMY_STATES.HIT;
         path_end();
