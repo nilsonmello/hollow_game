@@ -7,3 +7,4 @@ if(global.slashing && distance_to_object(obj_player) < 150){
 }
 
 hit_alpha = lerp(hit_alpha, 0, 0.1);
+
