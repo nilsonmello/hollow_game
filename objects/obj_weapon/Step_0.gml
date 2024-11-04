@@ -48,5 +48,3 @@ function drop_weapon(){
     }
 }
 #endregion
-
-show_debug_message(global.energy)

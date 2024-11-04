@@ -43,7 +43,7 @@ switch(state){
 		if(keyboard_check_pressed(vk_space) && alarm[1] <= 0){
 			global.is_dashing = true;
 			alarm[0] = 8;
-			alarm[1] = 20;
+			alarm[1] = 23;
 			state = STATES.DASH;
 		}
 	break;
@@ -76,7 +76,7 @@ switch(state){
 		if(keyboard_check_pressed(vk_space) && alarm[1] <= 0){
 			global.is_dashing = true;
 			alarm[0] = 8;
-			alarm[1] = 20;
+			alarm[1] = 23;
 			state = STATES.DASH;
 		}
 	break;
@@ -295,148 +295,149 @@ if(_mb && state != STATES.ATTAKING && alarm[4] <= 0){
 
 #region power activation
 
-#region hability activation
-if(global.energy >= global.energy_max){
-    global.can_attack = true;    
-}
+	#region hability activation
+	if(global.energy >= global.energy_max){
+	    global.can_attack = true;    
+	}
 
-if(keyboard_check(ord("R")) && global.stamina >= global.stamina_max && global.can_attack){
-    layer_set_visible("screenshake_charging", 1);
-    if(global.energy > 0){
-        global.energy -= .3;
-        global.slashing = true;
-        global.slow_motion = true;
-        area += 3;
-    }
+	if(keyboard_check(ord("R")) && global.stamina >= global.stamina_max && global.can_attack){
+	    layer_set_visible("screenshake_charging", 1);
+	    if(global.energy > 0){
+	        global.energy -= .3;
+	        global.slashing = true;
+	        global.slow_motion = true;
+	        area += 3;
+	    }
 	
-    ds_list_clear(enemy_list);
-    ds_list_clear(path_list);
+	    ds_list_clear(enemy_list);
+	    ds_list_clear(path_list);
 
-    var _circ = collision_circle_list(x, y, area, obj_enemy_par, false, false, enemy_list, true);
+	    var _circ = collision_circle_list(x, y, area, obj_enemy_par, false, false, enemy_list, true);
 
-    for(var _i = ds_list_size(enemy_list) - 1; _i >= 0; _i--){
-        var _enemy = enemy_list[| _i];
-        if(!instance_exists(_enemy)){
-            ds_list_delete(enemy_list, _i);
-        }
-    }
+	    for(var _i = ds_list_size(enemy_list) - 1; _i >= 0; _i--){
+	        var _enemy = enemy_list[| _i];
+        
+	        if(!instance_exists(_enemy) || collision_line(x, y, _enemy.x, _enemy.y, obj_wall, false, true)){
+	            ds_list_delete(enemy_list, _i);
+	        }
+	    }
 
-    if(ds_list_size(enemy_list) > 0){
-        for(var _i = 0; _i < ds_list_size(enemy_list); _i++){
-            var _enemy = enemy_list[| _i];
-            var _dist = point_distance(x, y, _enemy.x, _enemy.y);
-            ds_list_set(enemy_list, _i, [_enemy, _dist]);
-        }
+	    if(ds_list_size(enemy_list) > 0){
+	        for(var _i = 0; _i < ds_list_size(enemy_list); _i++){
+	            var _enemy = enemy_list[| _i];
+	            var _dist = point_distance(x, y, _enemy.x, _enemy.y);
+	            ds_list_set(enemy_list, _i, [_enemy, _dist]);
+	        }
 
-        ds_list_sort(enemy_list, true);
+	        ds_list_sort(enemy_list, true);
 
-        for(var _i = 0; _i < ds_list_size(enemy_list); _i++){
-            var _enemy_data = enemy_list[| _i];
-            var _enemy = _enemy_data[0];
+	        for(var _i = 0; _i < ds_list_size(enemy_list); _i++){
+	            var _enemy_data = enemy_list[| _i];
+	            var _enemy = _enemy_data[0];
 
-            if(instance_exists(_enemy)){
-                ds_list_add(path_list, [_enemy.x, _enemy.y]);
-            }
-        }
-    }
-    move_speed = 20;
-    moving_along_path = false;
-    path_position_index = 0;
+	            if(instance_exists(_enemy)){
+	                ds_list_add(path_list, [_enemy.x, _enemy.y]);
+	            }
+	        }
+	    }
+	    move_speed = 20;
+	    moving_along_path = false;
+	    path_position_index = 0;
 
-}else{ 
-    area = 0;
-    global.slow_motion = false;
-    layer_set_visible("screenshake_charging", 0);
-    global.slashing = false;
+	}else{ 
+	    area = 0;
+	    global.slow_motion = false;
+	    layer_set_visible("screenshake_charging", 0);
+	    global.slashing = false;
 
-    if(!moving_along_path && ds_list_size(path_list) > 0){
-        moving_along_path = true;
-        path_position_index = 0;
-    }
-}
-#endregion
+	    if(!moving_along_path && ds_list_size(path_list) > 0){
+	        moving_along_path = true;
+	        path_position_index = 0;
+	    }
+	}
+	#endregion
 
-#region Movimento ao Longo do Caminho
-if(moving_along_path && ds_list_size(path_list) > 0){
-    if(path_position_index < ds_list_size(path_list)){
+	#region Movimento ao Longo do Caminho
+	if(moving_along_path && ds_list_size(path_list) > 0){
+	    if(path_position_index < ds_list_size(path_list)){
 
-        var _target_pos = path_list[| path_position_index];
-        var _target_x = _target_pos[0];
-        var _target_y = _target_pos[1];
+	        var _target_pos = path_list[| path_position_index];
+	        var _target_x = _target_pos[0];
+	        var _target_y = _target_pos[1];
 
-        var _dir = point_direction(x, y, _target_x, _target_y);
-        var _dist = point_distance(x, y, _target_x, _target_y);
+	        var _dir = point_direction(x, y, _target_x, _target_y);
+	        var _dist = point_distance(x, y, _target_x, _target_y);
 
-        if(move_speed > 0){
-            timer++;
-            if(timer >= 2){
-                timer = 0;
-            }
-        }
+	        if(move_speed > 0){
+	            timer++;
+	            if(timer >= 2){
+	                timer = 0;
+	            }
+	        }
 
-        if(_dist > move_speed){
-            x += lengthdir_x(move_speed, _dir);
-            y += lengthdir_y(move_speed, _dir);
+	        if(_dist > move_speed){
+	            x += lengthdir_x(move_speed, _dir);
+	            y += lengthdir_y(move_speed, _dir);
 
-            ds_queue_enqueue(trail_positions, [x, y]);
+	            ds_queue_enqueue(trail_positions, [x, y]);
 
-            if(ds_queue_size(trail_positions) > trail_length){
-                ds_queue_dequeue(trail_positions);
-            }
+	            if(ds_queue_size(trail_positions) > trail_length){
+	                ds_queue_dequeue(trail_positions);
+	            }
 
-            if(move_speed > 0){
-                can_take_dmg = false;    
-                alarm[6] = 20;
-                global.stamina = 0;
-                global.can_attack = false;
-            }
+	            if(move_speed > 0){
+	                can_take_dmg = false;    
+	                alarm[6] = 20;
+	                global.stamina = 0;
+	                global.can_attack = false;
+	            }
 
-        }else{
-            path_position_index++;
+	        }else{
+	            path_position_index++;
 
-            if(path_position_index >= ds_list_size(path_list)){
-                moving_along_path = false;
-                path_position_index = ds_list_size(path_list) - 1;
-                move_speed = 0;
-                global.slashing = false;
-            }
+	            if(path_position_index >= ds_list_size(path_list)){
+	                moving_along_path = false;
+	                path_position_index = ds_list_size(path_list) - 1;
+	                move_speed = 0;
+	                global.slashing = false;
+	            }
 
-            var _enemy_index = instance_position(_target_x, _target_y, obj_enemy_par);
-            if(_enemy_index != noone){
-                _enemy_index.vida -= 3;
-                _enemy_index.emp_dir = point_direction(obj_player.x, obj_player.y, _enemy_index.x, _enemy_index.y);
-                _enemy_index.state = ENEMY_STATES.HIT;
-                _enemy_index.alarm[0] = 3;
-                _enemy_index.alarm[1] = 10;
-                _enemy_index.alarm[5] = 80;
-                _enemy_index.emp_veloc = 20;
-                _enemy_index.hit_alpha = 1;
+	            var _enemy_index = instance_position(_target_x, _target_y, obj_enemy_par);
+	            if(_enemy_index != noone){
+	                _enemy_index.vida -= 3;
+	                _enemy_index.emp_dir = point_direction(obj_player.x, obj_player.y, _enemy_index.x, _enemy_index.y);
+	                _enemy_index.state = ENEMY_STATES.HIT;
+	                _enemy_index.alarm[0] = 3;
+	                _enemy_index.alarm[1] = 10;
+	                _enemy_index.alarm[5] = 80;
+	                _enemy_index.emp_veloc = 20;
+	                _enemy_index.hit_alpha = 1;
 
-                ds_list_add(trail_fixed_positions, [x, y, direction]);
-                ds_list_add(trail_fixed_timer, 30);
+	                ds_list_add(trail_fixed_positions, [x, y, direction]);
+	                ds_list_add(trail_fixed_timer, 30);
 
-                layer_set_visible("screenshake_damaging_enemies", 1);
-            }
-            layer_set_visible("screenshake_damaging_enemies", 0);
-        }
-    }else{
-        moving_along_path = false;
-    }
-}
-#endregion
+	                layer_set_visible("screenshake_damaging_enemies", 1);
+	            }
+	            layer_set_visible("screenshake_damaging_enemies", 0);
+	        }
+	    }else{
+	        moving_along_path = false;
+	    }
+	}
+	#endregion
 
-#region Regeneração de Stamina
-if(stamina_timer_regen > 0){
-    stamina_timer_regen--;
-}else{
-    if(global.stamina < global.stamina_max){
-        global.stamina += 1;
-        stamina_timer_regen = stamina_timer;
-    }
-}
-global.stamina = clamp(global.stamina, 0, global.stamina_max);
-#endregion
-
+	#region Regeneração de Stamina
+	if(stamina_timer_regen > 0){
+	    stamina_timer_regen--;
+	}else{
+	    if(global.stamina < global.stamina_max){
+	        global.stamina += 1;
+	        stamina_timer_regen = stamina_timer;
+	    }
+	}
+	global.stamina = clamp(global.stamina, 0, global.stamina_max);
+	#endregion
+	
 #endregion
 
 #region dust walk
@@ -459,5 +460,3 @@ if(yprevious != y and candust == true){
 #region hit indication
 hit_alpha = lerp(hit_alpha, 0, 0.1);
 #endregion
-
-show_debug_message(alarm[1])

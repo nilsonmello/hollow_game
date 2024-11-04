@@ -86,15 +86,23 @@ for(var _i = 0; _i < ds_list_size(trail_fixed_positions); _i++){
     var _position = trail_fixed_positions[| _i];
    
     trail_fixed_timer[| _i] -= 1;
-    if(trail_fixed_timer[| _i] <= 0){
+    if (trail_fixed_timer[| _i] <= 0) {
         ds_list_delete(trail_fixed_positions, _i);
         ds_list_delete(trail_fixed_timer, _i);
         continue;
     }
 
+    var _angle = 0;
+    if(_i > 0){
+        var _prev_position = trail_fixed_positions[| _i - 1];
+        _angle = point_direction(_prev_position[0], _prev_position[1], _position[0], _position[1]);
+    }else{
+        _angle = _position[2];
+    }
+
     var _alpha = trail_fixed_timer[| _i] / 30;
     draw_set_alpha(_alpha);
-    draw_sprite_ext(spr_trail, 0, _position[0], _position[1], 1, 1, _position[2], c_white, _alpha);
+    draw_sprite_ext(spr_trail_2, 0, _position[0], _position[1], 1, 1, _angle, c_white, _alpha);
 }
 draw_set_alpha(1);
 #endregion
