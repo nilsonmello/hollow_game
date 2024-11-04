@@ -1,8 +1,8 @@
 #region resolution and camera config
-resolution_width = 2560;
+resolution_width = 1920;
 resolution_height = 1080;
 
-resolution_scale = 3;
+resolution_scale = 4;
 
 global.view_width = resolution_width div resolution_scale;
 global.view_height = resolution_height div resolution_scale;
