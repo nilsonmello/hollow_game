@@ -40,13 +40,14 @@ alarm[1] = 0;
 #region hability variables
 can_activate_slash = false
 area = 20;
+
 enemy_list = ds_list_create();
 path_list = ds_list_create();
 
 moving_along_path = false;
 path_position_index = 0;
 
-move_speed = 20;
+move_speed = 0;
 
 stamina_timer = 20;
 stamina_timer_regen = 0;

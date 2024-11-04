@@ -42,8 +42,15 @@ if(keyboard_check(ord("R")) && global.slashing){
 #region trail with dynamic extension
 if(move_speed > 0){
     var _prev_x, _prev_y;
-    var _alpha_step = 1 / trail_length;
+    var _alpha_step = .1 / trail_length;
     var _current_alpha = 1.0;
+
+    if(ds_queue_size(trail_positions) < trail_length){
+        ds_queue_enqueue(trail_positions, [x, y]);
+	}else{
+        ds_queue_dequeue(trail_positions);
+        ds_queue_enqueue(trail_positions, [x, y]);
+    }
 
     if(ds_queue_size(trail_positions) > 1){
         var _first_position = ds_queue_head(trail_positions);
@@ -66,7 +73,7 @@ if(move_speed > 0){
             var _angle = point_direction(_prev_x, _prev_y, _current_x, _current_y);
 
             draw_set_alpha(_current_alpha);
-
+							
             draw_sprite_ext(spr_trail, 0, (_prev_x + _current_x) / 2, (_prev_y + _current_y) / 2,
                             _distance / 32, 1, _angle, c_white, _current_alpha);
 
