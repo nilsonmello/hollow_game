@@ -63,7 +63,18 @@ switch(state){
 			spd_h = lengthdir_x(spd * _keys, move_dir);
 			spd_v = lengthdir_y(spd * _keys, move_dir);
 		
-			player_colide();
+			if(place_meeting(x + spd_h, y, obj_wall)){
+				while(!place_meeting(x + sign(spd_h), y, obj_wall)){
+					x  = x + sign(spd_h);
+				}
+				spd_h = 0;	
+			}
+			if(place_meeting(x, y + spd_v, obj_wall)){
+				while(!place_meeting(x, y + sign(spd_v), obj_wall)){
+					y  = y + sign(spd_v);
+				}
+				spd_v = 0;	
+			}
 		
 			x += spd_h;
 			y += spd_v;
@@ -96,7 +107,18 @@ switch(state){
 		    state_timer = 0;
 		}
 
-		player_colide();	
+		if(place_meeting(x + spd_h, y, obj_wall)){
+			while(!place_meeting(x + sign(spd_h), y, obj_wall)){
+				x  = x + sign(spd_h);
+			}
+			spd_h = 0;	
+		}
+		if(place_meeting(x, y + spd_v, obj_wall)){
+			while(!place_meeting(x, y + sign(spd_v), obj_wall)){
+				y  = y + sign(spd_v);
+			}
+			spd_v = 0;	
+		}
 
 		x += spd_h;
 		y += spd_v;
@@ -177,7 +199,18 @@ switch(state){
     
 		emp_veloc = lerp(emp_veloc, 0, .01);
     
-		player_colide();
+		if(place_meeting(x + spd_h, y, obj_wall)){
+			while(!place_meeting(x + sign(spd_h), y, obj_wall)){
+				x  = x + sign(spd_h);
+			}
+			spd_h = 0;	
+		}
+		if(place_meeting(x, y + spd_v, obj_wall)){
+			while(!place_meeting(x, y + sign(spd_v), obj_wall)){
+				y  = y + sign(spd_v);
+			}
+			spd_v = 0;	
+		}
     
 		x += spd_h;
 		y += spd_v;

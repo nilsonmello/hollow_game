@@ -19,28 +19,3 @@ calc_path_timer = irandom(60);
 state = ENEMY_STATES.MOVE;
 #endregion
 
-#region colisions
-function scr_colide(){
-	var _collidable_objects = [obj_wall, obj_player];
-    
-	for(var _i = 0; _i < array_length(_collidable_objects); _i++){
-		var _obj = _collidable_objects[_i];
-		if(place_meeting(x + vel_h, y, _obj)){
-			while (!place_meeting(x + sign(vel_h), y, _obj)){
-			    x += sign(vel_h);
-			}
-			vel_h = 0;
-		}
-	}
-
-	for(var _i = 0; _i < array_length(_collidable_objects); _i++){
-		var _obj = _collidable_objects[_i];
-		if(place_meeting(x, y + vel_v, _obj)){
-			while(!place_meeting(x, y + sign(vel_v), _obj)){
-			    y += sign(vel_v);
-			}
-			vel_v = 0;
-		}
-	}
-}
-#endregion
