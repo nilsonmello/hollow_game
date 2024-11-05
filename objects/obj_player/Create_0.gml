@@ -23,7 +23,7 @@ andar = false;
 spd_h = 0;
 spd_v = 0;
 
-spd = 1;
+spd = 1.2;
 
 dash_dir = 0;
 dash_veloc = 12;
