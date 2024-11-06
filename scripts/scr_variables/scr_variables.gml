@@ -28,3 +28,5 @@ global.is_dashing = false;
 global.can_attack = false;
 
 global.slashing = false;
+
+global.combo = 0;

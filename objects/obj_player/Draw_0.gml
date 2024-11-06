@@ -1,5 +1,20 @@
 #region sprite draw
-draw_sprite_ext(sprite_index, image_index, x, y, image_xscale, image_yscale, 0, c_white, 1);
+switch(global.combo){
+	case 0:
+		draw_sprite_ext(sprite_index, 0, x, y, image_xscale, image_yscale, 0, c_white, 1);
+	break;
+	case 1:
+		draw_sprite_ext(sprite_index, 1, x, y, image_xscale, image_yscale, 0, c_white, 1);
+	break;
+	
+	case 2:
+		draw_sprite_ext(sprite_index, 2, x, y, image_xscale, image_yscale, 0, c_white, 1);
+	break;
+	
+	case 3:
+		draw_sprite_ext(sprite_index, 3, x, y, image_xscale, image_yscale, 0, c_white, 1);
+	break;
+}
 #endregion
 
 #region hability draw debug
@@ -40,7 +55,7 @@ if(keyboard_check(ord("R")) && global.slashing){
 #endregion
 
 #region trail with dynamic extension
-if(move_speed > 0){
+if(move_speed > 0 && ds_list_size(path_list) > 0){
     var _prev_x, _prev_y;
     var _alpha_step = .1 / trail_length;
     var _current_alpha = 1.0;

@@ -18,4 +18,3 @@ calc_path_timer = irandom(60);
 
 state = ENEMY_STATES.MOVE;
 #endregion
-

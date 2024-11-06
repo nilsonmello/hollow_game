@@ -1,9 +1,11 @@
 event_inherited();
 
+// Verificação de vida
 if (vida <= 0){
     state = ENEMY_STATES.DEATH;
 }
 
+// Máquina de estados do inimigo
 switch(state){
     case ENEMY_STATES.MOVE:
         script_execute(search_for_player);

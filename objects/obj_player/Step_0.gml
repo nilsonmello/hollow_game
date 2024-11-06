@@ -75,6 +75,18 @@ switch(state){
 				}
 				spd_v = 0;	
 			}
+			if(place_meeting(x + spd_h, y, obj_enemy_par)){
+				while(!place_meeting(x + sign(spd_h), y, obj_enemy_par)){
+					x  = x + sign(spd_h);
+				}
+				spd_h = 0;	
+			}
+			if(place_meeting(x, y + spd_v, obj_enemy_par)){
+				while(!place_meeting(x, y + sign(spd_v), obj_enemy_par)){
+					y  = y + sign(spd_v);
+				}
+				spd_v = 0;	
+			}
 		
 			x += spd_h;
 			y += spd_v;
@@ -115,6 +127,20 @@ switch(state){
 		}
 		if(place_meeting(x, y + spd_v, obj_wall)){
 			while(!place_meeting(x, y + sign(spd_v), obj_wall)){
+				y  = y + sign(spd_v);
+			}
+			spd_v = 0;	
+		}
+		
+		if(place_meeting(x + spd_h, y, obj_enemy_par)){
+			while(!place_meeting(x + sign(spd_h), y, obj_enemy_par)){
+				x  = x + sign(spd_h);
+			}
+			spd_h = 0;	
+		}
+		
+		if(place_meeting(x, y + spd_v, obj_enemy_par)){
+			while(!place_meeting(x, y + sign(spd_v), obj_enemy_par)){
 				y  = y + sign(spd_v);
 			}
 			spd_v = 0;	
@@ -187,8 +213,7 @@ switch(state){
 				
 				instance_destroy();	
 			}
-		}
-		
+		}	
 	break;
 	#endregion
 	
@@ -365,10 +390,14 @@ var _ma = mouse_check_button(mb_right);
 
 if(_mb && state != STATES.ATTAKING && alarm[4] <= 0){
 	alarm[4] = 15;
-
+	
+    if(global.combo >= 3){
+        return false;
+    }
     if(_ma){
         return false;
     }
+
     image_index = 0;
     state = STATES.ATTAKING;
 
@@ -387,9 +416,14 @@ if(_mb && state != STATES.ATTAKING && alarm[4] <= 0){
 	if(!instance_exists(obj_hitbox)){
 		var _box = instance_create_layer(_box_x, _box_y, "Instances", obj_hitbox);
 		_box.image_angle = _melee_dir;
+		_box.alarm[0] = 5;
+
 	}
     advancing = true;
+	global.combo++;
+
     alarm[3] = 20;
+	alarm[8] = 30;
 }
 #endregion
 
@@ -446,6 +480,7 @@ if(_mb && state != STATES.ATTAKING && alarm[4] <= 0){
 
 	}else{ 
 	    area = 0;
+		
 	    global.slow_motion = false;
 	    layer_set_visible("screenshake_charging", 0);
 	    global.slashing = false;
