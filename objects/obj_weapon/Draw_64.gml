@@ -23,7 +23,6 @@ switch(current_weapon){
 	break;
 }
 
-
 draw_sprite_stretched(spr_bar, 0, 10, 42, global.energy * 46, _height);
 
 draw_sprite_stretched(spr_bar, 0, 34, 13, global.stamina * 5 + 30, _height);

@@ -416,7 +416,19 @@ if(_mb && state != STATES.ATTAKING && alarm[4] <= 0){
 	if(!instance_exists(obj_hitbox)){
 		var _box = instance_create_layer(_box_x, _box_y, "Instances", obj_hitbox);
 		_box.image_angle = _melee_dir;
-		_box.alarm[0] = 5;
+		switch(global.combo){
+			case 0:
+				_box.sprite_index = spr_hitbox_1
+			break;
+	
+			case 1:
+				_box.sprite_index = spr_hitbox_2
+			break;
+	
+			case 2:
+				_box.sprite_index = spr_hitbox_3
+			break;
+		}
 
 	}
     advancing = true;
