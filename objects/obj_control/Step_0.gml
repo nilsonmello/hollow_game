@@ -11,4 +11,15 @@ if(instance_exists(obj_player)){
     x = _tar_x;
     y = _tar_y;
 }
+
+if(alarm[0] > 0){
+	image_index = 12;		
+}else{
+	image_index = 4;	
+}
+
+
+if(mouse_check_button_pressed(mb_left) && alarm[0] <= 0){
+	alarm[0] = 20;
+}
 #endregion
