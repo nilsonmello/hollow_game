@@ -6,6 +6,26 @@ if(keyboard_check_pressed(ord("Y"))){
 }
 #endregion
 
+#region player sprites
+var _spr_dir = move_dir;
+
+if(spd > 0){
+	switch(_spr_dir){
+		case 0:	sprite_index = spr_player_walk_rl;	image_xscale = 1	break;
+		case 90:	sprite_index = spr_walk_up;	break;
+		case 180:	sprite_index = spr_player_walk_rl;	image_xscale = -1	break;
+		case 270:	sprite_index = spr_walk_down;	break;
+	}
+}else{
+	switch(_spr_dir){
+		case 0:	sprite_index = spr_player_idle	image_xscale = 1	break;
+		case 90:	sprite_index = spr_player_idle_up	break;
+		case 180:	sprite_index = spr_player_idle	image_xscale = -1	break;
+		case 270:	sprite_index = spr_player_idle_down	 break;
+	}
+}
+#endregion
+
 #region state machine
 
 #region comand keys
@@ -30,6 +50,7 @@ if(keyboard_check(ord("H")) && can_heal && global.life_at < global.life){
 switch(state){
 	#region idle
 	case STATES.IDLE:
+		
 		spd = 0;
 		andar = false;
 		
@@ -51,6 +72,7 @@ switch(state){
 	
 	#region walking
 	case STATES.MOVING:
+	
 		if(!keyboard_check(ord("R"))){
 			spd = 1.3;
 		}else{
@@ -148,7 +170,7 @@ switch(state){
 
 		x += spd_h;
 		y += spd_v;
-		
+
 		var _colide = collision_rectangle(x - 10, y + 10,x + 10, y - 10, obj_bush, 0, 0);
 		
 		if(_colide){

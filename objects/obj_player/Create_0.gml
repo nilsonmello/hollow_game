@@ -15,7 +15,7 @@ recoil_pause_timer = 0;
 #region variáveis de movimento
 timer = 0;
 state_timer = 0;
-sprite_index = spr_player;
+sprite_index = spr_player_idle;
 
 move_dir = 0;
 andar = false;
