@@ -6,29 +6,12 @@ if(keyboard_check_pressed(ord("Y"))){
 }
 #endregion
 
-#region player sprites
-var _spr_dir = move_dir;
-
-if(spd > 0){
-	switch(_spr_dir){
-		case 0:	sprite_index = spr_player_walk_rl;	image_xscale = 1	break;
-		case 90:	sprite_index = spr_walk_up;	break;
-		case 180:	sprite_index = spr_player_walk_rl;	image_xscale = -1	break;
-		case 270:	sprite_index = spr_walk_down;	break;
-	}
-}else{
-	switch(_spr_dir){
-		case 0:	sprite_index = spr_player_idle	image_xscale = 1	break;
-		case 90:	sprite_index = spr_player_idle_up	break;
-		case 180:	sprite_index = spr_player_idle	image_xscale = -1	break;
-		case 270:	sprite_index = spr_player_idle_down	 break;
-	}
-}
-#endregion
-
 #region state machine
 
 #region comand keys
+var _spr_dir = move_dir;
+
+
 global.energy = clamp(global.energy, 0, global.energy_max);
 
 var _right = keyboard_check(ord("D"));
@@ -48,8 +31,16 @@ if(keyboard_check(ord("H")) && can_heal && global.life_at < global.life){
 #endregion
 
 switch(state){
+	
 	#region idle
 	case STATES.IDLE:
+	
+		switch(_spr_dir){
+			case 0:	sprite_index = spr_player_idle	image_xscale = 1	break;
+			case 90:	sprite_index = spr_player_idle_up	break;
+			case 180:	sprite_index = spr_player_idle	image_xscale = -1	break;
+			case 270:	sprite_index = spr_player_idle_down	 break;
+		}
 		
 		spd = 0;
 		andar = false;
@@ -77,6 +68,13 @@ switch(state){
 			spd = 1.3;
 		}else{
 			spd = 0;
+		}
+			
+		switch(_spr_dir){
+			case 0:	sprite_index = spr_player_walk_rl;	image_xscale = 1	break;
+			case 90:	sprite_index = spr_walk_up;	break;
+			case 180:	sprite_index = spr_player_walk_rl;	image_xscale = -1	break;
+			case 270:	sprite_index = spr_walk_down;	break;
 		}
 
 		if(_keys){
@@ -136,8 +134,8 @@ switch(state){
 
 		state_timer += 1;
 
-		if(state_timer >= 2){
-		    part_particles_create(obj_particle_setup.particle_system, x, y, obj_particle_setup.particle_shadow, 1);
+		if(state_timer >= 1){
+		    part_particles_create(obj_particle_setup.particle_system, x, y, obj_particle_setup.particle_shadow, 4);
 		    state_timer = 0;
 		}
 
@@ -153,14 +151,12 @@ switch(state){
 			}
 			spd_v = 0;	
 		}
-		
 		if(place_meeting(x + spd_h, y, obj_enemy_par)){
 			while(!place_meeting(x + sign(spd_h), y, obj_enemy_par)){
 				x  = x + sign(spd_h);
 			}
 			spd_h = 0;	
 		}
-		
 		if(place_meeting(x, y + spd_v, obj_enemy_par)){
 			while(!place_meeting(x, y + sign(spd_v), obj_enemy_par)){
 				y  = y + sign(spd_v);
@@ -236,6 +232,7 @@ switch(state){
 				instance_destroy();	
 			}
 		}	
+			
 	break;
 	#endregion
 	
@@ -285,8 +282,10 @@ switch(state){
 	#region slash
 	case STATES.ATTAKING:
 	    if(advancing){
-	        var _advance_speed = 0.2;
+	        var _melee_dir = point_direction(x, y, advance_x, advance_y);
+	        move_dir = nearest_cardinal_direction(_melee_dir);
 
+	        var _advance_speed = 0.2;
 	        var __new_x = lerp(x, advance_x, _advance_speed);
 	        var __new_y = lerp(y, advance_y, _advance_speed);
 
@@ -411,8 +410,9 @@ var _mb = mouse_check_button_pressed(mb_left);
 var _ma = mouse_check_button(mb_right);
 
 if(_mb && state != STATES.ATTAKING && alarm[4] <= 0){
-	alarm[4] = 15;
 	
+    alarm[4] = 15;
+    
     if(global.combo >= 3){
         return false;
     }
@@ -429,35 +429,37 @@ if(_mb && state != STATES.ATTAKING && alarm[4] <= 0){
 
     var _box_x = x + lengthdir_x(_advance_dir, _melee_dir);
     var _box_y = y + lengthdir_y(_advance_dir, _melee_dir);
-	
-	player_colide();
-	
+    
+    player_colide();
+    
     advance_x = x + lengthdir_x(_advance_distance, _melee_dir);
     advance_y = y + lengthdir_y(_advance_distance, _melee_dir);
-	
-	if(!instance_exists(obj_hitbox)){
-		var _box = instance_create_layer(_box_x, _box_y, "Instances", obj_hitbox);
-		_box.image_angle = _melee_dir;
-		switch(global.combo){
-			case 0:
-				_box.sprite_index = spr_hitbox_1
-			break;
-	
-			case 1:
-				_box.sprite_index = spr_hitbox_2
-			break;
-	
-			case 2:
-				_box.sprite_index = spr_hitbox_3
-			break;
-		}
+    
 
-	}
+
+    if (!instance_exists(obj_hitbox)){
+        var _box = instance_create_layer(_box_x, _box_y, "Instances", obj_hitbox);
+        _box.image_angle = _melee_dir;
+        switch(global.combo){
+            case 0:
+                _box.sprite_index = spr_hitbox_1;
+                break;
+
+            case 1:
+                _box.sprite_index = spr_hitbox_2;
+                break;
+
+            case 2:
+                _box.sprite_index = spr_hitbox_3;
+                break;
+        }
+    }
+
     advancing = true;
-	global.combo++;
+    global.combo++;
 
     alarm[3] = 20;
-	alarm[8] = 30;
+    alarm[8] = 30;
 }
 #endregion
 
@@ -470,6 +472,7 @@ if(_mb && state != STATES.ATTAKING && alarm[4] <= 0){
 
 	if(keyboard_check(ord("R")) && global.stamina >= global.stamina_max && global.can_attack){
 	    layer_set_visible("screenshake_charging", 1);
+		sprite_index = spr_player_hability;
 	    if(global.energy > 0){
 	        global.energy -= .3;
 	        global.slashing = true;
