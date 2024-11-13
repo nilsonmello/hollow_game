@@ -9,13 +9,11 @@ global.stamina = global.stamina_max;
 // energy
 global.energy = 0;
 
-global.t = 50; // per combat shoots
+// max energy
+global.energy_max = 15;
+
 global.c = 3;  // per combat regen
 global.cost_r = 5; // regen cost
-global.cost_s = 0; // bullet cost
-
-// max energy
-global.energy_max = (global.t * global.cost_s) + (global.c * global.cost_r);
 
 // energy
 global.energy = global.energy_max;
@@ -23,10 +21,22 @@ global.energy = global.energy_max;
 //slow enemies
 global.slow_motion = false;
 
+//player dash
 global.is_dashing = false;
 
+//atk cooldown
 global.can_attack = false;
 
+//hability verification
 global.slashing = false;
 
+//number of attacks
 global.combo = 0;
+
+
+//dash type variations
+global.dash_damage = false;
+
+global.chain_dash = false;
+
+global.dash_mark = false;

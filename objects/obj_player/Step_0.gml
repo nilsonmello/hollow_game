@@ -4,8 +4,6 @@ if(keyboard_check_pressed(ord("Y"))){
 	global.life_at = global.life;
 	game_restart();
 }
-
-show_debug_message(my_weapon.weapon_slots[0])
 #endregion
 
 #region state machine
@@ -234,9 +232,32 @@ switch(state){
 				instance_destroy();	
 			}
 		}	
+		
+		
+		if(global.dash_damage){
 			
+		}
+		
+		if(global.chain_dash){
+			
+		}
+		
+		if(global.dash_mark){
+			
+		}
 	break;
 	#endregion
+	
+	case STATES.PARRY:
+		parry_time--;
+		
+		if(parry_time <= 0){
+			parry_time = 10;
+			state = STATES.ATTAKING;
+		}	
+		
+
+	break;
 	
 	#region hit
 	case STATES.HIT:
@@ -321,96 +342,16 @@ switch(state){
 }
 #endregion
 
-#region weapon
-
-with(my_weapon){
-    #region target
-    alvo_x = mouse_x;
-    alvo_y = mouse_y;
-    #endregion
-    
-    #region comand keys
-    var _ma = mouse_check_button(mb_right);
-    var _mb = noone;
-    weapon_drop = instance_nearest(x, y, obj_weapon_drop);
-    
-    if(current_weapon.automatic){
-        _mb = mouse_check_button(mb_left);
-    } else {
-        _mb = mouse_check_button_pressed(mb_left);
-    }
-    #endregion
-
-	#region shoot
-	if(_ma){
-	    aiming = true;    
-	}else{
-	    aiming = false;    
-	}
-
-	if(_ma && _mb && current_weapon.can_shoot && global.energy >= current_weapon.cost_per_shot){
-
-	    if(current_weapon == vazio){
-	        return false;    
-	    }
-
-	    current_weapon.shoot(weapon_x, weapon_y);
-		recoil = current_weapon.recoil_player;
-	    recoil_gun = 8;
-	}
-
-	current_weapon.update_cooldown();
-
-	if(current_weapon.shot_cooldown > 0){
-	    recoil_gun = lerp(recoil_gun, 0, 0.1);
-	}
-	#endregion
-
-    #region slots
-    slot_at = clamp(slot_at, 0, 2);
-        
-    if(keyboard_check_pressed(ord("F"))){
-        slot_at++;
-        if(slot_at > 2){
-            slot_at = 0;    
-        }
-    }
-        
-    current_weapon = weapon_slots[slot_at];
-    #endregion
-    
-    #region functions
-    if(keyboard_check_pressed(ord("E"))){
-        weapon_pickup();
-    }
-    if(keyboard_check_pressed(ord("Q"))){
-        drop_weapon();
-    }
-    #endregion
-}
-
-#endregion
-
-#region player recoil
-if(my_weapon.recoil > 0){
-	var _target_playerx = x - lengthdir_x(my_weapon.recoil, my_weapon.weapon_dir);
-	var _target_playery = y - lengthdir_y(my_weapon.recoil, my_weapon.weapon_dir);
-
-	if(!place_meeting(_target_playerx, _target_playery, obj_wall)){
-	    x = _target_playerx;
-	    y = _target_playery;
-
-	    my_weapon.recoil = max(0, my_weapon.recoil - 0.5);
-	}else{
-	    my_weapon.recoil = 0;
-	}
-}
-#endregion
+show_debug_message(state)
 
 #region sword dash
 var _mb = mouse_check_button_pressed(mb_left);
 var _mb2 = mouse_check_button(mb_left);
 var _ma = mouse_check_button(mb_right);
+
+if(_ma){
+	state = STATES.PARRY	
+}
 
 var _hold_time = 30;
 

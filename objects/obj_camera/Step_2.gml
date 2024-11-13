@@ -1,4 +1,5 @@
-if (keyboard_check(ord("R"))){
+
+if (keyboard_check(ord("R")) && global.stamina >= global.stamina_max && global.slashing){
     zoom_target = 0.8;
 }else{
     zoom_target = 1;

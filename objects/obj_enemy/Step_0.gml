@@ -1,5 +1,6 @@
 event_inherited();
-
+show_debug_message(alarm[1]);
+show_debug_message(hit);
 if (vida <= 0){
     state = ENEMY_STATES.DEATH;
 }
@@ -7,12 +8,11 @@ if (vida <= 0){
 switch(state){
     case ENEMY_STATES.MOVE:
         script_execute(search_for_player);
-        break;
+	break;
 
     case ENEMY_STATES.HIT:
         if (hit){
             hit = false;
-            alarm[1] = 80;
         }
         part_particles_create(obj_particle_setup.particle_hit, x, y, obj_particle_setup.particle_slash, 1);
 
@@ -38,7 +38,7 @@ switch(state){
         y += vel_v;
 		
         layer_set_visible("screenshake_damaging_enemies", 0);
-        break;
+	break;
 
     case ENEMY_STATES.KNOCKED:
         if (alarm[7] > 0){
@@ -115,22 +115,37 @@ switch(state){
                     var _rect_x2 = x + lengthdir_x(_attack_offset, _direction) + _attack_range_x / 2;
                     var _rect_y2 = y + lengthdir_y(_attack_offset, _direction) + _attack_range_y / 2;
 
-                    if(collision_rectangle(_rect_x1, _rect_y1, _rect_x2, _rect_y2, obj_player, false, true)) {
-                        with(obj_player){
-                            if(can_take_dmg){
-                                state = STATES.HIT;
-                                alarm[5] = 10;
-                                hit_alpha = 1;
-                                emp_dir = point_direction(other.x, other.y, x, y);
-                                emp_veloc = 6;
-                                global.life_at -= 2;
-                                can_take_dmg = false;
-                                alarm[6] = 60;
-                                obj_control.alarm[0] = 60;
-                            }
-                        }
-                        has_attacked = true;
-                    }
+					if(collision_rectangle(_rect_x1, _rect_y1, _rect_x2, _rect_y2, obj_player, false, true)){
+					    with(obj_player){
+					        if(can_take_dmg){
+					            if(state != STATES.PARRY){
+					                state = STATES.HIT;
+					                alarm[5] = 10;
+					                hit_alpha = 1;
+					                emp_dir = point_direction(other.x, other.y, x, y);
+					                emp_veloc = 6;
+					                global.life_at -= 2;
+					                can_take_dmg = false;
+					                alarm[6] = 60;
+					                obj_control.alarm[0] = 60;
+					            }else{
+					                layer_set_visible("screenshake_damaging_enemies", 1);
+									
+					                other.state = ENEMY_STATES.HIT;
+					                other.emp_dir = point_direction(obj_player.x, obj_player.y, other.x, other.y);
+					                other.emp_veloc = 6;
+					                other.hit = true;
+									other.attacking = false;
+									
+									other.alarm[0] = 5;
+					                other.alarm[2] = 30;
+									other.alarm[4] = 0;
+					                other.alarm[5] = 100;
+					            }
+					        }
+					    }
+					    has_attacked = true;
+					}
                 }
             }else{
                 state = ENEMY_STATES.MOVE;

@@ -1,17 +1,3 @@
-#region variáveis da arma do player
-my_weapon = instance_create_layer(x, y, "Instances_control", obj_weapon);
-my_weapon.weapon_id = self;
-
-with(my_weapon){
-    slot = 0;
-    weapon_slots[0] = vazio;
-    current_weapon = weapon_slots[slot_at];
-	shot_cooldown = current_weapon.shot_cooldown;
-	cost_per_shot = current_weapon.cost_per_shot;
-}
-recoil_pause_timer = 0;
-#endregion
-
 #region variáveis de movimento
 timer = 0;
 state_timer = 0;
@@ -76,10 +62,11 @@ h_atk = false
 #region state machine
 
 //variáveis de estado
-enum STATES {
+enum STATES{
     IDLE,
     MOVING,
     DASH,
+	PARRY,
     HEAL,
     ATTAKING,
     HIT,
@@ -157,3 +144,5 @@ function nearest_cardinal_direction(_direction){
     return _nearest_direction;
 }
 #endregion
+
+parry_time = 50;
