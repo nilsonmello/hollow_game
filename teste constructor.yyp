@@ -83,6 +83,7 @@
     {"id":{"name":"spr_hitbox_1","path":"sprites/spr_hitbox_1/spr_hitbox_1.yy",},},
     {"id":{"name":"spr_hitbox_2","path":"sprites/spr_hitbox_2/spr_hitbox_2.yy",},},
     {"id":{"name":"spr_hitbox_3","path":"sprites/spr_hitbox_3/spr_hitbox_3.yy",},},
+    {"id":{"name":"spr_hitbox_4","path":"sprites/spr_hitbox_4/spr_hitbox_4.yy",},},
     {"id":{"name":"spr_hud","path":"sprites/spr_hud/spr_hud.yy",},},
     {"id":{"name":"spr_leaf","path":"sprites/spr_leaf/spr_leaf.yy",},},
     {"id":{"name":"spr_line","path":"sprites/spr_line/spr_line.yy",},},

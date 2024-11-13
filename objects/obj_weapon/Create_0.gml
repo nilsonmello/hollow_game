@@ -93,7 +93,13 @@ pistol = scr_create_weapon("Pistol", 2, 4, 100, spr_bullet, false, 1, spr_weapon
         var _dir = point_direction(other.x, other.y, x, y);
         emp_dir = _dir;
         emp_veloc = 6;
-        vida -= 2;
+		var _critical = irandom(5);
+		
+		if(_critical == 2){
+			vida -= 4;
+		}else{
+			vida -= 2;
+		}
 		hit_alpha = 1;
     }
     instance_destroy(_bullet);
@@ -110,10 +116,15 @@ rifle = scr_create_weapon("Rifle", 1, 5, 20, spr_bullet, true, 1, spr_weapon_3, 
         vida -= 1;
 		hit_alpha = 1;
     }
-    instance_destroy(_bullet);
+	
+	var _critical = irandom(5);
+	
+	if(_critical != 2){
+	   instance_destroy(_bullet);
+	}
 }, function wall_colide(_bullet){instance_destroy(_bullet);}, 1, 2);
 
-sniper = scr_create_weapon("sniper", 4, 6, 100, spr_bullet, false, 1, spr_weapon_4, function colide_rifle(_bullet){
+sniper = scr_create_weapon("sniper", 4, 6, 100, spr_bullet, false, 1, spr_weapon_4, function colide_sniper(_bullet){
     with(other){
         state = ENEMY_STATES.HIT;
         path_end();
@@ -123,6 +134,7 @@ sniper = scr_create_weapon("sniper", 4, 6, 100, spr_bullet, false, 1, spr_weapon
         emp_veloc = 6;
         vida -= 4;
 		hit_alpha = 1;
+		show_message("aqui chega")
     }
     instance_destroy(_bullet);
 }, function wall_colide(_bullet){instance_destroy(_bullet);}, 5, 5);

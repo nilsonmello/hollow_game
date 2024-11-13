@@ -1,5 +1,5 @@
 #region variáveis da arma do player
-my_weapon = instance_create_layer(x, y, "Instances", obj_weapon);
+my_weapon = instance_create_layer(x, y, "Instances_control", obj_weapon);
 my_weapon.weapon_id = self;
 
 with(my_weapon){
@@ -68,6 +68,9 @@ advance_x = 0;
 advance_y = 0;
 
 advancing = false;
+
+timer = 0;
+h_atk = false
 #endregion
 
 #region state machine

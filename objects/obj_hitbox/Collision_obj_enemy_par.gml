@@ -9,7 +9,7 @@ if(!atingido){
 	            case 2:
 				layer_set_visible("screenshake_damaging_enemies", 1);
 	                state = ENEMY_STATES.HIT;
-	                vida -= 1;
+	                vida -= other.dmg;
 	                alarm[0] = 5;
                     
 	                emp_dir = point_direction(obj_player.x, obj_player.y, x, y);
@@ -23,7 +23,7 @@ if(!atingido){
 	            case 3:
 					layer_set_visible("screenshake_damaging_enemies", 1);
 	                state = ENEMY_STATES.KNOCKED;
-	                vida -= 1;
+	                vida -= other.dmg;
 	                alarm[7] = 8;
 
 	                emp_dir = point_direction(obj_player.x, obj_player.y, x, y);

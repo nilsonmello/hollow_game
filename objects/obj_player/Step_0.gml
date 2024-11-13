@@ -4,6 +4,8 @@ if(keyboard_check_pressed(ord("Y"))){
 	global.life_at = global.life;
 	game_restart();
 }
+
+show_debug_message(my_weapon.weapon_slots[0])
 #endregion
 
 #region state machine
@@ -407,59 +409,98 @@ if(my_weapon.recoil > 0){
 
 #region sword dash
 var _mb = mouse_check_button_pressed(mb_left);
+var _mb2 = mouse_check_button(mb_left);
 var _ma = mouse_check_button(mb_right);
 
-if(_mb && state != STATES.ATTAKING && alarm[4] <= 0){
-	
-    alarm[4] = 15;
-    
-    if(global.combo >= 3){
-        return false;
-    }
-    if(_ma){
-        return false;
-    }
+var _hold_time = 30;
 
-    image_index = 0;
-    state = STATES.ATTAKING;
+if(!mouse_check_button(mb_left)){
+    if(timer >= _hold_time && !h_atk){ // hold atk
+		
+		if(global.stamina < 30){
+			return false;	
+		}
+		
+        alarm[4] = 50;
+        image_index = 0;
+        state = STATES.ATTAKING;
+        
+        var _melee_dir = point_direction(x, y, obj_control.x, obj_control.y);
+        var _advance_dir = 15;
+        var _advance_distance = 120;
 
-    var _melee_dir = point_direction(x, y, obj_control.x, obj_control.y);
-    var _advance_dir = 20;
-    var _advance_distance = 28;
+        var _box_x = x + lengthdir_x(_advance_dir, _melee_dir);
+        var _box_y = y + lengthdir_y(_advance_dir, _melee_dir);
 
-    var _box_x = x + lengthdir_x(_advance_dir, _melee_dir);
-    var _box_y = y + lengthdir_y(_advance_dir, _melee_dir);
-    
-    player_colide();
-    
-    advance_x = x + lengthdir_x(_advance_distance, _melee_dir);
-    advance_y = y + lengthdir_y(_advance_distance, _melee_dir);
-    
+        player_colide();
+        
+        advance_x = x + lengthdir_x(_advance_distance, _melee_dir);
+        advance_y = y + lengthdir_y(_advance_distance, _melee_dir);
 
-
-    if (!instance_exists(obj_hitbox)){
-        var _box = instance_create_layer(_box_x, _box_y, "Instances", obj_hitbox);
-        _box.image_angle = _melee_dir;
-        switch(global.combo){
-            case 0:
-                _box.sprite_index = spr_hitbox_1;
-                break;
-
-            case 1:
-                _box.sprite_index = spr_hitbox_2;
-                break;
-
-            case 2:
-                _box.sprite_index = spr_hitbox_3;
-                break;
+        if(!instance_exists(obj_hitbox)){
+            var _box = instance_create_layer(_box_x, _box_y, "Instances_player", obj_hitbox);
+            _box.image_angle = _melee_dir;
+            _box.sprite_index = spr_hitbox_4;
+            _box.dmg = 3;
         }
+
+        advancing = true;
+        global.combo = 0;
+        alarm[3] = 40;
+        alarm[8] = 40;
+		
+        timer = 0;
+        h_atk = true;
+		global.stamina -= 30;
+    }else{
+        timer = 0;
+        h_atk = false;
     }
+}else if(_mb2){
+    timer++;
+}
 
-    advancing = true;
-    global.combo++;
+if(state != STATES.ATTAKING && alarm[4] <= 0){
+    if(_mb && global.combo < 3 && !_ma){ // click atk
+        alarm[4] = 15;
+        image_index = 0;
+        state = STATES.ATTAKING;
 
-    alarm[3] = 20;
-    alarm[8] = 30;
+        var _melee_dir = point_direction(x, y, obj_control.x, obj_control.y);
+        var _advance_dir = 20;
+        var _advance_distance = 28;
+
+        var _box_x = x + lengthdir_x(_advance_dir, _melee_dir);
+        var _box_y = y + lengthdir_y(_advance_dir, _melee_dir);
+
+        player_colide();
+        
+        advance_x = x + lengthdir_x(_advance_distance, _melee_dir);
+        advance_y = y + lengthdir_y(_advance_distance, _melee_dir);
+
+        if(!instance_exists(obj_hitbox)){
+            var _box = instance_create_layer(_box_x, _box_y, "Instances_player", obj_hitbox);
+            _box.image_angle = _melee_dir;
+			_box.dmg = 1;
+
+            switch(global.combo){
+                case 0:
+                    _box.sprite_index = spr_hitbox_1;
+                    break;
+                case 1:
+                    _box.sprite_index = spr_hitbox_2;
+                    break;
+                case 2:
+                    _box.sprite_index = spr_hitbox_3;
+                    break;
+            }
+        }
+        advancing = true;
+        global.combo++;
+        alarm[3] = 20;
+        alarm[8] = 30;
+        timer = 0;
+    }
 }
 #endregion
 
