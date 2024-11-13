@@ -252,6 +252,7 @@ switch(state){
 	case STATES.PARRY:
 		parry_time--;
 		
+		
 		if(parry_time <= 0){
 			parry_time = 10;
 			state = STATES.ATTAKING;
@@ -356,6 +357,7 @@ var _hold_time = 30;
 
 if(!mouse_check_button(mb_left)){
     if(timer >= _hold_time && !h_atk && global.stamina > 30){ // hold atk
+		
         alarm[4] = 50;
         image_index = 0;
         state = STATES.ATTAKING;
@@ -448,7 +450,6 @@ if(state != STATES.ATTAKING && alarm[4] <= 0){
 
 	if(keyboard_check(ord("R")) && global.can_attack){
 	    layer_set_visible("screenshake_charging", 1);
-		sprite_index = spr_player_hability;
 	    if(global.energy > 0){
 	        global.energy -= .3;
 	        global.slashing = true;

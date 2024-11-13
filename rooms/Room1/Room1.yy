@@ -7,8 +7,6 @@
   "inheritLayers":false,
   "instanceCreationOrder":[
     {"name":"inst_99B0D96","path":"rooms/Room1/Room1.yy",},
-    {"name":"inst_67F82E96","path":"rooms/Room1/Room1.yy",},
-    {"name":"inst_75836704","path":"rooms/Room1/Room1.yy",},
     {"name":"inst_66930B22","path":"rooms/Room1/Room1.yy",},
     {"name":"inst_234F8F1A","path":"rooms/Room1/Room1.yy",},
     {"name":"inst_32C4FA9","path":"rooms/Room1/Room1.yy",},
@@ -26,7 +24,6 @@
     {"name":"inst_BB85324","path":"rooms/Room1/Room1.yy",},
     {"name":"inst_5C12B241","path":"rooms/Room1/Room1.yy",},
     {"name":"inst_67003331","path":"rooms/Room1/Room1.yy",},
-    {"name":"inst_161DD4D2","path":"rooms/Room1/Room1.yy",},
     {"name":"inst_349F5B5E","path":"rooms/Room1/Room1.yy",},
     {"name":"inst_20E3E533","path":"rooms/Room1/Room1.yy",},
     {"name":"inst_DD0D4A","path":"rooms/Room1/Room1.yy",},
@@ -118,9 +115,6 @@
       ],"resourceType":"GMREffectLayer","resourceVersion":"2.0","userdefinedDepth":false,"visible":false,},
     {"$GMRInstanceLayer":"","%Name":"Instances_player","depth":200,"effectEnabled":true,"effectType":null,"gridX":32,"gridY":32,"hierarchyFrozen":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"inheritSubLayers":true,"inheritVisibility":true,"instances":[
         {"$GMRInstance":"v1","%Name":"inst_99B0D96","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_99B0D96","objectId":{"name":"obj_player","path":"objects/obj_player/obj_player.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":620.0,"y":582.0,},
-        {"$GMRInstance":"v1","%Name":"inst_67F82E96","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_67F82E96","objectId":{"name":"obj_weapon_drop","path":"objects/obj_weapon_drop/obj_weapon_drop.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":674.0,"y":529.0,},
-        {"$GMRInstance":"v1","%Name":"inst_75836704","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_75836704","objectId":{"name":"obj_weapon_drop","path":"objects/obj_weapon_drop/obj_weapon_drop.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":628.0,"y":529.0,},
-        {"$GMRInstance":"v1","%Name":"inst_161DD4D2","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_161DD4D2","objectId":{"name":"obj_weapon_drop","path":"objects/obj_weapon_drop/obj_weapon_drop.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":582.0,"y":529.0,},
       ],"layers":[],"name":"Instances_player","properties":[],"resourceType":"GMRInstanceLayer","resourceVersion":"2.0","userdefinedDepth":false,"visible":true,},
     {"$GMRInstanceLayer":"","%Name":"Instances_enemies","depth":300,"effectEnabled":true,"effectType":null,"gridX":32,"gridY":32,"hierarchyFrozen":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"inheritSubLayers":true,"inheritVisibility":true,"instances":[
         {"$GMRInstance":"v1","%Name":"inst_7D9FD12E","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_7D9FD12E","objectId":{"name":"obj_enemy","path":"objects/obj_enemy/obj_enemy.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":800.0,"y":320.0,},
