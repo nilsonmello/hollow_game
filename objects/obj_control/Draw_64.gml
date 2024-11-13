@@ -5,23 +5,6 @@ var _escy = 1;
 
 draw_sprite_ext(spr_hud, 0, 60, 45, _escx, _escy, 0, c_white, 1);
 
-switch(current_weapon){
-	case pistol:
-		draw_sprite_ext(spr_weapons_hud, 1, 24, 65, _escx, _escy, 0, c_white, 1);
-	break;
-	
-	case rifle:
-		draw_sprite_ext(spr_weapons_hud, 0, 25, 65, _escx, _escy, 0, c_white, 1);
-	break;
-	
-	case shotgun:
-		draw_sprite_ext(spr_weapons_hud, 2, 24, 65, _escx, _escy, 0, c_white, 1);
-	break;
-	
-	case sniper:
-		draw_sprite_ext(spr_weapons_hud, 3, 24, 65, _escx, _escy, 0, c_white, 1);
-	break;
-}
 
 draw_sprite_stretched(spr_bar, 0, 10, 42, global.energy * 46, _height);
 

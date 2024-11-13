@@ -248,16 +248,16 @@ switch(state){
 	break;
 	#endregion
 	
+	#region parry
 	case STATES.PARRY:
 		parry_time--;
 		
 		if(parry_time <= 0){
 			parry_time = 10;
 			state = STATES.ATTAKING;
-		}	
-		
-
+		}
 	break;
+	#endregion
 	
 	#region hit
 	case STATES.HIT:
@@ -342,26 +342,20 @@ switch(state){
 }
 #endregion
 
-show_debug_message(state)
-
 #region sword dash
 var _mb = mouse_check_button_pressed(mb_left);
 var _mb2 = mouse_check_button(mb_left);
-var _ma = mouse_check_button(mb_right);
+var _ma = mouse_check_button_pressed(mb_right);
 
-if(_ma){
-	state = STATES.PARRY	
+if(_ma && global.stamina > 20){
+	state = STATES.PARRY
+	global.stamina -= 20;
 }
 
 var _hold_time = 30;
 
 if(!mouse_check_button(mb_left)){
-    if(timer >= _hold_time && !h_atk){ // hold atk
-		
-		if(global.stamina < 30){
-			return false;	
-		}
-		
+    if(timer >= _hold_time && !h_atk && global.stamina > 30){ // hold atk
         alarm[4] = 50;
         image_index = 0;
         state = STATES.ATTAKING;
@@ -452,7 +446,7 @@ if(state != STATES.ATTAKING && alarm[4] <= 0){
 	    global.can_attack = true;    
 	}
 
-	if(keyboard_check(ord("R")) && global.stamina >= global.stamina_max && global.can_attack){
+	if(keyboard_check(ord("R")) && global.can_attack){
 	    layer_set_visible("screenshake_charging", 1);
 		sprite_index = spr_player_hability;
 	    if(global.energy > 0){
@@ -496,7 +490,6 @@ if(state != STATES.ATTAKING && alarm[4] <= 0){
 	    move_speed = 20;
 	    moving_along_path = false;
 	    path_position_index = 0;
-
 	}else{ 
 	    area = 0;
 		
@@ -542,7 +535,6 @@ if(state != STATES.ATTAKING && alarm[4] <= 0){
 	            if(move_speed > 0){
 	                can_take_dmg = false;    
 	                alarm[6] = 20;
-	                global.stamina = 0;
 	                global.can_attack = false;
 	            }
 

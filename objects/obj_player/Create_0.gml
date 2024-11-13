@@ -57,6 +57,8 @@ advancing = false;
 
 timer = 0;
 h_atk = false
+
+parry_time = 50;
 #endregion
 
 #region state machine
@@ -144,5 +146,3 @@ function nearest_cardinal_direction(_direction){
     return _nearest_direction;
 }
 #endregion
-
-parry_time = 50;

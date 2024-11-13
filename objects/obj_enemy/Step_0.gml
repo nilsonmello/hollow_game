@@ -1,15 +1,19 @@
+#region state machine
 event_inherited();
-show_debug_message(alarm[1]);
-show_debug_message(hit);
+
 if (vida <= 0){
     state = ENEMY_STATES.DEATH;
 }
 
 switch(state){
+	
+	#region movement
     case ENEMY_STATES.MOVE:
         script_execute(search_for_player);
 	break;
+	#endregion
 
+	#region hit
     case ENEMY_STATES.HIT:
         if (hit){
             hit = false;
@@ -39,7 +43,9 @@ switch(state){
 		
         layer_set_visible("screenshake_damaging_enemies", 0);
 	break;
+	#endregion
 
+	#region knocked
     case ENEMY_STATES.KNOCKED:
         if (alarm[7] > 0){
             if (hit) {
@@ -76,8 +82,10 @@ switch(state){
                 _exp.speed = 2;
             }
         }
-        break;
+    break;
+	#endregion
 
+	#region attack
     case ENEMY_STATES.ATTACK:
         attacking = true;
         if(alarm[3] <= 0){
@@ -154,8 +162,10 @@ switch(state){
                 alarm[5] = 80;
             }
         }
-        break;
+	break;
+	#endregion
 
+	#region death
     case ENEMY_STATES.DEATH:
         part_particles_create(obj_particle_setup.particle_system_explosion, x, y, obj_particle_setup.particle_circle, 1); 
         part_particles_create(obj_particle_setup.particle_system_explosion, x, y, obj_particle_setup.particle_explosion, 8); 
@@ -173,5 +183,7 @@ switch(state){
             }
         }
         instance_destroy();
-        break;
+    break;
+	#endregion
 }
+#endregion
