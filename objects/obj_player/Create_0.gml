@@ -59,6 +59,7 @@ timer = 0;
 h_atk = false
 
 parry_time = 50;
+parry_cooldown = 70;
 #endregion
 
 #region state machine

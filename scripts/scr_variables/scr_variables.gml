@@ -32,11 +32,3 @@ global.slashing = false;
 
 //number of attacks
 global.combo = 0;
-
-
-//dash type variations
-global.dash_damage = false;
-
-global.chain_dash = false;
-
-global.dash_mark = false;

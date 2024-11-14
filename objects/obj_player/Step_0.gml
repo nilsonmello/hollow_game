@@ -35,7 +35,6 @@ switch(state){
 	
 	#region idle
 	case STATES.IDLE:
-	
 		switch(_spr_dir){
 			case 0:	sprite_index = spr_player_idle	image_xscale = 1	break;
 			case 90:	sprite_index = spr_player_idle_up	break;
@@ -119,21 +118,10 @@ switch(state){
 		
 		dash_dir = move_dir;
 		if(keyboard_check_pressed(vk_space) && alarm[1] <= 0){
-			
-			if(global.chain_dash){
-				if(global.stamina > 5){
-					global.is_dashing = true;
-					alarm[0] = 8;
-					alarm[1] = 5;
-					state = STATES.DASH;
-					global.stamina -= 5;
-				}
-			}else{
 				global.is_dashing = true;
 				alarm[0] = 8;
 				alarm[1] = 23;
 				state = STATES.DASH;
-			}
 		}
 	break;
 	#endregion
@@ -245,15 +233,6 @@ switch(state){
 				instance_destroy();	
 			}
 		}	
-		
-		
-		if(global.dash_damage){
-
-		}
-		
-		if(global.dash_mark){
-			
-		}
 	break;
 	#endregion
 	
@@ -356,9 +335,16 @@ var _mb = mouse_check_button_pressed(mb_left);
 var _mb2 = mouse_check_button(mb_left);
 var _ma = mouse_check_button_pressed(mb_right);
 
-if(_ma && global.stamina > 20){
+show_debug_message(parry_cooldown)
+
+parry_cooldown = clamp(parry_cooldown, 0, 70);
+
+parry_cooldown--;
+
+if(_ma && global.stamina > 20 && parry_cooldown <= 0){
 	state = STATES.PARRY
 	global.stamina -= 20;
+	parry_cooldown = 70;
 }
 
 var _hold_time = 30;

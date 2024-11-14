@@ -77,7 +77,7 @@ switch(state){
             alarm[0] = 15;
 
             repeat(1){
-                var _exp = instance_create_layer(x, y, "Instances", obj_energy_dust);
+                var _exp = instance_create_layer(x, y, "Instances_player", obj_energy_dust);
                 _exp.direction = irandom(360);
                 _exp.speed = 2;
             }
