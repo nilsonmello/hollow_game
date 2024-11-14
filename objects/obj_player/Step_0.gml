@@ -2,6 +2,7 @@
 if(keyboard_check_pressed(ord("Y"))){
 	state = STATES.IDLE;
 	global.life_at = global.life;
+	global.energy = global.energy_max;
 	game_restart();
 }
 #endregion
@@ -117,10 +118,21 @@ switch(state){
 		
 		dash_dir = move_dir;
 		if(keyboard_check_pressed(vk_space) && alarm[1] <= 0){
-			global.is_dashing = true;
-			alarm[0] = 8;
-			alarm[1] = 23;
-			state = STATES.DASH;
+			
+			if(global.chain_dash){
+				if(global.stamina > 5){
+					global.is_dashing = true;
+					alarm[0] = 8;
+					alarm[1] = 5;
+					state = STATES.DASH;
+					global.stamina -= 5;
+				}
+			}else{
+				global.is_dashing = true;
+				alarm[0] = 8;
+				alarm[1] = 23;
+				state = STATES.DASH;
+			}
 		}
 	break;
 	#endregion
@@ -235,11 +247,23 @@ switch(state){
 		
 		
 		if(global.dash_damage){
-			
-		}
+		var _colide = collision_rectangle(x - 10, y + 10,x + 10, y - 10, obj_enemy_par, 0, 0);
 		
-		if(global.chain_dash){
-			
+			if(_colide){
+				with(_colide){
+					layer_set_visible("screenshake_damaging_enemies", 1);
+					state = ENEMY_STATES.HIT;
+					vida -= 1
+					alarm[0] = 5;
+                    
+					emp_dir = point_direction(obj_player.x, obj_player.y, x, y);
+					emp_veloc = 6;
+					hit = false;
+                    
+					alarm[1] = 10;
+					alarm[2] = 30;
+				}
+			}	
 		}
 		
 		if(global.dash_mark){
@@ -254,7 +278,7 @@ switch(state){
 		
 		
 		if(parry_time <= 0){
-			parry_time = 10;
+			parry_time = 30;
 			state = STATES.ATTAKING;
 		}
 	break;

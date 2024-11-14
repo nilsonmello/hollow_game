@@ -35,7 +35,7 @@ global.combo = 0;
 
 
 //dash type variations
-global.dash_damage = false;
+global.dash_damage = true;
 
 global.chain_dash = false;
 
