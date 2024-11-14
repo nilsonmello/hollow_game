@@ -77,7 +77,7 @@ switch(state){
             alarm[0] = 15;
 
             repeat(1){
-                var _exp = instance_create_layer(x, y, "Instances_player", obj_energy_dust);
+                var _exp = instance_create_layer(x, y, "Instances", obj_energy_dust);
                 _exp.direction = irandom(360);
                 _exp.speed = 2;
             }
@@ -114,8 +114,8 @@ switch(state){
                 if(!has_attacked){
                     var _direction = point_direction(x, y, obj_player.x, obj_player.y);
                     
-                    var _attack_range_x = 20;
-                    var _attack_range_y = 14;
+                    var _attack_range_x = 16;
+                    var _attack_range_y = 16;
                     var _attack_offset = 2;
 
                     var _rect_x1 = x + lengthdir_x(_attack_offset, _direction) - _attack_range_x / 2;
@@ -136,6 +136,17 @@ switch(state){
 					                can_take_dmg = false;
 					                alarm[6] = 60;
 					                obj_control.alarm[0] = 60;
+									
+									other.state = ENEMY_STATES.HIT;
+					                other.emp_dir = point_direction(obj_player.x, obj_player.y, other.x, other.y);
+					                other.emp_veloc = 6;
+					                other.hit = true;
+									other.attacking = false;
+									
+									other.alarm[0] = 5;
+					                other.alarm[2] = 30;
+									other.alarm[4] = 0;
+					                other.alarm[5] = 100;
 					            }else{
 					                layer_set_visible("screenshake_damaging_enemies", 1);
 									
