@@ -12,7 +12,6 @@ if(keyboard_check_pressed(ord("Y"))){
 #region comand keys
 var _spr_dir = move_dir;
 
-
 global.energy = clamp(global.energy, 0, global.energy_max);
 
 var _right = keyboard_check(ord("D"));
@@ -296,6 +295,14 @@ switch(state){
 	        var _melee_dir = point_direction(x, y, advance_x, advance_y);
 	        move_dir = nearest_cardinal_direction(_melee_dir);
 
+			switch(_spr_dir){
+			case 0:	sprite_index = spr_player_attack_rl;	image_xscale = 1	break;
+			case 90:	sprite_index = spr_player_attack_rl;	break;
+			case 180:	sprite_index = spr_player_attack_rl;	image_xscale = -1	break;
+			case 270:	sprite_index = spr_player_attack_rl;	break;
+			}
+
+
 	        var _advance_speed = 0.2;
 	        var __new_x = lerp(x, advance_x, _advance_speed);
 	        var __new_y = lerp(y, advance_y, _advance_speed);
@@ -312,7 +319,7 @@ switch(state){
 	        }
 	    }
 
-	    if(!advancing){
+	    if(!advancing && image_index >= image_number - 1){
 	        state = STATES.MOVING;
 	    }
 	break;

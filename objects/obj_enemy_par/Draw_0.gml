@@ -1,13 +1,16 @@
 #region self e hit
-draw_sprite_ext(sprite_index, image_index, x, y, image_xscale, image_yscale, 0, c_white, 1);
+draw_sprite_ext(sprite_index, image_index, x, y, escx, escy, 0, c_white, 1);
 
 if(hit_alpha > 0){
 	
 	gpu_set_fog(true, hit_color,0, 0);
-	draw_sprite_ext(sprite_index, image_index, x, y, image_xscale, image_yscale, 0, c_white, hit_alpha);
+	draw_sprite_ext(sprite_index, image_index, x, y, escx, escy, 0, c_white, hit_alpha);
 	gpu_set_fog(false, hit_color,0, 0);
 }
 #endregion
+
+escx = lerp(escx, image_xscale, 0.2);
+escy = lerp(escy, image_yscale, 0.2);
 
 if(alarm[3] > 20){
 	draw_sprite(spr_warning, 3, x, y - 20);	

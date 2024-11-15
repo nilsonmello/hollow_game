@@ -10,7 +10,7 @@
   "overriddenProperties":[],
   "parent":{
     "name":"Particle Systems",
-    "path":"folders/Objetos/player/Particle Systems.yy",
+    "path":"folders/Particle Systems.yy",
   },
   "parentObjectId":null,
   "persistent":false,

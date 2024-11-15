@@ -2,7 +2,10 @@ if(!atingido){
 	with(other){
 	    if(hit == true && !attacking && alarm[1] <= 0){ 
 	        combo_visible++;
-
+			
+			escx = 1.5;
+			escy = 1.5;
+			
 			hit_alpha = 1;
 	        switch(combo_visible){
 	            case 1:
