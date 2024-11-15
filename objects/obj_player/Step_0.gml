@@ -370,7 +370,30 @@ if(!mouse_check_button(mb_left)){
         var _box_x = x + lengthdir_x(_advance_dir, _melee_dir);
         var _box_y = y + lengthdir_y(_advance_dir, _melee_dir);
 
-        player_colide();
+		if(place_meeting(x + spd_h, y, obj_wall)){
+			while(!place_meeting(x + sign(spd_h), y, obj_wall)){
+				x  = x + sign(spd_h);
+			}
+			spd_h = 0;	
+		}
+		if(place_meeting(x, y + spd_v, obj_wall)){
+			while(!place_meeting(x, y + sign(spd_v), obj_wall)){
+				y  = y + sign(spd_v);
+			}
+			spd_v = 0;	
+		}
+		if(place_meeting(x + spd_h, y, obj_enemy_par)){
+			while(!place_meeting(x + sign(spd_h), y, obj_enemy_par)){
+				x  = x + sign(spd_h);
+			}
+			spd_h = 0;	
+		}
+		if(place_meeting(x, y + spd_v, obj_enemy_par)){
+			while(!place_meeting(x, y + sign(spd_v), obj_enemy_par)){
+				y  = y + sign(spd_v);
+			}
+			spd_v = 0;	
+		}
         
         advance_x = x + lengthdir_x(_advance_distance, _melee_dir);
         advance_y = y + lengthdir_y(_advance_distance, _melee_dir);
