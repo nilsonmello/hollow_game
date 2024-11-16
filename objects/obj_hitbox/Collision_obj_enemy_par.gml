@@ -1,4 +1,4 @@
-if(!atingido){
+if(!hitted){
 	with(other){
 	    if(hit == true && !attacking && alarm[1] <= 0){ 
 	        combo_visible++;
@@ -40,5 +40,5 @@ if(!atingido){
 	        }
 	    }
 	}
-atingido = true;
+hitted = true;
 }

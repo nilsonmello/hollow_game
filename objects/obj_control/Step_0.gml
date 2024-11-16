@@ -18,7 +18,6 @@ if(alarm[0] > 0){
 	image_index = 4;	
 }
 
-
 if(mouse_check_button_pressed(mb_left) && alarm[0] <= 0){
 	alarm[0] = 20;
 }

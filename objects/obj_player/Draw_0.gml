@@ -5,7 +5,7 @@ draw_sprite_ext(sprite_index, image_index, x, y, image_xscale, image_yscale, 0, 
 #region hability draw debug
 if(keyboard_check(ord("R")) && global.slashing){
 
-    draw_circle(x, y, area, true);
+    draw_sprite_ext(spr_circle_outline, 0, x, y, area, area, 0, c_white, 1)
 
     if(enemy_list != undefined && ds_list_size(enemy_list) > 0){
         var _enemy_data_1 = enemy_list[| 0];

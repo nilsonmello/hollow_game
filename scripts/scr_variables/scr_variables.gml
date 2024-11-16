@@ -32,3 +32,5 @@ global.slashing = false;
 
 //number of attacks
 global.combo = 0;
+
+global.parry = false;

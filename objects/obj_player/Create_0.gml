@@ -58,7 +58,7 @@ advancing = false;
 timer = 0;
 h_atk = false
 
-parry_time = 50;
+parry_time = 20;
 parry_cooldown = 70;
 #endregion
 
@@ -80,26 +80,30 @@ enum STATES{
 state = STATES.MOVING;
 
 function player_colide(){
-	var _collidable_objects = [obj_wall, obj_enemy_par];
-    
-	for(var _i = 0; _i < array_length(_collidable_objects); _i++){
-		var _obj = _collidable_objects[_i];
-		if(place_meeting(x + spd_h, y, _obj)){
-			while (!place_meeting(x + sign(spd_h), y, _obj)){
-				x += sign(spd_h);
-			}
-			spd_h = 0;
+	if(place_meeting(x + spd_h, y, obj_wall)){
+		while(!place_meeting(x + sign(spd_h), y, obj_wall)){
+			x  = x + sign(spd_h);
 		}
+		spd_h = 0;	
 	}
-
-	for(var _i = 0; _i < array_length(_collidable_objects); _i++){
-		var _obj = _collidable_objects[_i];
-		if(place_meeting(x, y + spd_v, _obj)){
-			while(!place_meeting(x, y + sign(spd_v), _obj)){
-				y += sign(spd_v);
-			}
-			spd_v = 0;
+	
+	if(place_meeting(x, y + spd_v, obj_wall)){
+		while(!place_meeting(x, y + sign(spd_v), obj_wall)){
+			y  = y + sign(spd_v);
 		}
+		spd_v = 0;	
+	}
+	if(place_meeting(x + spd_h, y, obj_enemy_par)){
+		while(!place_meeting(x + sign(spd_h), y, obj_enemy_par)){
+			x  = x + sign(spd_h);
+		}
+		spd_h = 0;	
+	}
+	if(place_meeting(x, y + spd_v, obj_enemy_par)){
+		while(!place_meeting(x, y + sign(spd_v), obj_enemy_par)){
+			y  = y + sign(spd_v);
+		}
+		spd_v = 0;	
 	}
 }
 #endregion

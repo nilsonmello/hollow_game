@@ -1,2 +1,2 @@
-atingido = false;
+hitted = false;
 dmg = 0;

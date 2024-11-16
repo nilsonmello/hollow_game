@@ -82,32 +82,9 @@ switch(state){
 		
 			spd_h = lengthdir_x(spd * _keys, move_dir);
 			spd_v = lengthdir_y(spd * _keys, move_dir);
-		
-			if(place_meeting(x + spd_h, y, obj_wall)){
-				while(!place_meeting(x + sign(spd_h), y, obj_wall)){
-					x  = x + sign(spd_h);
-				}
-				spd_h = 0;	
-			}
-			if(place_meeting(x, y + spd_v, obj_wall)){
-				while(!place_meeting(x, y + sign(spd_v), obj_wall)){
-					y  = y + sign(spd_v);
-				}
-				spd_v = 0;	
-			}
-			if(place_meeting(x + spd_h, y, obj_enemy_par)){
-				while(!place_meeting(x + sign(spd_h), y, obj_enemy_par)){
-					x  = x + sign(spd_h);
-				}
-				spd_h = 0;	
-			}
-			if(place_meeting(x, y + spd_v, obj_enemy_par)){
-				while(!place_meeting(x, y + sign(spd_v), obj_enemy_par)){
-					y  = y + sign(spd_v);
-				}
-				spd_v = 0;	
-			}
-		
+			
+			player_colide();
+			
 			x += spd_h;
 			y += spd_v;
 			
@@ -139,31 +116,8 @@ switch(state){
 		    state_timer = 0;
 		}
 
-		if(place_meeting(x + spd_h, y, obj_wall)){
-			while(!place_meeting(x + sign(spd_h), y, obj_wall)){
-				x  = x + sign(spd_h);
-			}
-			spd_h = 0;	
-		}
-		if(place_meeting(x, y + spd_v, obj_wall)){
-			while(!place_meeting(x, y + sign(spd_v), obj_wall)){
-				y  = y + sign(spd_v);
-			}
-			spd_v = 0;	
-		}
-		if(place_meeting(x + spd_h, y, obj_enemy_par)){
-			while(!place_meeting(x + sign(spd_h), y, obj_enemy_par)){
-				x  = x + sign(spd_h);
-			}
-			spd_h = 0;	
-		}
-		if(place_meeting(x, y + spd_v, obj_enemy_par)){
-			while(!place_meeting(x, y + sign(spd_v), obj_enemy_par)){
-				y  = y + sign(spd_v);
-			}
-			spd_v = 0;	
-		}
-
+		player_colide();
+		
 		x += spd_h;
 		y += spd_v;
 
@@ -238,10 +192,12 @@ switch(state){
 	#region parry
 	case STATES.PARRY:
 		parry_time--;
-
+		global.parry = true;
+		
 		if(parry_time <= 0){
-			parry_time = 30;
+			parry_time = 20;
 			state = STATES.ATTAKING;
+			global.parry = false;
 		}
 	break;
 	#endregion
@@ -253,18 +209,7 @@ switch(state){
     
 		emp_veloc = lerp(emp_veloc, 0, .01);
     
-		if(place_meeting(x + spd_h, y, obj_wall)){
-			while(!place_meeting(x + sign(spd_h), y, obj_wall)){
-				x  = x + sign(spd_h);
-			}
-			spd_h = 0;	
-		}
-		if(place_meeting(x, y + spd_v, obj_wall)){
-			while(!place_meeting(x, y + sign(spd_v), obj_wall)){
-				y  = y + sign(spd_v);
-			}
-			spd_v = 0;	
-		}
+		player_colide();
     
 		x += spd_h;
 		y += spd_v;
@@ -342,8 +287,6 @@ var _mb = mouse_check_button_pressed(mb_left);
 var _mb2 = mouse_check_button(mb_left);
 var _ma = mouse_check_button_pressed(mb_right);
 
-show_debug_message(parry_cooldown)
-
 parry_cooldown = clamp(parry_cooldown, 0, 70);
 
 parry_cooldown--;
@@ -370,30 +313,7 @@ if(!mouse_check_button(mb_left)){
         var _box_x = x + lengthdir_x(_advance_dir, _melee_dir);
         var _box_y = y + lengthdir_y(_advance_dir, _melee_dir);
 
-		if(place_meeting(x + spd_h, y, obj_wall)){
-			while(!place_meeting(x + sign(spd_h), y, obj_wall)){
-				x  = x + sign(spd_h);
-			}
-			spd_h = 0;	
-		}
-		if(place_meeting(x, y + spd_v, obj_wall)){
-			while(!place_meeting(x, y + sign(spd_v), obj_wall)){
-				y  = y + sign(spd_v);
-			}
-			spd_v = 0;	
-		}
-		if(place_meeting(x + spd_h, y, obj_enemy_par)){
-			while(!place_meeting(x + sign(spd_h), y, obj_enemy_par)){
-				x  = x + sign(spd_h);
-			}
-			spd_h = 0;	
-		}
-		if(place_meeting(x, y + spd_v, obj_enemy_par)){
-			while(!place_meeting(x, y + sign(spd_v), obj_enemy_par)){
-				y  = y + sign(spd_v);
-			}
-			spd_v = 0;	
-		}
+		player_colide();
         
         advance_x = x + lengthdir_x(_advance_distance, _melee_dir);
         advance_y = y + lengthdir_y(_advance_distance, _melee_dir);
