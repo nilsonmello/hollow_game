@@ -3,6 +3,7 @@ if(keyboard_check_pressed(ord("Y"))){
 	state = STATES.IDLE;
 	global.life_at = global.life;
 	global.energy = global.energy_max;
+	global.stamina = global.stamina_max;
 	game_restart();
 }
 #endregion
