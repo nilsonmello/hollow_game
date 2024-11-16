@@ -252,13 +252,23 @@ switch(state){
 	        var _advance_speed = 0.2;
 	        var __new_x = lerp(x, advance_x, _advance_speed);
 	        var __new_y = lerp(y, advance_y, _advance_speed);
+		
+			if(clicked_attack){
+				if(!place_meeting(__new_x, __new_y, obj_wall) && !place_meeting(__new_x, __new_y, obj_enemy)){
+					x = __new_x;
+					y = __new_y;
+				}else{
+					advancing = false;
+				}
+			}else if(holded_attack){
+				if(!place_meeting(__new_x, __new_y, obj_wall)){
+					x = __new_x;
+					y = __new_y;
+				}else{
+					advancing = false;
+				}
+			}
 
-	        if(!place_meeting(__new_x, __new_y, obj_wall) && !place_meeting(__new_x, __new_y, obj_enemy)){
-	            x = __new_x;
-	            y = __new_y;
-	        }else{
-	            advancing = false;
-	        }
 
 	        if(point_distance(x, y, advance_x, advance_y) < 1){
 	            advancing = false;
@@ -284,6 +294,9 @@ switch(state){
 #endregion
 
 #region sword dash
+show_debug_message(holded_attack)
+show_debug_message(clicked_attack)
+
 var _mb = mouse_check_button_pressed(mb_left);
 var _mb2 = mouse_check_button(mb_left);
 var _ma = mouse_check_button_pressed(mb_right);
@@ -302,7 +315,7 @@ var _hold_time = 30;
 
 if(!mouse_check_button(mb_left)){
     if(timer >= _hold_time && !h_atk && global.stamina > 30){ // hold atk
-		
+		holded_attack = true;
         alarm[4] = 50;
         image_index = 0;
         state = STATES.ATTAKING;
@@ -313,8 +326,6 @@ if(!mouse_check_button(mb_left)){
 
         var _box_x = x + lengthdir_x(_advance_dir, _melee_dir);
         var _box_y = y + lengthdir_y(_advance_dir, _melee_dir);
-
-		player_colide();
         
         advance_x = x + lengthdir_x(_advance_distance, _melee_dir);
         advance_y = y + lengthdir_y(_advance_distance, _melee_dir);
@@ -334,6 +345,7 @@ if(!mouse_check_button(mb_left)){
         timer = 0;
         h_atk = true;
 		global.stamina -= 30;
+
     }else{
         timer = 0;
         h_atk = false;
@@ -344,6 +356,7 @@ if(!mouse_check_button(mb_left)){
 
 if(state != STATES.ATTAKING && alarm[4] <= 0){
     if(_mb && global.combo < 3 && !_ma){ // click atk
+		clicked_attack = true;
         alarm[4] = 15;
         image_index = 0;
         state = STATES.ATTAKING;
@@ -354,8 +367,6 @@ if(state != STATES.ATTAKING && alarm[4] <= 0){
 
         var _box_x = x + lengthdir_x(_advance_dir, _melee_dir);
         var _box_y = y + lengthdir_y(_advance_dir, _melee_dir);
-
-        player_colide();
         
         advance_x = x + lengthdir_x(_advance_distance, _melee_dir);
         advance_y = y + lengthdir_y(_advance_distance, _melee_dir);

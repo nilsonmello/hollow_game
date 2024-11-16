@@ -60,6 +60,9 @@ h_atk = false
 
 parry_time = 20;
 parry_cooldown = 70;
+
+holded_attack = false;
+clicked_attack = false;
 #endregion
 
 #region state machine
@@ -151,3 +154,4 @@ function nearest_cardinal_direction(_direction){
     return _nearest_direction;
 }
 #endregion
+

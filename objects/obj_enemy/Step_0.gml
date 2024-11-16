@@ -55,7 +55,7 @@ switch(state){
             alarm[0] = 15;
 
             repeat(1){
-                var _exp = instance_create_layer(x, y, "Instances", obj_energy_dust);
+                var _exp = instance_create_layer(x, y, "Instances_player", obj_energy_dust);
                 _exp.direction = irandom(360);
                 _exp.speed = 2;
             }
@@ -63,90 +63,90 @@ switch(state){
     break;
 	#endregion
 
-#region attack
-case ENEMY_STATES.ATTACK:
-    attacking = true;
+	#region attack
+	case ENEMY_STATES.ATTACK:
+	    attacking = true;
 
-    if(alarm[3] <= 0){
-        if(alarm[4] > 0){
+	    if(alarm[3] <= 0){
+	        if(alarm[4] > 0){
 
-            vel = lerp(vel, 0, 0.2);
-            vel_h = lengthdir_x(vel, dire);
-            vel_v = lengthdir_y(vel, dire);
+	            vel = lerp(vel, 0, 0.2);
+	            vel_h = lengthdir_x(vel, dire);
+	            vel_v = lengthdir_y(vel, dire);
             
-            enemy_colide();
+	            enemy_colide();
 
-            x += vel_h;
-            y += vel_v;
+	            x += vel_h;
+	            y += vel_v;
 
-            if(!has_attacked){
-                var _direction = point_direction(x, y, obj_player.x, obj_player.y);
-                var _attack_range = 16;
-                var _attack_offset = 2;
+	            if(!has_attacked){
+	                var _direction = point_direction(x, y, obj_player.x, obj_player.y);
+	                var _attack_range = 16;
+	                var _attack_offset = 2;
 
-                var _rect_x1 = x + lengthdir_x(_attack_offset, _direction) - _attack_range / 2;
-                var _rect_y1 = y + lengthdir_y(_attack_offset, _direction) - _attack_range / 2;
-                var _rect_x2 = x + lengthdir_x(_attack_offset, _direction) + _attack_range / 2;
-                var _rect_y2 = y + lengthdir_y(_attack_offset, _direction) + _attack_range / 2;
+	                var _rect_x1 = x + lengthdir_x(_attack_offset, _direction) - _attack_range / 2;
+	                var _rect_y1 = y + lengthdir_y(_attack_offset, _direction) - _attack_range / 2;
+	                var _rect_x2 = x + lengthdir_x(_attack_offset, _direction) + _attack_range / 2;
+	                var _rect_y2 = y + lengthdir_y(_attack_offset, _direction) + _attack_range / 2;
 
-                if(collision_rectangle(_rect_x1, _rect_y1, _rect_x2, _rect_y2, obj_player, false, true)){
-                    with(obj_player){
-                        if(can_take_dmg){
-                            if(!global.parry){
-                                state = STATES.HIT;
-                                alarm[5] = 10;
-                                hit_alpha = 1;
-                                emp_dir = point_direction(other.x, other.y, x, y);
-                                emp_veloc = 6;
-                                global.life_at -= 2;
+	                if(collision_rectangle(_rect_x1, _rect_y1, _rect_x2, _rect_y2, obj_player, false, true)){
+	                    with(obj_player){
+	                        if(can_take_dmg){
+	                            if(!global.parry){
+	                                state = STATES.HIT;
+	                                alarm[5] = 10;
+	                                hit_alpha = 1;
+	                                emp_dir = point_direction(other.x, other.y, x, y);
+	                                emp_veloc = 6;
+	                                global.life_at -= 2;
 
-                                can_take_dmg = false;
-                                alarm[6] = 60;
-                                obj_control.alarm[0] = 60;
+	                                can_take_dmg = false;
+	                                alarm[6] = 60;
+	                                obj_control.alarm[0] = 60;
 
-                                with(other){
-                                    state = ENEMY_STATES.HIT;
-                                    emp_dir = point_direction(obj_player.x, obj_player.y, other.x, other.y);
-                                    emp_veloc = 6;
-                                    hit = true;
-                                    attacking = false;
+	                                with(other){
+	                                    state = ENEMY_STATES.HIT;
+	                                    emp_dir = point_direction(obj_player.x, obj_player.y, other.x, other.y);
+	                                    emp_veloc = 6;
+	                                    hit = true;
+	                                    attacking = false;
 
-                                    alarm[0] = 5;
-                                    alarm[2] = 30;
-                                    alarm[4] = 0;
-                                    alarm[5] = 100;
-                                }
-                            }else{
-                                layer_set_visible("screenshake_damaging_enemies", 1);
+	                                    alarm[0] = 5;
+	                                    alarm[2] = 30;
+	                                    alarm[4] = 0;
+	                                    alarm[5] = 100;
+	                                }
+	                            }else{
+	                                layer_set_visible("screenshake_damaging_enemies", 1);
 
-                                with(other){
-                                    state = ENEMY_STATES.HIT;
-                                    emp_dir = point_direction(obj_player.x, obj_player.y, other.x, other.y);
-                                    emp_veloc = 6;
-                                    hit = true;
-                                    attacking = false;
-
-                                    alarm[0] = 5;
-                                    alarm[2] = 30;
-                                    alarm[4] = 0;
-                                    alarm[5] = 100;
-                                }
-                            }
-                        }
-                    }
-                    has_attacked = true;
-                }
-            }
-        }else{
-            state = ENEMY_STATES.MOVE;
-            attacking = false;
-            has_attacked = false;
-            alarm[5] = 80;
-        }
-    }
-    break;
-#endregion
-
+	                                with(other){
+	                                    state = ENEMY_STATES.KNOCKED;
+	                                    emp_dir = point_direction(obj_player.x, obj_player.y, other.x, other.y);
+	                                    emp_veloc = 6;
+	                                    hit = true;
+	                                    attacking = false;
+										
+										alarm[7] = 5;
+	                                    alarm[0] = 5;
+	                                    alarm[2] = 30;
+	                                    alarm[4] = 0;
+	                                    alarm[5] = 100;
+	                                }
+	                            }
+	                        }
+	                    }
+	                    has_attacked = true;
+	                }
+	            }
+	        }else{
+	            state = ENEMY_STATES.MOVE;
+	            attacking = false;
+	            has_attacked = false;
+	            alarm[5] = 80;
+	        }
+	    }
+	    break;
+	#endregion
 
 	#region death
     case ENEMY_STATES.DEATH:

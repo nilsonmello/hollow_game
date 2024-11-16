@@ -122,38 +122,3 @@ if(hit_alpha > 0){
 	gpu_set_fog(false, hit_color,0, 0);
 }
 #endregion
-
-
-switch(state){
-	case STATES.IDLE:
-		draw_text(x, y - 20, "parado");
-	break;
-
-	case STATES.MOVING:
-		draw_text(x, y - 20, "andando");
-	break;
-	
-	case STATES.DASH:
-		draw_text(x, y - 20, "dash");
-	break;
-	
-	case STATES.PARRY:
-		draw_text(x, y - 20, "parry");
-	break;
-	
-	case STATES.HIT:
-		draw_text(x, y - 20, "hit");
-	break;
-	
-	case STATES.HEAL:
-		draw_text(x, y - 20, "healing");
-	break;
-
-	case STATES.ATTAKING:
-		draw_text(x, y - 20, "batendo");
-	break;
-
-	case STATES.DEATH:
-		draw_text(x, y - 20, "morto");
-	break;
-}

@@ -1,1 +1,1 @@
-/// @description hit time knocked
+layer_set_visible("screenshake_damaging_enemies", 0);
