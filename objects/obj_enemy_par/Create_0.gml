@@ -60,3 +60,9 @@ function enemy_colide(){
 	}	
 }
 #endregion
+
+#region enemy 2
+count = 0;
+atk_time = 0;
+atk_cooldown = 0;
+#endregion

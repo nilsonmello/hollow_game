@@ -9,7 +9,10 @@ switch(state){
 	
 	#region movement
     case ENEMY_STATES.MOVE:
-        script_execute(search_for_player);
+	if(distance_to_object(obj_player) < 80 && alarm[5] <= 0){
+        state = ENEMY_STATES.ATTACK
+		atk_time = 20;
+	}
 	break;
 	#endregion
 
@@ -23,20 +26,7 @@ switch(state){
         vel_h = lengthdir_x(emp_veloc, emp_dir);
         vel_v = lengthdir_y(emp_veloc, emp_dir);
 
-        emp_veloc = lerp(emp_veloc, 0, .01);
-		
-		if(place_meeting(x + vel_h, y, obj_wall)){
-			while(!place_meeting(x + sign(vel_h), y, obj_wall)){
-				x  = x + sign(vel_h);
-			}
-			vel_h = 0;	
-		}
-		if(place_meeting(x, y + vel_v, obj_wall)){
-			while(!place_meeting(x, y + sign(vel_v), obj_wall)){
-				y  = y + sign(vel_v);
-			}
-			vel_v = 0;	
-		}
+		enemy_colide();
 
         x += vel_h;
         y += vel_v;
@@ -58,18 +48,7 @@ switch(state){
 
             emp_veloc = lerp(emp_veloc, 0, .01);
 
-			if(place_meeting(x + vel_h, y, obj_wall)){
-				while(!place_meeting(x + sign(vel_h), y, obj_wall)){
-					x  = x + sign(vel_h);
-				}
-				vel_h = 0;	
-			}
-			if(place_meeting(x, y + vel_v, obj_wall)){
-				while(!place_meeting(x, y + sign(vel_v), obj_wall)){
-					y  = y + sign(vel_v);
-				}
-				vel_v = 0;	
-			}
+			enemy_colide();
 
             x += vel_h;
             y += vel_v;
@@ -87,92 +66,40 @@ switch(state){
 
 	#region attack
     case ENEMY_STATES.ATTACK:
-        attacking = true;
-        if(alarm[3] <= 0){
-            if(alarm[4] > 0){
-                vel = lerp(vel, 0, 0.2);
 
-                vel_h = lengthdir_x(vel, dire);
-                vel_v = lengthdir_y(vel, dire);
-				
-				if(place_meeting(x + vel_h, y, obj_wall)){
-					while(!place_meeting(x + sign(vel_h), y, obj_wall)){
-						x  = x + sign(vel_h);
-					}
-					vel_h = 0;	
-				}
-				if(place_meeting(x, y + vel_v, obj_wall)){
-					while(!place_meeting(x, y + sign(vel_v), obj_wall)){
-						y  = y + sign(vel_v);
-					}
-					vel_v = 0;	
-				}
-				
-                x += vel_h;
-                y += vel_v;
+if(atk_time <= 0){
+	atk_cooldown = 60;	
+		count++;
+}
 
-                if(!has_attacked){
-                    var _direction = point_direction(x, y, obj_player.x, obj_player.y);
-                    
-                    var _attack_range_x = 16;
-                    var _attack_range_y = 16;
-                    var _attack_offset = 2;
+if(atk_cooldown >= 0){
+	atk_cooldown--;
+	atk_time = 20;	
+}
 
-                    var _rect_x1 = x + lengthdir_x(_attack_offset, _direction) - _attack_range_x / 2;
-                    var _rect_y1 = y + lengthdir_y(_attack_offset, _direction) - _attack_range_y / 2;
-                    var _rect_x2 = x + lengthdir_x(_attack_offset, _direction) + _attack_range_x / 2;
-                    var _rect_y2 = y + lengthdir_y(_attack_offset, _direction) + _attack_range_y / 2;
+if(!has_attacked && atk_time > 0 && atk_cooldown <= 0){
+atk_time--;
 
-					if(collision_rectangle(_rect_x1, _rect_y1, _rect_x2, _rect_y2, obj_player, false, true)){
-					    with(obj_player){
-					        if(can_take_dmg){
-					            if(state != STATES.PARRY){
-					                state = STATES.HIT;
-					                alarm[5] = 10;
-					                hit_alpha = 1;
-					                emp_dir = point_direction(other.x, other.y, x, y);
-					                emp_veloc = 6;
-					                global.life_at -= 2;
-					                can_take_dmg = false;
-					                alarm[6] = 60;
-					                obj_control.alarm[0] = 60;
-									
-									other.state = ENEMY_STATES.HIT;
-					                other.emp_dir = point_direction(obj_player.x, obj_player.y, other.x, other.y);
-					                other.emp_veloc = 6;
-					                other.hit = true;
-									other.attacking = false;
-									
-									other.alarm[0] = 5;
-					                other.alarm[2] = 30;
-									other.alarm[4] = 0;
-					                other.alarm[5] = 100;
-					            }else{
-					                layer_set_visible("screenshake_damaging_enemies", 1);
-									
-					                other.state = ENEMY_STATES.HIT;
-					                other.emp_dir = point_direction(obj_player.x, obj_player.y, other.x, other.y);
-					                other.emp_veloc = 6;
-					                other.hit = true;
-									other.attacking = false;
-									
-									other.alarm[0] = 5;
-					                other.alarm[2] = 30;
-									other.alarm[4] = 0;
-					                other.alarm[5] = 100;
-					            }
-					        }
-					    }
-					    has_attacked = true;
-					}
-                }
-            }else{
-                state = ENEMY_STATES.MOVE;
-                attacking = false;
-                has_attacked = false;
-                alarm[5] = 80;
-            }
-        }
+var _melee_dir = point_direction(x, y, obj_player.x, obj_player.y);
+var _advance_distance = 1;
+        
+var _advance_x = x + lengthdir_x(_advance_distance, _melee_dir);
+var _advance_y = y + lengthdir_y(_advance_distance, _melee_dir);
+
+var _advance_speed = 1;
+var __new_x = lerp(x, _advance_x, _advance_speed);
+var __new_y = lerp(y, _advance_y, _advance_speed);
+		
+if(!place_meeting(__new_x, __new_y, obj_wall) && !place_meeting(__new_x, __new_y, obj_enemy)){
+	x = __new_x;
+	y = __new_y;
+}
+has_attacked = true;
+
+}
+if(has_attacked = true){
+	has_attacked = false;
+}
 	break;
 	#endregion
 
@@ -198,3 +125,7 @@ switch(state){
 	#endregion
 }
 #endregion
+
+show_debug_message(count);
+show_debug_message(atk_time);
+show_debug_message(atk_cooldown);

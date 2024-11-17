@@ -294,9 +294,6 @@ switch(state){
 #endregion
 
 #region sword dash
-show_debug_message(holded_attack)
-show_debug_message(clicked_attack)
-
 var _mb = mouse_check_button_pressed(mb_left);
 var _mb2 = mouse_check_button(mb_left);
 var _ma = mouse_check_button_pressed(mb_right);
