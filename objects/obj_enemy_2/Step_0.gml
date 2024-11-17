@@ -12,6 +12,7 @@ switch(state){
 	if(distance_to_object(obj_player) < 80 && alarm[5] <= 0){
         state = ENEMY_STATES.ATTACK
 		atk_time = 20;
+		atk_direction = point_direction(x, y, obj_player.x, obj_player.y);
 	}
 	break;
 	#endregion
@@ -66,40 +67,41 @@ switch(state){
 
 	#region attack
     case ENEMY_STATES.ATTACK:
+		if(atk_time <= 0){
+			atk_cooldown = 10;	
+			count++;
+		}
 
-if(atk_time <= 0){
-	atk_cooldown = 60;	
-		count++;
-}
+		if(atk_cooldown >= 0){
+			atk_cooldown--;
+			atk_time = 20;	
+		}
 
-if(atk_cooldown >= 0){
-	atk_cooldown--;
-	atk_time = 20;	
-}
+		if(!has_attacked && atk_time > 0 && atk_cooldown <= 0){
+			atk_time--;
 
-if(!has_attacked && atk_time > 0 && atk_cooldown <= 0){
-atk_time--;
-
-var _melee_dir = point_direction(x, y, obj_player.x, obj_player.y);
-var _advance_distance = 1;
+			var _advance_distance = 2
         
-var _advance_x = x + lengthdir_x(_advance_distance, _melee_dir);
-var _advance_y = y + lengthdir_y(_advance_distance, _melee_dir);
+			var _advance_x = x + lengthdir_x(_advance_distance, atk_direction);
+			var _advance_y = y + lengthdir_y(_advance_distance, atk_direction);
 
-var _advance_speed = 1;
-var __new_x = lerp(x, _advance_x, _advance_speed);
-var __new_y = lerp(y, _advance_y, _advance_speed);
+			var _advance_speed = 1.4;
+			var __new_x = lerp(x, _advance_x, _advance_speed);
+			var __new_y = lerp(y, _advance_y, _advance_speed);
 		
-if(!place_meeting(__new_x, __new_y, obj_wall) && !place_meeting(__new_x, __new_y, obj_enemy)){
-	x = __new_x;
-	y = __new_y;
-}
-has_attacked = true;
+			x = __new_x;
+			y = __new_y;
+		}
+		
+		if(has_attacked = true){
+			has_attacked = false;
+		}
 
-}
-if(has_attacked = true){
-	has_attacked = false;
-}
+		if(count > 1){
+			alarm[5] = 50;
+			state = ENEMY_STATES.MOVE;
+			count = 0;
+		}
 	break;
 	#endregion
 
@@ -125,7 +127,3 @@ if(has_attacked = true){
 	#endregion
 }
 #endregion
-
-show_debug_message(count);
-show_debug_message(atk_time);
-show_debug_message(atk_cooldown);

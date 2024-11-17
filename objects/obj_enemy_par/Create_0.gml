@@ -65,4 +65,5 @@ function enemy_colide(){
 count = 0;
 atk_time = 0;
 atk_cooldown = 0;
+atk_direction = 0;
 #endregion
