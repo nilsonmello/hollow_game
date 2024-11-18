@@ -23,8 +23,12 @@ switch(state){
 	#region idle
     case ENEMY_STATES.IDLE:
 		state_time--;
+		var _line_wall = collision_line(x, y, obj_player.x, obj_player.y, obj_wall, false, false);
 		
 		if(distance_to_object(obj_player) < 80 && time_per_attacks <= 0){
+			if(_line_wall){
+				return false;
+			}
 			state = ENEMY_STATES.WAITING;
 			atk_wait = 60;
 		}
@@ -49,7 +53,12 @@ switch(state){
             x += vel_h;
             y += vel_v;
 		
+		var _line_wall = collision_line(x, y, obj_player.x, obj_player.y, obj_wall, false, false);
+		
 		if(distance_to_object(obj_player) < 80 && time_per_attacks <= 0){
+			if(_line_wall){
+				return false;
+			}
 			state = ENEMY_STATES.WAITING;
 			atk_wait = 60;
 		}
@@ -196,7 +205,7 @@ switch(state){
 	                                alarm[0] = 5;
 	                                alarm[2] = 30;
 	                                time_per_attacks = 100;
-									knocked_time = 30;
+									knocked_time = 20;
 	                            }
 	                        }
 	                    }

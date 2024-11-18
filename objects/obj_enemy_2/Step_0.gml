@@ -1,5 +1,5 @@
 #region state machine
-show_debug_message(state_time)
+
 #region life and cooldown
 event_inherited();
 
@@ -10,8 +10,6 @@ if (vida <= 0){
 if(time_per_attacks > 0){
     time_per_attacks--;
 }
-
-
 #endregion
 
 switch(state){
@@ -30,7 +28,12 @@ switch(state){
     case ENEMY_STATES.IDLE:
 		state_time--;
 		
+		var _line_wall = collision_line(x, y, obj_player.x, obj_player.y, obj_wall, false, false);
+		
 		if(distance_to_object(obj_player) < 80 && time_per_attacks <= 0){
+			if(_line_wall){
+				return false;
+			}
 			state = ENEMY_STATES.WAITING;
 			atk_wait = 60;
 		}
@@ -45,17 +48,22 @@ switch(state){
     case ENEMY_STATES.MOVE:
 		state_time--;
 			
-			var _dir = point_direction(x, y, x_point, y_point);
+		var _dir = point_direction(x, y, x_point, y_point);
 			
-            vel_h = lengthdir_x(1, _dir);
-            vel_v = lengthdir_y(1, _dir);
+		vel_h = lengthdir_x(1, _dir);
+		vel_v = lengthdir_y(1, _dir);
 
-			enemy_colide();
+		enemy_colide();
 
-            x += vel_h;
-            y += vel_v;
+		x += vel_h;
+		y += vel_v;
+		
+		var _line_wall = collision_line(x, y, obj_player.x, obj_player.y, obj_wall, false, false);
 		
 		if(distance_to_object(obj_player) < 80 && time_per_attacks <= 0){
+			if(_line_wall){
+				return false;
+			}
 			state = ENEMY_STATES.WAITING;
 			atk_wait = 60;
 		}
