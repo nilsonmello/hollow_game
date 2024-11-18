@@ -55,6 +55,20 @@ function enemy_colide(){
 		vel_v = 0;	
 	}	
 }
+
+if(place_meeting(x + vel_h, y, obj_player)){
+	while(!place_meeting(x + sign(vel_h), y, obj_player)){
+		x  = x + sign(vel_h);
+	}
+	vel_h = 0;	
+}
+if(place_meeting(x, y + vel_v, obj_player)){
+	while(!place_meeting(x, y + sign(vel_v), obj_player)){
+		y  = y + sign(vel_v);
+	}
+	vel_v = 0;	
+}	
+
 #endregion
 
 #region atack variables
@@ -93,6 +107,7 @@ y_point = 0;
 state_time = 0;
 #endregion
 
+#region circular movement (recovery state)
 center_x = 0;
 center_y = 0;
 angle = 0;
@@ -103,3 +118,4 @@ r_speed = 0;
 recovery = 0;
 esc_x = 0;
 esc_y = 0;
+#endregion

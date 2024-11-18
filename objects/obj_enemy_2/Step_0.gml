@@ -2,6 +2,7 @@
 
 #region life and cooldown
 event_inherited();
+var _line_wall = collision_line(x, y, obj_player.x, obj_player.y, obj_wall, false, false);
 
 if (vida <= 0){
     state = ENEMY_STATES.DEATH;
@@ -27,8 +28,6 @@ switch(state){
 	#region idle
     case ENEMY_STATES.IDLE:
 		state_time--;
-		
-		var _line_wall = collision_line(x, y, obj_player.x, obj_player.y, obj_wall, false, false);
 		
 		if(distance_to_object(obj_player) < 80 && time_per_attacks <= 0){
 			if(_line_wall){
@@ -57,8 +56,6 @@ switch(state){
 
 		x += vel_h;
 		y += vel_v;
-		
-		var _line_wall = collision_line(x, y, obj_player.x, obj_player.y, obj_wall, false, false);
 		
 		if(distance_to_object(obj_player) < 80 && time_per_attacks <= 0){
 			if(_line_wall){

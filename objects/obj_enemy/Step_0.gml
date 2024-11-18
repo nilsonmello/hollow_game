@@ -129,7 +129,7 @@ switch(state){
 			atk_wait--;
 		
 		    if(atk_wait <= 0){
-		        atk_time = 10;
+		        atk_time = 20;
 		        state = ENEMY_STATES.ATTACK;
 				dire = point_direction(x, y, obj_player.x, obj_player.y);
 		    }
@@ -146,7 +146,7 @@ switch(state){
 		
 	    if(atk_time > 0){
 
-	        vel = lerp(vel, 0, 0.2);
+	        vel = lerp(vel, 0, 0.5);
 	        vel_h = lengthdir_x(vel, dire);
 	        vel_v = lengthdir_y(vel, dire);
             
@@ -181,16 +181,13 @@ switch(state){
 	                            obj_control.alarm[0] = 60;
 
 	                            with(other){
-	                                state = ENEMY_STATES.HIT;
-	                                emp_dir = point_direction(obj_player.x, obj_player.y, other.x, other.y) + 180;
-	                                emp_veloc = 6;
-	                                hit = true;
+	                                state = ENEMY_STATES.RECOVERY;
 	                                attacking = false;
 
 	                                alarm[0] = 5;
 	                                alarm[2] = 30;
 	                                time_per_attacks = 100;
-									knocked_time = 30;
+									knocked_time = 60;
 	                            }
 	                        }else{
 	                            layer_set_visible("screenshake_damaging_enemies", 1);
@@ -214,12 +211,34 @@ switch(state){
 	            }
 	        }
 	    }else{
-	        state = ENEMY_STATES.IDLE;
+	        state = ENEMY_STATES.RECOVERY;
 	        attacking = false;
 	        has_attacked = false;
-			time_per_attacks = 50;
+			time_per_attacks = 70;
+			
+			var _away = point_direction(obj_player.x, obj_player.y, x, y);
+			
+			esc_x = x + lengthdir_x(50, _away);
+			esc_y = y + lengthdir_y(50, _away);
 	    }
 	    break;
+	#endregion
+
+	#region recovery
+	case ENEMY_STATES.RECOVERY:
+	if(time_per_attacks > 0){
+		var _move_speed = 2;
+		var _new_x = lerp(x, esc_x, 0.05);
+		var _new_y = lerp(y, esc_y, 0.05);
+
+		if(!place_meeting(_new_x, _new_y, obj_wall)){
+			x = _new_x;
+			y = _new_y;
+		}
+	}else{
+		state = ENEMY_STATES.CHOOSE;
+	}
+	break;
 	#endregion
 
 	#region death
