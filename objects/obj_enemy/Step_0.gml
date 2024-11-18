@@ -123,6 +123,7 @@ switch(state){
 	
 	#region waiting attack
 	case ENEMY_STATES.WAITING:
+		attacking = true;
 		if(time_per_attacks <= 0){
 		warning = true;
 			atk_wait--;
@@ -141,7 +142,6 @@ switch(state){
 	#region attack
 	case ENEMY_STATES.ATTACK:
 	    atk_time--;
-		attacking = true;
 		warning = false;
 		
 	    if(atk_time > 0){
