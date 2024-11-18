@@ -23,6 +23,7 @@ global.mp_grid = mp_grid_create(0, 0, _w, _h, TS, TS);
 mp_grid_add_instances(global.mp_grid, obj_wall, false);
 
 enum ENEMY_STATES{
+	CHOOSE,
 	IDLE,
 	MOVE,
 	HIT,
@@ -83,4 +84,10 @@ knocked_time = 0;
 
 //cooldown for attacks
 time_per_attacks = 0;
+#endregion
+
+#region movement
+x_point = 0;
+y_point = 0;
+state_time = 0;
 #endregion

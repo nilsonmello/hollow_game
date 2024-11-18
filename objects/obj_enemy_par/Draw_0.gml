@@ -12,7 +12,7 @@ if(hit_alpha > 0){
 escx = lerp(escx, image_xscale, 0.2);
 escy = lerp(escy, image_yscale, 0.2);
 
-if(alarm[3] > 20){
+if(warning){
 	draw_sprite(spr_warning, 3, x, y - 20);	
 }
 

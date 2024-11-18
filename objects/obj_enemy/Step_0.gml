@@ -10,15 +10,59 @@ if (time_per_attacks > 0){
 
 switch(state){
 	
-	#region movement
+    #region choose
+    case ENEMY_STATES.CHOOSE:
+		state_time = irandom_range(70, 120);
+		state = choose(ENEMY_STATES.MOVE, ENEMY_STATES.IDLE);
+		
+		x_point = irandom_range(0, room_width);
+		y_point = irandom_range(0, room_height);
+    break;
+	#endregion	
+	
+	#region idle
+    case ENEMY_STATES.IDLE:
+		state_time--;
+		
+		if(distance_to_object(obj_player) < 80 && time_per_attacks <= 0){
+			state = ENEMY_STATES.WAITING;
+			atk_wait = 60;
+		}
+		
+		if(state_time <= 0){
+			state = ENEMY_STATES.CHOOSE;
+		}
+    break;
+	#endregion	
+	
+    #region movement
     case ENEMY_STATES.MOVE:
-        script_execute(search_for_player);
-	break;
+		state_time--;
+			
+			var _dir = point_direction(x, y, x_point, y_point);
+			
+            vel_h = lengthdir_x(1, _dir);
+            vel_v = lengthdir_y(1, _dir);
+
+			enemy_colide();
+
+            x += vel_h;
+            y += vel_v;
+		
+		if(distance_to_object(obj_player) < 80 && time_per_attacks <= 0){
+			state = ENEMY_STATES.WAITING;
+			atk_wait = 60;
+		}
+		
+		if(state_time <= 0){
+			state = ENEMY_STATES.CHOOSE;
+		}
+    break;
 	#endregion
 
 	#region hit
     case ENEMY_STATES.HIT:
-        if (hit){
+        if(hit){
             hit = false;
         }
         part_particles_create(obj_particle_setup.particle_hit, x, y, obj_particle_setup.particle_slash, 1);
@@ -71,7 +115,7 @@ switch(state){
 	#region waiting attack
 	case ENEMY_STATES.WAITING:
 		if(time_per_attacks <= 0){
-	
+		warning = true;
 			atk_wait--;
 		
 		    if(atk_wait <= 0){
@@ -89,6 +133,7 @@ switch(state){
 	case ENEMY_STATES.ATTACK:
 	    atk_time--;
 		attacking = true;
+		warning = false;
 		
 	    if(atk_time > 0){
 
@@ -128,7 +173,7 @@ switch(state){
 
 	                            with(other){
 	                                state = ENEMY_STATES.HIT;
-	                                emp_dir = point_direction(obj_player.x, obj_player.y, other.x, other.y);
+	                                emp_dir = point_direction(obj_player.x, obj_player.y, other.x, other.y) + 180;
 	                                emp_veloc = 6;
 	                                hit = true;
 	                                attacking = false;
@@ -160,7 +205,7 @@ switch(state){
 	            }
 	        }
 	    }else{
-	        state = ENEMY_STATES.MOVE;
+	        state = ENEMY_STATES.IDLE;
 	        attacking = false;
 	        has_attacked = false;
 			time_per_attacks = 50;
