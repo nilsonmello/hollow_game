@@ -27,7 +27,7 @@ if(!hitted){
 					layer_set_visible("screenshake_damaging_enemies", 1);
 	                state = ENEMY_STATES.KNOCKED;
 	                vida -= other.dmg;
-	                alarm[7] = 8;
+	                knocked_time = 10;
 
 	                emp_dir = point_direction(obj_player.x, obj_player.y, x, y);
 	                emp_veloc = 8;

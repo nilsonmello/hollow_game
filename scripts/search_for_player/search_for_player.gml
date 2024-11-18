@@ -18,7 +18,7 @@ function search_for_player(){
 		}else{
 			if(_dis <= attack_dis){
 				path_end();	
-				alarm[3] = 40;
+				atk_wait = 40;
 				state = ENEMY_STATES.WAITING;
 			}
 		}

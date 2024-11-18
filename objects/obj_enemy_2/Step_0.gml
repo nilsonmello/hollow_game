@@ -5,11 +5,15 @@ if (vida <= 0){
     state = ENEMY_STATES.DEATH;
 }
 
+if (time_per_attacks > 0){
+    time_per_attacks--;
+}
+
 switch(state){
 	
     #region movement
     case ENEMY_STATES.MOVE:
-        if(distance_to_object(obj_player) < 80 && alarm[5] <= 0){
+        if(distance_to_object(obj_player) < 80 && time_per_attacks <= 0){
             state = ENEMY_STATES.WAITING;
             atk_wait = 60;
         }
@@ -37,7 +41,9 @@ switch(state){
 
 	#region knocked
     case ENEMY_STATES.KNOCKED:
-        if (alarm[7] > 0){
+		knocked_time--;
+	
+        if (knocked_time > 0){
             if (hit) {
                 hit = false;
                 alarm[1] = 15;
@@ -127,7 +133,7 @@ switch(state){
         }
 
         if (count > 1) {
-            alarm[5] = 50;
+            time_per_attacks = 50;
             state = ENEMY_STATES.MOVE;
             count = 0;
         }

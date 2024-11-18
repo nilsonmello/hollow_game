@@ -2,16 +2,9 @@
 alarm[0] = 0;
 alarm[1] = 0;
 alarm[2] = 0;
-alarm[3] = 0;
-alarm[4] = 0;
-alarm[5] = 0;
-alarm[6] = 0;
-alarm[7] = 0;
 #endregion
 
 #region attack and state
-has_attacked = false;
-
 path = path_add();
 
 calc_path_timer = irandom(60);
@@ -62,13 +55,32 @@ function enemy_colide(){
 }
 #endregion
 
-time = 0;
+#region atack variables
 
-#region enemy 2
-count = 0;
-atk_time = 0;
-atk_cooldown = 0;
-atk_direction = 0;
+//enemy has attacked?
+has_attacked = false;
+
+//enemy is going to attack
 warning = false;
+
+//number of ettacks
+count = 0;
+
+//attack duration
+atk_time = 0;
+
+//cooldown between attacks
+atk_cooldown = 0;
+
+//direction of the attack
+atk_direction = 0;
+
+//timer for the waiting state 
 atk_wait = 0;
+
+//timer for the stated knocked out
+knocked_time = 0;
+
+//cooldown for attacks
+time_per_attacks = 0;
 #endregion
