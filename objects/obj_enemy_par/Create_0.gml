@@ -30,6 +30,7 @@ enum ENEMY_STATES{
 	KNOCKED,
 	WAITING,
 	ATTACK,
+	RECOVERY,
 	DEATH
 }
 #endregion
@@ -91,3 +92,14 @@ x_point = 0;
 y_point = 0;
 state_time = 0;
 #endregion
+
+center_x = 0;
+center_y = 0;
+angle = 0;
+
+radius = 0;
+r_speed = 0;
+
+recovery = 0;
+esc_x = 0;
+esc_y = 0;

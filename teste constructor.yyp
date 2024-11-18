@@ -45,6 +45,7 @@
   },
   "name":"teste constructor",
   "resources":[
+    {"id":{"name":"notas","path":"notes/notas/notas.yy",},},
     {"id":{"name":"obj_bush","path":"objects/obj_bush/obj_bush.yy",},},
     {"id":{"name":"obj_camera","path":"objects/obj_camera/obj_camera.yy",},},
     {"id":{"name":"obj_control","path":"objects/obj_control/obj_control.yy",},},

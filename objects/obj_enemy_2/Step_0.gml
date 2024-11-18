@@ -159,7 +159,7 @@ switch(state){
             var _box_x = x + lengthdir_x(_advance_dir, atk_direction);
             var _box_y = y + lengthdir_y(_advance_dir, atk_direction);
 
-            if(!instance_exists(obj_hitbox_enemy) && atk_time > 18){
+            if(atk_time > 18){
                 var _box = instance_create_layer(_box_x, _box_y, "Instances_player", obj_hitbox_enemy);
                 _box.image_angle = atk_direction;
                 _box.sprite_index = spr_hitbox_3;
@@ -183,16 +183,71 @@ switch(state){
 
         if(has_attacked = true){
             has_attacked = false;
-			
         }
 
         if(count > 1){
-            time_per_attacks = 50;
-            state = ENEMY_STATES.IDLE;
+            time_per_attacks = 250;
+            state = ENEMY_STATES.RECOVERY;
             count = 0;
+
+		    center_x = obj_player.x;
+		    center_y = obj_player.y;
+
+		    var _away = point_direction(obj_player.x, obj_player.y, x, y);
+			
+		    esc_x = x + lengthdir_x(50, _away);
+		    esc_y = y + lengthdir_y(50, _away);
         }
     break;
     #endregion
+	
+	#region recovery from last attack
+	case ENEMY_STATES.RECOVERY:
+		if(recovery == 0){
+
+			var _move_speed = 2;
+			var _new_x = lerp(x, esc_x, 0.05);
+			var _new_y = lerp(y, esc_y, 0.05);
+
+			if(!place_meeting(_new_x, _new_y, obj_wall)){
+				x = _new_x;
+				y = _new_y;
+			}
+
+			if (point_distance(x, y, esc_x, esc_y) < 2){
+				recovery = 1;
+
+				radius = point_distance(x, y, center_x, center_y);
+				angle = point_direction(center_x, center_y, x, y);
+				r_speed = .6;
+			}
+		}else if(recovery == 1){
+	        angle += r_speed;
+
+	        var _new_x = center_x + lengthdir_x(radius, angle);
+	        var _new_y = center_y + lengthdir_y(radius, angle);
+
+	        x = _new_x;
+	        y = _new_y;
+
+	        if(time_per_attacks > 0){
+	            time_per_attacks--;
+	        }else{
+	            state = ENEMY_STATES.CHOOSE;
+				center_x = 0;
+				center_y = 0;
+				angle = 0;
+
+				radius = 0;
+				r_speed = 0;
+
+				recovery = 0;
+				esc_x = 0;
+				esc_y = 0;
+			}
+		}
+	break;
+	#endregion
 
 	#region death
     case ENEMY_STATES.DEATH:
