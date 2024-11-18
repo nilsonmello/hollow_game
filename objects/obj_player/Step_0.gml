@@ -302,7 +302,7 @@ parry_cooldown = clamp(parry_cooldown, 0, 70);
 
 parry_cooldown--;
 
-if(_ma && global.stamina > 20 && parry_cooldown <= 0){
+if(_ma && global.stamina > 20 && parry_cooldown <= 0 && !global.slow_motion){
 	state = STATES.PARRY
 	global.stamina -= 20;
 	parry_cooldown = 70;
@@ -310,7 +310,7 @@ if(_ma && global.stamina > 20 && parry_cooldown <= 0){
 
 var _hold_time = 30;
 
-if(!mouse_check_button(mb_left)){
+if(!mouse_check_button(mb_left) && !global.slow_motion){
     if(timer >= _hold_time && !h_atk && global.stamina > 30){ // hold atk
 		holded_attack = true;
         alarm[4] = 50;
@@ -347,12 +347,12 @@ if(!mouse_check_button(mb_left)){
         timer = 0;
         h_atk = false;
     }
-}else if(_mb2){
+}else if(_mb2 && !global.slow_motion){
     timer++;
 }
 
 if(state != STATES.ATTAKING && alarm[4] <= 0){
-    if(_mb && global.combo < 3 && !_ma){ // click atk
+    if(_mb && global.combo < 3 && !_ma && !global.slow_motion){ // click atk
 		clicked_attack = true;
         alarm[4] = 15;
         image_index = 0;
