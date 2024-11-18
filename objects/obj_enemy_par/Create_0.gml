@@ -34,6 +34,7 @@ enum ENEMY_STATES{
 	MOVE,
 	HIT,
 	KNOCKED,
+	WAITING,
 	ATTACK,
 	DEATH
 }
@@ -61,9 +62,13 @@ function enemy_colide(){
 }
 #endregion
 
+time = 0;
+
 #region enemy 2
 count = 0;
 atk_time = 0;
 atk_cooldown = 0;
 atk_direction = 0;
+warning = false;
+atk_wait = 0;
 #endregion

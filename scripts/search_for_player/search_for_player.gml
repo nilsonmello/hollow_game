@@ -19,13 +19,7 @@ function search_for_player(){
 			if(_dis <= attack_dis){
 				path_end();	
 				alarm[3] = 40;
-				if(global.slow_motion){
-					alarm[4] = 0;
-				}else{
-					alarm[4] = 53;
-				}
-				dire = point_direction(x, y, obj_player.x, obj_player.y);
-				state = ENEMY_STATES.ATTACK;
+				state = ENEMY_STATES.WAITING;
 			}
 		}
 	}
