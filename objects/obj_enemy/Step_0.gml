@@ -51,7 +51,7 @@ switch(state){
 
 			enemy_colide();
 
-		if(distance_to_point(x_point, y_point) > vel_h or distance_to_point(x_point, y_point) > vel_v){
+		if(distance_to_point(x_point, y_point) > vel_h and distance_to_point(x_point, y_point) > vel_v){
 			x += vel_h;
 			y += vel_v;
 		}else{
@@ -159,7 +159,7 @@ switch(state){
 
 	        if(!has_attacked){
 	            var _direction = point_direction(x, y, obj_player.x, obj_player.y);
-	            var _attack_range = 16;
+	            var _attack_range = 18;
 	            var _attack_offset = 2;
 
 	            var _rect_x1 = x + lengthdir_x(_attack_offset, _direction) - _attack_range / 2;

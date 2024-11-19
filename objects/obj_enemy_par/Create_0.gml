@@ -54,7 +54,7 @@ function enemy_colide(){
 		}
 		vel_v = 0;	
 	}	
-}
+
 
 if(place_meeting(x + vel_h, y, obj_player)){
 	while(!place_meeting(x + sign(vel_h), y, obj_player)){
@@ -68,6 +68,23 @@ if(place_meeting(x, y + vel_v, obj_player)){
 	}
 	vel_v = 0;	
 }	
+if(place_meeting(x + vel_h, y, obj_enemy_par)){
+	while(!place_meeting(x + sign(vel_h), y, obj_enemy_par)){
+		x  = x + sign(vel_h);
+	}
+	vel_h = 0;	
+}
+if(place_meeting(x, y + vel_v, obj_enemy_par)){
+	while(!place_meeting(x, y + sign(vel_v), obj_enemy_par)){
+		y  = y + sign(vel_v);
+	}
+	vel_v = 0;	
+}	
+
+}
+
+
+
 
 #endregion
 

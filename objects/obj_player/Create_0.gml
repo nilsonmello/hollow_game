@@ -154,4 +154,3 @@ function nearest_cardinal_direction(_direction){
     return _nearest_direction;
 }
 #endregion
-

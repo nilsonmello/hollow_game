@@ -254,7 +254,7 @@ switch(state){
 	        var __new_y = lerp(y, advance_y, _advance_speed);
 		
 			if(clicked_attack){
-				if(!place_meeting(__new_x, __new_y, obj_wall) && !place_meeting(__new_x, __new_y, obj_enemy)){
+				if(!place_meeting(__new_x, __new_y, obj_wall) && !place_meeting(__new_x, __new_y, obj_enemy_par)){
 					x = __new_x;
 					y = __new_y;
 				}else{
