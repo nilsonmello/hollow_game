@@ -53,9 +53,13 @@ switch(state){
 		vel_v = lengthdir_y(1, _dir);
 
 		enemy_colide();
-
-		x += vel_h;
-		y += vel_v;
+		
+		if(distance_to_point(x_point, y_point) > vel_h or distance_to_point(x_point, y_point) > vel_v){
+			x += vel_h;
+			y += vel_v;
+		}else{
+			state = ENEMY_STATES.CHOOSE;	
+		}
 		
 		if(distance_to_object(obj_player) < 80 && time_per_attacks <= 0){
 			if(_line_wall){
