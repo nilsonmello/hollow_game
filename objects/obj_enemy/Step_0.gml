@@ -125,7 +125,7 @@ switch(state){
 	case ENEMY_STATES.WAITING:
 		attacking = true;
 		if(time_per_attacks <= 0){
-		warning = true;
+			warning = true;
 			atk_wait--;
 		
 		    if(atk_wait <= 0){
@@ -145,7 +145,6 @@ switch(state){
 		warning = false;
 		
 	    if(atk_time > 0){
-
 	        vel = lerp(vel, 0, 0.5);
 	        vel_h = lengthdir_x(vel, dire);
 	        vel_v = lengthdir_y(vel, dire);
@@ -181,13 +180,17 @@ switch(state){
 	                            obj_control.alarm[0] = 60;
 
 	                            with(other){
-	                                state = ENEMY_STATES.RECOVERY;
-	                                attacking = false;
-
-	                                alarm[0] = 5;
-	                                alarm[2] = 30;
-	                                time_per_attacks = 100;
-									knocked_time = 60;
+									state = ENEMY_STATES.RECOVERY;
+									attacking = false;
+									time_per_attacks = 110;
+									knocked_time = 20;
+									has_attacked = false;
+									recover_time = 60;
+			
+									var _away = point_direction(obj_player.x, obj_player.y, x, y);
+			
+									esc_x = x + lengthdir_x(50, _away);
+									esc_y = y + lengthdir_y(50, _away);
 	                            }
 	                        }else{
 	                            layer_set_visible("screenshake_damaging_enemies", 1);
@@ -201,7 +204,7 @@ switch(state){
 										
 	                                alarm[0] = 5;
 	                                alarm[2] = 30;
-	                                time_per_attacks = 100;
+	                                time_per_attacks = 110;
 									knocked_time = 20;
 	                            }
 	                        }
@@ -214,7 +217,8 @@ switch(state){
 	        state = ENEMY_STATES.RECOVERY;
 	        attacking = false;
 	        has_attacked = false;
-			time_per_attacks = 70;
+			time_per_attacks = 110;
+			recover_time = 60;
 			
 			var _away = point_direction(obj_player.x, obj_player.y, x, y);
 			
@@ -226,15 +230,18 @@ switch(state){
 
 	#region recovery
 	case ENEMY_STATES.RECOVERY:
-	if(time_per_attacks > 0){
+	recover_time--;
+	if(recover_time > 0){
 		var _move_speed = 2;
 		var _new_x = lerp(x, esc_x, 0.05);
 		var _new_y = lerp(y, esc_y, 0.05);
 
-		if(!place_meeting(_new_x, _new_y, obj_wall)){
-			x = _new_x;
-			y = _new_y;
-		}
+			if(!place_meeting(_new_x, _new_y, obj_player) && !place_meeting(_new_x, _new_y, obj_wall)){
+				x = _new_x;
+				y = _new_y;
+			}else{
+				r_speed = 0;	
+			}
 	}else{
 		state = ENEMY_STATES.CHOOSE;
 	}

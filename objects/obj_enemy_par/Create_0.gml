@@ -118,4 +118,6 @@ r_speed = 0;
 recovery = 0;
 esc_x = 0;
 esc_y = 0;
+recover_time = 0;
+move_direction = 0;
 #endregion
