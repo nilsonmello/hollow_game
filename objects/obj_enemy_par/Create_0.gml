@@ -40,54 +40,6 @@ escx = 0;
 escy = 0;
 #endregion
 
-#region colide
-function enemy_colide(){
-	if(place_meeting(x + vel_h, y, obj_wall)){
-		while(!place_meeting(x + sign(vel_h), y, obj_wall)){
-			x  = x + sign(vel_h);
-		}
-		vel_h = 0;	
-	}
-	if(place_meeting(x, y + vel_v, obj_wall)){
-		while(!place_meeting(x, y + sign(vel_v), obj_wall)){
-			y  = y + sign(vel_v);
-		}
-		vel_v = 0;	
-	}	
-
-
-if(place_meeting(x + vel_h, y, obj_player)){
-	while(!place_meeting(x + sign(vel_h), y, obj_player)){
-		x  = x + sign(vel_h);
-	}
-	vel_h = 0;	
-}
-if(place_meeting(x, y + vel_v, obj_player)){
-	while(!place_meeting(x, y + sign(vel_v), obj_player)){
-		y  = y + sign(vel_v);
-	}
-	vel_v = 0;	
-}	
-if(place_meeting(x + vel_h, y, obj_enemy_par)){
-	while(!place_meeting(x + sign(vel_h), y, obj_enemy_par)){
-		x  = x + sign(vel_h);
-	}
-	vel_h = 0;	
-}
-if(place_meeting(x, y + vel_v, obj_enemy_par)){
-	while(!place_meeting(x, y + sign(vel_v), obj_enemy_par)){
-		y  = y + sign(vel_v);
-	}
-	vel_v = 0;	
-}	
-
-}
-
-
-
-
-#endregion
-
 #region atack variables
 
 //enemy has attacked?

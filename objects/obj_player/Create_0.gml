@@ -81,34 +81,6 @@ enum STATES{
 
 //estado atual
 state = STATES.MOVING;
-
-function player_colide(){
-	if(place_meeting(x + spd_h, y, obj_wall)){
-		while(!place_meeting(x + sign(spd_h), y, obj_wall)){
-			x  = x + sign(spd_h);
-		}
-		spd_h = 0;	
-	}
-	
-	if(place_meeting(x, y + spd_v, obj_wall)){
-		while(!place_meeting(x, y + sign(spd_v), obj_wall)){
-			y  = y + sign(spd_v);
-		}
-		spd_v = 0;	
-	}
-	if(place_meeting(x + spd_h, y, obj_enemy_par)){
-		while(!place_meeting(x + sign(spd_h), y, obj_enemy_par)){
-			x  = x + sign(spd_h);
-		}
-		spd_h = 0;	
-	}
-	if(place_meeting(x, y + spd_v, obj_enemy_par)){
-		while(!place_meeting(x, y + sign(spd_v), obj_enemy_par)){
-			y  = y + sign(spd_v);
-		}
-		spd_v = 0;	
-	}
-}
 #endregion
 
 #region player regen
