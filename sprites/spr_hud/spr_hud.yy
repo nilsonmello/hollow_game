@@ -2,7 +2,7 @@
   "$GMSprite":"",
   "%Name":"spr_hud",
   "bboxMode":0,
-  "bbox_bottom":69,
+  "bbox_bottom":38,
   "bbox_left":0,
   "bbox_right":105,
   "bbox_top":0,

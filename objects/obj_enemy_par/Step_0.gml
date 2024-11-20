@@ -1,4 +1,4 @@
-if(global.slashing && distance_to_object(obj_player) < 150){
+if(global.slashing and distance_to_object(obj_player) < global.hab_range){
 	move_speed = lerp(move_speed, .2, .07);
 	vel = .1;
 	state = ENEMY_STATES.IDLE;

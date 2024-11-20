@@ -140,7 +140,7 @@ switch(state){
     break;
     #endregion
 	
-#region attack
+	#region attack
 case ENEMY_STATES.ATTACK:
     if(!variable_instance_exists(id, "created_hitbox")){
         created_hitbox = false;
@@ -209,7 +209,6 @@ case ENEMY_STATES.ATTACK:
     }
     break;
 #endregion
-
 	
 	#region recovery from last attack
 	case ENEMY_STATES.RECOVERY:

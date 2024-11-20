@@ -399,6 +399,8 @@ if(state != STATES.ATTAKING && alarm[4] <= 0){
 #region power activation
 
 #region hability activation
+area = clamp(area, 0, global.hab_range);
+
 if(global.energy >= global.energy_max){
     global.can_attack = true;    
 }
@@ -409,13 +411,12 @@ if(keyboard_check(ord("R")) && global.can_attack){
         global.energy -= .3;
         global.slashing = true;
         global.slow_motion = true;
-        area += 3;
     }
 
     ds_list_clear(enemy_list);
     ds_list_clear(path_list);
 
-    var _circ = collision_circle_list(x, y, area, obj_enemy_par, false, false, enemy_list, true);
+    var _circ = collision_circle_list(x, y, global.hab_range, obj_enemy_par, false, false, enemy_list, true);
 
     for(var _i = ds_list_size(enemy_list) - 1; _i >= 0; _i--){
         var _enemy = enemy_list[| _i];

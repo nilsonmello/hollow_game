@@ -5,7 +5,7 @@ draw_sprite_ext(sprite_index, image_index, x, y, image_xscale, image_yscale, 0, 
 #region hability draw debug
 if(keyboard_check(ord("R")) && global.slashing){
 
-    draw_circle(x, y, area, true);
+	    draw_circle(x, y, global.hab_range, true);
 
     if(enemy_list != undefined && ds_list_size(enemy_list) > 0){
         var _max_enemies = min(global.marked, ds_list_size(enemy_list));

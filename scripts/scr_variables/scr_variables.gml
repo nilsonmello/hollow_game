@@ -38,3 +38,5 @@ global.parry = false;
 
 //hability check enemies
 global.marked = 10;
+
+global.hab_range = 80;

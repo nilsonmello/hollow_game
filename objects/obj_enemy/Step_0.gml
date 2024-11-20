@@ -132,7 +132,7 @@ switch(state){
 			atk_wait--;
 		
 		    if(atk_wait <= 0){
-		        atk_time = 20;
+		        atk_time = 15;
 		        state = ENEMY_STATES.ATTACK;
 				dire = point_direction(x, y, obj_player.x, obj_player.y);
 		    }
