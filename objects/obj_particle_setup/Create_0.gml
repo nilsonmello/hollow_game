@@ -19,7 +19,6 @@ part_type_color3(particle_shadow, _red, _red_2, _red_3);
 #endregion
 
 #region walk particle
-
 particle_system_dust = part_system_create_layer("Instance_particle", true);
 particle_dust = part_type_create();
 
@@ -27,11 +26,11 @@ part_type_sprite(particle_dust, spr_dust, 0, 0, 0);
 part_type_subimage(particle_dust, 0);
 part_type_size(particle_dust, .2, .8, .001, 0)
 
-part_type_direction(particle_dust, 0, 359, 0, 1);
+part_type_direction(particle_dust, 0, 180, 0, 1);
 part_type_speed(particle_dust, .1, .2, -0.004, 0);
 
 part_type_life(particle_dust, 50, 70);
-part_type_orientation(particle_dust, 0, 359, .1, 1, 0);
+part_type_orientation(particle_dust, 0, 180, .1, 1, 0);
 part_type_alpha3(particle_dust, 0.6, 0.4, 0.1);
 #endregion
 

@@ -398,148 +398,160 @@ if(state != STATES.ATTAKING && alarm[4] <= 0){
 
 #region power activation
 
-	#region hability activation
-	if(global.energy >= global.energy_max){
-	    global.can_attack = true;    
-	}
+#region hability activation
+if(global.energy >= global.energy_max){
+    global.can_attack = true;    
+}
 
-	if(keyboard_check(ord("R")) && global.can_attack){
-	    layer_set_visible("screenshake_charging", 1);
-	    if(global.energy > 0){
-	        global.energy -= .3;
-	        global.slashing = true;
-	        global.slow_motion = true;
-	        area += 3;
-	    }
-	
-	    ds_list_clear(enemy_list);
-	    ds_list_clear(path_list);
+if(keyboard_check(ord("R")) && global.can_attack){
+    layer_set_visible("screenshake_charging", 1);
+    if(global.energy > 0){
+        global.energy -= .3;
+        global.slashing = true;
+        global.slow_motion = true;
+        area += 3;
+    }
 
-	    var _circ = collision_circle_list(x, y, area, obj_enemy_par, false, false, enemy_list, true);
+    ds_list_clear(enemy_list);
+    ds_list_clear(path_list);
 
-	    for(var _i = ds_list_size(enemy_list) - 1; _i >= 0; _i--){
-	        var _enemy = enemy_list[| _i];
-        
-	        if(!instance_exists(_enemy) || collision_line(x, y, _enemy.x, _enemy.y, obj_wall, false, true)){
-	            ds_list_delete(enemy_list, _i);
-	        }
-	    }
+    var _circ = collision_circle_list(x, y, area, obj_enemy_par, false, false, enemy_list, true);
 
-	    if(ds_list_size(enemy_list) > 0){
-	        for(var _i = 0; _i < ds_list_size(enemy_list); _i++){
-	            var _enemy = enemy_list[| _i];
-	            var _dist = point_distance(x, y, _enemy.x, _enemy.y);
-	            ds_list_set(enemy_list, _i, [_enemy, _dist]);
-	        }
+    for(var _i = ds_list_size(enemy_list) - 1; _i >= 0; _i--){
+        var _enemy = enemy_list[| _i];
 
-	        ds_list_sort(enemy_list, true);
+        if(!instance_exists(_enemy) || collision_line(x, y, _enemy.x, _enemy.y, obj_wall, false, true)){
+            ds_list_delete(enemy_list, _i);
+        }
 
-	        for(var _i = 0; _i < ds_list_size(enemy_list); _i++){
-	            var _enemy_data = enemy_list[| _i];
-	            var _enemy = _enemy_data[0];
+        if(ds_list_size(enemy_list) >= global.marked){
+            break;
+        }
+    }
 
-	            if(instance_exists(_enemy)){
-	                ds_list_add(path_list, [_enemy.x, _enemy.y]);
-	            }
-	        }
-	    }
-	    move_speed = 20;
-	    moving_along_path = false;
-	    path_position_index = 0;
-	}else{ 
-	    area = 0;
-		
-	    global.slow_motion = false;
-	    layer_set_visible("screenshake_charging", 0);
-	    global.slashing = false;
+    if(ds_list_size(enemy_list) > 0){
+        for(var _i = 0; _i < ds_list_size(enemy_list); _i++){
+            var _enemy = enemy_list[| _i];
+            if(instance_exists(_enemy)){
+                var _dist = point_distance(x, y, _enemy.x, _enemy.y);
+                ds_list_set(enemy_list, _i, [_enemy, _dist]);
+            } else {
+                ds_list_delete(enemy_list, _i);
+            }
+        }
 
-	    if(!moving_along_path && ds_list_size(path_list) > 0){
-	        moving_along_path = true;
-	        path_position_index = 0;
-	    }
-	}
-	#endregion
+        ds_list_sort(enemy_list, true);
 
-	#region Movimento ao Longo do Caminho
-	if(moving_along_path && ds_list_size(path_list) > 0){
-	    if(path_position_index < ds_list_size(path_list)){
+        for(var _i = 0; _i < ds_list_size(enemy_list); _i++){
+            if(_i >= global.marked) break;
+            var _enemy_data = enemy_list[| _i];
+            if(is_array(_enemy_data)){
+                var _enemy = _enemy_data[0];
+                if(instance_exists(_enemy)){
+                    ds_list_add(path_list, [_enemy.x, _enemy.y]);
+                }
+            } else {
+                show_debug_message("Elemento inválido em enemy_list: " + string(_enemy_data));
+            }
+        }
+    }
 
-	        var _target_pos = path_list[| path_position_index];
-	        var _target_x = _target_pos[0];
-	        var _target_y = _target_pos[1];
+    move_speed = 20;
+    moving_along_path = false;
+    path_position_index = 0;
+}else{ 
+    area = 0;
+    global.slow_motion = false;
+    layer_set_visible("screenshake_charging", 0);
+    global.slashing = false;
 
-	        var _dir = point_direction(x, y, _target_x, _target_y);
-	        var _dist = point_distance(x, y, _target_x, _target_y);
+    if(!moving_along_path && ds_list_size(path_list) > 0){
+        moving_along_path = true;
+        path_position_index = 0;
+    }
+}
+#endregion
 
-	        if(move_speed > 0){
-	            timer++;
-	            if(timer >= 2){
-	                timer = 0;
-	            }
-	        }
+#region Movimento ao Longo do Caminho
+if(moving_along_path && ds_list_size(path_list) > 0){
+    if(path_position_index < ds_list_size(path_list)){
 
-	        if(_dist > move_speed){
-	            x += lengthdir_x(move_speed, _dir);
-	            y += lengthdir_y(move_speed, _dir);
+        var _target_pos = path_list[| path_position_index];
+        var _target_x = _target_pos[0];
+        var _target_y = _target_pos[1];
 
-	            ds_queue_enqueue(trail_positions, [x, y]);
+        var _dir = point_direction(x, y, _target_x, _target_y);
+        var _dist = point_distance(x, y, _target_x, _target_y);
 
-	            if(ds_queue_size(trail_positions) > trail_length){
-	                ds_queue_dequeue(trail_positions);
-	            }
+        if(move_speed > 0){
+            timer++;
+            if(timer >= 2){
+                timer = 0;
+            }
+        }
 
-	            if(move_speed > 0){
-	                can_take_dmg = false;    
-	                alarm[6] = 20;
-	                global.can_attack = false;
-	            }
+        if(_dist > move_speed){
+            x += lengthdir_x(move_speed, _dir);
+            y += lengthdir_y(move_speed, _dir);
 
-	        }else{
-	            path_position_index++;
+            ds_queue_enqueue(trail_positions, [x, y]);
 
-	            if(path_position_index >= ds_list_size(path_list)){
-	                moving_along_path = false;
-	                path_position_index = ds_list_size(path_list) - 1;
-	                move_speed = 0;
-	                global.slashing = false;
-	            }
+            if(ds_queue_size(trail_positions) > trail_length){
+                ds_queue_dequeue(trail_positions);
+            }
 
-	            var _enemy_index = instance_position(_target_x, _target_y, obj_enemy_par);
-	            if(_enemy_index != noone){
-	                _enemy_index.vida -= 3;
-	                _enemy_index.emp_dir = point_direction(obj_player.x, obj_player.y, _enemy_index.x, _enemy_index.y);
-	                _enemy_index.state = ENEMY_STATES.HIT;
-	                _enemy_index.alarm[0] = 3;
-	                _enemy_index.alarm[1] = 10;
-	                _enemy_index.alarm[5] = 80;
-	                _enemy_index.emp_veloc = 20;
-	                _enemy_index.hit_alpha = 1;
+            if(move_speed > 0){
+                can_take_dmg = false;    
+                alarm[6] = 20;
+                global.can_attack = false;
+            }
 
-	                ds_list_add(trail_fixed_positions, [x, y, direction]);
-	                ds_list_add(trail_fixed_timer, 30);
+        }else{
+            path_position_index++;
 
-	                layer_set_visible("screenshake_damaging_enemies", 1);
-	            }
-	            layer_set_visible("screenshake_damaging_enemies", 0);
-	        }
-	    }else{
-	        moving_along_path = false;
-	    }
-	}
-	#endregion
+            if(path_position_index >= ds_list_size(path_list)){
+                moving_along_path = false;
+                path_position_index = ds_list_size(path_list) - 1;
+                move_speed = 0;
+                global.slashing = false;
+            }
 
-	#region Regeneração de Stamina
-	if(stamina_timer_regen > 0){
-	    stamina_timer_regen--;
-	}else{
-	    if(global.stamina < global.stamina_max){
-	        global.stamina += 1;
-	        stamina_timer_regen = stamina_timer;
-	    }
-	}
-	global.stamina = clamp(global.stamina, 0, global.stamina_max);
-	#endregion
-	
+            var _enemy_index = instance_position(_target_x, _target_y, obj_enemy_par);
+            if(_enemy_index != noone){
+                _enemy_index.vida -= 3;
+                _enemy_index.emp_dir = point_direction(obj_player.x, obj_player.y, _enemy_index.x, _enemy_index.y);
+                _enemy_index.state = ENEMY_STATES.HIT;
+                _enemy_index.alarm[0] = 3;
+                _enemy_index.alarm[1] = 10;
+                _enemy_index.alarm[5] = 80;
+                _enemy_index.emp_veloc = 20;
+                _enemy_index.hit_alpha = 1;
+
+                ds_list_add(trail_fixed_positions, [x, y, direction]);
+                ds_list_add(trail_fixed_timer, 30);
+
+                layer_set_visible("screenshake_damaging_enemies", 1);
+            }
+            layer_set_visible("screenshake_damaging_enemies", 0);
+        }
+    }else{
+        moving_along_path = false;
+    }
+}
+#endregion
+
+#region Regeneração de Stamina
+if(stamina_timer_regen > 0){
+    stamina_timer_regen--;
+}else{
+    if(global.stamina < global.stamina_max){
+        global.stamina += 1;
+        stamina_timer_regen = stamina_timer;
+    }
+}
+global.stamina = clamp(global.stamina, 0, global.stamina_max);
+#endregion
+
 #endregion
 
 #region dust walk
@@ -548,14 +560,14 @@ if(xprevious != x and candust == true){
 	alarm[7] = 10;
 	var _random_time = irandom_range(-1, 2);
 	alarm_set(3, 8 + _random_time);
-	part_particles_create(obj_particle_setup.particle_system_dust, x, y + 12, obj_particle_setup.particle_dust, 10);
+	part_particles_create(obj_particle_setup.particle_system_dust, x, y + 5, obj_particle_setup.particle_dust, 10);
 }
 if(yprevious != y and candust == true){
 	candust = false;
 	alarm[7] = 10;
 	var _random_time = irandom_range(-1, 2);
 	alarm_set(3, 8 + _random_time);
-	part_particles_create(obj_particle_setup.particle_system_dust, x, y + 12, obj_particle_setup.particle_dust, 10);
+	part_particles_create(obj_particle_setup.particle_system_dust, x, y, obj_particle_setup.particle_dust, 10);
 }
 #endregion
 

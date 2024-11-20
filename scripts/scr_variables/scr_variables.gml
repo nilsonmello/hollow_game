@@ -35,3 +35,6 @@ global.combo = 0;
 
 //using parry
 global.parry = false;
+
+//hability check enemies
+global.marked = 10;
