@@ -6,6 +6,10 @@ if(keyboard_check_pressed(ord("Y"))){
 	global.stamina = global.stamina_max;
 	game_restart();
 }
+
+var _num = instance_number(obj_hitbox_enemy)
+	show_debug_message(_num)	
+
 #endregion
 
 #region state machine

@@ -41,6 +41,7 @@ escy = 0;
 #endregion
 
 #region atack variables
+created_hitbox = false;
 
 //enemy has attacked?
 has_attacked = false;
