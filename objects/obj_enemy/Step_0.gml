@@ -208,7 +208,7 @@ switch(state){
 	                                alarm[0] = 5;
 	                                alarm[2] = 30;
 	                                time_per_attacks = 110;
-									knocked_time = 20;
+									knocked_time = 30;
 	                            }
 	                        }
 	                    }
@@ -244,6 +244,7 @@ switch(state){
 				y = _new_y;
 			}else{
 				r_speed = 0;	
+				state = ENEMY_STATES.MOVE;
 			}
 	}else{
 		state = ENEMY_STATES.CHOOSE;

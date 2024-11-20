@@ -1,3 +1,4 @@
+#region player_colide
 function player_colide(){
     if(spd_h != 0){
         if (place_meeting(x + spd_h, y, obj_wall) ||
@@ -23,8 +24,9 @@ function player_colide(){
         }
     }
 }
+#endregion
 
-
+#region enemy_colide
 function enemy_colide(){
 
     if(vel_h != 0){
@@ -55,4 +57,4 @@ function enemy_colide(){
         }
     }
 }
-
+#endregion

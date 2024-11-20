@@ -127,6 +127,7 @@ switch(state){
 	
     #region waiting for attack
     case ENEMY_STATES.WAITING:
+		attacking = true;
 		atk_wait--;
 	
         if(atk_wait <= 0){
@@ -141,7 +142,6 @@ switch(state){
 	
 	#region attack
     case ENEMY_STATES.ATTACK:
-	attacking = true;
         if(atk_time <= 0){
             atk_cooldown = 10;
             count++;
@@ -217,6 +217,7 @@ switch(state){
 				y = _new_y;
 			}else{
 				r_speed = 0;	
+				state = ENEMY_STATES.MOVE;
 			}
 
 			if (point_distance(x, y, esc_x, esc_y) < 2){
