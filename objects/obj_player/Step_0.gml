@@ -6,10 +6,6 @@ if(keyboard_check_pressed(ord("Y"))){
 	global.stamina = global.stamina_max;
 	game_restart();
 }
-
-var _num = instance_number(obj_hitbox_enemy)
-	show_debug_message(_num)	
-
 #endregion
 
 #region state machine
@@ -301,6 +297,8 @@ switch(state){
 var _mb = mouse_check_button_pressed(mb_left);
 var _mb2 = mouse_check_button(mb_left);
 var _ma = mouse_check_button_pressed(mb_right);
+
+show_debug_message(state)
 
 parry_cooldown = clamp(parry_cooldown, 0, 70);
 

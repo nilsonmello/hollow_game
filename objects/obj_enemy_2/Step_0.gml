@@ -201,8 +201,7 @@ case ENEMY_STATES.ATTACK:
         state = ENEMY_STATES.RECOVERY;
         count = 0;
 
-        center_x = obj_player.x;
-        center_y = obj_player.y;
+
 
         var _away = point_direction(obj_player.x, obj_player.y, x, y);
         esc_x = x + lengthdir_x(50, _away);
@@ -215,7 +214,10 @@ case ENEMY_STATES.ATTACK:
 	#region recovery from last attack
 	case ENEMY_STATES.RECOVERY:
 		if(recovery == 0){
-
+			
+			center_x = obj_player.x;
+			center_y = obj_player.y;
+		
 			var _move_speed = 2;
 			var _new_x = lerp(x, esc_x, 0.05);
 			var _new_y = lerp(y, esc_y, 0.05);
