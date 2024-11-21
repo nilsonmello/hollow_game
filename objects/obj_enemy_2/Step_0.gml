@@ -141,82 +141,87 @@ switch(state){
     #endregion
 	
 	#region attack
-case ENEMY_STATES.ATTACK:
-    if(!variable_instance_exists(id, "created_hitbox")){
-        created_hitbox = false;
-    }
+	case ENEMY_STATES.ATTACK:
+	    if(!variable_instance_exists(id, "created_hitbox")){
+	        created_hitbox = false;
+	    }
 
-    if(atk_time <= 0){
-        atk_cooldown = 10;
-        count++;
-        created_hitbox = false;
-    }
+	    if(atk_time <= 0){
+	        atk_cooldown = 10;
+	        count++;
+	        created_hitbox = false;
+	    }
 
-    if(atk_cooldown >= 0){
-        atk_cooldown--;
-        atk_time = 20;
-    }
+	    if(atk_cooldown >= 0){
+	        atk_cooldown--;
+	        atk_time = 20;
+	    }
 
-    if(!has_attacked && atk_time > 0 && atk_cooldown <= 0){
-        atk_time--;
-        warning = false;
+	    if(!has_attacked && atk_time > 0 && atk_cooldown <= 0){
+	        atk_time--;
+	        warning = false;
 
-        var _advance_dir = 10;
-        var _advance_distance = 2;
+	        var _advance_dir = 10;
+	        var _advance_distance = 2;
 
-        var _box_x = x + lengthdir_x(_advance_dir, atk_direction);
-        var _box_y = y + lengthdir_y(_advance_dir, atk_direction);
+	        var _box_x = x + lengthdir_x(_advance_dir, atk_direction);
+	        var _box_y = y + lengthdir_y(_advance_dir, atk_direction);
 
-        if(atk_time > 18 && !created_hitbox){
-            var _box = instance_create_layer(_box_x, _box_y, "Instances_player", obj_hitbox_enemy);
-            _box.image_angle = atk_direction;
-            _box.sprite_index = spr_hitbox_3;
-            _box.dmg = 2;
+	        if(atk_time > 18 && !created_hitbox){
+	            var _box = instance_create_layer(_box_x, _box_y, "Instances_player", obj_hitbox_enemy);
+	            _box.image_angle = atk_direction;
+	            _box.sprite_index = spr_hitbox_3;
+	            _box.dmg = 2;
 
-            created_hitbox = true;
-        }
+	            created_hitbox = true;
+	        }
 
-        var _advance_x = x + lengthdir_x(_advance_distance, atk_direction);
-        var _advance_y = y + lengthdir_y(_advance_distance, atk_direction);
+	        var _advance_x = x + lengthdir_x(_advance_distance, atk_direction);
+	        var _advance_y = y + lengthdir_y(_advance_distance, atk_direction);
 
-        var _advance_speed = 2;
-        var __new_x = lerp(x, _advance_x, _advance_speed);
-        var __new_y = lerp(y, _advance_y, _advance_speed);
+	        var _advance_speed = 2;
+	        var __new_x = lerp(x, _advance_x, _advance_speed);
+	        var __new_y = lerp(y, _advance_y, _advance_speed);
 
-        if(!place_meeting(__new_x, __new_y, obj_player) && !place_meeting(__new_x, __new_y, obj_wall)){
-            x = __new_x;
-            y = __new_y;
-        }else{
-            atk_time = 0;
-        }
-    }
+	        if(!place_meeting(__new_x, __new_y, obj_player) && !place_meeting(__new_x, __new_y, obj_wall)){
+	            x = __new_x;
+	            y = __new_y;
+	        }else{
+	            atk_time = 0;
+	        }
+	    }
 
-    if(has_attacked == true){
-        has_attacked = false;
-    }
+	    if(has_attacked == true){
+	        has_attacked = false;
+	    }
 
-    if(count > 1){
-        attacking = false;
-        time_per_attacks = 250;
-        state = ENEMY_STATES.RECOVERY;
-        count = 0;
+	    if(count > 1){
+	        attacking = false;
+	        time_per_attacks = 250;
+	        state = ENEMY_STATES.RECOVERY;
+	        count = 0;
 
 
 
-        var _away = point_direction(obj_player.x, obj_player.y, x, y);
-        esc_x = x + lengthdir_x(50, _away);
-        esc_y = y + lengthdir_y(50, _away);
-    }
+	        var _away = point_direction(obj_player.x, obj_player.y, x, y);
+	        esc_x = x + lengthdir_x(50, _away);
+	        esc_y = y + lengthdir_y(50, _away);
+		
+			center_x = obj_player.x;
+			center_y = obj_player.y;
+	    }
     break;
 #endregion
 	
 	#region recovery from last attack
 	case ENEMY_STATES.RECOVERY:
 		if(recovery == 0){
+		    radius = point_distance(x, y, center_x, center_y);
+		    angle = point_direction(center_x, center_y, x, y);
+
+		    r_speed = 0.6;
+		    move_direction = choose(-1, 1);
 			
-			center_x = obj_player.x;
-			center_y = obj_player.y;
-		
 			var _move_speed = 2;
 			var _new_x = lerp(x, esc_x, 0.05);
 			var _new_y = lerp(y, esc_y, 0.05);
@@ -229,26 +234,27 @@ case ENEMY_STATES.ATTACK:
 				state = ENEMY_STATES.MOVE;
 			}
 
-			if (point_distance(x, y, esc_x, esc_y) < 2){
+			if(point_distance(x, y, esc_x, esc_y) < 2){
 				recovery = 1;
 
 				radius = point_distance(x, y, center_x, center_y);
 				angle = point_direction(center_x, center_y, x, y);
+				
 				r_speed = .6;
 				move_direction = choose(-1, 1)
 			}
 		}else if(recovery == 1){
-	        angle += r_speed  * move_direction;
+		    angle += r_speed * move_direction;
 
-	        var _new_x = center_x + lengthdir_x(radius, angle);
-	        var _new_y = center_y + lengthdir_y(radius, angle);
-			
-			if(!place_meeting(_new_x, _new_y, obj_player) && !place_meeting(_new_x, _new_y, obj_wall)){
-				x = _new_x;
-				y = _new_y;
-			}else{
-				r_speed = 0;	
-			}
+		    var _new_x = center_x + lengthdir_x(radius, angle);
+		    var _new_y = center_y + lengthdir_y(radius, angle);
+
+		    if(!place_meeting(_new_x, _new_y, obj_player) && !place_meeting(_new_x, _new_y, obj_wall)){
+		        x = _new_x;
+		        y = _new_y;
+		    }else{
+		        r_speed = 0;
+		    }
 
 	        if(time_per_attacks > 0){
 	            time_per_attacks--;

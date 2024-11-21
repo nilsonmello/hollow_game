@@ -235,51 +235,58 @@ switch(state){
 	break;
 	#endregion
 	
-	#region slash
-	case STATES.ATTAKING:
-	    if(advancing){
-	        var _melee_dir = point_direction(x, y, advance_x, advance_y);
-	        move_dir = nearest_cardinal_direction(_melee_dir);
+#region slash
+case STATES.ATTAKING:
+    if (advancing) {
+        var _melee_dir = point_direction(x, y, advance_x, advance_y);
+        move_dir = nearest_cardinal_direction(_melee_dir);
 
-			switch(_spr_dir){
-			case 0:	sprite_index = spr_player_attack_rl;	image_xscale = 1	break;
-			case 90:	sprite_index = spr_player_attack_rl;	break;
-			case 180:	sprite_index = spr_player_attack_rl;	image_xscale = -1	break;
-			case 270:	sprite_index = spr_player_attack_rl;	break;
-			}
+        switch (_spr_dir) {
+            case 0: sprite_index = spr_player_attack_rl; image_xscale = 1; break;
+            case 90: sprite_index = spr_player_attack_rl; break;
+            case 180: sprite_index = spr_player_attack_rl; image_xscale = -1; break;
+            case 270: sprite_index = spr_player_attack_rl; break;
+        }
 
+        var _advance_speed = 0.2;
+        var __new_x = lerp(x, advance_x, _advance_speed);
+        var __new_y = lerp(y, advance_y, _advance_speed);
 
-	        var _advance_speed = 0.2;
-	        var __new_x = lerp(x, advance_x, _advance_speed);
-	        var __new_y = lerp(y, advance_y, _advance_speed);
-		
-			if(clicked_attack){
-				if(!place_meeting(__new_x, __new_y, obj_wall) && !place_meeting(__new_x, __new_y, obj_enemy_par)){
-					x = __new_x;
-					y = __new_y;
-				}else{
-					advancing = false;
-				}
-			}else if(holded_attack){
-				if(!place_meeting(__new_x, __new_y, obj_wall)){
-					x = __new_x;
-					y = __new_y;
-				}else{
-					advancing = false;
-				}
-			}
+		if(holded_attack){
+	        var _future_x = x + lengthdir_x(20, _melee_dir);
+	        var _future_y = y + lengthdir_y(20, _melee_dir);
 
-
-	        if(point_distance(x, y, advance_x, advance_y) < 1){
-	            advancing = false;
+	        if (instance_position(_future_x, _future_y, obj_enemy_par)) {
+	            var _extra_distance = 40;
+	            advance_x += lengthdir_x(_extra_distance, _melee_dir);
+	            advance_y += lengthdir_y(_extra_distance, _melee_dir);
 	        }
-	    }
+		}
+        if (!place_meeting(__new_x, __new_y, obj_wall)) {
+            x = __new_x;
+            y = __new_y;
+        } else {
+            advancing = false;
+        }
 
-	    if(!advancing && image_index >= image_number - 1){
-	        state = STATES.MOVING;
-	    }
-	break;
-	#endregion
+
+        if (point_distance(x, y, advance_x, advance_y) < 1) {
+            advancing = false;
+        }
+    }
+
+    if (!advancing && image_index >= image_number - 1) {
+
+        while (place_meeting(x, y, obj_enemy_par)) {
+            x += lengthdir_x(-1, move_dir);
+            y += lengthdir_y(-1, move_dir);
+        }
+        state = STATES.MOVING;
+    }
+    break;
+#endregion
+
+
 
 	#region death
 	case STATES.DEATH:
@@ -344,6 +351,16 @@ if(!mouse_check_button(mb_left) && !global.slow_motion){
         timer = 0;
         h_atk = true;
 		global.stamina -= 30;
+		
+		var _colide = collision_rectangle(x - 8, y - 8, x + 8, y + 8, obj_enemy_par, false, false);
+		
+		if(_colide){
+	        emp_dir = point_direction(other.x, other.y, x, y);
+	        emp_veloc = 6;
+			
+			state = STATES.HIT
+			alarm[5] = 5;
+		}
 
     }else{
         timer = 0;

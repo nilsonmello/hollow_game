@@ -37,7 +37,6 @@ if(keyboard_check(ord("R")) && global.slashing){
 }
 #endregion
 
-
 #region trail with dynamic extension
 if(move_speed > 0 && ds_list_size(path_list) > 0){
     var _prev_x, _prev_y;

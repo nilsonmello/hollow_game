@@ -4,7 +4,7 @@
   "bboxMode":2,
   "bbox_bottom":9,
   "bbox_left":0,
-  "bbox_right":128,
+  "bbox_right":149,
   "bbox_top":5,
   "collisionKind":2,
   "collisionTolerance":253,
@@ -26,7 +26,7 @@
   ],
   "name":"spr_hitbox_4",
   "nineSlice":null,
-  "origin":4,
+  "origin":9,
   "parent":{
     "name":"effects",
     "path":"folders/Sprites/effects.yy",
@@ -87,7 +87,7 @@
     ],
     "visibleRange":null,
     "volume":1.0,
-    "xorigin":65,
+    "xorigin":55,
     "yorigin":7,
   },
   "swatchColours":null,
@@ -98,5 +98,5 @@
   },
   "type":0,
   "VTile":false,
-  "width":130,
+  "width":150,
 }
