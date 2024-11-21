@@ -213,15 +213,10 @@ switch(state){
 	        time_per_attacks = 250;
 	        state = ENEMY_STATES.RECOVERY;
 	        count = 0;
-
-
-
+			
 	        var _away = point_direction(obj_player.x, obj_player.y, x, y);
 	        esc_x = x + lengthdir_x(50, _away);
 	        esc_y = y + lengthdir_y(50, _away);
-		
-			center_x = obj_player.x;
-			center_y = obj_player.y;
 	    }
     break;
 	#endregion
@@ -229,6 +224,9 @@ switch(state){
 	#region recovery from last attack
 	case ENEMY_STATES.RECOVERY:
 		if(recovery == 0){
+			center_x = obj_player.x;
+			center_y = obj_player.y;
+			
 		    radius = point_distance(x, y, center_x, center_y);
 		    angle = point_direction(center_x, center_y, x, y);
 
@@ -257,6 +255,7 @@ switch(state){
 				move_direction = choose(-1, 1)
 			}
 		}else if(recovery == 1){
+			
 		    angle += r_speed * move_direction;
 
 		    var _new_x = center_x + lengthdir_x(radius, angle);

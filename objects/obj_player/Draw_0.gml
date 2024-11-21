@@ -16,13 +16,27 @@ if(keyboard_check(ord("R")) && global.slashing){
             var _enemy_prev = _enemy_data_prev[0];
             var _enemy_curr = _enemy_data_curr[0];
 
+			var _first_enemy_data = enemy_list[| 0];
+			 var _first_enemy = _first_enemy_data[0];
+			
+		if(instance_exists(_first_enemy)){
+			draw_sprite(spr_sign, 0, _first_enemy.x, _first_enemy.y);
+		}
+		
+		var _dir = point_direction(x, y, _first_enemy.x, _first_enemy.y);
+		var _dist = point_distance(x, y, _first_enemy.x, _first_enemy.y);
+		
+		draw_sprite_ext(spr_line, 0, x, y, _dist / sprite_width, 1, _dir, c_white, 1);
+
             if(instance_exists(_enemy_prev) && instance_exists(_enemy_curr)){
                 if((_enemy_prev.object_index == obj_enemy || _enemy_prev.object_index == obj_enemy_2) &&
                    (_enemy_curr.object_index == obj_enemy || _enemy_curr.object_index == obj_enemy_2)){
 
-                    var _dir = point_direction(_enemy_prev.x, _enemy_prev.y, _enemy_curr.x, _enemy_curr.y);
-                    var _dist = point_distance(_enemy_prev.x, _enemy_prev.y, _enemy_curr.x, _enemy_curr.y);
+					_dir = point_direction(_enemy_prev.x, _enemy_prev.y, _enemy_curr.x, _enemy_curr.y);
+					_dist = point_distance(_enemy_prev.x, _enemy_prev.y, _enemy_curr.x, _enemy_curr.y);
+				   
                     image_xscale = 1;
+					
                     draw_sprite_ext(spr_line, 0, _enemy_prev.x, _enemy_prev.y, _dist / sprite_width, 1, _dir, c_white, 1);
                 }
             }
@@ -30,6 +44,7 @@ if(keyboard_check(ord("R")) && global.slashing){
 
         var _last_enemy_data = enemy_list[| _max_enemies - 1];
         var _last_enemy = _last_enemy_data[0];
+		
         if(instance_exists(_last_enemy)){
             draw_sprite(spr_sign, 0, _last_enemy.x, _last_enemy.y);
         }
