@@ -235,58 +235,88 @@ switch(state){
 	break;
 	#endregion
 	
-#region slash
-case STATES.ATTAKING:
-    if (advancing) {
-        var _melee_dir = point_direction(x, y, advance_x, advance_y);
-        move_dir = nearest_cardinal_direction(_melee_dir);
+	#region slash
+	case STATES.ATTAKING:
+	    if(advancing){
+	        var _melee_dir = point_direction(x, y, advance_x, advance_y);
+	        move_dir = nearest_cardinal_direction(_melee_dir);
 
-        switch (_spr_dir) {
-            case 0: sprite_index = spr_player_attack_rl; image_xscale = 1; break;
-            case 90: sprite_index = spr_player_attack_rl; break;
-            case 180: sprite_index = spr_player_attack_rl; image_xscale = -1; break;
-            case 270: sprite_index = spr_player_attack_rl; break;
-        }
-
-        var _advance_speed = 0.2;
-        var __new_x = lerp(x, advance_x, _advance_speed);
-        var __new_y = lerp(y, advance_y, _advance_speed);
-
-		if(holded_attack){
-	        var _future_x = x + lengthdir_x(20, _melee_dir);
-	        var _future_y = y + lengthdir_y(20, _melee_dir);
-
-	        if (instance_position(_future_x, _future_y, obj_enemy_par)) {
-	            var _extra_distance = 40;
-	            advance_x += lengthdir_x(_extra_distance, _melee_dir);
-	            advance_y += lengthdir_y(_extra_distance, _melee_dir);
+	        switch (_spr_dir) {
+	            case 0: sprite_index = spr_player_attack_rl; image_xscale = 1; break;
+	            case 90: sprite_index = spr_player_attack_rl; break;
+	            case 180: sprite_index = spr_player_attack_rl; image_xscale = -1; break;
+	            case 270: sprite_index = spr_player_attack_rl; break;
 	        }
-		}
-        if (!place_meeting(__new_x, __new_y, obj_wall)) {
-            x = __new_x;
-            y = __new_y;
-        } else {
-            advancing = false;
-        }
 
+	        var _advance_speed = 0.2;
+	        var __new_x = lerp(x, advance_x, _advance_speed);
+	        var __new_y = lerp(y, advance_y, _advance_speed);
 
-        if (point_distance(x, y, advance_x, advance_y) < 1) {
-            advancing = false;
-        }
-    }
+	        var collision_wall = place_meeting(__new_x, __new_y, obj_wall);
+	        var collision_enemy = place_meeting(__new_x, __new_y, obj_enemy_par);
 
-    if (!advancing && image_index >= image_number - 1) {
+	        if(!collision_wall && !collision_enemy){
+	            x = __new_x;
+	            y = __new_y;
+	        }else{
+	            advancing = false;
+	        }
 
-        while (place_meeting(x, y, obj_enemy_par)) {
-            x += lengthdir_x(-1, move_dir);
-            y += lengthdir_y(-1, move_dir);
-        }
-        state = STATES.MOVING;
-    }
-    break;
-#endregion
+	        if(point_distance(x, y, advance_x, advance_y) < 1){
+	            advancing = false;
+	        }
+	    }
 
+	    if(!advancing && image_index >= image_number - 1){
+	        state = STATES.MOVING;
+	    }
+	break;
 
+	#endregion
+	
+	#region line attack
+	case STATES.HOLD_ATK:
+	    if(advancing){
+	        var _melee_dir = point_direction(x, y, advance_x, advance_y);
+	        move_dir = nearest_cardinal_direction(_melee_dir);
+
+	        switch(_spr_dir){
+	            case 0: sprite_index = spr_player_attack_rl; image_xscale = 1; break;
+	            case 90: sprite_index = spr_player_attack_rl; break;
+	            case 180: sprite_index = spr_player_attack_rl; image_xscale = -1; break;
+	            case 270: sprite_index = spr_player_attack_rl; break;
+	        }
+
+	        var _advance_speed = 0.2;
+	        var __new_x = lerp(x, advance_x, _advance_speed);
+	        var __new_y = lerp(y, advance_y, _advance_speed);
+
+		        var _future_x = x + lengthdir_x(20, _melee_dir);
+		        var _future_y = y + lengthdir_y(20, _melee_dir);
+
+		        if(instance_position(_future_x, _future_y, obj_enemy_par)){
+		            var _extra_distance = 40;
+		            advance_x += lengthdir_x(_extra_distance, _melee_dir);
+		            advance_y += lengthdir_y(_extra_distance, _melee_dir);
+		        }
+
+	        if(!place_meeting(__new_x, __new_y, obj_wall)){
+	            x = __new_x;
+	            y = __new_y;
+	        }else{
+	            advancing = false;
+	        }
+			
+	        if(point_distance(x, y, advance_x, advance_y) < 1){
+	            advancing = false;
+	        }
+	    }
+
+	    if(!advancing && image_index >= image_number - 1){
+	        state = STATES.MOVING;
+	    }
+	break;
+	#endregion
 
 	#region death
 	case STATES.DEATH:
@@ -305,110 +335,30 @@ var _mb = mouse_check_button_pressed(mb_left);
 var _mb2 = mouse_check_button(mb_left);
 var _ma = mouse_check_button_pressed(mb_right);
 
-show_debug_message(state)
-
 parry_cooldown = clamp(parry_cooldown, 0, 70);
-
 parry_cooldown--;
 
-if(_ma && global.stamina > 20 && parry_cooldown <= 0 && !global.slow_motion){
-	state = STATES.PARRY
-	global.stamina -= 20;
-	parry_cooldown = 70;
+//parry
+if(_ma){
+	player_parry();
 }
 
+//hold attack
 var _hold_time = 30;
 
-if(!mouse_check_button(mb_left) && !global.slow_motion){
-    if(timer >= _hold_time && !h_atk && global.stamina > 30){ // hold atk
-		holded_attack = true;
-        alarm[4] = 50;
-        image_index = 0;
-        state = STATES.ATTAKING;
-        
-        var _melee_dir = point_direction(x, y, obj_control.x, obj_control.y);
-        var _advance_dir = 15;
-        var _advance_distance = 120;
-
-        var _box_x = x + lengthdir_x(_advance_dir, _melee_dir);
-        var _box_y = y + lengthdir_y(_advance_dir, _melee_dir);
-        
-        advance_x = x + lengthdir_x(_advance_distance, _melee_dir);
-        advance_y = y + lengthdir_y(_advance_distance, _melee_dir);
-
-        if(!instance_exists(obj_hitbox)){
-            var _box = instance_create_layer(_box_x, _box_y, "Instances_player", obj_hitbox);
-            _box.image_angle = _melee_dir;
-            _box.sprite_index = spr_hitbox_4;
-            _box.dmg = 3;
-        }
-
-        advancing = true;
-        global.combo = 0;
-        alarm[3] = 40;
-        alarm[8] = 40;
-		
-        timer = 0;
-        h_atk = true;
-		global.stamina -= 30;
-		
-		var _colide = collision_rectangle(x - 8, y - 8, x + 8, y + 8, obj_enemy_par, false, false);
-		
-		if(_colide){
-	        emp_dir = point_direction(other.x, other.y, x, y);
-	        emp_veloc = 6;
-			
-			state = STATES.HIT
-			alarm[5] = 5;
-		}
-
-    }else{
-        timer = 0;
-        h_atk = false;
-    }
-}else if(_mb2 && !global.slow_motion){
-    timer++;
+if(_mb2){
+	if (timer <= _hold_time && !h_atk){ 
+		timer++;
+	}
+}else if(!_mb2 && timer >= _hold_time){
+	player_line_attack();
+	h_atk = false;
 }
 
-if(state != STATES.ATTAKING && alarm[4] <= 0){
-    if(_mb && global.combo < 3 && !_ma && !global.slow_motion){ // click atk
-		clicked_attack = true;
-        alarm[4] = 15;
-        image_index = 0;
-        state = STATES.ATTAKING;
-
-        var _melee_dir = point_direction(x, y, obj_control.x, obj_control.y);
-        var _advance_dir = 20;
-        var _advance_distance = 28;
-
-        var _box_x = x + lengthdir_x(_advance_dir, _melee_dir);
-        var _box_y = y + lengthdir_y(_advance_dir, _melee_dir);
-        
-        advance_x = x + lengthdir_x(_advance_distance, _melee_dir);
-        advance_y = y + lengthdir_y(_advance_distance, _melee_dir);
-
-        if(!instance_exists(obj_hitbox)){
-            var _box = instance_create_layer(_box_x, _box_y, "Instances_player", obj_hitbox);
-            _box.image_angle = _melee_dir;
-			_box.dmg = 1;
-
-            switch(global.combo){
-                case 0:
-                    _box.sprite_index = spr_hitbox_1;
-                    break;
-                case 1:
-                    _box.sprite_index = spr_hitbox_2;
-                    break;
-                case 2:
-                    _box.sprite_index = spr_hitbox_3;
-                    break;
-            }
-        }
-        advancing = true;
-        global.combo++;
-        alarm[3] = 20;
-        alarm[8] = 30;
-        timer = 0;
+//click attack
+if(alarm[4] <= 0){
+    if(_mb && global.combo < 3){
+        player_basic_attack();
     }
 }
 #endregion

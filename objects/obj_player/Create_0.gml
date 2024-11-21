@@ -75,6 +75,7 @@ enum STATES{
 	PARRY,
     HEAL,
     ATTAKING,
+	HOLD_ATK,
     HIT,
     DEATH,
 }
