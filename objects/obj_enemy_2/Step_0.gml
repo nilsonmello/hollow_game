@@ -80,6 +80,19 @@ switch(state){
         if (hit){
             hit = false;
         }
+		
+		center_x = 0;
+		center_y = 0;
+		angle = 0;
+
+		radius = 0;
+		r_speed = 0;
+
+		recovery = 0;
+		esc_x = 0;
+		esc_y = 0;
+		move_direction = 0;
+		
         part_particles_create(obj_particle_setup.particle_hit, x, y, obj_particle_setup.particle_slash, 1);
 
         vel_h = lengthdir_x(emp_veloc, emp_dir);
@@ -99,7 +112,7 @@ switch(state){
 		knocked_time--;
 	
         if(knocked_time > 0){
-            if (hit) {
+            if (hit){
                 hit = false;
                 alarm[1] = 15;
             }
@@ -211,7 +224,7 @@ switch(state){
 			center_y = obj_player.y;
 	    }
     break;
-#endregion
+	#endregion
 	
 	#region recovery from last attack
 	case ENEMY_STATES.RECOVERY:
