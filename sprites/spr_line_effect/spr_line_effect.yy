@@ -23,7 +23,7 @@
   ],
   "name":"spr_line_effect",
   "nineSlice":null,
-  "origin":3,
+  "origin":9,
   "parent":{
     "name":"effects",
     "path":"folders/Sprites/effects.yy",

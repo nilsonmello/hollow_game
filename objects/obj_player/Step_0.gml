@@ -121,7 +121,7 @@ switch(state){
 		state_timer += 1;
 
 		if(state_timer >= 1){
-		    part_particles_create(obj_particle_setup.particle_system, x, y, obj_particle_setup.particle_shadow, 4);
+		    part_particles_create(particle_system, x, y, particle_shadow, 4);
 		    state_timer = 0;
 		}
 
@@ -561,14 +561,14 @@ if(xprevious != x and candust == true){
 	alarm[7] = 10;
 	var _random_time = irandom_range(-1, 2);
 	alarm_set(3, 8 + _random_time);
-	part_particles_create(obj_particle_setup.particle_system_dust, x, y + 5, obj_particle_setup.particle_dust, 10);
+	part_particles_create(particle_system_dust, x, y + 5, particle_dust, 10);
 }
 if(yprevious != y and candust == true){
 	candust = false;
 	alarm[7] = 10;
 	var _random_time = irandom_range(-1, 2);
 	alarm_set(3, 8 + _random_time);
-	part_particles_create(obj_particle_setup.particle_system_dust, x, y, obj_particle_setup.particle_dust, 10);
+	part_particles_create(particle_system_dust, x, y, particle_dust, 10);
 }
 #endregion
 

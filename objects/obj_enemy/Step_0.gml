@@ -77,7 +77,7 @@ switch(state){
         if(hit){
             hit = false;
         }
-        part_particles_create(obj_particle_setup.particle_hit, x, y, obj_particle_setup.particle_slash, 1);
+        part_particles_create(particle_hit, x, y, particle_slash, 1);
 
         vel_h = lengthdir_x(emp_veloc, emp_dir);
         vel_v = lengthdir_y(emp_veloc, emp_dir);
@@ -254,9 +254,9 @@ switch(state){
 
 	#region death
     case ENEMY_STATES.DEATH:
-        part_particles_create(obj_particle_setup.particle_system_explosion, x, y, obj_particle_setup.particle_circle, 1); 
-        part_particles_create(obj_particle_setup.particle_system_explosion, x, y, obj_particle_setup.particle_explosion, 8); 
-        part_particles_create(obj_particle_setup.particle_system_explosion, x, y, obj_particle_setup.particle_explosion_2, 8); 
+        part_particles_create(particle_system_explosion, x, y, particle_circle, 1); 
+        part_particles_create(particle_system_explosion, x, y, particle_explosion, 8); 
+        part_particles_create(particle_system_explosion, x, y, particle_explosion_2, 8); 
 
         layer_set_visible("screenshake_damaging_enemies", 0);
         
@@ -274,4 +274,3 @@ switch(state){
 	#endregion
 }
 #endregion
-

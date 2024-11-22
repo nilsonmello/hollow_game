@@ -290,9 +290,9 @@ switch(state){
 
 	#region death
     case ENEMY_STATES.DEATH:
-        part_particles_create(obj_particle_setup.particle_system_explosion, x, y, obj_particle_setup.particle_circle, 1); 
-        part_particles_create(obj_particle_setup.particle_system_explosion, x, y, obj_particle_setup.particle_explosion, 8); 
-        part_particles_create(obj_particle_setup.particle_system_explosion, x, y, obj_particle_setup.particle_explosion_2, 8); 
+        part_particles_create(particle_system_explosion, x, y, particle_circle, 1); 
+        part_particles_create(particle_system_explosion, x, y, particle_explosion, 8); 
+        part_particles_create(particle_system_explosion, x, y, particle_explosion_2, 8); 
 
         layer_set_visible("screenshake_damaging_enemies", 0);
         

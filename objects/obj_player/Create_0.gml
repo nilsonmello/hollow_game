@@ -129,6 +129,9 @@ function nearest_cardinal_direction(_direction){
 }
 #endregion
 
+#region particles
+
+#region healing particles
 ps = part_system_create();
 part_system_draw_order(ps, true);
 part_system_depth(ps, 100);
@@ -180,3 +183,40 @@ part_type_life(ptype3, 30, 30);
 
 emitter = part_emitter_create(ps);
 emitter2 = part_emitter_create(ps);
+#endregion
+
+#region walk particle
+particle_system_dust = part_system_create_layer("Instance_particle", true);
+particle_dust = part_type_create();
+
+part_type_sprite(particle_dust, spr_dust, 0, 0, 0);
+part_type_subimage(particle_dust, 0);
+part_type_size(particle_dust, .2, .8, .001, 0)
+
+part_type_direction(particle_dust, 0, 180, 0, 1);
+part_type_speed(particle_dust, .1, .2, -0.004, 0);
+
+part_type_life(particle_dust, 50, 70);
+part_type_orientation(particle_dust, 0, 180, .1, 1, 0);
+part_type_alpha3(particle_dust, 0.6, 0.4, 0.1);
+#endregion
+
+#region player shadow
+particle_system = part_system_create_layer("Instance_particle", true);
+
+particle_shadow = part_type_create();
+
+part_type_sprite(particle_shadow, spr_player_idle, 0, 0, 1);
+part_type_subimage(particle_shadow, 0)
+part_type_size(particle_shadow, 1, 1, 0, 0);
+part_type_life(particle_shadow, 25, 45);
+part_type_alpha1(particle_shadow, 0.5);
+
+var _red = make_color_rgb(53, 43, 66);
+var _red_2 = make_color_rgb(67, 67, 106);
+var _red_3 = make_color_rgb(75, 128, 202);
+
+part_type_color3(particle_shadow, _red, _red_2, _red_3);
+#endregion
+
+#endregion
