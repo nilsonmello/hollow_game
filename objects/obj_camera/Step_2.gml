@@ -1,5 +1,6 @@
-
-if (keyboard_check(ord("R")) && global.stamina >= global.stamina_max && global.slashing){
+if(global.healing){
+    zoom_target = 0.9;
+}else if(keyboard_check(ord("R")) && global.stamina >= global.stamina_max && global.slashing){
     zoom_target = 0.8;
 }else{
     zoom_target = 1;
@@ -24,4 +25,3 @@ if (instance_exists(view_target)) {
     
     camera_set_view_pos(view_camera[0], lerp(_cx, _x1, view_spd), lerp(_cy, _y1, view_spd));
 }
-

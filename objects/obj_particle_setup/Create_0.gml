@@ -100,3 +100,4 @@ part_type_life(particle_slash, 20, 30);
 part_type_orientation(particle_slash, 0, 359, .1, 1, 0);
 part_type_alpha2(particle_slash, 1, 0.1);
 #endregion
+

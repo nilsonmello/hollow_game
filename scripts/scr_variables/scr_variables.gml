@@ -47,3 +47,5 @@ global.hab_dmg = 3;
 
 //increase damage
 global.dmg_stack = true;
+
+global.healing = false;

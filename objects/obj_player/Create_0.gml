@@ -89,10 +89,11 @@ can_heal = true;
 timer_heal = 0;
 alarm[2] = 0;
 
-function player_heal() {
-    if (global.energy >= global.cost_r) {
+function player_heal(){
+	
+    if(global.energy >= global.cost_r){
         global.life_at += global.life * 0.2;
-        if (global.life_at > global.life) {
+        if(global.life_at > global.life){
             global.life_at = global.life;
         }
         global.energy -= global.cost_r;
@@ -127,3 +128,39 @@ function nearest_cardinal_direction(_direction){
     return _nearest_direction;
 }
 #endregion
+
+ps = part_system_create();
+part_system_draw_order(ps, true);
+
+ptype1 = part_type_create();
+part_type_shape(ptype1, pt_shape_sphere);
+
+part_type_size(ptype1, .2, .5, 0.01, 0);
+part_type_scale(ptype1, 1, 1);
+part_type_speed(ptype1, 0, 0, 0, 0);
+part_type_direction(ptype1, 0, 0, 0, 0);
+part_type_gravity(ptype1, 0, 0);
+part_type_orientation(ptype1, 0, 0, 0, 0, false);
+part_type_colour3(ptype1, $FFFFFF, $FFFFFF, $FFFFFF);
+part_type_alpha3(ptype1, 0, .5, 0);
+part_type_blend(ptype1, false);
+part_type_life(ptype1, 60, 60);
+		
+ptype2 = part_type_create();
+part_type_shape(ptype2, pt_shape_pixel);
+
+part_type_size(ptype2, 1, 1, 0.01, 0);
+part_type_scale(ptype2, 1, 1);
+part_type_speed(ptype2, 1, 1, 0, 0);
+part_type_direction(ptype2, 90, 90, 0, 0);
+part_type_gravity(ptype2, 0, 0);
+part_type_orientation(ptype2, 0, 0, 0, 0, false);
+part_type_colour3(ptype2, $FFFFFF, $FFFFFF, $FFFFFF);
+part_type_alpha3(ptype2, 0, .5, 0);
+part_type_blend(ptype2, false);
+part_type_life(ptype2, 60, 60);
+
+emitter = part_emitter_create(ps);
+
+
+
