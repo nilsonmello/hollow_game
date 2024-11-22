@@ -60,23 +60,25 @@ function player_line_attack(){
     alarm[4] = 50;
     image_index = 0;
     state = STATES.HOLD_ATK;
+	
+	
+        var _melee_dir = point_direction(x, y, obj_control.x, obj_control.y);
+        var _advance_dir = 20;
+        var _advance_distance = 150;
+        
+        advance_x = x + lengthdir_x(_advance_distance, _melee_dir);
+        advance_y = y + lengthdir_y(_advance_distance, _melee_dir);
+	
 
-    var _melee_dir = point_direction(x, y, obj_control.x, obj_control.y);
-    var _advance_dir = 15;
-    var _advance_distance = 150;
+		_p_slash = part_system_create();
 
-    var _box_x = x + lengthdir_x(_advance_dir, _melee_dir);
-    var _box_y = y + lengthdir_y(_advance_dir, _melee_dir);
+		_bs = part_type_create();
 
-    advance_x = x + lengthdir_x(_advance_distance, _melee_dir);
-    advance_y = y + lengthdir_y(_advance_distance, _melee_dir);
+		part_type_sprite(_bs, spr_hitbox_4, 0, 0, 0);
+		part_type_orientation(_bs, _melee_dir, _melee_dir, 0, 0, 0);
+		part_type_alpha3(_bs, 1, .5, 0)
+		part_particles_create(_p_slash, x, y, _bs, 1);
 
-    if(!instance_exists(obj_hitbox)){
-        var _box = instance_create_layer(_box_x, _box_y, "Instances_player", obj_hitbox);
-        _box.image_angle = _melee_dir;
-        _box.sprite_index = spr_hitbox_4;
-        _box.dmg = 3;
-    }
 
     advancing = true;
     global.combo = 0;
@@ -105,3 +107,6 @@ function player_parry(){
 	}
 }
 #endregion
+
+
+

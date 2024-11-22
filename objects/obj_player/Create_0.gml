@@ -220,3 +220,8 @@ part_type_color3(particle_shadow, _red, _red_2, _red_3);
 #endregion
 
 #endregion
+
+advance_speed = .2
+
+line_timer = 0;
+line_at = 0;

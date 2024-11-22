@@ -26,7 +26,7 @@ switch(state){
     case ENEMY_STATES.IDLE:
 		state_time--;
 		
-		if(distance_to_object(obj_player) < 80 && time_per_attacks <= 0){
+		if(distance_to_object(obj_player) < 80 && time_per_attacks <= 0 && obj_player.alarm[9] <= 0){
 			if(_line_wall){
 				return false;
 			}
@@ -58,7 +58,7 @@ switch(state){
 			state = ENEMY_STATES.CHOOSE;	
 		}
 		
-		if(distance_to_object(obj_player) < 80 && time_per_attacks <= 0){
+		if(distance_to_object(obj_player) < 80 && time_per_attacks <= 0 && obj_player.alarm[9] <= 0){
 			if(_line_wall){
 				return false;
 			}
@@ -131,7 +131,7 @@ switch(state){
 			warning = true;
 			atk_wait--;
 		
-		    if(atk_wait <= 0){
+		    if(atk_wait <= 0 && obj_player.alarm[9] <= 0){
 		        atk_time = 15;
 		        state = ENEMY_STATES.ATTACK;
 				dire = point_direction(x, y, obj_player.x, obj_player.y);

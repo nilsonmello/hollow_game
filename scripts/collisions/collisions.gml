@@ -10,6 +10,7 @@ function player_colide(){
             }
             spd_h = 0;
 			advance_speed = 0;
+			advancing = false;
         }
     }
 	
@@ -23,6 +24,7 @@ function player_colide(){
             }
             spd_v = 0;
 			advance_speed = 0;
+			advancing = false;
         }
     }
 }

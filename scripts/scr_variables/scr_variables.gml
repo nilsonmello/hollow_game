@@ -40,7 +40,7 @@ global.parry = false;
 global.marked = 10;
 
 //hability area range
-global.hab_range = 80;
+global.hab_range = 110;
 
 //area slash damage
 global.hab_dmg = 3;

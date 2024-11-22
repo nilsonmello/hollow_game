@@ -217,7 +217,9 @@ switch(state){
 		spd_v = lengthdir_y(emp_veloc, emp_dir);
     
 		emp_veloc = lerp(emp_veloc, 0, .01);
-    
+		
+		alarm[9] = 0;
+		
 		player_colide();
     
 		x += spd_h;
@@ -304,7 +306,7 @@ switch(state){
 	#region line attack
 	case STATES.HOLD_ATK:
 	    if(advancing){
-	        var _melee_dir = point_direction(x, y, advance_x, advance_y);
+	        var _melee_dir = point_direction(x, y, spd_h, spd_v);
 	        move_dir = nearest_cardinal_direction(_melee_dir);
 
 	        switch(_spr_dir){
@@ -318,23 +320,16 @@ switch(state){
 	        var __new_x = lerp(x, advance_x, _advance_speed);
 	        var __new_y = lerp(y, advance_y, _advance_speed);
 
-		        var _future_x = x + lengthdir_x(20, _melee_dir);
-		        var _future_y = y + lengthdir_y(20, _melee_dir);
+	        var _collision_wall = place_meeting(__new_x, __new_y, obj_wall);
 
-		        if(instance_position(_future_x, _future_y, obj_enemy_par)){
-		            var _extra_distance = 40;
-		            advance_x += lengthdir_x(_extra_distance, _melee_dir);
-		            advance_y += lengthdir_y(_extra_distance, _melee_dir);
-		        }
-
-	        if(!place_meeting(__new_x, __new_y, obj_wall)){
+	        if(!_collision_wall){
 	            x = __new_x;
 	            y = __new_y;
 	        }else{
 	            advancing = false;
 	        }
 			
-	        if(point_distance(x, y, advance_x, advance_y) < 1){
+	        if(point_distance(x, y, spd_h, spd_v) < 1){
 	            advancing = false;
 	        }
 	    }
@@ -377,9 +372,12 @@ if(_mb2){
 	if (timer <= _hold_time && !h_atk){ 
 		timer++;
 	}
-}else if(!_mb2 && timer >= _hold_time){
+}
+
+if(!_mb2 && timer >= _hold_time && global.stamina > 30){
 	player_line_attack();
 	h_atk = false;
+	alarm[9] = 30;
 }
 
 //click attack
@@ -387,6 +385,25 @@ if(alarm[4] <= 0){
     if(_mb && global.combo < 3){
         player_basic_attack();
     }
+}
+
+if(alarm[9] > 0 && h_atk = false){
+var _rec = collision_rectangle(x - 8, y - 8, x + 8, y + 8, obj_enemy_par, false, false);
+	if(_rec){
+		with(_rec){
+			layer_set_visible("screenshake_damaging_enemies", 1);
+			state = ENEMY_STATES.HIT;
+			vida -= 2;
+			alarm[0] = 15;
+                    
+			emp_dir = point_direction(obj_player.x, obj_player.y, x, y);
+			emp_veloc = 6;
+			hit = false;
+                    
+			alarm[1] = 10;
+			alarm[2] = 30;
+		}
+	}	
 }
 #endregion
 

@@ -29,7 +29,7 @@ switch(state){
     case ENEMY_STATES.IDLE:
 		state_time--;
 		
-		if(distance_to_object(obj_player) < 80 && time_per_attacks <= 0){
+		if(distance_to_object(obj_player) < 80 && time_per_attacks <= 0 && obj_player.alarm[9] <= 0){
 			if(_line_wall){
 				return false;
 			}
@@ -61,7 +61,7 @@ switch(state){
 			state = ENEMY_STATES.CHOOSE;	
 		}
 		
-		if(distance_to_object(obj_player) < 80 && time_per_attacks <= 0){
+		if(distance_to_object(obj_player) < 80 && time_per_attacks <= 0 && obj_player.alarm[9] <= 0){
 			if(_line_wall){
 				return false;
 			}
@@ -157,6 +157,13 @@ switch(state){
 	
 	#region attack
 	case ENEMY_STATES.ATTACK:
+	
+	if(obj_player.alarm[9] > 0){
+		time_per_attacks = 250;
+		state = ENEMY_STATES.MOVE
+		warning = false;
+	}
+	
 	    if(!variable_instance_exists(id, "created_hitbox")){
 	        created_hitbox = false;
 	    }
