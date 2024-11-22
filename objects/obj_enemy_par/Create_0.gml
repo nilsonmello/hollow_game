@@ -7,6 +7,8 @@ alarm[2] = 0;
 #region attack and state
 path = path_add();
 
+marked = false;
+
 calc_path_timer = irandom(60);
 
 state = ENEMY_STATES.MOVE;

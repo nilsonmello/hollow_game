@@ -26,7 +26,7 @@
   ],
   "name":"spr_hitbox_4",
   "nineSlice":null,
-  "origin":9,
+  "origin":3,
   "parent":{
     "name":"effects",
     "path":"folders/Sprites/effects.yy",
@@ -87,7 +87,7 @@
     ],
     "visibleRange":null,
     "volume":1.0,
-    "xorigin":55,
+    "xorigin":0,
     "yorigin":7,
   },
   "swatchColours":null,

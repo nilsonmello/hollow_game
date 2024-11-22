@@ -9,6 +9,7 @@ function player_colide(){
                 x += sign(spd_h);
             }
             spd_h = 0;
+			advance_speed = 0;
         }
     }
 	
@@ -21,6 +22,7 @@ function player_colide(){
                 y += sign(spd_v);
             }
             spd_v = 0;
+			advance_speed = 0;
         }
     }
 }

@@ -8,3 +8,7 @@ if(global.slashing and distance_to_object(obj_player) < global.hab_range){
 }
 
 hit_alpha = lerp(hit_alpha, 0, 0.1);
+
+if(!distance_to_object(obj_player) < 150){
+marked = false;
+}

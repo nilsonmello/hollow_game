@@ -1,6 +1,10 @@
 #region self e hit
 draw_sprite_ext(sprite_index, image_index, x, y, escx, escy, 0, c_white, 1);
 
+if(marked){
+	draw_sprite_ext(spr_sign, 0, x, y, escx, escy, 0, c_white, 1);
+}
+
 if(hit_alpha > 0){
 	
 	gpu_set_fog(true, hit_color,0, 0);

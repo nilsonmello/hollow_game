@@ -142,7 +142,9 @@ switch(state){
     case ENEMY_STATES.WAITING:
 		attacking = true;
 		atk_wait--;
-	
+		
+		enemy_colide();
+		
         if(atk_wait <= 0){
             state = ENEMY_STATES.ATTACK;
             atk_time = 30;
@@ -236,6 +238,8 @@ switch(state){
 			var _move_speed = 2;
 			var _new_x = lerp(x, esc_x, 0.05);
 			var _new_y = lerp(y, esc_y, 0.05);
+			
+			enemy_colide();
 
 			if(!place_meeting(_new_x, _new_y, obj_player) && !place_meeting(_new_x, _new_y, obj_wall)){
 				x = _new_x;

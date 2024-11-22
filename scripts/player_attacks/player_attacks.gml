@@ -63,7 +63,7 @@ function player_line_attack(){
 
     var _melee_dir = point_direction(x, y, obj_control.x, obj_control.y);
     var _advance_dir = 15;
-    var _advance_distance = 120;
+    var _advance_distance = 150;
 
     var _box_x = x + lengthdir_x(_advance_dir, _melee_dir);
     var _box_y = y + lengthdir_y(_advance_dir, _melee_dir);
