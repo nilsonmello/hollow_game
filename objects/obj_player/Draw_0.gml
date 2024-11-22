@@ -46,59 +46,59 @@ if(keyboard_check(ord("R")) && global.slashing){
         var _last_enemy = _last_enemy_data[0];
 		
         if(instance_exists(_last_enemy)){
-            draw_sprite(spr_sign, 0, _last_enemy.x, _last_enemy.y);
+            draw_sprite(spr_sign, 1, _last_enemy.x, _last_enemy.y);
         }
     }
 }
 #endregion
 
 #region trail with dynamic extension
-if(move_speed > 0 && ds_list_size(path_list) > 0){
-    var _prev_x, _prev_y;
-    var _alpha_step = .1 / trail_length;
-    var _current_alpha = 1.0;
+//if(move_speed > 0 && ds_list_size(path_list) > 0){
+//    var _prev_x, _prev_y;
+//    var _alpha_step = .1 / trail_length;
+//    var _current_alpha = 1.0;
 
-    if(ds_queue_size(trail_positions) < trail_length){
-        ds_queue_enqueue(trail_positions, [x, y]);
-	}else{
-        ds_queue_dequeue(trail_positions);
-        ds_queue_enqueue(trail_positions, [x, y]);
-    }
+//    if(ds_queue_size(trail_positions) < trail_length){
+//        ds_queue_enqueue(trail_positions, [x, y]);
+//	}else{
+//        ds_queue_dequeue(trail_positions);
+//        ds_queue_enqueue(trail_positions, [x, y]);
+//    }
 
-    if(ds_queue_size(trail_positions) > 1){
-        var _first_position = ds_queue_head(trail_positions);
-        _prev_x = _first_position[0];
-        _prev_y = _first_position[1];
+//    if(ds_queue_size(trail_positions) > 1){
+//        var _first_position = ds_queue_head(trail_positions);
+//        _prev_x = _first_position[0];
+//        _prev_y = _first_position[1];
 
-        var _temp_queue = ds_queue_create();
-        ds_queue_copy(_temp_queue, trail_positions);
+//        var _temp_queue = ds_queue_create();
+//        ds_queue_copy(_temp_queue, trail_positions);
 
-        ds_queue_dequeue(_temp_queue);
+//        ds_queue_dequeue(_temp_queue);
 
-        while(!ds_queue_empty(_temp_queue)){
-            var _current_position = ds_queue_dequeue(_temp_queue);
-            var _current_x = _current_position[0];
-            var _current_y = _current_position[1];
+//        while(!ds_queue_empty(_temp_queue)){
+//            var _current_position = ds_queue_dequeue(_temp_queue);
+//            var _current_x = _current_position[0];
+//            var _current_y = _current_position[1];
 
-            var _dx = _current_x - _prev_x;
-            var _dy = _current_y - _prev_y;
-            var _distance = point_distance(_prev_x, _prev_y, _current_x, _current_y);
-            var _angle = point_direction(_prev_x, _prev_y, _current_x, _current_y);
+//            var _dx = _current_x - _prev_x;
+//            var _dy = _current_y - _prev_y;
+//            var _distance = point_distance(_prev_x, _prev_y, _current_x, _current_y);
+//            var _angle = point_direction(_prev_x, _prev_y, _current_x, _current_y);
 
-            draw_set_alpha(_current_alpha);
+//            draw_set_alpha(_current_alpha);
 							
-            draw_sprite_ext(spr_trail, 0, (_prev_x + _current_x) / 2, (_prev_y + _current_y) / 2,
-                            _distance / 32, 1, _angle, c_white, _current_alpha);
+//            draw_sprite_ext(spr_trail, 0, (_prev_x + _current_x) / 2, (_prev_y + _current_y) / 2,
+//                            _distance / 32, 1, _angle, c_white, _current_alpha);
 
-            _prev_x = _current_x;
-            _prev_y = _current_y;
+//            _prev_x = _current_x;
+//            _prev_y = _current_y;
 
-            _current_alpha -= _alpha_step;
-        }
-        ds_queue_destroy(_temp_queue);
-        draw_set_alpha(1.0);
-    }    
-}
+//            _current_alpha -= _alpha_step;
+//        }
+//        ds_queue_destroy(_temp_queue);
+//        draw_set_alpha(1.0);
+//    }    
+//}
 #endregion
 
 #region static trail

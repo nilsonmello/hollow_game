@@ -35,11 +35,15 @@ switch(state){
 	
 	#region idle
 	case STATES.IDLE:
-		switch(_spr_dir){
-			case 0:	sprite_index = spr_player_idle	image_xscale = 1	break;
-			case 90:	sprite_index = spr_player_idle_up	break;
-			case 180:	sprite_index = spr_player_idle	image_xscale = -1	break;
-			case 270:	sprite_index = spr_player_idle_down	 break;
+		if(!global.slow_motion){
+			switch(_spr_dir){
+				case 0:	sprite_index = spr_player_walk_rl;	image_xscale = 1	break;
+				case 90:	sprite_index = spr_walk_up;	break;
+				case 180:	sprite_index = spr_player_walk_rl;	image_xscale = -1	break;
+				case 270:	sprite_index = spr_walk_down;	break;
+			}
+		}else{
+			sprite_index = spr_player_power	
 		}
 		
 		spd = 0;
@@ -71,11 +75,15 @@ switch(state){
 			spd = 0;
 		}
 			
-		switch(_spr_dir){
-			case 0:	sprite_index = spr_player_walk_rl;	image_xscale = 1	break;
-			case 90:	sprite_index = spr_walk_up;	break;
-			case 180:	sprite_index = spr_player_walk_rl;	image_xscale = -1	break;
-			case 270:	sprite_index = spr_walk_down;	break;
+		if(!global.slow_motion){
+			switch(_spr_dir){
+				case 0:	sprite_index = spr_player_walk_rl;	image_xscale = 1	break;
+				case 90:	sprite_index = spr_walk_up;	break;
+				case 180:	sprite_index = spr_player_walk_rl;	image_xscale = -1	break;
+				case 270:	sprite_index = spr_walk_down;	break;
+			}
+		}else{
+			sprite_index = spr_player_power	
 		}
 
 		if(_keys){
@@ -252,10 +260,10 @@ switch(state){
 	        var __new_x = lerp(x, advance_x, _advance_speed);
 	        var __new_y = lerp(y, advance_y, _advance_speed);
 
-	        var collision_wall = place_meeting(__new_x, __new_y, obj_wall);
-	        var collision_enemy = place_meeting(__new_x, __new_y, obj_enemy_par);
+	        var _collision_wall = place_meeting(__new_x, __new_y, obj_wall);
+	        var _collision_enemy = place_meeting(__new_x, __new_y, obj_enemy_par);
 
-	        if(!collision_wall && !collision_enemy){
+	        if(!_collision_wall && !_collision_enemy){
 	            x = __new_x;
 	            y = __new_y;
 	        }else{
@@ -418,8 +426,6 @@ if(keyboard_check(ord("R")) && global.can_attack){
                 if(instance_exists(_enemy)){
                     ds_list_add(path_list, [_enemy.x, _enemy.y]);
                 }
-            } else {
-                show_debug_message("Elemento inválido em enemy_list: " + string(_enemy_data));
             }
         }
     }
@@ -473,6 +479,10 @@ if(moving_along_path && ds_list_size(path_list) > 0){
                 alarm[6] = 20;
                 global.can_attack = false;
             }
+			
+			if(move_speed > 0 && path_position_index == ds_list_size(path_list) - 1){
+			    global.hab_dmg = 2;    
+			}
 
         }else{
             path_position_index++;
@@ -486,7 +496,8 @@ if(moving_along_path && ds_list_size(path_list) > 0){
 
             var _enemy_index = instance_position(_target_x, _target_y, obj_enemy_par);
             if(_enemy_index != noone){
-                _enemy_index.vida -= 3;
+		
+                _enemy_index.vida -= global.hab_dmg;
                 _enemy_index.emp_dir = point_direction(obj_player.x, obj_player.y, _enemy_index.x, _enemy_index.y);
                 _enemy_index.state = ENEMY_STATES.HIT;
                 _enemy_index.alarm[0] = 3;
@@ -494,9 +505,12 @@ if(moving_along_path && ds_list_size(path_list) > 0){
                 _enemy_index.alarm[5] = 80;
                 _enemy_index.emp_veloc = 20;
                 _enemy_index.hit_alpha = 1;
-
                 ds_list_add(trail_fixed_positions, [x, y, direction]);
                 ds_list_add(trail_fixed_timer, 30);
+				
+				if(global.dmg_stack){
+					global.hab_dmg += 1;	
+				}
 
                 layer_set_visible("screenshake_damaging_enemies", 1);
             }
