@@ -237,18 +237,26 @@ switch(state){
 		if(timer_heal < 80){
 			part_emitter_region(ps, emitter, x - 10, x + 10, y - 10, y + 10, ps_shape_rectangle, ps_distr_linear);
 			part_emitter_stream(ps, emitter, ptype2, 1);
+			
+			part_emitter_region(ps, emitter2, x - 10, x + 10, y - 10, y + 10, ps_shape_rectangle, ps_distr_linear);
+			part_emitter_stream(ps, emitter2, ptype3, 1);
 		}else{
 			part_emitter_destroy(ps, emitter);
+			part_emitter_destroy(ps, emitter2);
+			part_particles_create(ps, x, y + 5, ptype1, 1);
 		}
 
 		if(timer_heal >= 80){
-			part_particles_create(ps, x, y, ptype1, 1);
 			player_heal();
+			
 			timer_heal = 0;
 			alarm[2] = 80;
 			can_heal = false;
 			state = STATES.MOVING;
+			
 			emitter = part_emitter_create(ps);
+			emitter2 = part_emitter_create(ps);
+			
 			global.healing = false;
 		}
 	break;

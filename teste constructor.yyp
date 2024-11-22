@@ -83,6 +83,7 @@
     {"id":{"name":"spr_hitbox_4","path":"sprites/spr_hitbox_4/spr_hitbox_4.yy",},},
     {"id":{"name":"spr_hud","path":"sprites/spr_hud/spr_hud.yy",},},
     {"id":{"name":"spr_leaf","path":"sprites/spr_leaf/spr_leaf.yy",},},
+    {"id":{"name":"spr_line_effect","path":"sprites/spr_line_effect/spr_line_effect.yy",},},
     {"id":{"name":"spr_line","path":"sprites/spr_line/spr_line.yy",},},
     {"id":{"name":"spr_player_attack_rl","path":"sprites/spr_player_attack_rl/spr_player_attack_rl.yy",},},
     {"id":{"name":"spr_player_idle_down","path":"sprites/spr_player_idle_down/spr_player_idle_down.yy",},},
