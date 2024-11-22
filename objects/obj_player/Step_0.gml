@@ -37,13 +37,13 @@ switch(state){
 	case STATES.IDLE:
 		if(!global.slow_motion){
 			switch(_spr_dir){
-				case 0:	sprite_index = spr_player_walk_rl;	image_xscale = 1	break;
-				case 90:	sprite_index = spr_walk_up;	break;
-				case 180:	sprite_index = spr_player_walk_rl;	image_xscale = -1	break;
-				case 270:	sprite_index = spr_walk_down;	break;
+				case 0:	sprite_index = spr_player_idle;	image_xscale = 1	break;
+				case 90:	sprite_index = spr_player_idle_up;	break;
+				case 180:	sprite_index = spr_player_idle;	image_xscale = -1	break;
+				case 270:	sprite_index = spr_player_idle_down;	break;
 			}
 		}else{
-			sprite_index = spr_player_power	
+			sprite_index = spr_player_power;
 		}
 		
 		spd = 0;
