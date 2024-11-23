@@ -1,27 +1,13 @@
 #region alarms
+//cooldown per player attacks
 alarm[1] = 0;
+
+//time between attacks to mantain the players combo 
 alarm[2] = 0;
 #endregion
 
-#region attack and state
-path = path_add();
-
-marked = false;
-
-calc_path_timer = irandom(60);
-
+#region enemies state machine base
 state = ENEMY_STATES.MOVE;
-#endregion
-
-#region mp grid and enemy state enum create
-#macro TS 16
-
-var _w = ceil(room_width / TS);
-var _h = ceil(room_height / TS);
-
-global.mp_grid = mp_grid_create(0, 0, _w, _h, TS, TS);
-
-mp_grid_add_instances(global.mp_grid, obj_wall, false);
 
 enum ENEMY_STATES{
 	CHOOSE,
@@ -71,40 +57,64 @@ knocked_time = 0;
 //cooldown for attacks
 time_per_attacks = 0;
 
+//variable to identify if the enemy can be attacked with the players line attack
 attack = false;
 
+//total timer of the hit
 timer_hit = 0;
+
+//crescent value that tefines the timer_hit
 timer_hit_at = 0;
+
+//the period of time that he will be pushed
 emp_timer = 0;
 #endregion
 
 #region movement
+//x and y point are used to the normal walk of the enemies
 x_point = 0;
 y_point = 0;
+
+//the time that the enemie will stay in the same state
 state_time = 0;
 #endregion
 
 #region circular movement (recovery state)
+//the central point of the circle
 center_x = 0;
 center_y = 0;
+
+//the angle increase for the movement
 angle = 0;
 
+//the radius of the circle
 radius = 0;
+
+//speed of the movement
 r_speed = 0;
 
+//control the phases of the recovery state
 recovery = 0;
+
+//the variables that create the movement with the x and y position
 esc_x = 0;
 esc_y = 0;
+
+//the time in this state
 recover_time = 0;
+
+//the direction of the movement
 move_direction = 0;
 #endregion
 
 #region particles
 
-#region explosion particle
+#region death particle
 particle_system_explosion  = part_system_create_layer("Instance_particle", true);
+
 //first particle
 particle_explosion = part_type_create();
+
 //second particle
 particle_explosion_2 = part_type_create();
 
@@ -172,4 +182,3 @@ part_type_alpha2(particle_slash, 1, 0.1);
 #endregion
 
 #endregion
-
