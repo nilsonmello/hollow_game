@@ -104,6 +104,42 @@ switch(state){
 	break;
 	#endregion
 	
+	#region knocked
+    case ENEMY_STATES.KNOCKED:
+		knocked_time--;
+        if(knocked_time > 0){
+            if (hit){
+				layer_set_visible("screenshake_damaging_enemies", 0);
+                hit = false;
+                alarm[1] = 15;
+            }
+
+		if(emp_timer > 0){
+			emp_timer--;
+	        vel_h = lengthdir_x(emp_veloc, emp_dir);
+	        vel_v = lengthdir_y(emp_veloc, emp_dir);
+
+	        emp_veloc = lerp(emp_veloc, 0, .01);
+		
+			enemy_colide();
+
+	        x += vel_h;
+	        y += vel_v;
+		}
+
+            repeat(1){
+                var _exp = instance_create_layer(x, y, "Instances_player", obj_energy_dust);
+                _exp.direction = irandom(360);
+                _exp.speed = 2;
+            }
+        }else{
+			state = ENEMY_STATES.IDLE
+			hit = true;
+			attack = false;
+		}
+    break;
+	#endregion
+	
 	#region waiting attack
 	case ENEMY_STATES.WAITING:
 		attacking = true;
@@ -139,8 +175,8 @@ switch(state){
 
 	        if(!has_attacked){
 	            var _direction = point_direction(x, y, obj_player.x, obj_player.y);
-	            var _attack_range = 18;
-	            var _attack_offset = 2;
+	            var _attack_range = 17;
+	            var _attack_offset = 1;
 
 	            var _rect_x1 = x + lengthdir_x(_attack_offset, _direction) - _attack_range / 2;
 	            var _rect_y1 = y + lengthdir_y(_attack_offset, _direction) - _attack_range / 2;
@@ -185,7 +221,9 @@ switch(state){
 	                                hit = true;
 	                                attacking = false;
 										
-	                                alarm[0] = 5;
+	                                timer_hit = 20;
+									emp_timer = 10;
+									
 	                                alarm[2] = 30;
 	                                time_per_attacks = 110;
 									knocked_time = 30;
