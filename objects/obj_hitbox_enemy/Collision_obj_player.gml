@@ -1,3 +1,5 @@
+#region collision
+//with the player
 with(other){
 	if(can_take_dmg){
 		state = STATES.HIT;
@@ -12,3 +14,4 @@ with(other){
 		obj_control.alarm[0] = 60;
 	}
 }
+#endregion
