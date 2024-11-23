@@ -107,7 +107,7 @@ particle_explosion_2 = part_type_create();
 particle_circle = part_type_create();
 
 //extended explosion
-exp_part = part_type_create();;
+exp_part = part_type_create();
 
 //first
 part_type_sprite(particle_explosion, spr_explosion, 0, 0, 0);

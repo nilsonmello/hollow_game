@@ -387,24 +387,35 @@ if(alarm[4] <= 0){
     }
 }
 
-if(alarm[9] > 0 && h_atk = false){
-var _rec = collision_rectangle(x - 8, y - 8, x + 8, y + 8, obj_enemy_par, false, false);
-	if(_rec){
-		with(_rec){
-			layer_set_visible("screenshake_damaging_enemies", 1);
-			state = ENEMY_STATES.HIT;
-			vida -= 2;
-			alarm[0] = 15;
-                    
-			emp_dir = point_direction(obj_player.x, obj_player.y, x, y);
-			emp_veloc = 6;
-			hit = false;
-                    
-			alarm[1] = 10;
-			alarm[2] = 30;
-		}
-	}	
+var _atk = false;
+
+// Step do jogador
+if(alarm[9] > 0 && !h_atk){
+    var _rec = collision_rectangle(x - 8, y - 8, x + 8, y + 8, obj_enemy_par, false, false);
+    if(!_atk && _rec){
+        with(_rec){
+			if(hit){
+            layer_set_visible("screenshake_damaging_enemies", 1);
+            state = ENEMY_STATES.HIT;
+            vida -= 1;
+            alarm[0] = 10;
+
+            emp_dir = point_direction(obj_player.x, obj_player.y, x, y);
+            emp_veloc = 10;
+            hit = false;
+
+            alarm[1] = 10;
+            alarm[2] = 30;
+			}
+        }
+        _atk = true;
+    }
 }
+
+if(alarm[9] <= 0){
+    _atk = false;
+}
+
 #endregion
 
 #region power activation

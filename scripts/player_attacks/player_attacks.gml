@@ -68,7 +68,6 @@ function player_line_attack(){
         
         advance_x = x + lengthdir_x(_advance_distance, _melee_dir);
         advance_y = y + lengthdir_y(_advance_distance, _melee_dir);
-	
 
 		_p_slash = part_system_create();
 
@@ -76,7 +75,8 @@ function player_line_attack(){
 
 		part_type_sprite(_bs, spr_hitbox_4, 0, 0, 0);
 		part_type_orientation(_bs, _melee_dir, _melee_dir, 0, 0, 0);
-		part_type_alpha3(_bs, 1, .5, 0)
+		part_type_alpha3(_bs, 1, .5, 0);
+		part_type_life(_bs, 20, 20);
 		part_particles_create(_p_slash, x, y, _bs, 1);
 
 
