@@ -167,3 +167,5 @@ part_type_alpha2(particle_slash, 1, 0.1);
 #endregion
 
 #endregion
+
+attack = false;

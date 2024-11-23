@@ -47,6 +47,11 @@ candust = true;
 trail_fixed_positions = ds_list_create();
 trail_fixed_timer = ds_list_create();
 temp = 0;
+
+line_timer = 0;
+line_at = 0;
+
+advance_speed = .2
 #endregion
 
 #region combo variables
@@ -220,8 +225,3 @@ part_type_color3(particle_shadow, _red, _red_2, _red_3);
 #endregion
 
 #endregion
-
-advance_speed = .2
-
-line_timer = 0;
-line_at = 0;

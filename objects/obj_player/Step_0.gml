@@ -378,6 +378,7 @@ if(!_mb2 && timer >= _hold_time && global.stamina > 30){
 	player_line_attack();
 	h_atk = false;
 	alarm[9] = 30;
+	layer_set_visible("screenshake_line", 1);
 }
 
 //click attack
@@ -387,33 +388,45 @@ if(alarm[4] <= 0){
     }
 }
 
-var _atk = false;
-
-// Step do jogador
 if(alarm[9] > 0 && !h_atk){
-    var _rec = collision_rectangle(x - 8, y - 8, x + 8, y + 8, obj_enemy_par, false, false);
-    if(!_atk && _rec){
-        with(_rec){
-			if(hit){
-            layer_set_visible("screenshake_damaging_enemies", 1);
-            state = ENEMY_STATES.HIT;
-            vida -= 1;
-            alarm[0] = 10;
-
-            emp_dir = point_direction(obj_player.x, obj_player.y, x, y);
-            emp_veloc = 10;
-            hit = false;
-
-            alarm[1] = 10;
-            alarm[2] = 30;
-			}
-        }
-        _atk = true;
+    if(!variable_global_exists("attacked_enemies")){
+        global.attacked_enemies = ds_list_create();
     }
+
+    var _list = ds_list_create();
+    collision_rectangle_list(x - 8, y - 8, x + 8, y + 8, obj_enemy_par, false, false, _list, true);
+
+    for(var i = 0; i < ds_list_size(_list); i++){
+        var _rec = _list[| i];
+
+        if(!ds_list_find_index(global.attacked_enemies, _rec)){
+            with(_rec){
+                if(hit){
+					layer_set_visible("screenshake_damaging_enemies", 1);
+                    state = ENEMY_STATES.HIT;
+                    if(!attack){
+                        vida -= 1;
+                        attack = true;
+                    }
+
+                    alarm[0] = 15;
+                    emp_dir = point_direction(obj_player.x, obj_player.y, x, y);
+                    emp_veloc = 10;
+                    hit = false;
+
+                    alarm[1] = 10;
+                    alarm[2] = 30;
+                }
+            }
+            ds_list_add(global.attacked_enemies, _rec);
+        }
+    }
+
+    ds_list_destroy(_list);
 }
 
-if(alarm[9] <= 0){
-    _atk = false;
+if(alarm[9] <= 0 && variable_global_exists("attacked_enemies")){
+    ds_list_clear(global.attacked_enemies);
 }
 
 #endregion
@@ -458,7 +471,7 @@ if(keyboard_check(ord("R")) && global.can_attack){
             if(instance_exists(_enemy)){
                 var _dist = point_distance(x, y, _enemy.x, _enemy.y);
                 ds_list_set(enemy_list, _i, [_enemy, _dist]);
-            } else {
+            }else{
                 ds_list_delete(enemy_list, _i);
             }
         }
