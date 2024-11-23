@@ -404,12 +404,13 @@ if(alarm[9] > 0 && !h_atk){
                 if(hit){
 					layer_set_visible("screenshake_damaging_enemies", 1);
                     state = ENEMY_STATES.HIT;
+					timer_hit = 20;
+					emp_timer = 5;
                     if(!attack){
                         vida -= 1;
                         attack = true;
                     }
 
-                    alarm[0] = 15;
                     emp_dir = point_direction(obj_player.x, obj_player.y, x, y);
                     emp_veloc = 10;
                     hit = false;

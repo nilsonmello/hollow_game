@@ -71,6 +71,12 @@ knocked_time = 0;
 
 //cooldown for attacks
 time_per_attacks = 0;
+
+attack = false;
+
+timer_hit = 0;
+timer_hit_at = 0;
+emp_timer = 0;
 #endregion
 
 #region movement
@@ -168,4 +174,3 @@ part_type_alpha2(particle_slash, 1, 0.1);
 
 #endregion
 
-attack = false;

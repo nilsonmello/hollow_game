@@ -12,3 +12,5 @@ hit_alpha = lerp(hit_alpha, 0, 0.1);
 if(!distance_to_object(obj_player) < 150){
 marked = false;
 }
+
+show_debug_message(emp_timer)
