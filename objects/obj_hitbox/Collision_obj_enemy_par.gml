@@ -29,7 +29,8 @@ if(!hitted){
 	                state = ENEMY_STATES.KNOCKED;
 	                vida -= other.dmg;
 	                knocked_time = 10;
-
+					emp_timer = 5;
+					
 	                emp_dir = point_direction(obj_player.x, obj_player.y, x, y);
 	                emp_veloc = 8;
 	                combo_visible = 0;

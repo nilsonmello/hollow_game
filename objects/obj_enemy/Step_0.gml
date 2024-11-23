@@ -103,37 +103,6 @@ switch(state){
 		}
 	break;
 	#endregion
-
-	#region knocked
-    case ENEMY_STATES.KNOCKED:
-	knocked_time--;
-	layer_set_visible("screenshake_damaging_enemies", 0);
-        if(knocked_time > 0){
-            if(hit){
-                hit = false;
-                alarm[1] = 15;
-            }
-
-            vel_h = lengthdir_x(emp_veloc, emp_dir);
-            vel_v = lengthdir_y(emp_veloc, emp_dir);
-
-            emp_veloc = lerp(emp_veloc, 0, .01);
-
-			enemy_colide();
-
-            x += vel_h;
-            y += vel_v;
-
-            alarm[0] = 15;
-
-            repeat(1){
-                var _exp = instance_create_layer(x, y, "Instances_player", obj_energy_dust);
-                _exp.direction = irandom(360);
-                _exp.speed = 2;
-            }
-        }
-    break;
-	#endregion
 	
 	#region waiting attack
 	case ENEMY_STATES.WAITING:
