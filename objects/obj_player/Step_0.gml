@@ -414,6 +414,7 @@ if(alarm[9] > 0 && !h_atk){
                     emp_dir = point_direction(obj_player.x, obj_player.y, x, y);
                     emp_veloc = 10;
                     hit = false;
+					hit_alpha = 1;
 
                     alarm[1] = 10;
                     alarm[2] = 30;
@@ -542,7 +543,7 @@ if(moving_along_path && ds_list_size(path_list) > 0){
             }
 			
 			if(move_speed > 0 && path_position_index == ds_list_size(path_list) - 1){
-			    global.hab_dmg = 2;    
+			    global.hab_dmg = 3;    
 			}
 
         }else{
@@ -557,7 +558,15 @@ if(moving_along_path && ds_list_size(path_list) > 0){
 
             var _enemy_index = instance_position(_target_x, _target_y, obj_enemy_par);
             if(_enemy_index != noone){
-		
+
+                var _safe_dist = 20;
+                var _enemy_dir = point_direction(_enemy_index.x, _enemy_index.y, x, y);
+                var _safe_x = _enemy_index.x + lengthdir_x(_safe_dist, _enemy_dir);
+                var _safe_y = _enemy_index.y + lengthdir_y(_safe_dist, _enemy_dir);
+
+                x = _safe_x;
+                y = _safe_y;
+
                 _enemy_index.vida -= global.hab_dmg;
                 _enemy_index.emp_dir = point_direction(obj_player.x, obj_player.y, _enemy_index.x, _enemy_index.y);
                 _enemy_index.state = ENEMY_STATES.HIT;
@@ -566,13 +575,13 @@ if(moving_along_path && ds_list_size(path_list) > 0){
                 _enemy_index.alarm[5] = 80;
                 _enemy_index.emp_veloc = 20;
                 _enemy_index.hit_alpha = 1;
+
                 ds_list_add(trail_fixed_positions, [x, y, direction]);
                 ds_list_add(trail_fixed_timer, 30);
-				
-				if(global.dmg_stack){
-					global.hab_dmg += 1;	
-				}
 
+                if(global.dmg_stack){
+                    global.hab_dmg += 1;    
+                }
                 layer_set_visible("screenshake_damaging_enemies", 1);
             }
             layer_set_visible("screenshake_damaging_enemies", 0);
@@ -582,6 +591,7 @@ if(moving_along_path && ds_list_size(path_list) > 0){
     }
 }
 #endregion
+
 
 #region Regeneração de Stamina
 if(stamina_timer_regen > 0){
