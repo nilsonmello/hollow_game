@@ -105,6 +105,3 @@ function player_parry(){
 	}
 }
 #endregion
-
-
-

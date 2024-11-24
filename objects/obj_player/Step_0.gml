@@ -205,7 +205,7 @@ switch(state){
 		
 		if(parry_time <= 0){
 			parry_time = 20;
-			state = STATES.ATTAKING;
+			state = STATES.MOVING;
 			global.parry = false;
 		}
 	break;
