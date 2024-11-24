@@ -207,14 +207,20 @@ switch(state){
 	        var _box_x = x + lengthdir_x(_advance_dir, atk_direction);
 	        var _box_y = y + lengthdir_y(_advance_dir, atk_direction);
 
-	        if(atk_time > 18 && !created_hitbox){
-	            var _box = instance_create_layer(_box_x, _box_y, "Instances_player", obj_hitbox_enemy);
-	            _box.image_angle = atk_direction;
-	            _box.sprite_index = spr_hitbox_3;
-	            _box.dmg = 2;
+			if(atk_time > 18 && !created_hitbox){
+			    var _box = instance_create_layer(_box_x, _box_y, "Instances_player", obj_hitbox_enemy);
+			    _box.image_angle = atk_direction;
+			    _box.sprite_index = spr_hitbox_enemy;
+			    _box.dmg = 2;
+			    _box.direction = atk_direction;
 
-	            created_hitbox = true;
-	        }
+			    // Passa referência para a hitbox
+			    _box.owner = id; // Referência ao inimigo que criou a hitbox
+			    _box.offset = 10; // Distância fixa entre o inimigo e a hitbox
+
+			    created_hitbox = true;
+			}
+
 
 	        var _advance_x = x + lengthdir_x(_advance_distance, atk_direction);
 	        var _advance_y = y + lengthdir_y(_advance_distance, atk_direction);
