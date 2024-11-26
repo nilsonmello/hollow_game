@@ -2,6 +2,7 @@ if(!hitted){
 	with(other){
 	    if(hit == true && !attacking && alarm[1] <= 0){ 
 	        combo_visible++;
+			part_particles_create(particle_hit, x, y, particle_slash, 1);
 			
 			escx = 1.5;
 			escy = 1.5;

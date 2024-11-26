@@ -95,8 +95,6 @@ switch(state){
 		esc_y = 0;
 		move_direction = 0;
 		
-        part_particles_create(particle_hit, x, y, particle_slash, 1);
-		
 		if(emp_timer > 0){
 			emp_timer--;
 	        vel_h = lengthdir_x(emp_veloc, emp_dir);

@@ -1,8 +1,9 @@
 #region enemies slow motion
-if(global.slashing and distance_to_object(obj_player) < global.hab_range - 20){
+if(global.slashing){
 	move_speed = lerp(move_speed, .2, .07);
 	vel = .1;
-	state = ENEMY_STATES.IDLE;
+	state = ENEMY_STATES.HIT;
+	timer_hit = 120;
 }else{
 	move_speed = lerp(move_speed, 1.3, .07);
 	vel = 12;

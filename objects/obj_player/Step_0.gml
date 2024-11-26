@@ -92,17 +92,16 @@ switch(state){
 			spd_h = lengthdir_x(spd * _keys, move_dir);
 			spd_v = lengthdir_y(spd * _keys, move_dir);
 			
-			if(!place_meeting(x + spd_h, y, obj_enemy_par)){
+			if(!place_meeting(x + spd_h, y, obj_enemy_par) && !place_meeting(x + spd_h, y, obj_wall)){
 				x += spd_h;
 			}else{
 				spd_h = 0;
 			}
-			if(!place_meeting(x, y + spd_v, obj_enemy_par)){
+			if(!place_meeting(x, y + spd_v, obj_enemy_par) && !place_meeting(x, y + spd_v, obj_wall)){
 				y += spd_v;
 			}else{
 				spd_v = 0;
 			}
-			
 		}else{
 			state = STATES.IDLE;
 		}
@@ -131,16 +130,16 @@ switch(state){
 		    state_timer = 0;
 		}
 
-			if(!place_meeting(x + spd_h, y, obj_enemy_par)){
-				x += spd_h;
-			}else{
-				spd_h = 0;
-			}
-			if(!place_meeting(x, y + spd_v, obj_enemy_par)){
-				y += spd_v;
-			}else{
-				spd_v = 0;
-			}
+		if(!place_meeting(x + spd_h, y, obj_enemy_par) && !place_meeting(x + spd_h, y, obj_wall)){
+			x += spd_h;
+		}else{
+			spd_h = 0;
+		}
+		if(!place_meeting(x, y + spd_v, obj_enemy_par) && !place_meeting(x, y + spd_v, obj_wall)){
+			y += spd_v;
+		}else{
+			spd_v = 0;
+		}
 
 		var _colide = collision_rectangle(x - 10, y + 10,x + 10, y - 10, obj_bush, 0, 0);
 		
@@ -232,17 +231,15 @@ switch(state){
 		
 		alarm[9] = 0;
 		
-		if(!place_meeting(x + spd_h, y, obj_enemy_par)){
+		if(!place_meeting(x + spd_h, y, obj_enemy_par) && !place_meeting(x + spd_h, y, obj_wall)){
 			x += spd_h;
 		}else{
 			spd_h = 0;
-			emp_veloc = 0;
 		}
-		if(!place_meeting(x, y + spd_v, obj_enemy_par)){
+		if(!place_meeting(x + spd_h, y, obj_enemy_par) && !place_meeting(x, y + spd_v, obj_wall)){
 			y += spd_v;
 		}else{
 			spd_v = 0;
-			emp_veloc = 0;
 		}
 	break;
 	#endregion
@@ -582,10 +579,10 @@ if(moving_along_path && ds_list_size(path_list) > 0){
                 _enemy_index.vida -= global.hab_dmg;
 				
                 _enemy_index.emp_dir = point_direction(obj_player.x, obj_player.y, _enemy_index.x, _enemy_index.y);
-				_enemy_index.emp_veloc = 10;
+				_enemy_index.emp_veloc = 20;
 				
-				_enemy_index.timer_hit = 5;
-				_enemy_index.emp_timer = 5;
+				_enemy_index.timer_hit = 15;
+				_enemy_index.emp_timer = 6;
 				
                 _enemy_index.state = ENEMY_STATES.HIT;
 				
@@ -609,8 +606,6 @@ if(moving_along_path && ds_list_size(path_list) > 0){
     }
 }
 #endregion
-
-
 
 #endregion
 

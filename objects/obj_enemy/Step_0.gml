@@ -79,7 +79,6 @@ switch(state){
         if(hit){
             hit = false;
         }
-        part_particles_create(particle_hit, x, y, particle_slash, 1);
 		
 		if(emp_timer > 0){
 			emp_timer--;
