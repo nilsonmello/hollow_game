@@ -67,6 +67,7 @@
     {"id":{"name":"spr_background","path":"sprites/spr_background/spr_background.yy",},},
     {"id":{"name":"spr_bar","path":"sprites/spr_bar/spr_bar.yy",},},
     {"id":{"name":"spr_bush","path":"sprites/spr_bush/spr_bush.yy",},},
+    {"id":{"name":"spr_circle_hability","path":"sprites/spr_circle_hability/spr_circle_hability.yy",},},
     {"id":{"name":"spr_circle_outline","path":"sprites/spr_circle_outline/spr_circle_outline.yy",},},
     {"id":{"name":"spr_circle","path":"sprites/spr_circle/spr_circle.yy",},},
     {"id":{"name":"spr_dust","path":"sprites/spr_dust/spr_dust.yy",},},

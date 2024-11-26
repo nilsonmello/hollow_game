@@ -7,6 +7,7 @@ if(keyboard_check(ord("R")) && global.slashing){
 
     draw_circle(x, y, global.hab_range, true);
 
+
 	var _colors = [
 	    make_color_rgb(139, 0, 255),   // Roxo escuro
 	    make_color_rgb(157, 0, 255),   // Roxo médio
@@ -66,7 +67,6 @@ if(keyboard_check(ord("R")) && global.slashing){
     }
 }
 #endregion
-
 
 #region trail with dynamic extension
 //if(move_speed > 0 && ds_list_size(path_list) > 0){

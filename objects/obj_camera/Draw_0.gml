@@ -1,5 +1,5 @@
 #region shader set and reset
-if(global.slashing){
+
 
 if(!surface_exists(surf_dark)){
     surf_dark = surface_create(display_get_width(), display_get_height());
@@ -18,5 +18,5 @@ shader_set_uniform_f(_dk_uni, darkness_value);
 draw_surface(surf_dark, 0, 0);
 
 shader_reset();
-}
+
 #endregion
