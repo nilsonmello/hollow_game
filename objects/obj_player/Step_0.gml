@@ -580,13 +580,19 @@ if(moving_along_path && ds_list_size(path_list) > 0){
             if(_enemy_index != noone){
 		
                 _enemy_index.vida -= global.hab_dmg;
+				
                 _enemy_index.emp_dir = point_direction(obj_player.x, obj_player.y, _enemy_index.x, _enemy_index.y);
+				_enemy_index.emp_veloc = 10;
+				
+				_enemy_index.timer_hit = 5;
+				_enemy_index.emp_timer = 5;
+				
                 _enemy_index.state = ENEMY_STATES.HIT;
-                _enemy_index.alarm[0] = 3;
+				
                 _enemy_index.alarm[1] = 10;
                 _enemy_index.alarm[5] = 80;
-                _enemy_index.emp_veloc = 20;
                 _enemy_index.hit_alpha = 1;
+				
                 ds_list_add(trail_fixed_positions, [x, y, direction]);
                 ds_list_add(trail_fixed_timer, 30);
 				
@@ -604,17 +610,7 @@ if(moving_along_path && ds_list_size(path_list) > 0){
 }
 #endregion
 
-#region Regeneração de Stamina
-if(stamina_timer_regen > 0){
-    stamina_timer_regen--;
-}else{
-    if(global.stamina < global.stamina_max){
-        global.stamina += 1;
-        stamina_timer_regen = stamina_timer;
-    }
-}
-global.stamina = clamp(global.stamina, 0, global.stamina_max);
-#endregion
+
 
 #endregion
 
@@ -637,4 +633,16 @@ if(yprevious != y and candust == true){
 
 #region hit indication
 hit_alpha = lerp(hit_alpha, 0, 0.1);
+#endregion
+
+#region Regeneração de Stamina
+if(stamina_timer_regen > 0){
+    stamina_timer_regen--;
+}else{
+    if(global.stamina < global.stamina_max){
+        global.stamina += 1;
+        stamina_timer_regen = stamina_timer;
+    }
+}
+global.stamina = clamp(global.stamina, 0, global.stamina_max);
 #endregion
