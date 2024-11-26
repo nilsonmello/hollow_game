@@ -92,10 +92,16 @@ switch(state){
 			spd_h = lengthdir_x(spd * _keys, move_dir);
 			spd_v = lengthdir_y(spd * _keys, move_dir);
 			
-			player_colide();
-			
-			x += spd_h;
-			y += spd_v;
+			if(!place_meeting(x + spd_h, y, obj_enemy_par)){
+				x += spd_h;
+			}else{
+				spd_h = 0;
+			}
+			if(!place_meeting(x, y + spd_v, obj_enemy_par)){
+				y += spd_v;
+			}else{
+				spd_v = 0;
+			}
 			
 		}else{
 			state = STATES.IDLE;
@@ -125,10 +131,16 @@ switch(state){
 		    state_timer = 0;
 		}
 
-		player_colide();
-		
-		x += spd_h;
-		y += spd_v;
+			if(!place_meeting(x + spd_h, y, obj_enemy_par)){
+				x += spd_h;
+			}else{
+				spd_h = 0;
+			}
+			if(!place_meeting(x, y + spd_v, obj_enemy_par)){
+				y += spd_v;
+			}else{
+				spd_v = 0;
+			}
 
 		var _colide = collision_rectangle(x - 10, y + 10,x + 10, y - 10, obj_bush, 0, 0);
 		
@@ -216,14 +228,22 @@ switch(state){
 		spd_h = lengthdir_x(emp_veloc, emp_dir);
 		spd_v = lengthdir_y(emp_veloc, emp_dir);
     
-		emp_veloc = lerp(emp_veloc, 0, .01);
+		emp_veloc = lerp(emp_veloc, 0, .05);
 		
 		alarm[9] = 0;
 		
-		player_colide();
-    
-		x += spd_h;
-		y += spd_v;
+		if(!place_meeting(x + spd_h, y, obj_enemy_par)){
+			x += spd_h;
+		}else{
+			spd_h = 0;
+			emp_veloc = 0;
+		}
+		if(!place_meeting(x, y + spd_v, obj_enemy_par)){
+			y += spd_v;
+		}else{
+			spd_v = 0;
+			emp_veloc = 0;
+		}
 	break;
 	#endregion
 	
@@ -394,7 +414,7 @@ if(alarm[9] > 0 && !h_atk){
     }
 
     var _list = ds_list_create();
-    collision_rectangle_list(x - 8, y - 8, x + 8, y + 8, obj_enemy_par, false, false, _list, true);
+    collision_rectangle_list(x - 10, y - 10, x + 10, y + 10, obj_enemy_par, false, false, _list, true);
 
     for(var i = 0; i < ds_list_size(_list); i++){
         var _rec = _list[| i];
@@ -411,8 +431,8 @@ if(alarm[9] > 0 && !h_atk){
                         attack = true;
                     }
 
-                    emp_dir = point_direction(obj_player.x, obj_player.y, x, y);
-                    emp_veloc = 10;
+                    emp_dir = point_direction(obj_player.x, obj_player.y, x, y) + 45;
+                    emp_veloc = 20;
                     hit = false;
 					hit_alpha = 1;
 
@@ -618,4 +638,3 @@ if(yprevious != y and candust == true){
 #region hit indication
 hit_alpha = lerp(hit_alpha, 0, 0.1);
 #endregion
-
