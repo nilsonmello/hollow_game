@@ -80,7 +80,9 @@ enum STATES{
 	PARRY,
     HEAL,
     ATTAKING,
-	HOLD_ATK,
+	LINE_ATK,
+	CIRCULLAR_ATK,
+	CHARGED_ATK,
     HIT,
     DEATH,
 }

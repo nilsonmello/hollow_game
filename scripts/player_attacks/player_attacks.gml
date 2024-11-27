@@ -48,6 +48,8 @@ function player_basic_attack(){
 #endregion
 
 #region line attack
+
+#region movement
 function player_line_attack(){
 	if(global.slow_motion){
 		return false;	
@@ -59,7 +61,7 @@ function player_line_attack(){
     holded_attack = true;
     alarm[4] = 50;
     image_index = 0;
-    state = STATES.HOLD_ATK;
+    state = STATES.LINE_ATK;
 	
     var _melee_dir = point_direction(x, y, obj_control.x, obj_control.y);
     var _advance_dir = 20;
@@ -87,6 +89,55 @@ function player_line_attack(){
     h_atk = true;
     global.stamina -= 30;
 }
+#endregion
+
+#region line damage
+function line_dmg(){
+	if(alarm[9] > 0 && !h_atk){
+		if(!variable_global_exists("attacked_enemies")){
+			global.attacked_enemies = ds_list_create();
+		}
+
+		var _list = ds_list_create();
+		collision_rectangle_list(x - 10, y - 10, x + 10, y + 10, obj_enemy_par, false, false, _list, true);
+
+		for(var i = 0; i < ds_list_size(_list); i++){
+			var _rec = _list[| i];
+
+			if(!ds_list_find_index(global.attacked_enemies, _rec)){
+				with(_rec){
+					if(hit){
+						layer_set_visible("screenshake_damaging_enemies", 1);
+						state = ENEMY_STATES.HIT;
+						timer_hit = 20;
+						emp_timer = 5;
+						if(!attack){
+							vida -= 1;
+							attack = true;
+						}
+
+						emp_dir = point_direction(obj_player.x, obj_player.y, x, y) + 45;
+						emp_veloc = 20;
+						hit = false;
+						hit_alpha = 1;
+
+						alarm[1] = 10;
+						alarm[2] = 30;
+					}
+				}
+				ds_list_add(global.attacked_enemies, _rec);
+			}
+		}
+
+		ds_list_destroy(_list);
+	}
+
+	if(alarm[9] <= 0 && variable_global_exists("attacked_enemies")){
+		ds_list_clear(global.attacked_enemies);
+	}	
+}
+#endregion
+
 #endregion
 
 #region player parry

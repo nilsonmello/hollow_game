@@ -321,7 +321,7 @@ switch(state){
 	#endregion
 	
 	#region line attack
-	case STATES.HOLD_ATK:
+	case STATES.LINE_ATK:
 	    if(advancing){
 	        var _melee_dir = point_direction(x, y, spd_h, spd_v);
 	        move_dir = nearest_cardinal_direction(_melee_dir);
@@ -356,6 +356,18 @@ switch(state){
 	    }
 	break;
 	#endregion
+	
+	#region circular attack
+	case STATES.CIRCULLAR_ATK:
+	
+	break;
+	#endregion
+	
+	#region charged attack
+	case STATES.CHARGED_ATK:
+	
+	break;
+	#endregion
 
 	#region death
 	case STATES.DEATH:
@@ -377,12 +389,13 @@ var _ma = mouse_check_button_pressed(mb_right);
 parry_cooldown = clamp(parry_cooldown, 0, 70);
 parry_cooldown--;
 
-//parry
+#region parry
 if(_ma){
 	player_parry();
 }
+#endregion
 
-//hold attack
+#region holded attack
 var _hold_time = 30;
 
 if(_mb2){
@@ -391,62 +404,45 @@ if(_mb2){
 	}
 }
 
-if(!_mb2 && timer >= _hold_time && global.stamina > 30){
-	player_line_attack();
-	h_atk = false;
-	alarm[9] = 30;
-	layer_set_visible("screenshake_line", 1);
-}
+switch(global.hold_attack){
+	case 0:
+		if(!_mb2 && timer >= _hold_time && global.stamina > 30){
+			player_line_attack();
+			h_atk = false;
+			alarm[9] = 30;
+			layer_set_visible("screenshake_line", 1);
+		}
 
-//click attack
+		line_dmg();
+	break;
+	
+	case 1:
+		if(!_mb2 && timer >= _hold_time && global.stamina > 30){
+			//player_line_attack();
+			h_atk = false;
+			alarm[9] = 30;
+			layer_set_visible("screenshake_line", 1);
+		}
+	break;
+	
+	case 2:
+		if(!_mb2 && timer >= _hold_time && global.stamina > 30){
+			//player_line_attack();
+			h_atk = false;
+			alarm[9] = 30;
+			layer_set_visible("screenshake_line", 1);
+		}
+	break;
+}
+#endregion
+
+#region sword basic attack
 if(alarm[4] <= 0){
     if(_mb && global.combo < 3){
         player_basic_attack();
     }
 }
-
-if(alarm[9] > 0 && !h_atk){
-    if(!variable_global_exists("attacked_enemies")){
-        global.attacked_enemies = ds_list_create();
-    }
-
-    var _list = ds_list_create();
-    collision_rectangle_list(x - 10, y - 10, x + 10, y + 10, obj_enemy_par, false, false, _list, true);
-
-    for(var i = 0; i < ds_list_size(_list); i++){
-        var _rec = _list[| i];
-
-        if(!ds_list_find_index(global.attacked_enemies, _rec)){
-            with(_rec){
-                if(hit){
-					layer_set_visible("screenshake_damaging_enemies", 1);
-                    state = ENEMY_STATES.HIT;
-					timer_hit = 20;
-					emp_timer = 5;
-                    if(!attack){
-                        vida -= 1;
-                        attack = true;
-                    }
-
-                    emp_dir = point_direction(obj_player.x, obj_player.y, x, y) + 45;
-                    emp_veloc = 20;
-                    hit = false;
-					hit_alpha = 1;
-
-                    alarm[1] = 10;
-                    alarm[2] = 30;
-                }
-            }
-            ds_list_add(global.attacked_enemies, _rec);
-        }
-    }
-
-    ds_list_destroy(_list);
-}
-
-if(alarm[9] <= 0 && variable_global_exists("attacked_enemies")){
-    ds_list_clear(global.attacked_enemies);
-}
+#endregion
 
 #endregion
 

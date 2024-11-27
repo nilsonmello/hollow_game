@@ -48,4 +48,7 @@ global.hab_dmg = 3;
 //increase damage
 global.dmg_stack = true;
 
+//player heal
 global.healing = false;
+
+global.hold_attack = 0;
