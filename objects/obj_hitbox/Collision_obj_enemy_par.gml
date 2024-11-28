@@ -8,11 +8,11 @@ if(!hitted){
 			
 					escx = 1.5;
 					escy = 1.5;
+					
 					hit_alpha = 1;
 			
 					layer_set_visible("screenshake_damaging_enemies", 1);
 				    state = ENEMY_STATES.HIT;
-				    vida -= other.dmg;
 				    timer_hit = 5;
 					emp_timer = 5;
                     
@@ -24,10 +24,15 @@ if(!hitted){
 				break;
 			
 				case 1:
+					escx = 1.5;
+					escy = 1.5;
+					
+					hit_alpha = 1;
+				
 					layer_set_visible("screenshake_damaging_enemies", 1);
 					state = ENEMY_STATES.KNOCKED;
 					vida -= other.dmg;
-					knocked_time = 80;
+
 					emp_timer = 5;
 					
 					emp_dir = point_direction(obj_player.x, obj_player.y, x, y);
@@ -37,8 +42,6 @@ if(!hitted){
 					global.combo++;
 					alarm[1] = 10;
 					alarm[2] = 30;
-					knocked = false
-					stamina_at = stamina_t
 				break;
 			}
 	    }

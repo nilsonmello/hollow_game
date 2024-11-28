@@ -24,4 +24,3 @@ if(_life >= 1 && _life <= 5){
         draw_sprite_ext(spr_hud, 1, 40 + 16 * _i, 28, _escx, _escy, 0, c_white, 1);
     }
 }
-

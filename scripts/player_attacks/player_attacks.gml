@@ -91,29 +91,62 @@ function line_dmg(){
 
 			if(!ds_list_find_index(global.attacked_enemies, _rec)){
 				with(_rec){
-					if(hit){
-						layer_set_visible("screenshake_damaging_enemies", 1);
-						state = ENEMY_STATES.HIT;
-						timer_hit = 20;
-						emp_timer = 5;
-						if(!attack){
-							vida -= 1;
-							attack = true;
+
+					if(!attack){
+						switch(knocked){
+							case 0:
+								part_particles_create(particle_hit, x, y, particle_slash, 1);
+			
+								escx = 1.5;
+								escy = 1.5;
+								hit_alpha = 1;
+			
+								layer_set_visible("screenshake_damaging_enemies", 1);
+								state = ENEMY_STATES.HIT;
+								timer_hit = 5;
+								emp_timer = 5;
+								
+								atk_timer = 0;
+								atk_wait = 0;
+								attacking = false;
+                    
+								emp_dir = point_direction(obj_player.x, obj_player.y, x, y);
+								emp_veloc = 6;
+								global.combo++;
+								stamina_at -= 30;
+								alarm[2] = 30;
+							break;
+			
+							case 1:
+								layer_set_visible("screenshake_damaging_enemies", 1);
+									
+								escx = 1.5;
+								escy = 1.5;
+					
+								hit_alpha = 1;
+									
+								state = ENEMY_STATES.KNOCKED;
+								vida -= 2
+								emp_timer = 5;
+								
+								atk_timer = 0;
+								atk_wait = 0;
+								attacking = false;
+								
+								emp_dir = point_direction(obj_player.x, obj_player.y, x, y);
+								emp_veloc = 8;
+								combo_visible = 0;
+								hit = false;
+								global.combo++;
+								alarm[1] = 10;
+								alarm[2] = 30;
+							break;
 						}
-
-						emp_dir = point_direction(obj_player.x, obj_player.y, x, y) + 45;
-						emp_veloc = 20;
-						hit = false;
-						hit_alpha = 1;
-
-						alarm[1] = 10;
-						alarm[2] = 30;
 					}
 				}
 				ds_list_add(global.attacked_enemies, _rec);
 			}
 		}
-
 		ds_list_destroy(_list);
 	}
 

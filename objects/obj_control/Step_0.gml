@@ -13,9 +13,9 @@ if(instance_exists(obj_player)){
 }
 
 if(alarm[0] > 0){
-	image_index = 12;		
+	image_index = 2;		
 }else{
-	image_index = 4;	
+	image_index = 1;	
 }
 
 if(mouse_check_button_pressed(mb_left) && alarm[0] <= 0){

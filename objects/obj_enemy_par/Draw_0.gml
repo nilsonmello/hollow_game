@@ -13,24 +13,12 @@ if(hit_alpha > 0){
 escx = lerp(escx, image_xscale, 0.2);
 escy = lerp(escy, image_yscale, 0.2);
 
-//warning advice
+////warning advice
 if(warning){
-	draw_sprite(spr_warning, 3, x, y - 20);	
-}
-
-//knocked advice
-if(state == ENEMY_STATES.KNOCKED){
-	draw_sprite(spr_warning, 2, x - 20, y);
-}
-
-//combo sprites
-switch(combo_visible){
-	case 1:
-		draw_sprite(spr_warning, 0, x - 20, y);
-	break;
-	
-	case 2:
-		draw_sprite(spr_warning, 1, x - 20, y);
-	break;
+	draw_sprite(spr_warning, 0, x, y - 30);
 }
 #endregion
+
+var _wid = stamina_at div 5
+
+draw_sprite_stretched(spr_bar_stamina, 0, x - 10, y + 20, _wid, 3);

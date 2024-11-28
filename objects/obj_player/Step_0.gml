@@ -399,7 +399,7 @@ if(_ma){
 #endregion
 
 #region holded attack
-var _hold_time = 50;
+var _hold_time = 30;
 
 if(_mb2 && alarm[3] <= 0){
 	if (timer <= _hold_time && !h_atk){ 
@@ -613,14 +613,14 @@ if(xprevious != x and candust == true){
 	candust = false;
 	alarm[7] = 10;
 	var _random_time = irandom_range(-1, 2);
-	alarm_set(3, 8 + _random_time);
+	alarm_set(7, 8 + _random_time);
 	part_particles_create(particle_system_dust, x, y + 5, particle_dust, 10);
 }
 if(yprevious != y and candust == true){
 	candust = false;
 	alarm[7] = 10;
 	var _random_time = irandom_range(-1, 2);
-	alarm_set(3, 8 + _random_time);
+	alarm_set(7, 8 + _random_time);
 	part_particles_create(particle_system_dust, x, y, particle_dust, 10);
 }
 #endregion
@@ -640,5 +640,3 @@ if(stamina_timer_regen > 0){
 }
 global.stamina = clamp(global.stamina, 0, global.stamina_max);
 #endregion
-
-show_debug_message(global.combo)

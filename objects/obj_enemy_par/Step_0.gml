@@ -15,10 +15,13 @@ if(global.slashing){
 hit_alpha = lerp(hit_alpha, 0, 0.1);
 #endregion
 
-if(stamina_at <= 0){
-		knocked = true;
+#region stamina
+if(stamina_at <= 10){
+	knocked = true;
 }
 
 stamina_at = clamp(stamina_at, 0, stamina_t);
+#endregion
 
-show_debug_message(stamina_at)
+show_debug_message(attack)
+show_debug_message(attacking)

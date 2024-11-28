@@ -122,8 +122,9 @@ switch(state){
 
 	#region knocked
     case ENEMY_STATES.KNOCKED:
-		knocked_time--;
-        if(knocked_time > 0){
+		stamina_at++;
+		
+        if(stamina_at < stamina_t){
             if (hit){
                 hit = false;
                 alarm[1] = 15;
@@ -141,16 +142,20 @@ switch(state){
 	        x += vel_h;
 	        y += vel_v;
 		}
-
-            repeat(1){
-                var _exp = instance_create_layer(x, y, "Instances_player", obj_energy_dust);
-                _exp.direction = irandom(360);
-                _exp.speed = 2;
-            }
+	
+		if(energy_count < max_energy){
+			var _exp = instance_create_layer(x, y, "Instances_player", obj_energy_dust);
+			_exp.direction = irandom(360);
+			_exp.speed = 2;
+			
+			energy_count++;
+		}
+		
         }else{
 			state = ENEMY_STATES.IDLE
 			hit = true;
 			attack = false;
+			knocked = false;
 		}
     break;
 	#endregion
@@ -212,11 +217,8 @@ switch(state){
 			    _box.sprite_index = spr_hitbox_enemy;
 			    _box.dmg = 2;
 			    _box.direction = atk_direction;
-
-			    // Passa referência para a hitbox
-			    _box.owner = id; // Referência ao inimigo que criou a hitbox
-			    _box.offset = 10; // Distância fixa entre o inimigo e a hitbox
-
+			    _box.owner = id;
+			    _box.offset = 10;
 			    created_hitbox = true;
 			}
 

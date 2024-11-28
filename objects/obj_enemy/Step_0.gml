@@ -102,10 +102,11 @@ switch(state){
 	
 	#region knocked
     case ENEMY_STATES.KNOCKED:
-		knocked_time--;
-        if(knocked_time > 0){
+	layer_set_visible("screenshake_damaging_enemies", 0);
+		stamina_at += .5;
+		
+        if(stamina_at < stamina_t){
             if (hit){
-				layer_set_visible("screenshake_damaging_enemies", 0);
                 hit = false;
                 alarm[1] = 15;
             }
@@ -122,16 +123,20 @@ switch(state){
 	        x += vel_h;
 	        y += vel_v;
 		}
-
-            repeat(1){
-                var _exp = instance_create_layer(x, y, "Instances_player", obj_energy_dust);
-                _exp.direction = irandom(360);
-                _exp.speed = 2;
-            }
+	
+		if(energy_count < max_energy){
+			var _exp = instance_create_layer(x, y, "Instances_player", obj_energy_dust);
+			_exp.direction = irandom(360);
+			_exp.speed = 2;
+			
+			energy_count++;
+		}
+		
         }else{
 			state = ENEMY_STATES.IDLE
 			hit = true;
 			attack = false;
+			knocked = false;
 		}
     break;
 	#endregion
