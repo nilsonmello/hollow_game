@@ -359,7 +359,10 @@ switch(state){
 	
 	#region circular attack
 	case STATES.CIRCULLAR_ATK:
-	
+		if(alarm[9] <= 0){
+			state = STATES.MOVING;	
+			layer_set_visible("screenshake_line", 0);
+		}
 	break;
 	#endregion
 	
@@ -396,9 +399,9 @@ if(_ma){
 #endregion
 
 #region holded attack
-var _hold_time = 30;
+var _hold_time = 50;
 
-if(_mb2){
+if(_mb2 && alarm[3] <= 0){
 	if (timer <= _hold_time && !h_atk){ 
 		timer++;
 	}
@@ -418,7 +421,7 @@ switch(global.hold_attack){
 	
 	case 1:
 		if(!_mb2 && timer >= _hold_time && global.stamina > 30){
-			//player_line_attack();
+			player_circular_attack();
 			h_atk = false;
 			alarm[9] = 30;
 			layer_set_visible("screenshake_line", 1);
@@ -427,9 +430,9 @@ switch(global.hold_attack){
 	
 	case 2:
 		if(!_mb2 && timer >= _hold_time && global.stamina > 30){
-			//player_line_attack();
+
 			h_atk = false;
-			alarm[9] = 30;
+			alarm[9] = 18;
 			layer_set_visible("screenshake_line", 1);
 		}
 	break;
@@ -438,7 +441,7 @@ switch(global.hold_attack){
 
 #region sword basic attack
 if(alarm[4] <= 0){
-    if(_mb && global.combo < 3){
+    if(_mb){
         player_basic_attack();
     }
 }
@@ -637,3 +640,5 @@ if(stamina_timer_regen > 0){
 }
 global.stamina = clamp(global.stamina, 0, global.stamina_max);
 #endregion
+
+show_debug_message(global.combo)

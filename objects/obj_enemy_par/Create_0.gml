@@ -182,3 +182,8 @@ part_type_alpha2(particle_slash, 1, 0.1);
 #endregion
 
 #endregion
+
+stamina_t = 100;
+stamina_at = stamina_t;
+
+knocked = false;

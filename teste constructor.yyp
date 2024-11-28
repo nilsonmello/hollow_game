@@ -81,6 +81,7 @@
     {"id":{"name":"spr_hitbox_2","path":"sprites/spr_hitbox_2/spr_hitbox_2.yy",},},
     {"id":{"name":"spr_hitbox_3","path":"sprites/spr_hitbox_3/spr_hitbox_3.yy",},},
     {"id":{"name":"spr_hitbox_4","path":"sprites/spr_hitbox_4/spr_hitbox_4.yy",},},
+    {"id":{"name":"spr_hitbox_5","path":"sprites/spr_hitbox_5/spr_hitbox_5.yy",},},
     {"id":{"name":"spr_hitbox_enemy","path":"sprites/spr_hitbox_enemy/spr_hitbox_enemy.yy",},},
     {"id":{"name":"spr_hud","path":"sprites/spr_hud/spr_hud.yy",},},
     {"id":{"name":"spr_leaf","path":"sprites/spr_leaf/spr_leaf.yy",},},

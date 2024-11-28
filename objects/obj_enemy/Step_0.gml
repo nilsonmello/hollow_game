@@ -75,10 +75,7 @@ switch(state){
 	#region hit
     case ENEMY_STATES.HIT:
 		timer_hit_at++;
-	
-        if(hit){
-            hit = false;
-        }
+		time_per_attacks = 40;
 		
 		if(emp_timer > 0){
 			emp_timer--;

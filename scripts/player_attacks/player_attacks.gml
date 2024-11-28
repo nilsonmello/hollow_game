@@ -1,14 +1,11 @@
 #region player basic attack
 function player_basic_attack(){
-		if(global.combo > 3){
-			return false;	
-		}
 		if(global.slow_motion){
 			return false;	
 		}
 	
 		clicked_attack = true;
-        alarm[4] = 15;
+        alarm[4] = 5;
         image_index = 0;
         state = STATES.ATTAKING;
 
@@ -25,25 +22,13 @@ function player_basic_attack(){
         if(!instance_exists(obj_hitbox)){
             var _box = instance_create_layer(_box_x, _box_y, "Instances_player", obj_hitbox);
             _box.image_angle = _melee_dir;
+			_box.sprite_index = spr_hitbox_1;
 			_box.dmg = 1;
-
-            switch(global.combo){
-                case 0:
-                    _box.sprite_index = spr_hitbox_1;
-                    break;
-                case 1:
-                    _box.sprite_index = spr_hitbox_2;
-                    break;
-                case 2:
-                    _box.sprite_index = spr_hitbox_3;
-                    break;
-            }
         }
         advancing = true;
-        global.combo++;
+		
         alarm[3] = 20;
-        alarm[8] = 30;
-        timer = 0;
+        alarm[8] = 300;
 }
 #endregion
 
@@ -139,6 +124,30 @@ function line_dmg(){
 #endregion
 
 #endregion
+
+function player_circular_attack(){
+	if(global.slow_motion){
+		return false;	
+	}
+	if(global.stamina < 30){
+		return false;	
+	}
+	
+    alarm[4] = 50;
+    image_index = 0;
+    state = STATES.CIRCULLAR_ATK;
+	
+	if(!holded_attack){
+		holded_attack = true;
+		var _box = instance_create_layer(x, y, "Instances_player", obj_hitbox);
+		_box.sprite_index = spr_hitbox_5;
+	}
+	
+	timer = 0;
+	h_atk = true;
+	global.stamina -= 30;
+	holded_attack = false;
+}
 
 #region player parry
 function player_parry(){
