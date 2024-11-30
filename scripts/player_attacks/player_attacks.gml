@@ -5,13 +5,13 @@ function player_basic_attack(){
 		}
 	
 		clicked_attack = true;
-        alarm[4] = 5;
+        alarm[4] = 11;
         image_index = 0;
         state = STATES.ATTAKING;
 
         var _melee_dir = point_direction(x, y, obj_control.x, obj_control.y);
         var _advance_dir = 20;
-        var _advance_distance = 28;
+        var _advance_distance = 25;
 
         var _box_x = x + lengthdir_x(_advance_dir, _melee_dir);
         var _box_y = y + lengthdir_y(_advance_dir, _melee_dir);
@@ -86,8 +86,8 @@ function line_dmg(){
 		var _list = ds_list_create();
 		collision_rectangle_list(x - 10, y - 10, x + 10, y + 10, obj_enemy_par, false, false, _list, true);
 
-		for(var i = 0; i < ds_list_size(_list); i++){
-			var _rec = _list[| i];
+		for(var _i = 0; _i < ds_list_size(_list); _i++){
+			var _rec = _list[| _i];
 
 			if(!ds_list_find_index(global.attacked_enemies, _rec)){
 				with(_rec){
@@ -142,6 +142,7 @@ function line_dmg(){
 								alarm[2] = 30;
 							break;
 						}
+						attack = true;
 					}
 				}
 				ds_list_add(global.attacked_enemies, _rec);
@@ -158,6 +159,7 @@ function line_dmg(){
 
 #endregion
 
+#region circular attack
 function player_circular_attack(){
 	if(global.slow_motion){
 		return false;	
@@ -181,6 +183,7 @@ function player_circular_attack(){
 	global.stamina -= 30;
 	holded_attack = false;
 }
+#endregion
 
 #region player parry
 function player_parry(){

@@ -1,4 +1,6 @@
 #region state machine
+
+#region variables and timers
 event_inherited();
 
 var _line_wall = collision_line(x, y, obj_player.x, obj_player.y, obj_wall, false, false);
@@ -9,6 +11,7 @@ if (vida <= 0){
 if (time_per_attacks > 0){
     time_per_attacks--;
 }
+#endregion
 
 switch(state){
 	
@@ -79,6 +82,7 @@ switch(state){
 		
 		if(emp_timer > 0){
 			emp_timer--;
+			
 	        vel_h = lengthdir_x(emp_veloc, emp_dir);
 	        vel_v = lengthdir_y(emp_veloc, emp_dir);
 
@@ -258,13 +262,13 @@ switch(state){
 		var _new_x = lerp(x, esc_x, 0.05);
 		var _new_y = lerp(y, esc_y, 0.05);
 
-			if(!place_meeting(_new_x, _new_y, obj_player) && !place_meeting(_new_x, _new_y, obj_wall)){
-				x = _new_x;
-				y = _new_y;
-			}else{
-				r_speed = 0;	
-				state = ENEMY_STATES.MOVE;
-			}
+		if(!place_meeting(_new_x, _new_y, obj_player) && !place_meeting(_new_x, _new_y, obj_wall)){
+			x = _new_x;
+			y = _new_y;
+		}else{
+			r_speed = 0;	
+			state = ENEMY_STATES.MOVE;
+		}
 	}else{
 		state = ENEMY_STATES.CHOOSE;
 	}

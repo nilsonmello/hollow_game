@@ -222,7 +222,6 @@ switch(state){
 			    created_hitbox = true;
 			}
 
-
 	        var _advance_x = x + lengthdir_x(_advance_distance, atk_direction);
 	        var _advance_y = y + lengthdir_y(_advance_distance, atk_direction);
 
@@ -248,79 +247,64 @@ switch(state){
 	        state = ENEMY_STATES.RECOVERY;
 	        count = 0;
 			
+			var _dist = distance_to_object(obj_player);
+			
 	        var _away = point_direction(obj_player.x, obj_player.y, x, y);
-	        esc_x = x + lengthdir_x(50, _away);
-	        esc_y = y + lengthdir_y(50, _away);
+	        esc_x = x + lengthdir_x(_dist, _away);
+	        esc_y = y + lengthdir_y(_dist, _away);
 	    }
     break;
 	#endregion
 	
 	#region recovery from last attack
 	case ENEMY_STATES.RECOVERY:
-		if(recovery == 0){
-			center_x = obj_player.x;
-			center_y = obj_player.y;
-			
-		    radius = point_distance(x, y, center_x, center_y);
-		    angle = point_direction(center_x, center_y, x, y);
+	    if(recovery == 0){
 
-		    r_speed = 0.6;
-		    move_direction = choose(-1, 1);
-			
-			var _move_speed = 2;
-			var _new_x = lerp(x, esc_x, 0.05);
-			var _new_y = lerp(y, esc_y, 0.05);
-			
-			enemy_colide();
+	        center_x = obj_player.x;
+	        center_y = obj_player.y;
 
-			if(!place_meeting(_new_x, _new_y, obj_player) && !place_meeting(_new_x, _new_y, obj_wall)){
-				x = _new_x;
-				y = _new_y;
-			}else{
-				r_speed = 0;	
-				state = ENEMY_STATES.MOVE;
+	        radius = point_distance(x, y, center_x, center_y);
+	        angle = point_direction(center_x, center_y, x, y);
+
+	        move_direction = choose(-1, 1);
+
+	        r_speed = 100 / radius;
+	        recovery = 1;
+	    }
+
+	    if(recovery == 1){
+	        angle += r_speed * move_direction;
+
+	        var _new_x = center_x + lengthdir_x(radius, angle);
+	        var _new_y = center_y + lengthdir_y(radius, angle);
+
+	        if(!place_meeting(_new_x, _new_y, obj_player) && !place_meeting(_new_x, _new_y, obj_wall)){
+	            x = _new_x;
+	            y = _new_y;
+	        }else{
+	            state = ENEMY_STATES.CHOOSE;
+	            center_x = 0;
+	            center_y = 0;
+	            angle = 0;
+	            radius = 0;
+	            r_speed = 0;
+	            recovery = 0;
+	            move_direction = 0;	
 			}
-
-			if(point_distance(x, y, esc_x, esc_y) < 2){
-				recovery = 1;
-
-				radius = point_distance(x, y, center_x, center_y);
-				angle = point_direction(center_x, center_y, x, y);
-				
-				r_speed = .6;
-				move_direction = choose(-1, 1)
-			}
-		}else if(recovery == 1){
-			
-		    angle += r_speed * move_direction;
-
-		    var _new_x = center_x + lengthdir_x(radius, angle);
-		    var _new_y = center_y + lengthdir_y(radius, angle);
-
-		    if(!place_meeting(_new_x, _new_y, obj_player) && !place_meeting(_new_x, _new_y, obj_wall)){
-		        x = _new_x;
-		        y = _new_y;
-		    }else{
-		        r_speed = 0;
-		    }
 
 	        if(time_per_attacks > 0){
 	            time_per_attacks--;
 	        }else{
 	            state = ENEMY_STATES.CHOOSE;
-				center_x = 0;
-				center_y = 0;
-				angle = 0;
-
-				radius = 0;
-				r_speed = 0;
-
-				recovery = 0;
-				esc_x = 0;
-				esc_y = 0;
-				move_direction = 0;
-			}
-		}
+	            center_x = 0;
+	            center_y = 0;
+	            angle = 0;
+	            radius = 0;
+	            r_speed = 0;
+	            recovery = 0;
+	            move_direction = 0;
+	        }
+	    }
 	break;
 	#endregion
 
