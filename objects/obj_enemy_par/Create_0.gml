@@ -13,6 +13,7 @@ enum ENEMY_STATES{
 	CHOOSE,
 	IDLE,
 	MOVE,
+	FOLLOW,
 	HIT,
 	KNOCKED,
 	WAITING,
@@ -192,3 +193,8 @@ knocked = false;
 max_energy = 10;
 energy_count = 0;
 #endregion
+
+
+d_x = 0;
+d_y = 0;
+dir_m = 0;

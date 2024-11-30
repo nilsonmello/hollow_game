@@ -29,12 +29,11 @@ switch(state){
     case ENEMY_STATES.IDLE:
 		state_time--;
 		
-		if(distance_to_object(obj_player) < 80 && time_per_attacks <= 0 && obj_player.alarm[9] <= 0){
+		if(distance_to_object(obj_player) < 200 && time_per_attacks <= 0 && obj_player.alarm[9] <= 0){
 			if(_line_wall){
 				return false;
 			}
-			state = ENEMY_STATES.WAITING;
-			atk_wait = 60;
+			state = ENEMY_STATES.FOLLOW
 		}
 		
 		if(state_time <= 0){
@@ -61,18 +60,36 @@ switch(state){
 			state = ENEMY_STATES.CHOOSE;	
 		}
 		
-		if(distance_to_object(obj_player) < 80 && time_per_attacks <= 0 && obj_player.alarm[9] <= 0){
+		if(distance_to_object(obj_player) < 200 && time_per_attacks <= 0 && obj_player.alarm[9] <= 0){
 			if(_line_wall){
 				return false;
 			}
-			state = ENEMY_STATES.WAITING;
-			atk_wait = 60;
+			state = ENEMY_STATES.FOLLOW
 		}
 		
 		if(state_time <= 0){
 			state = ENEMY_STATES.CHOOSE;
 		}
     break;
+	#endregion
+
+	#region follow player
+	case ENEMY_STATES.FOLLOW:
+		var _dir_m = point_direction(x, y, obj_player.x, obj_player.y);
+			
+		vel_h = lengthdir_x(1, _dir_m);
+		vel_v = lengthdir_y(1, _dir_m);
+
+		enemy_colide();
+		
+		x += vel_h;
+		y += vel_v;
+
+		if(distance_to_object(obj_player) < 80){
+		state = ENEMY_STATES.WAITING;
+		atk_wait = 60;
+		}	
+	break;
 	#endregion
 
 	#region hit
