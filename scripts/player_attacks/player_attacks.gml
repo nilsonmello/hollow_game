@@ -26,6 +26,10 @@ function player_basic_attack(){
 			_box.dmg = 1;
         }
         advancing = true;
+		timer = 0;
+
+
+
 		
         alarm[3] = 20;
         alarm[8] = 300;
@@ -78,7 +82,9 @@ function player_line_attack(){
 
 #region line damage
 function line_dmg(){
+	
 	if(alarm[9] > 0 && !h_atk){
+		part_emitter_destroy(ps, emitter2);	
 		if(!variable_global_exists("attacked_enemies")){
 			global.attacked_enemies = ds_list_create();
 		}
@@ -149,6 +155,7 @@ function line_dmg(){
 			}
 		}
 		ds_list_destroy(_list);
+		emitter2 = part_emitter_create(ps);
 	}
 
 	if(alarm[9] <= 0 && variable_global_exists("attacked_enemies")){

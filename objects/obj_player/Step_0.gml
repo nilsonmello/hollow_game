@@ -1,13 +1,3 @@
-#region debugging
-if(keyboard_check_pressed(ord("Y"))){
-	state = STATES.IDLE;
-	global.life_at = global.life;
-	global.energy = global.energy_max;
-	global.stamina = global.stamina_max;
-	game_restart();
-}
-#endregion
-
 #region state machine
 
 #region comand keys
@@ -374,11 +364,9 @@ switch(state){
 
 	#region death
 	case STATES.DEATH:
-		if(keyboard_check_pressed(ord("Y"))){
-			state = STATES.IDLE;
-			global.life_at = global.life;
-			game_restart();
-		}
+		state = STATES.IDLE;
+		global.life_at = global.life;
+		game_restart();
 	break;
 	#endregion
 }
@@ -401,11 +389,21 @@ if(_ma){
 #region holded attack
 var _hold_time = 30;
 
-if(_mb2 && alarm[3] <= 0){
+if(_mb2 && alarm[3] <= 0 && global.stamina > 30){		
 	if (timer <= _hold_time && !h_atk){ 
 		timer++;
+	}else{
+		if(global.stamina < 30){
+			return false;	
+		}
+		
+		part_emitter_region(ps, emitter2, x - 10, x + 10, y - 10, y + 10, ps_shape_rectangle, ps_distr_linear);
+		part_emitter_stream(ps, emitter2, ptype3, 1);	
 	}
 }
+
+show_debug_message(h_atk)
+show_debug_message(alarm[9])
 
 switch(global.hold_attack){
 	case 0:
