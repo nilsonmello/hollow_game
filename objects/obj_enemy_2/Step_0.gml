@@ -29,7 +29,7 @@ switch(state){
     case ENEMY_STATES.IDLE:
 		state_time--;
 		
-		if(distance_to_object(obj_player) < 200 && time_per_attacks <= 0 && obj_player.alarm[9] <= 0){
+		if(distance_to_object(obj_player) < 150 && time_per_attacks <= 0 && obj_player.alarm[9] <= 0){
 			if(_line_wall){
 				return false;
 			}
@@ -60,7 +60,7 @@ switch(state){
 			state = ENEMY_STATES.CHOOSE;	
 		}
 		
-		if(distance_to_object(obj_player) < 200 && time_per_attacks <= 0 && obj_player.alarm[9] <= 0){
+		if(distance_to_object(obj_player) < 150 && time_per_attacks <= 0 && obj_player.alarm[9] <= 0){
 			if(_line_wall){
 				return false;
 			}
@@ -86,14 +86,17 @@ switch(state){
 		y += vel_v;
 
 		if(distance_to_object(obj_player) < 80){
-		state = ENEMY_STATES.WAITING;
-		atk_wait = 60;
-		}	
+			state = ENEMY_STATES.WAITING;
+			atk_wait = 60;
+		}
 	break;
 	#endregion
 	
 	#region hit
     case ENEMY_STATES.HIT:
+		attacking = false;
+		warning = false;
+	
 		timer_hit_at++;
 		time_per_attacks = 40;
 

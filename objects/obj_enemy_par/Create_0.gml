@@ -194,6 +194,7 @@ max_energy = 10;
 energy_count = 0;
 #endregion
 
+slashed = false;
 
 d_x = 0;
 d_y = 0;

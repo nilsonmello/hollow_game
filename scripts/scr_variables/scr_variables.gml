@@ -43,7 +43,7 @@ global.marked = 10;
 global.hab_range = 110;
 
 //area slash damage
-global.hab_dmg = 3;
+global.hab_dmg = 1;
 
 //increase damage
 global.dmg_stack = true;

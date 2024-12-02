@@ -558,10 +558,6 @@ if(moving_along_path && ds_list_size(path_list) > 0){
                 global.can_attack = false;
             }
 			
-			if(move_speed > 0 && path_position_index == ds_list_size(path_list) - 1){
-			    global.hab_dmg = 2;    
-			}
-
         }else{
             path_position_index++;
 
@@ -574,27 +570,28 @@ if(moving_along_path && ds_list_size(path_list) > 0){
 
             var _enemy_index = instance_position(_target_x, _target_y, obj_enemy_par);
             if(_enemy_index != noone){
-		
+				
+
+				
                 _enemy_index.vida -= global.hab_dmg;
+				_enemy_index.stamina_at -= 100;
 				
                 _enemy_index.emp_dir = point_direction(obj_player.x, obj_player.y, _enemy_index.x, _enemy_index.y);
 				_enemy_index.emp_veloc = 20;
 				
 				_enemy_index.timer_hit = 15;
-				_enemy_index.emp_timer = 6;
+				_enemy_index.emp_timer = 2;
 				
-                _enemy_index.state = ENEMY_STATES.HIT;
+                _enemy_index.state = ENEMY_STATES.KNOCKED;
 				
                 _enemy_index.alarm[1] = 10;
                 _enemy_index.alarm[5] = 80;
                 _enemy_index.hit_alpha = 1;
 				
+				_enemy_index.slashed = true;
+				
                 ds_list_add(trail_fixed_positions, [x, y, direction]);
                 ds_list_add(trail_fixed_timer, 30);
-				
-				if(global.dmg_stack){
-					global.hab_dmg += 1;	
-				}
 
                 layer_set_visible("screenshake_damaging_enemies", 1);
             }
