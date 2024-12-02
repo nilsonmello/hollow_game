@@ -387,23 +387,42 @@ if(_ma){
 #endregion
 
 #region holded attack
-var _hold_time = 30;
+var _hold_time = 300;
 
-if(_mb2 && alarm[3] <= 0 && global.stamina > 30){		
-	if (timer <= _hold_time && !h_atk){ 
-		timer++;
-	}else{
-		if(global.stamina < 30){
-			return false;	
-		}
+if(_mb2 && alarm[3] <= 0){		
+	switch(global.hold_attack){
+		case 0:
+			if (timer <= _hold_time && !h_atk){ 
+				timer++;
+			}else{
+				if(global.stamina < 30){
+					return false;	
+				}
 		
-		part_emitter_region(ps, emitter2, x - 10, x + 10, y - 10, y + 10, ps_shape_rectangle, ps_distr_linear);
-		part_emitter_stream(ps, emitter2, ptype3, 1);	
+				part_emitter_region(ps, emitter2, x - 10, x + 10, y - 10, y + 10, ps_shape_rectangle, ps_distr_linear);
+				part_emitter_stream(ps, emitter2, ptype3, 1);	
+			}
+		break;
+		
+		case 1:
+			if(timer <= _hold_time && !h_atk){ 
+				timer++;
+				atk_range++;
+				global.stamina--;
+			}else{
+				if(global.stamina < 1){
+					return false;	
+				}
+			}
+			
+			atk_range = clamp(atk_range, 0, 100);
+			
+			var _circ = collision_circle(x, y, atk_range, obj_enemy_par, false, false);
+		break;
 	}
-}
+	
 
-show_debug_message(h_atk)
-show_debug_message(alarm[9])
+}
 
 switch(global.hold_attack){
 	case 0:

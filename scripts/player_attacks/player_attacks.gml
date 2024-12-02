@@ -181,13 +181,11 @@ function player_circular_attack(){
 	
 	if(!holded_attack){
 		holded_attack = true;
-		var _box = instance_create_layer(x, y, "Instances_player", obj_hitbox);
-		_box.sprite_index = spr_hitbox_5;
 	}
 	
 	timer = 0;
 	h_atk = true;
-	global.stamina -= 30;
+	global.stamina -= 1;
 	holded_attack = false;
 }
 #endregion
