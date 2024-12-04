@@ -88,7 +88,15 @@ function nearest_cardinal_direction(_direction){
 
 
 function hold_atk_1(){
-	show_debug_message("AIOU")
+	var _dir = point_direction(x, y, obj_control.x, obj_control.y);
+	
+	var _x = lengthdir_x(100, _dir);
+	var _y = lengthdir_y(100, _dir);
+	
+	x += _x;
+	y += _y;
+	
+	global.stamina -= 30;
 }
 
 function hold_atk_2(){

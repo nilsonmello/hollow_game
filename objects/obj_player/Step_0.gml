@@ -348,7 +348,9 @@ parry_cooldown--;
 if(_ma){
 	player_parry();
 }
+#endregion
 
+#region choose holded attack
 var _timer = 30;
 
 if(_mb2){
@@ -371,7 +373,6 @@ if(_mb2){
     }
     timer = 0;
 }
-
 #endregion
 
 #region sword basic attack

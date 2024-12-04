@@ -51,4 +51,5 @@ global.dmg_stack = true;
 //player heal
 global.healing = false;
 
+//choose holded attack
 global.hold_attack = 0;

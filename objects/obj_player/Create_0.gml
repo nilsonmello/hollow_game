@@ -187,8 +187,10 @@ part_type_color3(particle_shadow, _red, _red_2, _red_3);
 
 #endregion
 
+#region holded attacks variables
 //timer to the holding attack
 timer = 0;
 
 //control to execute the attack only one time
 has_holded_attack = false;
+#endregion
