@@ -29,6 +29,11 @@ escy = 0;
 #endregion
 
 #region atack variables
+
+//has been attacked
+slashed = false;
+
+//control the number of the hitbox created
 created_hitbox = false;
 
 //enemy has attacked?
@@ -193,9 +198,3 @@ knocked = false;
 max_energy = 10;
 energy_count = 0;
 #endregion
-
-slashed = false;
-
-d_x = 0;
-d_y = 0;
-dir_m = 0;

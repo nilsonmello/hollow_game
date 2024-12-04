@@ -1,9 +1,9 @@
 {
   "$GMScript":"v1",
-  "%Name":"player_attacks",
+  "%Name":"player_functions",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"player_attacks",
+  "name":"player_functions",
   "parent":{
     "name":"Scripts",
     "path":"folders/Scripts.yy",

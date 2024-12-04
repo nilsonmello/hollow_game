@@ -86,8 +86,8 @@ switch(state){
 		y += vel_v;
 
 		if(distance_to_object(obj_player) < 80){
-		state = ENEMY_STATES.WAITING;
-		atk_wait = 60;
+			state = ENEMY_STATES.WAITING;
+			atk_wait = 60;
 		}	
 	break;
 	#endregion

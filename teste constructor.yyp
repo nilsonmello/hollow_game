@@ -59,7 +59,7 @@
     {"id":{"name":"Room_teste","path":"rooms/Room_teste/Room_teste.yy",},},
     {"id":{"name":"Room1","path":"rooms/Room1/Room1.yy",},},
     {"id":{"name":"collisions","path":"scripts/collisions/collisions.yy",},},
-    {"id":{"name":"player_attacks","path":"scripts/player_attacks/player_attacks.yy",},},
+    {"id":{"name":"player_functions","path":"scripts/player_functions/player_functions.yy",},},
     {"id":{"name":"scr_variables","path":"scripts/scr_variables/scr_variables.yy",},},
     {"id":{"name":"sh_shd_bush","path":"shaders/sh_shd_bush/sh_shd_bush.yy",},},
     {"id":{"name":"sh_shd_take_dmg","path":"shaders/sh_shd_take_dmg/sh_shd_take_dmg.yy",},},
