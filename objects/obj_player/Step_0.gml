@@ -319,6 +319,12 @@ switch(state){
 	break;
 
 	#endregion
+	
+	#region holded attack
+	case STATES.HOLD_ATK:
+	
+	break;
+	#endregion
 		
 	#region death
 	case STATES.DEATH:
@@ -342,6 +348,30 @@ parry_cooldown--;
 if(_ma){
 	player_parry();
 }
+
+var _timer = 30;
+
+if(_mb2){
+    if(timer < _timer){
+        timer++;
+    }
+}else{
+    if(timer >= _timer){
+        switch(global.hold_attack){
+            case 0:
+                hold_atk_1();
+                break;
+            case 1:
+                hold_atk_2();
+                break;
+            case 2:
+                hold_atk_3();
+                break;
+        }
+    }
+    timer = 0;
+}
+
 #endregion
 
 #region sword basic attack

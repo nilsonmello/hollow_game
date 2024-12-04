@@ -5,7 +5,7 @@ function player_basic_attack(){
 		}
 	
 		clicked_attack = true;
-        alarm[4] = 11;
+        alarm[4] = 9;
         image_index = 0;
         state = STATES.ATTAKING;
 
@@ -28,10 +28,7 @@ function player_basic_attack(){
         advancing = true;
 		timer = 0;
 
-
-
-		
-        alarm[3] = 20;
+        alarm[3] = 10;
         alarm[8] = 300;
 }
 #endregion
@@ -88,3 +85,16 @@ function nearest_cardinal_direction(_direction){
     return _nearest_direction;
 }
 #endregion
+
+
+function hold_atk_1(){
+	show_debug_message("AIOU")
+}
+
+function hold_atk_2(){
+	show_debug_message("ABLABLUBLÉ");
+}
+
+function hold_atk_3(){
+	show_debug_message("LABULABULA")
+}
