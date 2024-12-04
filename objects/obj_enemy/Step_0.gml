@@ -317,3 +317,6 @@ switch(state){
 	#endregion
 }
 #endregion
+
+
+show_debug_message(attack)

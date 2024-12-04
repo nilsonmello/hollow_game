@@ -87,21 +87,17 @@ function nearest_cardinal_direction(_direction){
 #endregion
 
 function hold_atk_1(){
-	var _dir = point_direction(x, y, obj_control.x, obj_control.y);
-	var _adv_rng = 180;
-	
-	var _adv_x = x + lengthdir_x(_adv_rng, _dir);
-	var _adv_y = y + lengthdir_y(_adv_rng, _dir);
-	
-	var _adv_spd = .2;
-	
-	var _nx = lerp(x, _adv_x, _adv_spd);
-	var _ny = lerp(y, _adv_y, _adv_spd);
+	var _melee_dir = point_direction(x, y, obj_control.x, obj_control.y);
+	var _advance_distance = 150;
 
-	x = _nx;
-	y = _ny;
-		
+	advance_x = x + lengthdir_x(_advance_distance, _melee_dir);
+	advance_y = y + lengthdir_y(_advance_distance, _melee_dir);
+	
 	global.stamina -= 30;
+
+	state = STATES.HOLD_ATK;
+	
+
 }
 
 function hold_atk_2(){
