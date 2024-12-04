@@ -387,41 +387,27 @@ if(_ma){
 #endregion
 
 #region holded attack
-var _hold_time = 300;
+var _hold_time = 30;
+var _hold_time_2 = 200;
 
 if(_mb2 && alarm[3] <= 0){		
 	switch(global.hold_attack){
 		case 0:
-			if (timer <= _hold_time && !h_atk){ 
+			if(timer <= _hold_time && !h_atk){ 
 				timer++;
 			}else{
 				if(global.stamina < 30){
 					return false;	
 				}
-		
 				part_emitter_region(ps, emitter2, x - 10, x + 10, y - 10, y + 10, ps_shape_rectangle, ps_distr_linear);
 				part_emitter_stream(ps, emitter2, ptype3, 1);	
 			}
 		break;
 		
 		case 1:
-			if(timer <= _hold_time && !h_atk){ 
-				timer++;
-				atk_range++;
-				global.stamina--;
-			}else{
-				if(global.stamina < 1){
-					return false;	
-				}
-			}
-			
-			atk_range = clamp(atk_range, 0, 100);
-			
-			var _circ = collision_circle(x, y, atk_range, obj_enemy_par, false, false);
+
 		break;
 	}
-	
-
 }
 
 switch(global.hold_attack){
@@ -437,7 +423,7 @@ switch(global.hold_attack){
 	break;
 	
 	case 1:
-		if(!_mb2 && timer >= _hold_time && global.stamina > 30){
+		if(!_mb2 && timer >= _hold_time){
 			player_circular_attack();
 			h_atk = false;
 			alarm[9] = 30;

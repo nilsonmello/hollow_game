@@ -168,25 +168,7 @@ function line_dmg(){
 
 #region circular attack
 function player_circular_attack(){
-	if(global.slow_motion){
-		return false;	
-	}
-	if(global.stamina < 30){
-		return false;	
-	}
-	
-    alarm[4] = 50;
-    image_index = 0;
-    state = STATES.CIRCULLAR_ATK;
-	
-	if(!holded_attack){
-		holded_attack = true;
-	}
-	
-	timer = 0;
-	h_atk = true;
-	global.stamina -= 1;
-	holded_attack = false;
+
 }
 #endregion
 

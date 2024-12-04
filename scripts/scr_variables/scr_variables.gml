@@ -51,4 +51,4 @@ global.dmg_stack = true;
 //player heal
 global.healing = false;
 
-global.hold_attack = 1;
+global.hold_attack = 0;

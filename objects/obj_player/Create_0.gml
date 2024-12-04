@@ -227,5 +227,3 @@ part_type_color3(particle_shadow, _red, _red_2, _red_3);
 #endregion
 
 #endregion
-
-atk_range = 0;
