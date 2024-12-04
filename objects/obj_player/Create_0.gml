@@ -24,7 +24,6 @@ alarm[1] = 0;
 #endregion
 
 #region hability variables
-can_activate_slash = false
 area = 20;
 
 enemy_list = ds_list_create();
@@ -60,13 +59,9 @@ advance_y = 0;
 
 advancing = false;
 
-timer = 0;
-h_atk = false
-
 parry_time = 20;
 parry_cooldown = 70;
 
-holded_attack = false;
 clicked_attack = false;
 #endregion
 
@@ -80,9 +75,6 @@ enum STATES{
 	PARRY,
     HEAL,
     ATTAKING,
-	LINE_ATK,
-	CIRCULLAR_ATK,
-	CHARGED_ATK,
     HIT,
     DEATH,
 }

@@ -1,6 +1,8 @@
 #region state machine
 
 #region comand keys
+
+#region movement keys
 var _spr_dir = move_dir;
 
 global.energy = clamp(global.energy, 0, global.energy_max);
@@ -11,19 +13,35 @@ var _top = keyboard_check(ord("W"));
 var _down = keyboard_check(ord("S"));
 		
 var _keys = _right - _left != 0 || _down - _top != 0;
+#endregion
 
+#region death verification
 if(global.life_at <= 0){
 	state = STATES.DEATH;
 }
+#endregion
 
+#region healing button
 if(keyboard_check(ord("H")) && can_heal && global.life_at < global.life){
 	state = STATES.HEAL;
 }
 #endregion
 
+#region dash control
+dash_dir = move_dir
+
+if(keyboard_check_pressed(vk_space) && alarm[1] <= 0){
+	global.is_dashing = true;
+	alarm[0] = 8;
+	alarm[1] = 23;
+	state = STATES.DASH;
+}
+#endregion
+
+#endregion
+
+#region sprites
 switch(state){
-	
-	#region idle
 	case STATES.IDLE:
 		if(!global.slow_motion){
 			switch(_spr_dir){
@@ -35,36 +53,9 @@ switch(state){
 		}else{
 			sprite_index = spr_player_power;
 		}
-		
-		spd = 0;
-		andar = false;
-		
-		if(_keys){
-			state = STATES.MOVING;
-			andar = true;
-		}
-		
-		dash_dir = move_dir
-		
-		if(keyboard_check_pressed(vk_space) && alarm[1] <= 0){
-			global.is_dashing = true;
-			alarm[0] = 8;
-			alarm[1] = 23;
-			state = STATES.DASH;
-		}
-		
 	break;
-	#endregion
 	
-	#region walking
 	case STATES.MOVING:
-	
-		if(!keyboard_check(ord("R"))){
-			spd = 1.3;
-		}else{
-			spd = 0;
-		}
-			
 		if(!global.slow_motion){
 			switch(_spr_dir){
 				case 0:	sprite_index = spr_player_walk_rl;	image_xscale = 1	break;
@@ -74,6 +65,40 @@ switch(state){
 			}
 		}else{
 			sprite_index = spr_player_power	
+		}
+	break;
+	
+	case STATES.ATTAKING:
+	    switch(_spr_dir){
+	        case 0: sprite_index = spr_player_attack_rl; image_xscale = 1; break;
+	        case 90: sprite_index = spr_player_attack_rl; break;
+	        case 180: sprite_index = spr_player_attack_rl; image_xscale = -1; break;
+	        case 270: sprite_index = spr_player_attack_rl; break;
+	    }
+	break;
+}
+#endregion
+
+switch(state){
+	
+	#region idle
+	case STATES.IDLE:
+		spd = 0;
+		andar = false;
+		
+		if(_keys){
+			state = STATES.MOVING;
+			andar = true;
+		}
+	break;
+	#endregion
+	
+	#region walking
+	case STATES.MOVING:
+		if(!keyboard_check(ord("R"))){
+			spd = 1.3;
+		}else{
+			spd = 0;
 		}
 
 		if(_keys){
@@ -94,14 +119,6 @@ switch(state){
 			}
 		}else{
 			state = STATES.IDLE;
-		}
-		
-		dash_dir = move_dir;
-		if(keyboard_check_pressed(vk_space) && alarm[1] <= 0){
-				global.is_dashing = true;
-				alarm[0] = 8;
-				alarm[1] = 23;
-				state = STATES.DASH;
 		}
 	break;
 	#endregion
@@ -277,13 +294,6 @@ switch(state){
 	        var _melee_dir = point_direction(x, y, advance_x, advance_y);
 	        move_dir = nearest_cardinal_direction(_melee_dir);
 
-	        switch (_spr_dir) {
-	            case 0: sprite_index = spr_player_attack_rl; image_xscale = 1; break;
-	            case 90: sprite_index = spr_player_attack_rl; break;
-	            case 180: sprite_index = spr_player_attack_rl; image_xscale = -1; break;
-	            case 270: sprite_index = spr_player_attack_rl; break;
-	        }
-
 	        var _advance_speed = 0.2;
 	        var __new_x = lerp(x, advance_x, _advance_speed);
 	        var __new_y = lerp(y, advance_y, _advance_speed);
@@ -309,59 +319,7 @@ switch(state){
 	break;
 
 	#endregion
-	
-	#region line attack
-	case STATES.LINE_ATK:
-	    if(advancing){
-	        var _melee_dir = point_direction(x, y, spd_h, spd_v);
-	        move_dir = nearest_cardinal_direction(_melee_dir);
-
-	        switch(_spr_dir){
-	            case 0: sprite_index = spr_player_attack_rl; image_xscale = 1; break;
-	            case 90: sprite_index = spr_player_attack_rl; break;
-	            case 180: sprite_index = spr_player_attack_rl; image_xscale = -1; break;
-	            case 270: sprite_index = spr_player_attack_rl; break;
-	        }
-
-	        var _advance_speed = 0.2;
-	        var __new_x = lerp(x, advance_x, _advance_speed);
-	        var __new_y = lerp(y, advance_y, _advance_speed);
-
-	        var _collision_wall = place_meeting(__new_x, __new_y, obj_wall);
-
-	        if(!_collision_wall){
-	            x = __new_x;
-	            y = __new_y;
-	        }else{
-	            advancing = false;
-	        }
-			
-	        if(point_distance(x, y, spd_h, spd_v) < 1){
-	            advancing = false;
-	        }
-	    }
-
-	    if(!advancing && image_index >= image_number - 1){
-	        state = STATES.MOVING;
-	    }
-	break;
-	#endregion
-	
-	#region circular attack
-	case STATES.CIRCULLAR_ATK:
-		if(alarm[9] <= 0){
-			state = STATES.MOVING;	
-			layer_set_visible("screenshake_line", 0);
-		}
-	break;
-	#endregion
-	
-	#region charged attack
-	case STATES.CHARGED_ATK:
-	
-	break;
-	#endregion
-
+		
 	#region death
 	case STATES.DEATH:
 		state = STATES.IDLE;
@@ -383,62 +341,6 @@ parry_cooldown--;
 #region parry
 if(_ma){
 	player_parry();
-}
-#endregion
-
-#region holded attack
-var _hold_time = 30;
-var _hold_time_2 = 200;
-
-if(_mb2 && alarm[3] <= 0){		
-	switch(global.hold_attack){
-		case 0:
-			if(timer <= _hold_time && !h_atk){ 
-				timer++;
-			}else{
-				if(global.stamina < 30){
-					return false;	
-				}
-				part_emitter_region(ps, emitter2, x - 10, x + 10, y - 10, y + 10, ps_shape_rectangle, ps_distr_linear);
-				part_emitter_stream(ps, emitter2, ptype3, 1);	
-			}
-		break;
-		
-		case 1:
-
-		break;
-	}
-}
-
-switch(global.hold_attack){
-	case 0:
-		if(!_mb2 && timer >= _hold_time && global.stamina > 30){
-			player_line_attack();
-			h_atk = false;
-			alarm[9] = 30;
-			layer_set_visible("screenshake_line", 1);
-		}
-
-		line_dmg();
-	break;
-	
-	case 1:
-		if(!_mb2 && timer >= _hold_time){
-			player_circular_attack();
-			h_atk = false;
-			alarm[9] = 30;
-			layer_set_visible("screenshake_line", 1);
-		}
-	break;
-	
-	case 2:
-		if(!_mb2 && timer >= _hold_time && global.stamina > 30){
-
-			h_atk = false;
-			alarm[9] = 18;
-			layer_set_visible("screenshake_line", 1);
-		}
-	break;
 }
 #endregion
 
