@@ -194,6 +194,7 @@ timer = 0;
 has_holded_attack = false;
 #endregion
 
+#region constructor attacks
 function slashes(_dist, _direction, _damage, _hitbox, _owner, _cost) constructor{
 	
     distance = _dist;
@@ -345,3 +346,4 @@ function circle(_dist, _direction, _damage, _hitbox, _owner, _cost) : slashes(_d
 linha = new line(150, point_direction(x, y, obj_control.x, obj_control.y), 10, true, self, 30);
 
 golpe_circular = new circle(100, 0, 10, true, self, 30);
+#endregion

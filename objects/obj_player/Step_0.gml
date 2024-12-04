@@ -569,21 +569,24 @@ if(stamina_timer_regen > 0){
 global.stamina = clamp(global.stamina, 0, global.stamina_max);
 #endregion
 
-
-
-
-
-if (keyboard_check_pressed(ord("F")) && global.stamina > linha.cost){
-    linha = new line(150, point_direction(x, y, obj_control.x, obj_control.y), 10, true, self, 30);
-	linha.moving = true;
+#region hold attack
+switch(global.hold_attack){
+	case 0:
+		if (keyboard_check_pressed(ord("F")) && global.stamina > linha.cost){
+		    linha = new line(150, point_direction(x, y, obj_control.x, obj_control.y), 10, true, self, 30);
+			linha.moving = true;
+		}
+	break;
+	
+	case 1:
+		if (keyboard_check_pressed(ord("F")) && global.stamina > golpe_circular.cost) {
+		    golpe_circular = new circle(100, 0, 10, true, self, 30);
+		    golpe_circular.activate();
+		}
+	break;
 }
 
 if(linha != noone){
     linha.move();
 }
-
-
-if (keyboard_check_pressed(ord("G")) && global.stamina > golpe_circular.cost) {
-    golpe_circular = new circle(100, 0, 10, true, self, 30);
-    golpe_circular.activate();
-}
+#endregion

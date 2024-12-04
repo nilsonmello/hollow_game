@@ -52,4 +52,4 @@ global.dmg_stack = true;
 global.healing = false;
 
 //choose holded attack
-global.hold_attack = 0;
+global.hold_attack = 1;
