@@ -320,36 +320,6 @@ switch(state){
 
 	#endregion
 	
-	#region holded attack
-	case STATES.HOLD_ATK:
-	switch(global.hold_attack){
-		case 0:
-			var _melee_dir = point_direction(x, y, advance_x, advance_y);
-			move_dir = nearest_cardinal_direction(_melee_dir);
-
-			var _advance_speed = 0.2;
-			var __new_x = lerp(x, advance_x, _advance_speed);
-			var __new_y = lerp(y, advance_y, _advance_speed);
-
-			var _collision_wall = place_meeting(__new_x, __new_y, obj_wall);
-			var _collision_enemy = place_meeting(__new_x, __new_y, obj_enemy_par);
-
-			if(!_collision_wall){
-				x = __new_x;
-				y = __new_y;
-			}
-		
-			hold_atk_line_dmg()
-		
-			if(alarm[9] <= 0){
-				state = STATES.MOVING;	
-				attack = false;
-			}
-		break;
-	}
-	break;
-	#endregion
-		
 	#region death
 	case STATES.DEATH:
 		state = STATES.IDLE;
@@ -598,3 +568,14 @@ if(stamina_timer_regen > 0){
 }
 global.stamina = clamp(global.stamina, 0, global.stamina_max);
 #endregion
+
+
+
+if (keyboard_check_pressed(ord("F"))) {
+    linha = new line(150, point_direction(x, y, obj_control.x, obj_control.y), 10, true, self);
+
+}
+
+	linha.move();
+
+

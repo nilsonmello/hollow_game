@@ -75,7 +75,6 @@ enum STATES{
 	PARRY,
     HEAL,
     ATTAKING,
-	HOLD_ATK,
     HIT,
     DEATH,
 }
@@ -194,3 +193,46 @@ timer = 0;
 //control to execute the attack only one time
 has_holded_attack = false;
 #endregion
+
+function slashes(_dist, _direction, _damage, _hitbox, _owner) constructor{
+
+    distance = _dist;
+    dir_atk = _direction;
+    dmg = _damage;
+    create_hitbox = _hitbox;
+    owner = _owner;
+
+    collision = function() {
+        show_debug_message("Colisão detectada!");
+    };
+}
+
+function line(_dist, _direction, _damage, _hitbox, _owner) : slashes(_dist, _direction, _damage, _hitbox, _owner) constructor{
+    moving = true;
+    lerp_spd = 0.2;
+
+    adv_x = owner.x + lengthdir_x(distance, dir_atk);
+    adv_y = owner.y + lengthdir_y(distance, dir_atk);
+
+    move = function(){
+        if(moving){
+
+            var _new_x = lerp(owner.x, adv_x, lerp_spd);
+            var _new_y = lerp(owner.y, adv_y, lerp_spd);
+
+            owner.x = _new_x;
+            owner.y = _new_y;
+
+            if(point_distance(owner.x, owner.y, adv_x, adv_y) < 1){
+                moving = false;
+            }
+        }
+		
+		
+		
+		
+		
+    };
+}
+
+linha = new line(150, point_direction(x, y, obj_control.x, obj_control.y), 10, true, self);

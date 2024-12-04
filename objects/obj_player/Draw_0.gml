@@ -101,6 +101,3 @@ if(hit_alpha > 0){
 	gpu_set_fog(false, hit_color,0, 0);
 }
 #endregion
-
-
-draw_rectangle(x - 10, y - 10, x + 10, y + 10, true);
