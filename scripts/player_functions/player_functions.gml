@@ -86,7 +86,8 @@ function nearest_cardinal_direction(_direction){
 }
 #endregion
 
-function hold_atk_1(){
+#region holded attack line
+function hold_atk_line_move(){
 	var _melee_dir = point_direction(x, y, obj_control.x, obj_control.y);
 	var _advance_distance = 150;
 
@@ -96,14 +97,95 @@ function hold_atk_1(){
 	global.stamina -= 30;
 
 	state = STATES.HOLD_ATK;
+}
+
+function hold_atk_line_dmg(){
+		if(!variable_global_exists("attacked_enemies")){
+			global.attacked_enemies = ds_list_create();
+		}
+
+		var _list = ds_list_create();
+		collision_rectangle_list(x - 10, y - 10, x + 10, y + 10, obj_enemy_par, false, false, _list, true);
+
+		for(var _i = 0; _i < ds_list_size(_list); _i++){
+			var _rec = _list[| _i];
+
+			if(!ds_list_find_index(global.attacked_enemies, _rec)){
+				with(_rec){
+
+					if(!attack){
+						switch(knocked){
+							case 0:
+								part_particles_create(particle_hit, x, y, particle_slash, 1);
+			
+								escx = 1.5;
+								escy = 1.5;
+								hit_alpha = 1;
+			
+								layer_set_visible("screenshake_damaging_enemies", 1);
+								state = ENEMY_STATES.HIT;
+								timer_hit = 5;
+								emp_timer = 5;
+								
+								atk_timer = 0;
+								atk_wait = 0;
+								attacking = false;
+                    
+								emp_dir = point_direction(obj_player.x, obj_player.y, x, y);
+								emp_veloc = 6;
+								global.combo++;
+								stamina_at -= 30;
+								alarm[2] = 30;
+							break;
+			
+							case 1:
+								layer_set_visible("screenshake_damaging_enemies", 1);
+									
+								escx = 1.5;
+								escy = 1.5;
+					
+								hit_alpha = 1;
+									
+								state = ENEMY_STATES.KNOCKED;
+								vida -= 2
+								emp_timer = 5;
+								
+								atk_timer = 0;
+								atk_wait = 0;
+								attacking = false;
+								
+								emp_dir = point_direction(obj_player.x, obj_player.y, x, y);
+								emp_veloc = 8;
+								combo_visible = 0;
+								hit = false;
+								global.combo++;
+								alarm[1] = 10;
+								alarm[2] = 30;
+							break;
+						}
+						attack = true;
+					}
+				}
+				ds_list_add(global.attacked_enemies, _rec);
+			}
+		}
+		ds_list_destroy(_list);
 	
 
+	if(variable_global_exists("attacked_enemies")){
+		ds_list_clear(global.attacked_enemies);
+	}	
 }
+#endregion
+
 
 function hold_atk_2(){
-	show_debug_message("ABLABLUBLÉ");
+	
 }
 
+
+#region 3
 function hold_atk_3(){
 	show_debug_message("LABULABULA")
 }
+#endregion

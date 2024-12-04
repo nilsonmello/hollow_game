@@ -322,25 +322,31 @@ switch(state){
 	
 	#region holded attack
 	case STATES.HOLD_ATK:
-		var _melee_dir = point_direction(x, y, advance_x, advance_y);
-		move_dir = nearest_cardinal_direction(_melee_dir);
+	switch(global.hold_attack){
+		case 0:
+			var _melee_dir = point_direction(x, y, advance_x, advance_y);
+			move_dir = nearest_cardinal_direction(_melee_dir);
 
-		var _advance_speed = 0.2;
-		var __new_x = lerp(x, advance_x, _advance_speed);
-		var __new_y = lerp(y, advance_y, _advance_speed);
+			var _advance_speed = 0.2;
+			var __new_x = lerp(x, advance_x, _advance_speed);
+			var __new_y = lerp(y, advance_y, _advance_speed);
 
-		var _collision_wall = place_meeting(__new_x, __new_y, obj_wall);
-		var _collision_enemy = place_meeting(__new_x, __new_y, obj_enemy_par);
+			var _collision_wall = place_meeting(__new_x, __new_y, obj_wall);
+			var _collision_enemy = place_meeting(__new_x, __new_y, obj_enemy_par);
 
-		if(!_collision_wall){
-			x = __new_x;
-			y = __new_y;
-		}
+			if(!_collision_wall){
+				x = __new_x;
+				y = __new_y;
+			}
 		
-		if(alarm[9] <= 0){
-			state = STATES.MOVING;	
-			attack = false;
-		}
+			hold_atk_line_dmg()
+		
+			if(alarm[9] <= 0){
+				state = STATES.MOVING;	
+				attack = false;
+			}
+		break;
+	}
 	break;
 	#endregion
 		
@@ -379,7 +385,7 @@ if(_mb2){
     if(timer >= _timer){
         switch(global.hold_attack){
             case 0:
-                hold_atk_1();
+                hold_atk_line_move();
 				alarm[9] = 10
                 break;
             case 1:
