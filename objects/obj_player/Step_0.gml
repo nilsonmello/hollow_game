@@ -571,11 +571,19 @@ global.stamina = clamp(global.stamina, 0, global.stamina_max);
 
 
 
-if (keyboard_check_pressed(ord("F"))) {
-    linha = new line(150, point_direction(x, y, obj_control.x, obj_control.y), 10, true, self);
 
+
+if (keyboard_check_pressed(ord("F")) && global.stamina > linha.cost){
+    linha = new line(150, point_direction(x, y, obj_control.x, obj_control.y), 10, true, self, 30);
+	linha.moving = true;
 }
 
-	linha.move();
+if(linha != noone){
+    linha.move();
+}
 
 
+if (keyboard_check_pressed(ord("G")) && global.stamina > golpe_circular.cost) {
+    golpe_circular = new circle(100, 0, 10, true, self, 30);
+    golpe_circular.activate();
+}

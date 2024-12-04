@@ -194,21 +194,23 @@ timer = 0;
 has_holded_attack = false;
 #endregion
 
-function slashes(_dist, _direction, _damage, _hitbox, _owner) constructor{
-
+function slashes(_dist, _direction, _damage, _hitbox, _owner, _cost) constructor{
+	
     distance = _dist;
     dir_atk = _direction;
     dmg = _damage;
     create_hitbox = _hitbox;
     owner = _owner;
+	cost = _cost;
 
-    collision = function() {
-        show_debug_message("Colisão detectada!");
+    collision = function(){
+        show_debug_message("bateu");
     };
 }
 
-function line(_dist, _direction, _damage, _hitbox, _owner) : slashes(_dist, _direction, _damage, _hitbox, _owner) constructor{
-    moving = true;
+function line(_dist, _direction, _damage, _hitbox, _owner, _cost) : slashes(_dist, _direction, _damage, _hitbox, _owner, _cost) constructor{
+    cost = _cost;
+	moving = false;
     lerp_spd = 0.2;
 
     adv_x = owner.x + lengthdir_x(distance, dir_atk);
@@ -225,14 +227,121 @@ function line(_dist, _direction, _damage, _hitbox, _owner) : slashes(_dist, _dir
 
             if(point_distance(owner.x, owner.y, adv_x, adv_y) < 1){
                 moving = false;
+				global.stamina -= cost
             }
         }
 		
-		
-		
-		
-		
+		if(!variable_global_exists("attacked_enemies")){
+			global.attacked_enemies = ds_list_create();
+		}
+
+		if(moving){
+			var _list = ds_list_create();
+			collision_rectangle_list(owner.x - 10, owner.y - 10, owner.x + 10, owner.y + 10, obj_enemy_par, false, false, _list, true);
+
+			for(var _i = 0; _i < ds_list_size(_list); _i++){
+				var _rec = _list[| _i];
+
+				if(!ds_list_find_index(global.attacked_enemies, _rec)){
+					with(_rec){
+	                    if (!attack){
+	                        escx = 1.5;
+	                        escy = 1.5;
+	                        hit_alpha = 1;			
+	                        timer_hit = 5;	
+	                        emp_dir = point_direction(obj_player.x, obj_player.y, x, y);
+	                        global.combo++;
+
+	                        switch(knocked){
+	                            case 0:
+	                                part_particles_create(particle_hit, x, y, particle_slash, 1);
+	                                layer_set_visible("screenshake_damaging_enemies", 1);
+	                                state = ENEMY_STATES.HIT;
+	                                emp_timer = 5;
+	                                emp_veloc = 6;
+	                                break;
+
+	                            case 1:
+	                                layer_set_visible("screenshake_damaging_enemies", 1);
+	                                state = ENEMY_STATES.KNOCKED;
+	                                emp_veloc = 8;
+	                                break;
+	                        }
+	                        attack = true;
+	                    }
+					}
+					ds_list_add(global.attacked_enemies, _rec);
+				}
+			}
+				ds_list_destroy(_list);
+		}
+
+		if(variable_global_exists("attacked_enemies")){
+			ds_list_clear(global.attacked_enemies);
+		}	
     };
 }
 
-linha = new line(150, point_direction(x, y, obj_control.x, obj_control.y), 10, true, self);
+function circle(_dist, _direction, _damage, _hitbox, _owner, _cost) : slashes(_dist, _direction, _damage, _hitbox, _owner, _cost) constructor{
+    active = false;
+	cost = _cost
+	
+    activate = function(){
+        active = true;
+
+        if(!variable_global_exists("attacked_enemies")){
+            global.attacked_enemies = ds_list_create();
+        }
+
+        var _list = ds_list_create();
+        collision_circle_list(owner.x, owner.y, distance, obj_enemy_par, false, false, _list, true);
+
+        for (var _i = 0; _i < ds_list_size(_list); _i++){
+            var _rec = _list[| _i];
+
+            if(!ds_list_find_index(global.attacked_enemies, _rec)){
+                with(_rec){
+                    if (!attack){
+                        escx = 1.5;
+                        escy = 1.5;
+                        hit_alpha = 1;			
+                        timer_hit = 5;	
+                        emp_dir = point_direction(obj_player.x, obj_player.y, x, y);
+                        global.combo++;
+
+                        switch(knocked){
+                            case 0:
+                                part_particles_create(particle_hit, x, y, particle_slash, 1);
+                                layer_set_visible("screenshake_damaging_enemies", 1);
+                                state = ENEMY_STATES.HIT;
+                                emp_timer = 5;
+                                emp_veloc = 6;
+                                break;
+
+                            case 1:
+                                layer_set_visible("screenshake_damaging_enemies", 1);
+                                state = ENEMY_STATES.KNOCKED;
+                                emp_veloc = 8;
+                                break;
+                        }
+                        attack = true;
+                    }
+                }
+                ds_list_add(global.attacked_enemies, _rec);
+            }
+        }
+
+        ds_list_destroy(_list);
+
+        if(variable_global_exists("attacked_enemies")){
+            ds_list_clear(global.attacked_enemies);
+        }
+
+        global.stamina -= cost;
+        active = false;
+    };
+}
+
+linha = new line(150, point_direction(x, y, obj_control.x, obj_control.y), 10, true, self, 30);
+
+golpe_circular = new circle(100, 0, 10, true, self, 30);
