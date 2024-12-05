@@ -354,8 +354,6 @@ if(_mb){
 }
 #endregion
 
-#endregion
-
 #region power activation
 
 #region hability activation
