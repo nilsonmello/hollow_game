@@ -125,45 +125,45 @@ switch(state){
 	#endregion
 	
 	#region knocked
-    case ENEMY_STATES.KNOCKED:
-	layer_set_visible("screenshake_damaging_enemies", 0);
-		stamina_at += .5;
-		
-        if(stamina_at < stamina_t){
-            if (hit){
-                hit = false;
-                alarm[1] = 15;
-            }
+case ENEMY_STATES.KNOCKED:
+    layer_set_visible("screenshake_damaging_enemies", 0);
+    stamina_at += .5;
 
-		if(emp_timer > 0){
-			emp_timer--;
-	        vel_h = lengthdir_x(emp_veloc, emp_dir);
-	        vel_v = lengthdir_y(emp_veloc, emp_dir);
+    if (stamina_at < stamina_t){
+        if (hit){
+            hit = false;
+            alarm[1] = 0;
+        }
 
-	        emp_veloc = lerp(emp_veloc, 0, .01);
-		
-			enemy_colide();
+        if (emp_timer > 0){
+            emp_timer--;
+            vel_h = lengthdir_x(emp_veloc, emp_dir);
+            vel_v = lengthdir_y(emp_veloc, emp_dir);
 
-	        x += vel_h;
-	        y += vel_v;
-		}
-	
-		if(energy_count < max_energy){
-			var _exp = instance_create_layer(x, y, "Instances_player", obj_energy_dust);
-			_exp.direction = irandom(360);
-			_exp.speed = 2;
-			
-			energy_count++;
-		}
-		
-        }else{
-			state = ENEMY_STATES.IDLE
-			hit = true;
-			attack = false;
-			knocked = false;
-		}
-    break;
-	#endregion
+            emp_veloc = lerp(emp_veloc, 0, .01);
+
+            enemy_colide();
+
+            x += vel_h;
+            y += vel_v;
+        }
+
+        if (energy_count < max_energy){
+            var _exp = instance_create_layer(x, y, "Instances_player", obj_energy_dust);
+            _exp.direction = irandom(360);
+            _exp.speed = 2;
+
+            energy_count++;
+        }
+
+    }else{
+        state = ENEMY_STATES.IDLE;
+        hit = true;  // Aqui, resetando o valor de 'hit' para 'true'
+        attack = false;
+        knocked = false;
+    }
+break;
+#endregion
 	
 	#region waiting attack
 	case ENEMY_STATES.WAITING:
@@ -317,6 +317,3 @@ switch(state){
 	#endregion
 }
 #endregion
-
-
-show_debug_message(attack)

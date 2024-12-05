@@ -344,37 +344,13 @@ if(_ma){
 }
 #endregion
 
-#region choose holded attack
-var _timer = 30;
 
-if(_mb2){
-    if(timer < _timer){
-        timer++;
-    }
-}else{
-    if(timer >= _timer){
-        switch(global.hold_attack){
-            case 0:
-                hold_atk_line_move();
-				alarm[9] = 10
-                break;
-            case 1:
-                hold_atk_2();
-                break;
-            case 2:
-                hold_atk_3();
-                break;
-        }
-    }
-    timer = 0;
-}
 #endregion
 
 #region sword basic attack
-if(alarm[4] <= 0){
-    if(_mb){
-        player_basic_attack();
-    }
+if(_mb){ 
+	basico = new basic_attack(20, point_direction(x, y, mouse_x, mouse_y), 1, true, self, 0);
+	basico.activate();
 }
 #endregion
 
@@ -573,14 +549,14 @@ global.stamina = clamp(global.stamina, 0, global.stamina_max);
 switch(global.hold_attack){
 	case 0:
 		if (keyboard_check_pressed(ord("F")) && global.stamina > linha.cost){
-		    linha = new line(150, point_direction(x, y, obj_control.x, obj_control.y), 10, true, self, 30);
+		    linha = new line(150, point_direction(x, y, obj_control.x, obj_control.y), 1, true, self, 30);
 			linha.moving = true;
 		}
 	break;
 	
 	case 1:
 		if (keyboard_check_pressed(ord("F")) && global.stamina > golpe_circular.cost) {
-		    golpe_circular = new circle(100, 0, 10, true, self, 30);
+		    golpe_circular = new circle(100, 0, 1, true, self, 30);
 		    golpe_circular.activate();
 		}
 	break;

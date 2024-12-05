@@ -53,7 +53,6 @@
     {"id":{"name":"obj_enemy","path":"objects/obj_enemy/obj_enemy.yy",},},
     {"id":{"name":"obj_energy_dust","path":"objects/obj_energy_dust/obj_energy_dust.yy",},},
     {"id":{"name":"obj_hitbox_enemy","path":"objects/obj_hitbox_enemy/obj_hitbox_enemy.yy",},},
-    {"id":{"name":"obj_hitbox","path":"objects/obj_hitbox/obj_hitbox.yy",},},
     {"id":{"name":"obj_player","path":"objects/obj_player/obj_player.yy",},},
     {"id":{"name":"obj_wall","path":"objects/obj_wall/obj_wall.yy",},},
     {"id":{"name":"Room_teste","path":"rooms/Room_teste/Room_teste.yy",},},
