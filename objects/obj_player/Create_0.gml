@@ -220,16 +220,17 @@ function line(_dist, _direction, _damage, _hitbox, _owner, _cost) : slashes(_dis
 
     move = function(){
         if(moving){
-
             var _new_x = lerp(owner.x, adv_x, lerp_spd);
             var _new_y = lerp(owner.y, adv_y, lerp_spd);
 
             owner.x = _new_x;
             owner.y = _new_y;
 
-            if(point_distance(owner.x, owner.y, adv_x, adv_y) < 1){
+            if(point_distance(owner.x, owner.y, adv_x, adv_y) < 8){
                 moving = false;
 				global.stamina -= cost
+				lerp_spd = 0;
+				
             }
         }
 		
@@ -425,7 +426,6 @@ function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost) : slas
 }
 
 #endregion
-
 
 linha = new line(150, point_direction(x, y, obj_control.x, obj_control.y), 1, true, self, 30);
 

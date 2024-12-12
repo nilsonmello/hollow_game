@@ -342,6 +342,7 @@ parry_cooldown--;
 if(_ma){
 	player_parry();
 }
+show_debug_message(parry_cooldown)
 #endregion
 
 
@@ -546,14 +547,18 @@ global.stamina = clamp(global.stamina, 0, global.stamina_max);
 #region hold attack
 switch(global.hold_attack){
 	case 0:
-		if (keyboard_check_pressed(ord("F")) && global.stamina > linha.cost){
+		if(keyboard_check_pressed(ord("F"))){
+			if(!global.stamina > linha.cost){
+				return false;	
+			}
+			
 		    linha = new line(150, point_direction(x, y, obj_control.x, obj_control.y), 1, true, self, 30);
 			linha.moving = true;
 		}
 	break;
 	
 	case 1:
-		if (keyboard_check_pressed(ord("F")) && global.stamina > golpe_circular.cost) {
+		if(keyboard_check_pressed(ord("F")) && global.stamina > golpe_circular.cost) {
 		    golpe_circular = new circle(100, 0, 1, true, self, 30);
 		    golpe_circular.activate();
 		}

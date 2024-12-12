@@ -240,7 +240,7 @@ break;
 	                            layer_set_visible("screenshake_damaging_enemies", 1);
 
 	                            with(other){
-	                                state = ENEMY_STATES.KNOCKED;
+	                                state = ENEMY_STATES.HIT;
 	                                emp_dir = point_direction(obj_player.x, obj_player.y, other.x, other.y);
 	                                emp_veloc = 6;
 	                                hit = true;
