@@ -2,10 +2,6 @@
 global.life = 10;
 global.life_at = global.life;
 
-//stamina and max stamina
-global.stamina_max = 100;
-global.stamina = global.stamina_max;
-
 // energy
 global.energy = 0;
 
@@ -45,11 +41,5 @@ global.hab_range = 110;
 //area slash damage
 global.hab_dmg = 1;
 
-//increase damage
-global.dmg_stack = true;
-
 //player heal
 global.healing = false;
-
-//choose holded attack
-global.hold_attack = 2;

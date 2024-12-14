@@ -198,5 +198,3 @@ knocked = false;
 max_energy = 10;
 energy_count = 0;
 #endregion
-
-marked = false;
