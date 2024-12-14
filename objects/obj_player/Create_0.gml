@@ -228,9 +228,8 @@ function line(_dist, _direction, _damage, _hitbox, _owner, _cost) : slashes(_dis
 
             if(point_distance(owner.x, owner.y, adv_x, adv_y) < 8){
                 moving = false;
-				global.stamina -= cost
+				global.energy -= cost
 				lerp_spd = 0;
-				
             }
         }
 		
@@ -348,12 +347,12 @@ function circle(_dist, _direction, _damage, _hitbox, _owner, _cost) : slashes(_d
             ds_list_clear(global.attacked_enemies);
         }
 
-        global.stamina -= cost;
+        global.energy -= cost;
         active = false;
     };
 }
 
-function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost) : slashes(_dist, _direction, _damage, _hitbox, _owner, _cost) constructor {
+function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost) : slashes(_dist, _direction, _damage, _hitbox, _owner, _cost) constructor{
 	distance = _dist;
 	dir_atk = _direction;
 	dmg = _damage;
@@ -425,10 +424,10 @@ function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost) : slas
 	};
 }
 
-#endregion
+linha = new line(150, point_direction(x, y, obj_control.x, obj_control.y), 1, true, self, 1);
 
-linha = new line(150, point_direction(x, y, obj_control.x, obj_control.y), 1, true, self, 30);
-
-golpe_circular = new circle(100, 0, 1, true, self, 30);
+golpe_circular = new circle(100, 0, 1, true, self, 1);
 
 basico = new basic_attack(20, point_direction(x, y, mouse_x, mouse_y), 1, true, self, 0);
+#endregion
+

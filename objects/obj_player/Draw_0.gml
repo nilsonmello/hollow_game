@@ -101,3 +101,5 @@ if(hit_alpha > 0){
 	gpu_set_fog(false, hit_color,0, 0);
 }
 #endregion
+
+draw_circle(x, y, 100, true);
