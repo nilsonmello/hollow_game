@@ -543,39 +543,3 @@ if(stamina_timer_regen > 0){
 }
 global.stamina = clamp(global.stamina, 0, global.stamina_max);
 #endregion
-
-#region hold attack
-switch(global.hold_attack){
-	case 0:
-		if(keyboard_check_pressed(ord("F"))){
-		    linha = new line(150, point_direction(x, y, obj_control.x, obj_control.y), 1, true, self, 1);
-			
-			if(global.energy > linha.cost){
-				linha.moving = true;
-			}
-		}
-	break;
-	
-	case 1:
-		if(keyboard_check_pressed(ord("F"))){
-		    golpe_circular = new circle(100, 0, 1, true, self, 1);
-			
-			if(global.energy > linha.cost){
-				golpe_circular.activate();
-			}
-		}
-	break;
-	
-	case 2:
-		if(keyboard_check_pressed(ord("F"))){
-			marked = new marked_attack(100, point_direction(x, y, mouse_x, mouse_y), 1, true, self, 0);
-			marked.activate();
-		}
-	break;
-}
-
-if(linha != noone){
-    linha.move();
-}
-#endregion
-
