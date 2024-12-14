@@ -256,8 +256,7 @@ function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost) : slas
     if(variable_global_exists("attacked_enemies")){
         ds_list_clear(global.attacked_enemies);
     }
-
-    global.stamina -= cost;
+    global.energy -= cost;
     active = false;
 	};
 }

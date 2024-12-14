@@ -7,8 +7,6 @@ draw_sprite_ext(spr_hud, 0, 60, 45, _escx, _escy, 0, c_white, 1);
 
 draw_sprite_stretched(spr_bar, 0, 10, 42, global.energy * 46, _height);
 
-draw_sprite_stretched(spr_bar, 0, 34, 13, global.stamina * 5 + 30, _height);
-
 var _heal = floor(global.energy / global.cost_r);
 
 if(_heal >= 1 && _heal <= 3){

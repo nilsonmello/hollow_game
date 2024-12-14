@@ -508,15 +508,3 @@ if(yprevious != y and candust == true){
 #region hit indication
 hit_alpha = lerp(hit_alpha, 0, 0.1);
 #endregion
-
-#region Regeneração de Stamina
-if(stamina_timer_regen > 0){
-    stamina_timer_regen--;
-}else{
-    if(global.stamina < global.stamina_max){
-        global.stamina += 1;
-        stamina_timer_regen = stamina_timer;
-    }
-}
-global.stamina = clamp(global.stamina, 0, global.stamina_max);
-#endregion
