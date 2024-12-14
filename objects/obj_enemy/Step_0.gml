@@ -29,7 +29,7 @@ switch(state){
     case ENEMY_STATES.IDLE:
 		state_time--;
 		
-		if(distance_to_object(obj_player) < 150 && time_per_attacks <= 0 && obj_player.alarm[9] <= 0){
+		if(distance_to_object(obj_player) < 150 && time_per_attacks <= 0){
 			if(_line_wall){
 				return false;
 			}
@@ -60,7 +60,7 @@ switch(state){
 			state = ENEMY_STATES.CHOOSE;	
 		}
 		
-		if(distance_to_object(obj_player) < 150 && time_per_attacks <= 0 && obj_player.alarm[9] <= 0){
+		if(distance_to_object(obj_player) < 150 && time_per_attacks <= 0){
 			if(_line_wall){
 				return false;
 			}
@@ -172,7 +172,7 @@ break;
 			warning = true;
 			atk_wait--;
 		
-		    if(atk_wait <= 0 && obj_player.alarm[9] <= 0){
+		    if(atk_wait <= 0){
 		        atk_time = 15;
 		        state = ENEMY_STATES.ATTACK;
 				dire = point_direction(x, y, obj_player.x, obj_player.y);
@@ -213,14 +213,14 @@ break;
 	                    if(can_take_dmg){
 	                        if(!global.parry){
 	                            state = STATES.HIT;
-	                            alarm[5] = 10;
+	                            hit_timer = 10;
 	                            hit_alpha = 1;
 	                            emp_dir = point_direction(other.x, other.y, x, y);
 	                            emp_veloc = 6;
 	                            global.life_at -= 2;
 
 	                            can_take_dmg = false;
-	                            alarm[6] = 60;
+	                            hit_cooldown = 60;
 	                            obj_control.alarm[0] = 60;
 
 	                            with(other){

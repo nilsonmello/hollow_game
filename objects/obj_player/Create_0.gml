@@ -1,10 +1,8 @@
 #region variáveis de movimento
-timer = 0;
 state_timer = 0;
 sprite_index = spr_player_idle;
 
 move_dir = 0;
-andar = false;
 
 spd_h = 0;
 spd_v = 0;
@@ -13,14 +11,8 @@ spd = 1.2;
 
 dash_dir = 0;
 dash_veloc = 12;
-
-can_take_dmg = true;
-
-emp_veloc = 4;
-emp_dir = 0;
-
-alarm[0] = 0;
-alarm[1] = 0;
+dash_timer = 0;
+dash_cooldown = 0;
 #endregion
 
 #region hability variables
@@ -45,24 +37,13 @@ candust = true;
 
 trail_fixed_positions = ds_list_create();
 trail_fixed_timer = ds_list_create();
-temp = 0;
-
-line_timer = 0;
-line_at = 0;
 
 advance_speed = .2
 #endregion
 
 #region combo variables
-advance_x = 0;
-advance_y = 0;
-
-advancing = false;
-
 parry_time = 20;
 parry_cooldown = 70;
-
-clicked_attack = false;
 #endregion
 
 #region state machine
@@ -86,15 +67,23 @@ state = STATES.MOVING;
 #region player regen
 can_heal = true;
 timer_heal = 0;
-alarm[2] = 0;
+heal_cooldown = 80;
 #endregion
 
 #region hit variables
 hit_color = c_white;
 hit_alpha = 0;
+
+can_take_dmg = true;
+
+emp_veloc = 4;
+emp_dir = 0;
+hit_timer = 0;
+hit_cooldown = 0;
 #endregion
 
 #region particles
+dust_time = 0;
 
 #region healing particles
 ps = part_system_create();
@@ -184,14 +173,6 @@ var _red_3 = make_color_rgb(75, 128, 202);
 part_type_color3(particle_shadow, _red, _red_2, _red_3);
 #endregion
 
-#endregion
-
-#region holded attacks variables
-//timer to the holding attack
-timer = 0;
-
-//control to execute the attack only one time
-has_holded_attack = false;
 #endregion
 
 #region constructor attacks

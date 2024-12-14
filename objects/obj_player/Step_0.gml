@@ -1,3 +1,15 @@
+#region hit timers
+if(hit_timer > 0){
+	hit_timer--;
+}
+if(hit_cooldown > 0){
+	hit_cooldown--;
+	can_take_dmg = false;
+}else{
+	can_take_dmg = true;
+}
+#endregion
+
 #region state machine
 
 #region comand keys
@@ -22,6 +34,12 @@ if(global.life_at <= 0){
 #endregion
 
 #region healing button
+if(heal_cooldown > 0){
+	heal_cooldown--;	
+}else{
+	can_heal = true;	
+}
+
 if(keyboard_check(ord("H")) && can_heal && global.life_at < global.life){
 	state = STATES.HEAL;
 }
@@ -30,14 +48,16 @@ if(keyboard_check(ord("H")) && can_heal && global.life_at < global.life){
 #region dash control
 dash_dir = move_dir
 
-if(keyboard_check_pressed(vk_space) && alarm[1] <= 0){
+if(dash_cooldown > 0){
+	dash_cooldown--;	
+}
+
+if(keyboard_check_pressed(vk_space) && dash_cooldown <= 0){
 	global.is_dashing = true;
-	alarm[0] = 8;
-	alarm[1] = 23;
+	dash_timer = 8;
+	dash_cooldown = 23
 	state = STATES.DASH;
 }
-#endregion
-
 #endregion
 
 #region sprites
@@ -79,16 +99,16 @@ switch(state){
 }
 #endregion
 
+#endregion
+
 switch(state){
 	
 	#region idle
 	case STATES.IDLE:
 		spd = 0;
-		andar = false;
 		
 		if(_keys){
 			state = STATES.MOVING;
-			andar = true;
 		}
 	break;
 	#endregion
@@ -125,7 +145,13 @@ switch(state){
 	
 	#region dash
 	case STATES.DASH:
-		alarm[6] = 15;
+		if(dash_timer > 0){
+			dash_timer--;
+		}else{
+			state = STATES.MOVING;
+			layer_set_visible("screenshake_damaging_enemies", 0);
+			global.is_dashing = false;	
+		}
 
 		spd_h = lengthdir_x(dash_veloc, dash_dir);
 		spd_v = lengthdir_y(dash_veloc, dash_dir);
@@ -236,8 +262,6 @@ switch(state){
     
 		emp_veloc = lerp(emp_veloc, 0, .05);
 		
-		alarm[9] = 0;
-		
 		if(!place_meeting(x + spd_h, y, obj_enemy_par) && !place_meeting(x + spd_h, y, obj_wall)){
 			x += spd_h;
 		}else{
@@ -247,6 +271,10 @@ switch(state){
 			y += spd_v;
 		}else{
 			spd_v = 0;
+		}
+		
+		if(hit_timer <= 0){
+			state = STATES.MOVING;
 		}
 	break;
 	#endregion
@@ -276,7 +304,7 @@ switch(state){
 			player_heal();
 			
 			timer_heal = 0;
-			alarm[2] = 80;
+			heal_cooldown = 80;
 			can_heal = false;
 			state = STATES.MOVING;
 			
@@ -288,38 +316,6 @@ switch(state){
 	break;
 	#endregion
 	
-	#region slash
-	case STATES.ATTAKING:
-	    if(advancing){
-	        var _melee_dir = point_direction(x, y, advance_x, advance_y);
-	        move_dir = nearest_cardinal_direction(_melee_dir);
-
-	        var _advance_speed = 0.2;
-	        var __new_x = lerp(x, advance_x, _advance_speed);
-	        var __new_y = lerp(y, advance_y, _advance_speed);
-
-	        var _collision_wall = place_meeting(__new_x, __new_y, obj_wall);
-	        var _collision_enemy = place_meeting(__new_x, __new_y, obj_enemy_par);
-
-	        if(!_collision_wall && !_collision_enemy){
-	            x = __new_x;
-	            y = __new_y;
-	        }else{
-	            advancing = false;
-	        }
-
-	        if(point_distance(x, y, advance_x, advance_y) < 1){
-	            advancing = false;
-	        }
-	    }
-
-	    if(!advancing && image_index >= image_number - 1){
-	        state = STATES.MOVING;
-	    }
-	break;
-
-	#endregion
-	
 	#region death
 	case STATES.DEATH:
 		state = STATES.IDLE;
@@ -328,31 +324,27 @@ switch(state){
 	break;
 	#endregion
 }
+
 #endregion
 
 #region sword dash
 var _mb = mouse_check_button_pressed(mb_left);
-var _mb2 = mouse_check_button(mb_left);
 var _ma = mouse_check_button_pressed(mb_right);
 
 parry_cooldown = clamp(parry_cooldown, 0, 70);
 parry_cooldown--;
 
-#region parry
+//parry
 if(_ma){
 	player_parry();
 }
-show_debug_message(parry_cooldown)
-#endregion
 
-
-#endregion
-
-#region sword basic attack
+//basic attack
 if(_mb){ 
 	basico = new basic_attack(20, point_direction(x, y, mouse_x, mouse_y), 1, true, self, 0);
 	basico.activate();
 }
+
 #endregion
 
 #region power activation
@@ -441,13 +433,6 @@ if(moving_along_path && ds_list_size(path_list) > 0){
         var _dir = point_direction(x, y, _target_x, _target_y);
         var _dist = point_distance(x, y, _target_x, _target_y);
 
-        if(move_speed > 0){
-            timer++;
-            if(timer >= 2){
-                timer = 0;
-            }
-        }
-
         if(_dist > move_speed){
             x += lengthdir_x(move_speed, _dir);
             y += lengthdir_y(move_speed, _dir);
@@ -462,8 +447,7 @@ if(moving_along_path && ds_list_size(path_list) > 0){
                 can_take_dmg = false;    
                 alarm[6] = 20;
                 global.can_attack = false;
-            }
-			
+            }	
         }else{
             path_position_index++;
 
@@ -476,24 +460,16 @@ if(moving_along_path && ds_list_size(path_list) > 0){
 
             var _enemy_index = instance_position(_target_x, _target_y, obj_enemy_par);
             if(_enemy_index != noone){
-				
-
-				
                 _enemy_index.vida -= global.hab_dmg;
 				_enemy_index.stamina_at -= 100;
-				
                 _enemy_index.emp_dir = point_direction(obj_player.x, obj_player.y, _enemy_index.x, _enemy_index.y);
 				_enemy_index.emp_veloc = 20;
-				
 				_enemy_index.timer_hit = 15;
 				_enemy_index.emp_timer = 2;
-				
                 _enemy_index.state = ENEMY_STATES.KNOCKED;
-				
                 _enemy_index.alarm[1] = 10;
                 _enemy_index.alarm[5] = 80;
                 _enemy_index.hit_alpha = 1;
-				
 				_enemy_index.slashed = true;
 				
                 ds_list_add(trail_fixed_positions, [x, y, direction]);
@@ -512,18 +488,19 @@ if(moving_along_path && ds_list_size(path_list) > 0){
 #endregion
 
 #region dust walk
+if(dust_time <= 0){
+    dust_time = choose(10, 12);
+	candust = true;
+}else{
+    dust_time--;
+}
+
 if(xprevious != x and candust == true){
 	candust = false;
-	alarm[7] = 10;
-	var _random_time = irandom_range(-1, 2);
-	alarm_set(7, 8 + _random_time);
 	part_particles_create(particle_system_dust, x, y + 5, particle_dust, 10);
 }
 if(yprevious != y and candust == true){
 	candust = false;
-	alarm[7] = 10;
-	var _random_time = irandom_range(-1, 2);
-	alarm_set(7, 8 + _random_time);
 	part_particles_create(particle_system_dust, x, y, particle_dust, 10);
 }
 #endregion
