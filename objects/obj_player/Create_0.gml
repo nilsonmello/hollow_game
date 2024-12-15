@@ -260,6 +260,4 @@ function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost) : slas
     active = false;
 	};
 }
-
-basico = new basic_attack(20, point_direction(x, y, mouse_x, mouse_y), 1, true, self, 0);
 #endregion

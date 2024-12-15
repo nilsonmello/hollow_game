@@ -1,17 +1,13 @@
 #region player parry
 function player_parry(){
-	if(global.stamina > 20){
 		if(global.slow_motion){
 			return false;	
 		}
 		if(!parry_cooldown <= 0){
 			return false;	
 		}
-	
 		state = STATES.PARRY
-		global.stamina -= 20;
 		parry_cooldown = 70;
-	}
 }
 #endregion
 

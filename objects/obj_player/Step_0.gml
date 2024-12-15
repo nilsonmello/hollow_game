@@ -341,8 +341,8 @@ if(_ma){
 
 //basic attack
 if(_mb){ 
-	basico = new basic_attack(20, point_direction(x, y, mouse_x, mouse_y), 1, true, self, 0);
-	basico.activate();
+	var _basico = new basic_attack(20, point_direction(x, y, mouse_x, mouse_y), 1, true, self, 0);
+	_basico.activate();
 }
 
 #endregion
