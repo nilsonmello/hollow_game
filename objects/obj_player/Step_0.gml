@@ -331,6 +331,7 @@ switch(state){
 var _mb = mouse_check_button_pressed(mb_left);
 var _mb2 = mouse_check_button(mb_left);
 var _mb3 = mouse_check_button_released(mb_left);
+
 var _ma = mouse_check_button_pressed(mb_right);
 
 var _timer = 30;

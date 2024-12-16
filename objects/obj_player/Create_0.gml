@@ -176,7 +176,7 @@ part_type_color3(particle_shadow, _red, _red_2, _red_3);
 #endregion
 
 #region constructor attacks
-function slashes(_dist, _direction, _damage, _hitbox, _owner, _cost) constructor {
+function slashes(_dist, _direction, _damage, _hitbox, _owner, _cost) constructor{
     distance = _dist;
     dir_atk = _direction;
     dmg = _damage;
@@ -350,7 +350,7 @@ function line(_dist, _direction, _damage, _hitbox, _owner, _cost) : slashes(_dis
     dir_atk = _direction;
 
     set_target = function(){
-        dir_atk = point_direction(owner.x, owner.y, obj_control.x, obj_control.y); // Recalcula a direção
+        dir_atk = point_direction(owner.x, owner.y, obj_control.x, obj_control.y);
         adv_x = owner.x + lengthdir_x(distance, dir_atk);
         adv_y = owner.y + lengthdir_y(distance, dir_atk);
     };
@@ -363,7 +363,7 @@ function line(_dist, _direction, _damage, _hitbox, _owner, _cost) : slashes(_dis
             owner.x = _new_x;
             owner.y = _new_y;
 
-            if(point_distance(owner.x, owner.y, adv_x, adv_y) < 1){
+            if(point_distance(owner.x, owner.y, adv_x, adv_y) < 10){
                 moving = false;
                 lerp_spd = 0.2;
             }

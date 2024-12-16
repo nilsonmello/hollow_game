@@ -47,4 +47,5 @@ global.healing = false;
 //critical attack chance
 global.critical = 0;
 
-global.line_attack = false;
+global.line_attack = true;
+global.attacking_line = false;
