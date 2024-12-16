@@ -329,7 +329,12 @@ switch(state){
 
 #region sword dash
 var _mb = mouse_check_button_pressed(mb_left);
+var _mb2 = mouse_check_button(mb_left);
+var _mb3 = mouse_check_button_released(mb_left);
 var _ma = mouse_check_button_pressed(mb_right);
+
+var _timer = 30;
+var _basico = new basic_attack(20, point_direction(x, y, mouse_x, mouse_y), 1, true, self, 0);
 
 parry_cooldown = clamp(parry_cooldown, 0, 70);
 parry_cooldown--;
@@ -341,8 +346,27 @@ if(_ma){
 
 //basic attack
 if(_mb){ 
-	var _basico = new basic_attack(20, point_direction(x, y, mouse_x, mouse_y), 1, true, self, 0);
 	_basico.activate();
+}
+
+//charged attack
+if(_mb2){
+	charged_attack = true;	
+}else{
+	charged_attack = false;	
+}
+
+if(charged_attack){
+	if(timer_charge < _timer){
+		timer_charge++;	
+	}
+}else{
+	if(_mb3){
+		if(timer_charge > 28){
+			_basico.charged();	
+		}
+	timer_charge = 0;
+	}
 }
 
 #endregion
