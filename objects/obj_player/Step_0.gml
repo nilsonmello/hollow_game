@@ -367,6 +367,7 @@ if(global.line_attack){
 			if(timer_charge > 28){
 			    linha.set_target();
 			    linha.moving = true;
+				linha.lerp_spd = 0.2;
 			}
 		timer_charge = 0;
 		}
@@ -375,6 +376,35 @@ if(global.line_attack){
 
 if(linha != noone){
     linha.move();
+
+    var _future_x = x + (linha.adv_x - x) * linha.lerp_spd;
+    var _future_y = y + (linha.adv_y - y) * linha.lerp_spd;
+
+    if(place_meeting(_future_x, _future_y, obj_wall)){
+        while(!place_meeting(x, y, obj_wall)){
+            x += sign(_future_x - x) * 0.5;
+            y += sign(_future_y - y) * 0.5;
+        }
+		
+        x -= sign(_future_x - x) * 0.5;
+        y -= sign(_future_y - y) * 0.5;
+
+        linha.moving = false;
+        linha.lerp_spd = 0;
+    }
+	
+    if(place_meeting(_future_x, _future_y, obj_enemy_par)){
+        while(!place_meeting(x, y, obj_enemy_par)){
+            x += sign(_future_x - x) * 0.5;
+            y += sign(_future_y - y) * 0.5;
+        }
+		
+        x -= sign(_future_x - x) * 0.5;
+        y -= sign(_future_y - y) * 0.5;
+
+        linha.moving = false;
+        linha.lerp_spd = 0;
+    }
 }
 #endregion
 

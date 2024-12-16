@@ -125,15 +125,15 @@ switch(state){
 	#endregion
 	
 	#region knocked
-case ENEMY_STATES.KNOCKED:
-    layer_set_visible("screenshake_damaging_enemies", 0);
-    stamina_at += .5;
+	case ENEMY_STATES.KNOCKED:
+	    layer_set_visible("screenshake_damaging_enemies", 0);
+	    stamina_at += .5;
 
-    if (stamina_at < stamina_t){
-        if (hit){
-            hit = false;
-            alarm[1] = 0;
-        }
+	    if (stamina_at < stamina_t){
+	        if (hit){
+	            hit = false;
+	            alarm[1] = 0;
+	        }
 
         if (emp_timer > 0){
             emp_timer--;

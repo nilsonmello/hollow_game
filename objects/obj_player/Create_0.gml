@@ -247,7 +247,6 @@ function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost) : slas
                         case 1:
                             layer_set_visible("screenshake_damaging_enemies", 1);
                             state = ENEMY_STATES.KNOCKED;
-                            emp_veloc = 8;
                             vida -= damage_to_apply;
                             hit = false;
                             alarm[1] = 10;
@@ -317,12 +316,11 @@ function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost) : slas
                         case 1:
                             layer_set_visible("screenshake_damaging_enemies", 1);
                             state = ENEMY_STATES.KNOCKED;
-                            emp_veloc = 8;
                             vida -= damage_to_apply;
                             hit = false;
                             alarm[1] = 10;
                             alarm[2] = 30;
-                            break;
+		                break;
                     }
                 }
                 ds_list_add(global.attacked_enemies, _rec);
@@ -393,22 +391,20 @@ function line(_dist, _direction, _damage, _hitbox, _owner, _cost) : slashes(_dis
 		                            part_particles_create(particle_hit, x, y, particle_slash, 1);
 		                            layer_set_visible("screenshake_damaging_enemies", 1);
 		                            state = ENEMY_STATES.HIT;
-		                            emp_timer = 5;
-		                            emp_veloc = 6;
+		                            emp_timer = 8;
+		                            emp_veloc = 8;
 									stamina_at -= 30;
 									alarm[2] = 30;
-
-		                            break;
+		                        break;
 
 		                        case 1:
 		                            layer_set_visible("screenshake_damaging_enemies", 1);
 		                            state = ENEMY_STATES.KNOCKED;
-		                            emp_veloc = 8;
+		                            emp_veloc = 12;
 									vida -= other.damage;
 									alarm[1] = 10;
 									alarm[2] = 30;
-
-		                            break;
+		                        break;
 		                    }
 						}
 					ds_list_add(global.attacked_enemies, _rec);
@@ -427,5 +423,7 @@ function line(_dist, _direction, _damage, _hitbox, _owner, _cost) : slashes(_dis
 linha = new line(150, point_direction(x, y, obj_control.x, obj_control.y), 1, true, self, 0);
 #endregion
 
+#region charged attack variables
 timer_charge = 0;
 charged_attack = false;
+#endregion
