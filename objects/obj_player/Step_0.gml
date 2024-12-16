@@ -350,25 +350,31 @@ if(_mb){
 }
 
 //charged attack
-if(_mb2){
-	charged_attack = true;	
-}else{
-	charged_attack = false;	
-}
-
-if(charged_attack){
-	if(timer_charge < _timer){
-		timer_charge++;	
+if(global.line_attack){
+	if(_mb2){
+		charged_attack = true;	
+	}else{
+		charged_attack = false;	
 	}
-}else{
-	if(_mb3){
-		if(timer_charge > 28){
-			_basico.charged();	
+
+	if(charged_attack){
+		if(timer_charge < _timer){
+			timer_charge++;	
 		}
-	timer_charge = 0;
+	}else{
+		if(_mb3){
+			if(timer_charge > 28){
+			    linha.set_target();
+			    linha.moving = true;
+			}
+		timer_charge = 0;
+		}
 	}
 }
 
+if(linha != noone){
+    linha.move();
+}
 #endregion
 
 #region power activation
