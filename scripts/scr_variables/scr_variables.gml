@@ -45,7 +45,7 @@ global.hab_dmg = 1;
 global.healing = false;
 
 //critical attack chance
-global.critical = 50;
+global.critical = 0;
 
 //can use the line attack
-global.line_attack = true;
+global.line_attack = true
