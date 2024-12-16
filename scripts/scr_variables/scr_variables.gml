@@ -43,3 +43,6 @@ global.hab_dmg = 1;
 
 //player heal
 global.healing = false;
+
+//critical attack chance
+global.critical = 0;

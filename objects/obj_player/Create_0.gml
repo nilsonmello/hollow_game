@@ -176,14 +176,15 @@ part_type_color3(particle_shadow, _red, _red_2, _red_3);
 #endregion
 
 #region constructor attacks
-function slashes(_dist, _direction, _damage, _hitbox, _owner, _cost) constructor{
-	
+function slashes(_dist, _direction, _damage, _hitbox, _owner, _cost) constructor {
     distance = _dist;
     dir_atk = _direction;
     dmg = _damage;
     create_hitbox = _hitbox;
     owner = _owner;
-	cost = _cost;
+    cost = _cost;
+
+    global.critical = 10;
 
     collision = function(){
         show_debug_message("bateu");
@@ -191,73 +192,82 @@ function slashes(_dist, _direction, _damage, _hitbox, _owner, _cost) constructor
 }
 
 function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost) : slashes(_dist, _direction, _damage, _hitbox, _owner, _cost) constructor{
-	distance = _dist;
-	dir_atk = _direction;
-	dmg = _damage;
-	create_hitbox = _hitbox;
-	owner = _owner;
-	cost = _cost;
-	active = false;
-	
-	activate = function(){
-	active = true;
-        
-    if(!variable_global_exists("attacked_enemies")){
-        global.attacked_enemies = ds_list_create();
-    }
-        
-    var _dir = point_direction(owner.x, owner.y, mouse_x, mouse_y);
-        
-    var _attack_x = owner.x + lengthdir_x(distance, _dir);
-    var _attack_y = owner.y + lengthdir_y(distance, _dir);
-
-    var _list = ds_list_create();
-    collision_circle_list(_attack_x, _attack_y, distance, obj_enemy_par, false, false, _list, true);
-
-    for(var _i = 0; _i < ds_list_size(_list); _i++){
-        var _rec = _list[| _i];
-        if(!ds_list_find_index(global.attacked_enemies, _rec)){
-            with(_rec){
-	            escx = 1.5;
-	            escy = 1.5;
-	            hit_alpha = 1;			
-	            timer_hit = 5;	
-	            emp_dir = point_direction(obj_player.x, obj_player.y, x, y);
-	            global.combo++;
-
-	            switch(knocked){
-	                case 0:
-	                    part_particles_create(particle_hit, x, y, particle_slash, 1);
-	                    layer_set_visible("screenshake_damaging_enemies", 1);
-	                    state = ENEMY_STATES.HIT;
-	                    emp_timer = 5;
-	                    emp_veloc = 6;
-						stamina_at -= 30;
-						alarm[2] = 30;
-					break;
-
-	                case 1:
-	                    layer_set_visible("screenshake_damaging_enemies", 1);
-	                    state = ENEMY_STATES.KNOCKED;
-	                    emp_veloc = 8;
-						vida -= other.dmg;
-						hit = false;
-						alarm[1] = 10;
-						alarm[2] = 30;
-					break;
-	            }
-            }
-            ds_list_add(global.attacked_enemies, _rec);
-        }
-    }
-
-    ds_list_destroy(_list);
-
-    if(variable_global_exists("attacked_enemies")){
-        ds_list_clear(global.attacked_enemies);
-    }
-    global.energy -= cost;
+    distance = _dist;
+    dir_atk = _direction;
+    dmg = _damage;
+    create_hitbox = _hitbox;
+    owner = _owner;
+    cost = _cost;
     active = false;
-	};
+
+    activate = function (){
+        active = true;
+
+        if(!variable_global_exists("attacked_enemies")){
+            global.attacked_enemies = ds_list_create();
+        }
+
+        var _dir = point_direction(owner.x, owner.y, mouse_x, mouse_y);
+
+        var _attack_x = owner.x + lengthdir_x(distance, _dir);
+        var _attack_y = owner.y + lengthdir_y(distance, _dir);
+
+        var _list = ds_list_create();
+        collision_circle_list(_attack_x, _attack_y, distance, obj_enemy_par, false, false, _list, true);
+
+        for(var _i = 0; _i < ds_list_size(_list); _i++){
+            var _rec = _list[| _i];
+            if(!ds_list_find_index(global.attacked_enemies, _rec)){
+                with (_rec) {
+
+                    var is_critical = irandom(100) < global.critical;
+                    var damage_to_apply = is_critical ? other.dmg * 2 : other.dmg;
+					var _stamina = is_critical ? 60 : 30;
+					
+                    //if(is_critical){
+                    //    part_particles_create(particle_crit, x, y, particle_spark, 1);
+                    //}
+
+                    escx = 1.5;
+                    escy = 1.5;
+                    hit_alpha = 1;
+                    timer_hit = 5;
+                    emp_dir = point_direction(obj_player.x, obj_player.y, x, y);
+                    global.combo++;
+
+                    switch(knocked){
+                        case 0:
+                            part_particles_create(particle_hit, x, y, particle_slash, 1);
+                            layer_set_visible("screenshake_damaging_enemies", 1);
+                            state = ENEMY_STATES.HIT;
+                            emp_timer = 5;
+                            emp_veloc = 6;
+                            stamina_at -= _stamina;
+                            alarm[2] = 30;
+                            break;
+
+                        case 1:
+                            layer_set_visible("screenshake_damaging_enemies", 1);
+                            state = ENEMY_STATES.KNOCKED;
+                            emp_veloc = 8;
+                            vida -= damage_to_apply;
+                            hit = false;
+                            alarm[1] = 10;
+                            alarm[2] = 30;
+                            break;
+                    }
+                }
+                ds_list_add(global.attacked_enemies, _rec);
+            }
+        }
+
+        ds_list_destroy(_list);
+
+        if(variable_global_exists("attacked_enemies")){
+            ds_list_clear(global.attacked_enemies);
+        }
+        global.energy -= cost;
+        active = false;
+    };
 }
 #endregion
