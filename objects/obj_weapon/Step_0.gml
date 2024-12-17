@@ -1,7 +1,6 @@
 #region cooldown e direção
 //weapon cooldown
 current_weapon.update_cooldown();
-
 //weapon direction
 weapon_dir = point_direction(x, y, alvo_x, alvo_y);
 
@@ -15,11 +14,6 @@ weapon_y = y + lengthdir_y(20, weapon_dir);
 #endregion
 
 #region functions
-//total shoots
-if(current_weapon.cost_per_shot > 0){
-	shoots = global.energy div current_weapon.cost_per_shot;
-}
-
 //pickup weapon
 function weapon_pickup(){
     var _slot_found = false;

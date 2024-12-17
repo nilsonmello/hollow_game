@@ -166,7 +166,19 @@ break;
 
 	#region attack
 	case ENEMY_STATES.ATTACK:
-	
+		var _tempo_entre_tiros = 30;
+		
+		if(tiro <= 0){
+		    var _bullet = instance_create_layer(x, y, "Instances_player", obj_bullet);
+		    _bullet.direction = point_direction(x, y, obj_player.x, obj_player.y);
+		    _bullet.speed = 2;
+		    tiro = _tempo_entre_tiros;
+		}else{
+		    tiro--;
+		}
+		if (tiro > 0){
+		    state = STATES.MOVING;
+		}
 	break;
 	#endregion
 

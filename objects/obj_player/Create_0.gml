@@ -266,6 +266,19 @@ function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost) : slas
         global.energy -= cost;
         active = false;
     };
+		
+	bullet = function(){
+        var _dir = point_direction(owner.x, owner.y, mouse_x, mouse_y);
+
+        var _attack_x = owner.x + lengthdir_x(distance, _dir);
+        var _attack_y = owner.y + lengthdir_y(distance, _dir);
+
+        var _colide = collision_circle(_attack_x, _attack_y, distance, obj_bullet, false, false);
+		
+		with(_colide){
+			direction = direction + 180;
+		}
+	}
 }
 
 function line(_dist, _direction, _damage, _hitbox, _owner, _cost) : slashes(_dist, _direction, _damage, _hitbox, _owner, _cost) constructor{

@@ -348,6 +348,7 @@ if(_ma){
 //basic attack
 if(_mb){ 
 	_basico.activate();
+	_basico.bullet();
 }
 
 //charged attack
