@@ -13,4 +13,5 @@ weapon_x = x + lengthdir_x(20, weapon_dir);
 weapon_y = y + lengthdir_y(20, weapon_dir);
 #endregion
 
+//lerp recoil
 recoil_gun = lerp(recoil_gun, 0, .5);

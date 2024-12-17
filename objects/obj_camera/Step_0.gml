@@ -6,5 +6,7 @@ if(keyboard_check(ord("R")) && global.slashing){
 }else{
     darkness_target = 1;
 }
+
+//changing the darkess value
 darkness_value = lerp(darkness_value, darkness_target, 0.1);
 #endregion

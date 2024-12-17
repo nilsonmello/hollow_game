@@ -3,15 +3,20 @@
 #region variables and timers
 event_inherited();
 
+//checking walls in the way
 var _line_wall = collision_line(x, y, obj_player.x, obj_player.y, obj_wall, false, false);
 
+//case hes dead, state is states.death
 if (vida <= 0){
     state = ENEMY_STATES.DEATH;
 }
+
+//time between attacks
 if (time_per_attacks > 0){
     time_per_attacks--;
 }
 #endregion
+
 
 switch(state){
 	

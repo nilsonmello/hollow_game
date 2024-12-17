@@ -58,16 +58,19 @@ current_weapon = vazio;
 #endregion
 
 #region variables
+
+//ewapon direction and ID
 weapon_dir = 0;
 weapon_id = 0;
 
+//weapon x and y
 weapon_x = 0;
 weapon_y = 0;
 
+//target for the weapon and bullet
 alvo_x = 0;
 alvo_y = 0;
 
+//recoil intense
 recoil_gun = 0;
-
-recoil_pause_timer = 0;
 #endregion
