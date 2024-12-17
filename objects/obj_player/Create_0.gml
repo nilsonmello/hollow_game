@@ -83,8 +83,14 @@ state = STATES.MOVING;
 #endregion
 
 #region player regen
+
+//can use healing
 can_heal = true;
+
+//timer for heal
 timer_heal = 0;
+
+//cooldown for healing
 heal_cooldown = 80;
 #endregion
 
@@ -92,11 +98,19 @@ heal_cooldown = 80;
 hit_color = c_white;
 hit_alpha = 0;
 
+//enemies can attack
 can_take_dmg = true;
 
+//veloc for hit
 emp_veloc = 4;
+
+//direction
 emp_dir = 0;
+
+//timer for can hit again
 hit_timer = 0;
+
+//cooldown for hits
 hit_cooldown = 0;
 #endregion
 
