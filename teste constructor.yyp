@@ -40,7 +40,7 @@
   "isEcma":false,
   "LibraryEmitters":[],
   "MetaData":{
-    "IDEVersion":"2024.6.2.162",
+    "IDEVersion":"2024.11.0.179",
   },
   "name":"teste constructor",
   "resources":[
@@ -59,7 +59,6 @@
     {"id":{"name":"obj_wall","path":"objects/obj_wall/obj_wall.yy",},},
     {"id":{"name":"obj_weapon_enemy","path":"objects/obj_weapon_enemy/obj_weapon_enemy.yy",},},
     {"id":{"name":"Room_teste","path":"rooms/Room_teste/Room_teste.yy",},},
-    {"id":{"name":"Room1","path":"rooms/Room1/Room1.yy",},},
     {"id":{"name":"collisions","path":"scripts/collisions/collisions.yy",},},
     {"id":{"name":"player_functions","path":"scripts/player_functions/player_functions.yy",},},
     {"id":{"name":"scr_variables","path":"scripts/scr_variables/scr_variables.yy",},},
@@ -112,7 +111,6 @@
   "resourceVersion":"2.0",
   "RoomOrderNodes":[
     {"roomId":{"name":"Room_teste","path":"rooms/Room_teste/Room_teste.yy",},},
-    {"roomId":{"name":"Room1","path":"rooms/Room1/Room1.yy",},},
   ],
   "templateType":"game",
   "TextureGroups":[

@@ -190,23 +190,32 @@ part_type_alpha2(particle_slash, 1, 0.1);
 #endregion
 
 #region stamina and energy
+
+//total and actual stamina
 stamina_t = 100;
 stamina_at = stamina_t;
 
+//knocked variable
 knocked = false;
 
+//total and actual aenergy
 max_energy = 10;
 energy_count = 0;
+
+//shoot timer
+bullet_time = 0;
 #endregion
 
-tiro = 0;
-
+//enemy weapon and weapon ID
 my_weapon = instance_create_layer(x, y, "Instances_enemies", obj_weapon_enemy);
 my_weapon.weapon_id = self;
 
+//inicial my_weapon events
 with(my_weapon){
 current_weapon = pistol
 }
+//recoil timer
 recoil_pause_timer = 0;
 
+//cooldown for the attack states
 state_cooldown = 0;
