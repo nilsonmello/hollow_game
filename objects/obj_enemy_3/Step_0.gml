@@ -60,11 +60,11 @@ switch(state){
 			state = ENEMY_STATES.CHOOSE;	
 		}
 		
-		if(distance_to_object(obj_player) < 150 && time_per_attacks <= 0){
+		if(distance_to_object(obj_player) < 200 && tiro <= 0){
 			if(_line_wall){
 				return false;
 			}
-			state = ENEMY_STATES.FOLLOW
+			state = ENEMY_STATES.FOLLOW;
 		}
 		
 		if(state_time <= 0){
@@ -85,7 +85,7 @@ switch(state){
 		x += vel_h;
 		y += vel_v;
 
-		if(distance_to_object(obj_player) < 80){
+		if(distance_to_object(obj_player) < 100){
 			state = ENEMY_STATES.ATTACK;
 		}	
 	break;
@@ -166,25 +166,41 @@ break;
 
 	#region attack
 	case ENEMY_STATES.ATTACK:
-		var _tempo_entre_tiros = 30;
+		var _tempo_entre_tiros = 20;
 		
 		if(tiro <= 0){
 		    var _bullet = instance_create_layer(x, y, "Instances_player", obj_bullet);
 		    _bullet.direction = point_direction(x, y, obj_player.x, obj_player.y);
-		    _bullet.speed = 2;
+		    _bullet.speed = 3;
 		    tiro = _tempo_entre_tiros;
+			state = ENEMY_STATES.RECOVERY;
 		}else{
 		    tiro--;
-		}
-		if (tiro > 0){
-		    state = STATES.MOVING;
 		}
 	break;
 	#endregion
 
 	#region recovery
 	case ENEMY_STATES.RECOVERY:
-
+		var _dist_r = 180;
+		var _dir_r = point_direction(obj_player.x, obj_player.y, x, y);
+		
+		var _x = x +lengthdir_x(_dist_r, _dir_r);
+		var _y = y +lengthdir_y(_dist_r, _dir_r);
+		
+		if(!collision_line(x, y, _x, _y, obj_wall, true, false)){
+			x += lengthdir_x(2, _dir_r)
+			y += lengthdir_y(2, _dir_r)
+		}else{
+			var _ld = _dir_r + irandom_range(-45, 45);
+			
+			x += lengthdir_x(2, _ld);
+			y += lengthdir_y(2, _ld);
+			
+			if(distance_to_point(_x, _y < 10)){
+				state = ENEMY_STATES.MOVE;	
+			}
+		}
 	break;
 	#endregion
 

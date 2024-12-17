@@ -277,6 +277,7 @@ function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost) : slas
 		
 		with(_colide){
 			direction = direction + 180;
+			speed = 3.5;
 		}
 	}
 }
