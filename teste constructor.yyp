@@ -57,6 +57,7 @@
     {"id":{"name":"obj_hitbox_enemy","path":"objects/obj_hitbox_enemy/obj_hitbox_enemy.yy",},},
     {"id":{"name":"obj_player","path":"objects/obj_player/obj_player.yy",},},
     {"id":{"name":"obj_wall","path":"objects/obj_wall/obj_wall.yy",},},
+    {"id":{"name":"obj_weapon_enemy","path":"objects/obj_weapon_enemy/obj_weapon_enemy.yy",},},
     {"id":{"name":"Room_teste","path":"rooms/Room_teste/Room_teste.yy",},},
     {"id":{"name":"Room1","path":"rooms/Room1/Room1.yy",},},
     {"id":{"name":"collisions","path":"scripts/collisions/collisions.yy",},},

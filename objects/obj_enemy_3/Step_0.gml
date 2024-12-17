@@ -169,11 +169,13 @@ break;
 		var _tempo_entre_tiros = 20;
 		
 		if(tiro <= 0){
-		    var _bullet = instance_create_layer(x, y, "Instances_player", obj_bullet);
-		    _bullet.direction = point_direction(x, y, obj_player.x, obj_player.y);
-		    _bullet.speed = 3;
-		    tiro = _tempo_entre_tiros;
+			with(my_weapon){
+				alvo_x = obj_player.x;
+				alvo_y = obj_player.y;
+				current_weapon.shoot(weapon_x, weapon_y)
+			}
 			state = ENEMY_STATES.RECOVERY;
+			tiro = _tempo_entre_tiros
 		}else{
 		    tiro--;
 		}
@@ -221,8 +223,16 @@ break;
                 _exp.speed = 2;
             }
         }
+        instance_destroy(my_weapon);
         instance_destroy();
     break;
 	#endregion
+}
+#endregion
+
+#region weapon movement
+with(my_weapon){
+	alvo_x = obj_player.x;
+	alvo_y = obj_player.y;
 }
 #endregion

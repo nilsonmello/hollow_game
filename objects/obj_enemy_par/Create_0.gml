@@ -200,3 +200,11 @@ energy_count = 0;
 #endregion
 
 tiro = 0;
+
+my_weapon = instance_create_layer(x, y, "Instances_enemies", obj_weapon_enemy);
+my_weapon.weapon_id = self;
+
+with(my_weapon){
+current_weapon = pistol
+}
+recoil_pause_timer = 0;
