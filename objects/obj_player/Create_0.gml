@@ -1,43 +1,61 @@
 #region variáveis de movimento
+
+//timer fos tates
 state_timer = 0;
+//first index for sprite
 sprite_index = spr_player_idle;
 
+//direction for walk and sprite
 move_dir = 0;
 
+//horizontal and vertical speed
 spd_h = 0;
 spd_v = 0;
 
+//actual speed
 spd = 1.2;
 
+//dash direction
 dash_dir = 0;
+
+//dash speed
 dash_veloc = 12;
+
+//dash time
 dash_timer = 0;
+
+//cooldown for dash
 dash_cooldown = 0;
 #endregion
 
 #region hability variables
+//hability range
 area = 20;
 
+//enemy and path lists
 enemy_list = ds_list_create();
 path_list = ds_list_create();
 
+//actual position and if its moving
 moving_along_path = false;
 path_position_index = 0;
 
+//actual hability speed
 move_speed = 0;
 
-stamina_timer = 20;
-stamina_timer_regen = 0;
-
+//trail length, positions and 
 trail_length = 10;
 trail_positions = ds_queue_create();
 trail_thickness = 2;
 
+//if can create the dust particles
 candust = true;
 
+//the second trial possibility
 trail_fixed_positions = ds_list_create();
 trail_fixed_timer = ds_list_create();
 
+//speed movement
 advance_speed = .2
 #endregion
 
