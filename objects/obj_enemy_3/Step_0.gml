@@ -16,7 +16,7 @@ if (state_cooldown  > 0){
 }
 #endregion
 
-#region state machine
+ #region state machine
 switch(state){
 	
     #region choose
@@ -95,7 +95,7 @@ switch(state){
 		x += vel_h;
 		y += vel_v;
 
-		if(distance_to_object(obj_player) < 100){
+		if(distance_to_object(obj_player) < 150){
 			state = ENEMY_STATES.ATTACK;
 			state_cooldown = 100;
 		}	
@@ -192,8 +192,8 @@ break;
 		var _dist_r = 180;
 		var _dir_r = point_direction(obj_player.x, obj_player.y, x, y);
 		
-		var _x = x +lengthdir_x(_dist_r, _dir_r);
-		var _y = y +lengthdir_y(_dist_r, _dir_r);
+		var _x = x + lengthdir_x(_dist_r, _dir_r);
+		var _y = y + lengthdir_y(_dist_r, _dir_r);
 		
 		if(!collision_line(x, y, _x, _y, obj_wall, true, false)){
 			x += lengthdir_x(2, _dir_r);

@@ -47,7 +47,7 @@ function scr_create_weapon(_name, _dmg, _fire_rate, _bullet_sprite, _automatic, 
 #region guns
 vazio = scr_create_weapon("vazio", 0, 0, 0, 0, false, 0, function(){});
 
-pistol = scr_create_weapon("Pistol", 5, 10, spr_dust, false, 1, spr_trail_2, function colide_pistol(_bullet){
+pistol = scr_create_weapon("Pistol", 5, 10, spr_dust, false, 1, spr_pistol, function colide_pistol(_bullet){
 with(other){
 
 }

@@ -93,6 +93,7 @@
     {"id":{"name":"spr_life_enemy_2","path":"sprites/spr_life_enemy_2/spr_life_enemy_2.yy",},},
     {"id":{"name":"spr_line_effect","path":"sprites/spr_line_effect/spr_line_effect.yy",},},
     {"id":{"name":"spr_line","path":"sprites/spr_line/spr_line.yy",},},
+    {"id":{"name":"spr_pistol","path":"sprites/spr_pistol/spr_pistol.yy",},},
     {"id":{"name":"spr_player_attack_rl","path":"sprites/spr_player_attack_rl/spr_player_attack_rl.yy",},},
     {"id":{"name":"spr_player_idle_down","path":"sprites/spr_player_idle_down/spr_player_idle_down.yy",},},
     {"id":{"name":"spr_player_idle_up","path":"sprites/spr_player_idle_up/spr_player_idle_up.yy",},},
