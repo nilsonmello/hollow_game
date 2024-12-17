@@ -11,8 +11,12 @@ if (vida <= 0){
 if (time_per_attacks > 0){
     time_per_attacks--;
 }
+if (state_cooldown  > 0){
+    state_cooldown--;
+}
 #endregion
 
+#region state machine
 switch(state){
 	
     #region choose
@@ -31,6 +35,9 @@ switch(state){
 		
 		if(distance_to_object(obj_player) < 150 && time_per_attacks <= 0){
 			if(_line_wall){
+				return false;
+			}
+			if(state_cooldown > 0){
 				return false;
 			}
 			state = ENEMY_STATES.FOLLOW
@@ -64,6 +71,9 @@ switch(state){
 			if(_line_wall){
 				return false;
 			}
+			if(state_cooldown > 0){
+				return false;
+			}
 			state = ENEMY_STATES.FOLLOW;
 		}
 		
@@ -87,6 +97,7 @@ switch(state){
 
 		if(distance_to_object(obj_player) < 100){
 			state = ENEMY_STATES.ATTACK;
+			state_cooldown = 100;
 		}	
 	break;
 	#endregion
@@ -157,7 +168,7 @@ switch(state){
 
     }else{
         state = ENEMY_STATES.IDLE;
-        hit = true;  // Aqui, resetando o valor de 'hit' para 'true'
+        hit = true;
         attack = false;
         knocked = false;
     }
@@ -166,19 +177,13 @@ break;
 
 	#region attack
 	case ENEMY_STATES.ATTACK:
-		var _tempo_entre_tiros = 20;
-		
-		if(tiro <= 0){
-			with(my_weapon){
-				alvo_x = obj_player.x;
-				alvo_y = obj_player.y;
-				current_weapon.shoot(weapon_x, weapon_y)
-			}
-			state = ENEMY_STATES.RECOVERY;
-			tiro = _tempo_entre_tiros
-		}else{
-		    tiro--;
+		with(my_weapon){
+			alvo_x = obj_player.x;
+			alvo_y = obj_player.y;
+			current_weapon.shoot(weapon_x, weapon_y);
+			recoil_gun = 12;
 		}
+		state = ENEMY_STATES.RECOVERY;
 	break;
 	#endregion
 
@@ -191,8 +196,8 @@ break;
 		var _y = y +lengthdir_y(_dist_r, _dir_r);
 		
 		if(!collision_line(x, y, _x, _y, obj_wall, true, false)){
-			x += lengthdir_x(2, _dir_r)
-			y += lengthdir_y(2, _dir_r)
+			x += lengthdir_x(2, _dir_r);
+			y += lengthdir_y(2, _dir_r);
 		}else{
 			var _ld = _dir_r + irandom_range(-45, 45);
 			
@@ -228,6 +233,8 @@ break;
     break;
 	#endregion
 }
+#endregion
+
 #endregion
 
 #region weapon movement

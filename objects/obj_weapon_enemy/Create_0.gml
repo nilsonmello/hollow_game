@@ -67,5 +67,7 @@ weapon_y = 0;
 alvo_x = 0;
 alvo_y = 0;
 
+recoil_gun = 0;
+
 recoil_pause_timer = 0;
 #endregion

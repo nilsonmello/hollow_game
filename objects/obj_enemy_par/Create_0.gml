@@ -208,3 +208,5 @@ with(my_weapon){
 current_weapon = pistol
 }
 recoil_pause_timer = 0;
+
+state_cooldown = 0;
