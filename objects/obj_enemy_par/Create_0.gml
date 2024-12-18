@@ -7,7 +7,7 @@ alarm[2] = 0;
 #endregion
 
 #region enemies state machine base
-state = ENEMY_STATES.MOVE;
+state = ENEMY_STATES.IDLE;
 
 enum ENEMY_STATES{
 	CHOOSE,
