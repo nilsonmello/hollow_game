@@ -53,11 +53,28 @@ if(dash_cooldown > 0){
 }
 
 if(keyboard_check_pressed(vk_space) && dash_cooldown <= 0){
-	global.is_dashing = true;
-	dash_timer = 8;
-	dash_cooldown = global.dash_cooldown;
-	state = STATES.DASH;
+    dash_pressed = current_time;
+    global.is_dashing = true;
+    dash_timer = 8;
+    dash_cooldown = global.dash_cooldown;
+    state = STATES.DASH;
 }
+
+// Controle da Linha
+if(mouse_check_button_pressed(mb_left)){
+    line_pressed = current_time;
+}
+
+var tolerance = 200; 
+
+if(global.can_line){
+    if(global.is_dashing && abs(dash_pressed - line_pressed) <= tolerance){
+        global.line = true;
+    }else{
+        global.line = false;
+    }
+}
+    
 #endregion
 
 #region sprites
@@ -144,36 +161,48 @@ switch(state){
 	#endregion
 	
 	#region dash
-	case STATES.DASH:
-		if(dash_timer > 0){
-			dash_timer--;
-		}else{
-			state = STATES.MOVING;
-			layer_set_visible("screenshake_damaging_enemies", 0);
-			global.is_dashing = false;	
-		}
-
-		spd_h = lengthdir_x(dash_veloc, dash_dir);
-		spd_v = lengthdir_y(dash_veloc, dash_dir);
-
-		state_timer += 1;
-
-		if(state_timer >= 1){
-		    part_particles_create(particle_system, x, y, particle_shadow, 4);
-		    state_timer = 0;
-		}
-
-		if(!place_meeting(x + spd_h, y, obj_enemy_par) && !place_meeting(x + spd_h, y, obj_wall)){
-			x += spd_h;
-		}else{
-			spd_h = 0;
-		}
-		if(!place_meeting(x, y + spd_v, obj_enemy_par) && !place_meeting(x, y + spd_v, obj_wall)){
-			y += spd_v;
-		}else{
-			spd_v = 0;
-		}
-
+    case STATES.DASH:
+        if(dash_timer > 0){
+            dash_timer--;
+        } else {
+            state = STATES.MOVING;
+            layer_set_visible("screenshake_damaging_enemies", 0);
+            global.is_dashing = false;
+            global.line = 0;
+        }
+    
+        switch(global.line){
+            case 0:
+                spd_h = lengthdir_x(dash_veloc, dash_dir);
+                spd_v = lengthdir_y(dash_veloc, dash_dir);
+    
+                state_timer++;
+                if(state_timer >= 1){
+                    part_particles_create(particle_system, x, y, particle_shadow, 4);
+                    state_timer = 0;
+                }
+    
+                if(!place_meeting(x + spd_h, y, obj_enemy_par) && !place_meeting(x + spd_h, y, obj_wall)){
+                    x += spd_h;
+                } else {
+                    spd_h = 0;
+                }
+                if(!place_meeting(x, y + spd_v, obj_enemy_par) && !place_meeting(x, y + spd_v, obj_wall)){
+                    y += spd_v;
+                } else {
+                    spd_v = 0;
+                }
+            break;
+    
+            case 1:
+                if(linha != undefined){
+                    linha.set_target();
+                    linha.moving = true;
+                    linha.lerp_spd = 0.2;
+                }
+            break;
+        }
+    
 		var _colide = collision_rectangle(x - 10, y + 10,x + 10, y - 10, obj_bush, 0, 0);
 		
 		if(_colide){
@@ -354,7 +383,7 @@ if(_mb){
 }
 
 //charged attack
-if(global.line_attack){
+if(global.area_attack){
 	if(_mb2){
 		charged_attack = true;	
 	}else{
@@ -368,9 +397,7 @@ if(global.line_attack){
 	}else{
 		if(_mb3){
 			if(timer_charge > 28){
-			    linha.set_target();
-			    linha.moving = true;
-				linha.lerp_spd = 0.2;
+                golpe_circular.activate();
 			}
 		timer_charge = 0;
 		}

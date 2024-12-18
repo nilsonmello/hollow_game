@@ -48,12 +48,19 @@ global.healing = false;
 //critical attack chance
 global.critical = 0;
 
-//can use the line attack
-global.line_attack = true;
+//can use the charged attack
+global.area_attack = true;
 
 //can deflect bullets
 global.deflect_bullets = true;
 #endregion
 
+//variable to upgrade the chain dash
 global.dash_cooldown = 23;
 
+//if he can use the line attack and if he will activate it
+global.can_line = false;
+global.line = false;
+
+//during dash shield
+global.shield = false;

@@ -26,6 +26,9 @@ dash_timer = 0;
 
 //cooldown for dash
 dash_cooldown = 0;
+
+dash_pressed = 0;
+line_pressed = 0;
 #endregion
 
 #region hability variables
@@ -440,6 +443,8 @@ function circle(_dist, _direction, _damage, _hitbox, _owner, _cost) : slashes(_d
                                 break;
                         }
                         attack = true;
+                        
+        
                     }
                 }
                 ds_list_add(global.attacked_enemies, _rec);
@@ -451,14 +456,13 @@ function circle(_dist, _direction, _damage, _hitbox, _owner, _cost) : slashes(_d
         if(variable_global_exists("attacked_enemies")){
             ds_list_clear(global.attacked_enemies);
         }
-
-        global.stamina -= cost;
         active = false;
     };
 }
 
 linha = new line(150, point_direction(x, y, obj_control.x, obj_control.y), 1, true, self, 0);
 
+golpe_circular = new circle(100, 0, 10, true, self, 0);
 
 #endregion
 
