@@ -44,8 +44,16 @@ global.hab_dmg = 1;
 //player heal
 global.healing = false;
 
+#region basic attack upgrades
 //critical attack chance
 global.critical = 0;
 
 //can use the line attack
-global.line_attack = true
+global.line_attack = true;
+
+//can deflect bullets
+global.deflect_bullets = true;
+#endregion
+
+global.dash_cooldown = 23;
+

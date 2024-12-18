@@ -1,3 +1,3 @@
-reflect_function = function() {};
-custom_function = function() {};
+reflect_function = function(){};
+custom_function = function(){};
 

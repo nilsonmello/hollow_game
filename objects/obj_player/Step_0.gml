@@ -55,7 +55,7 @@ if(dash_cooldown > 0){
 if(keyboard_check_pressed(vk_space) && dash_cooldown <= 0){
 	global.is_dashing = true;
 	dash_timer = 8;
-	dash_cooldown = 23
+	dash_cooldown = global.dash_cooldown;
 	state = STATES.DASH;
 }
 #endregion
@@ -348,7 +348,9 @@ if(_ma){
 //basic attack
 if(_mb){ 
 	_basico.activate();
-	_basico.bullet();
+    if(global.deflect_bullets){
+        _basico.bullet();
+    }
 }
 
 //charged attack
