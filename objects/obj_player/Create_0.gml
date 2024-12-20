@@ -468,3 +468,5 @@ golpe_circular = new circle(100, 0, 10, true, self, 0);
 timer_charge = 0;
 charged_attack = false;
 #endregion
+
+sprite_index = spr_player_idle
