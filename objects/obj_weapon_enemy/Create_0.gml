@@ -87,7 +87,6 @@ pistol = scr_create_weapon("Pistol", 5, 10, spr_dust, false, 1, spr_pistol,
             switch(knocked){
                 case 0:
                     part_particles_create(particle_hit, x, y, particle_slash, 1);
-                    layer_set_visible("screenshake_damaging_enemies", 1);
                     state = ENEMY_STATES.HIT;
                     emp_timer = 5;
                     emp_veloc = 6;
@@ -95,7 +94,6 @@ pistol = scr_create_weapon("Pistol", 5, 10, spr_dust, false, 1, spr_pistol,
                 break;
     
                 case 1:
-                    layer_set_visible("screenshake_damaging_enemies", 1);
                     state = ENEMY_STATES.KNOCKED;
                     vida -= 1;
                     hit = false;

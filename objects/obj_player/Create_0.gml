@@ -271,7 +271,6 @@ function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost) : slas
                     switch(knocked){
                         case 0:
                             part_particles_create(particle_hit, x, y, particle_slash, 1);
-                            layer_set_visible("screenshake_damaging_enemies", 1);
                             state = ENEMY_STATES.HIT;
                             emp_timer = 5;
                             emp_veloc = 6;
@@ -280,7 +279,6 @@ function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost) : slas
                             break;
 
                         case 1:
-                            layer_set_visible("screenshake_damaging_enemies", 1);
                             state = ENEMY_STATES.KNOCKED;
                             vida -= _damage_to_apply;
                             hit = false;
@@ -369,7 +367,6 @@ function line(_dist, _direction, _damage, _hitbox, _owner, _cost) : slashes(_dis
 		                    switch(knocked){
 		                        case 0:
 		                            part_particles_create(particle_hit, x, y, particle_slash, 1);
-		                            layer_set_visible("screenshake_damaging_enemies", 1);
 		                            state = ENEMY_STATES.HIT;
 		                            emp_timer = 8;
 		                            emp_veloc = 8;
@@ -378,7 +375,6 @@ function line(_dist, _direction, _damage, _hitbox, _owner, _cost) : slashes(_dis
 		                        break;
 
 		                        case 1:
-		                            layer_set_visible("screenshake_damaging_enemies", 1);
 		                            state = ENEMY_STATES.KNOCKED;
 		                            emp_veloc = 12;
 									vida -= other.damage;
@@ -430,14 +426,12 @@ function circle(_dist, _direction, _damage, _hitbox, _owner, _cost) : slashes(_d
                         switch(knocked){
                             case 0:
                                 part_particles_create(particle_hit, x, y, particle_slash, 1);
-                                layer_set_visible("screenshake_damaging_enemies", 1);
                                 state = ENEMY_STATES.HIT;
                                 emp_timer = 5;
                                 emp_veloc = 6;
                                 break;
 
                             case 1:
-                                layer_set_visible("screenshake_damaging_enemies", 1);
                                 state = ENEMY_STATES.KNOCKED;
                                 emp_veloc = 8;
                                 break;

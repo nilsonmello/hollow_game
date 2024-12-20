@@ -109,7 +109,6 @@ switch(state){
 	        x += vel_h;
 	        y += vel_v;
 		}
-        layer_set_visible("screenshake_damaging_enemies", 0);
 		
 		if(timer_hit_at >= timer_hit){
 			state = ENEMY_STATES.IDLE
@@ -122,9 +121,7 @@ switch(state){
 	
 	#region knocked
 	case ENEMY_STATES.KNOCKED:
-	    layer_set_visible("screenshake_damaging_enemies", 0);
 	    stamina_at += .5;
-
 	    if (stamina_at < stamina_t){
 	        if (hit){
 	            hit = false;
@@ -233,7 +230,6 @@ break;
 									esc_y = y + lengthdir_y(50, _away);
 	                            }
 	                        }else{
-	                            layer_set_visible("screenshake_damaging_enemies", 1);
 
 	                            with(other){
 	                                state = ENEMY_STATES.KNOCKED;
@@ -296,8 +292,6 @@ break;
         part_particles_create(particle_system_explosion, x, y, particle_circle, 1); 
         part_particles_create(particle_system_explosion, x, y, particle_explosion, 8); 
         part_particles_create(particle_system_explosion, x, y, particle_explosion_2, 8); 
-
-        layer_set_visible("screenshake_damaging_enemies", 0);
         
         var _chances = irandom(2);
         

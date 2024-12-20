@@ -1,6 +1,4 @@
 #region screenshake layer and particles
-layer_set_visible("screenshake_damaging_enemies", 1);
-
 with(other){
 
 	#region particle leafs

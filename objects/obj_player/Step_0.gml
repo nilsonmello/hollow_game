@@ -170,7 +170,6 @@ switch(state){
             dash_timer--;
         } else {
             state = STATES.MOVING;
-            layer_set_visible("screenshake_damaging_enemies", 0);
             global.is_dashing = false;
             global.line = 0;
         }
@@ -266,9 +265,6 @@ switch(state){
 
 				part_system_position(_ps2, x, y);
 				#endregion
-				
-				layer_set_visible("screenshake_damaging_enemies", 1);
-				
 				instance_destroy();	
 			}
 		}	
@@ -452,7 +448,6 @@ if(global.energy >= global.energy_max){
 }
 
 if(keyboard_check(ord("R")) && global.can_attack){
-    layer_set_visible("screenshake_charging", 1);
     if(global.energy > 0){
         global.energy -= .3;
         global.slashing = true;
@@ -507,7 +502,6 @@ if(keyboard_check(ord("R")) && global.can_attack){
 }else{ 
     area = 0;
     global.slow_motion = false;
-    layer_set_visible("screenshake_charging", 0);
     global.slashing = false;
 
     if(!moving_along_path && ds_list_size(path_list) > 0){
@@ -569,10 +563,7 @@ if(moving_along_path && ds_list_size(path_list) > 0){
 				
                 ds_list_add(trail_fixed_positions, [x, y, direction]);
                 ds_list_add(trail_fixed_timer, 30);
-
-                layer_set_visible("screenshake_damaging_enemies", 1);
             }
-            layer_set_visible("screenshake_damaging_enemies", 0);
         }
     }else{
         moving_along_path = false;
