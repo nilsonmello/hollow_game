@@ -267,6 +267,7 @@ function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost) : slas
                     timer_hit = 5;
                     emp_dir = point_direction(obj_player.x, obj_player.y, x, y);
                     global.combo++;
+                    obj_camera.alarm[1] = 5;
 
                     switch(knocked){
                         case 0:
@@ -311,6 +312,7 @@ function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost) : slas
 		with(_colide){
 			direction = direction + 180;
 			speed = 3.5;
+            obj_camera.alarm[1] = 5;
 		}
 	}
 }
@@ -363,6 +365,7 @@ function line(_dist, _direction, _damage, _hitbox, _owner, _cost) : slashes(_dis
 		                    timer_hit = 5;	
 		                    emp_dir = point_direction(obj_player.x, obj_player.y, x, y);
 		                    global.combo++;
+                            obj_camera.alarm[1] = 5;
 
 		                    switch(knocked){
 		                        case 0:
@@ -422,6 +425,7 @@ function circle(_dist, _direction, _damage, _hitbox, _owner, _cost) : slashes(_d
                         timer_hit = 5;	
                         emp_dir = point_direction(obj_player.x, obj_player.y, x, y);
                         global.combo++;
+                        obj_camera.alarm[1] = 5;
 
                         switch(knocked){
                             case 0:

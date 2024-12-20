@@ -10,3 +10,12 @@ if(keyboard_check(ord("R")) && global.slashing){
 //changing the darkess value
 darkness_value = lerp(darkness_value, darkness_target, 0.1);
 #endregion
+
+#region screenshake control
+if (alarm[1] > 0){
+    layer_set_visible("screenshake_damaging_enemies", 1);
+}else{
+    layer_set_visible("screenshake_damaging_enemies", 0);
+}
+
+#endregion
