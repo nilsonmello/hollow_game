@@ -219,3 +219,16 @@ recoil_pause_timer = 0;
 
 //cooldown for the attack states
 state_cooldown = 0;
+
+function check_for_player(_distance){
+    var _line_wall = collision_line(x, y, obj_player.x, obj_player.y, obj_wall, false, false);
+    if(_line_wall){
+        return false;
+    }
+    
+    if(time_per_attacks <= 0){
+        if(distance_to_object(obj_player) <= _distance){
+            state = ENEMY_STATES.FOLLOW;
+        }
+    }
+}

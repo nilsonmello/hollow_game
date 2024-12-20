@@ -58,6 +58,10 @@ if(keyboard_check_pressed(vk_space) && dash_cooldown <= 0){
     dash_timer = 8;
     dash_cooldown = global.dash_cooldown;
     state = STATES.DASH;
+    
+    if(global.shield){
+        hit_cooldown = 8;
+    }
 }
 
 // Controle da Linha

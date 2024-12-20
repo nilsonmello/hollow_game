@@ -55,6 +55,7 @@ global.area_attack = true;
 global.deflect_bullets = true;
 #endregion
 
+#region dash upgrades
 //variable to upgrade the chain dash
 global.dash_cooldown = 23;
 
@@ -64,3 +65,4 @@ global.line = false;
 
 //during dash shield
 global.shield = false;
+#endregion

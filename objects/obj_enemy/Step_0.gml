@@ -34,16 +34,12 @@ switch(state){
     case ENEMY_STATES.IDLE:
 		state_time--;
 		
-		if(distance_to_object(obj_player) < 150 && time_per_attacks <= 0){
-			if(_line_wall){
-				return false;
-			}
-			state = ENEMY_STATES.FOLLOW
-		}
-		
+
 		if(state_time <= 0){
 			state = ENEMY_STATES.CHOOSE;
 		}
+    
+        check_for_player(150);
     break;
 	#endregion	
 	
@@ -63,18 +59,13 @@ switch(state){
 			y += vel_v;
 		}else{
 			state = ENEMY_STATES.CHOOSE;	
-		}
-		
-		if(distance_to_object(obj_player) < 150 && time_per_attacks <= 0){
-			if(_line_wall){
-				return false;
-			}
-			state = ENEMY_STATES.FOLLOW
-		}
+        }
 		
 		if(state_time <= 0){
 			state = ENEMY_STATES.CHOOSE;
 		}
+    
+        check_for_player(150);
     break;
 	#endregion
 
@@ -163,7 +154,7 @@ switch(state){
 
     }else{
         state = ENEMY_STATES.IDLE;
-        hit = true;  // Aqui, resetando o valor de 'hit' para 'true'
+        hit = true;
         attack = false;
         knocked = false;
     }
@@ -245,18 +236,18 @@ break;
 	                            layer_set_visible("screenshake_damaging_enemies", 1);
 
 	                            with(other){
-	                                state = ENEMY_STATES.HIT;
+	                                state = ENEMY_STATES.KNOCKED;
 	                                emp_dir = point_direction(obj_player.x, obj_player.y, other.x, other.y);
 	                                emp_veloc = 6;
 	                                hit = true;
 	                                attacking = false;
-										
 	                                timer_hit = 20;
 									emp_timer = 10;
 									
 	                                alarm[2] = 30;
 	                                time_per_attacks = 110;
 									knocked_time = 30;
+                                    stamina_at = 0;
 	                            }
 	                        }
 	                    }

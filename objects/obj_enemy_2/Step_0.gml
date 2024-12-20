@@ -29,12 +29,7 @@ switch(state){
     case ENEMY_STATES.IDLE:
 		state_time--;
 		
-		if(distance_to_object(obj_player) < 150 && time_per_attacks <= 0){
-			if(_line_wall){
-				return false;
-			}
-			state = ENEMY_STATES.FOLLOW
-		}
+        check_for_player(150);
 		
 		if(state_time <= 0){
 			state = ENEMY_STATES.CHOOSE;
@@ -60,12 +55,7 @@ switch(state){
 			state = ENEMY_STATES.CHOOSE;	
 		}
 		
-		if(distance_to_object(obj_player) < 150 && time_per_attacks <= 0){
-			if(_line_wall){
-				return false;
-			}
-			state = ENEMY_STATES.FOLLOW
-		}
+		check_for_player(150);
 		
 		if(state_time <= 0){
 			state = ENEMY_STATES.CHOOSE;
@@ -142,6 +132,7 @@ switch(state){
 
 	#region knocked
     case ENEMY_STATES.KNOCKED:
+        layer_set_visible("screenshake_damaging_enemies", 0);
 		stamina_at++;
 		
         if(stamina_at < stamina_t){
