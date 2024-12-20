@@ -46,7 +46,7 @@ if(keyboard_check(ord("H")) && can_heal && global.life_at < global.life){
 #endregion
 
 #region dash control
-dash_dir = move_dir
+dash_dir = move_dir;
 
 if(dash_cooldown > 0){
 	dash_cooldown--;	
@@ -166,181 +166,136 @@ switch(state){
 	
 	#region dash
     case STATES.DASH:
-        if(dash_timer > 0){
-            dash_timer--;
-        } else {
-            state = STATES.MOVING;
-            global.is_dashing = false;
-            global.line = 0;
+        if(global.is_dashing) {
+            // Enquanto estiver no dash, não permite transição para outros estados
+            if(dash_timer > 0){
+                dash_timer--;
+            } else {
+                state = STATES.MOVING;
+                global.is_dashing = false;
+                global.line = 0;
+            }
+            
+            switch(global.line){
+                case 0:
+                    spd_h = lengthdir_x(dash_veloc, dash_dir);
+                    spd_v = lengthdir_y(dash_veloc, dash_dir);
+    
+                    state_timer++;
+                    if(state_timer >= 1){
+                        part_particles_create(particle_system, x, y, particle_shadow, 4);
+                        state_timer = 0;
+                    }
+    
+                    if(!place_meeting(x + spd_h, y, obj_enemy_par) && !place_meeting(x + spd_h, y, obj_wall)){
+                        x += spd_h;
+                    } else {
+                        spd_h = 0;
+                        state = STATES.MOVING;
+                        dash_timer = 0;
+                        global.is_dashing = false;
+                    }
+                    if(!place_meeting(x, y + spd_v, obj_enemy_par) && !place_meeting(x, y + spd_v, obj_wall)){
+                        y += spd_v;
+                    } else {
+                        spd_v = 0;
+                        state = STATES.MOVING;
+                        dash_timer = 0;
+                        global.is_dashing = false;
+                    }
+                break;
+        
+                case 1:
+                    if(linha != undefined){
+                        linha.set_target();
+                        linha.moving = true;
+                        linha.lerp_spd = 0.2;
+                    }
+                break;
+            }
         }
-    
-        switch(global.line){
-            case 0:
-                spd_h = lengthdir_x(dash_veloc, dash_dir);
-                spd_v = lengthdir_y(dash_veloc, dash_dir);
-    
-                state_timer++;
-                if(state_timer >= 1){
-                    part_particles_create(particle_system, x, y, particle_shadow, 4);
-                    state_timer = 0;
-                }
-    
-                if(!place_meeting(x + spd_h, y, obj_enemy_par) && !place_meeting(x + spd_h, y, obj_wall)){
-                    x += spd_h;
-                } else {
-                    spd_h = 0;
-                }
-                if(!place_meeting(x, y + spd_v, obj_enemy_par) && !place_meeting(x, y + spd_v, obj_wall)){
-                    y += spd_v;
-                } else {
-                    spd_v = 0;
-                }
-            break;
-    
-            case 1:
-                if(linha != undefined){
-                    linha.set_target();
-                    linha.moving = true;
-                    linha.lerp_spd = 0.2;
-                }
-            break;
-        }
-    
-		var _colide = collision_rectangle(x - 10, y + 10,x + 10, y - 10, obj_bush, 0, 0);
-		
-		if(_colide){
-			with(_colide){
-				
-				#region particle leafs
-				var _ps = part_system_create();
-				part_system_draw_order(_ps, true);
-
-				//Emitter
-				var _ptype1 = part_type_create();
-				part_type_sprite(_ptype1, spr_leaf, false, true, false);
-				part_type_subimage(_ptype1, choose(0, 1, 2, 3))
-				part_type_size(_ptype1, 1, 1, 0, 0);
-				part_type_scale(_ptype1, 1, 1);
-
-				var _spd = 2;
-				_spd = lerp(_spd, 0, .6);
-
-				part_type_speed(_ptype1, _spd, _spd, 0, 0);
-				part_type_direction(_ptype1, 0, 359, 0, 0);
-				part_type_gravity(_ptype1, .02, 270)
-				part_type_orientation(_ptype1, 0, 0, 0, 0, true);
-				part_type_colour3(_ptype1, $FFFFFF, $FFFFFF, $FFFFFF);
-				part_type_alpha3(_ptype1, 1, 1, 1);
-				part_type_blend(_ptype1, false);
-				part_type_life(_ptype1, 40, 40);
-				part_type_alpha2(_ptype1, 1, .1);
-
-				var _pemit1 = part_emitter_create(_ps);
-				part_emitter_burst(_ps, _pemit1, _ptype1, 8);
-
-				part_system_position(_ps, x, y);
-				#endregion
-	
-				#region particle dots
-				var _ps2 = part_system_create();
-				part_system_draw_order(_ps2, true);
-
-				//Emitter
-				var _ptype2 = part_type_create();
-				part_type_shape(_ptype2, pt_shape_pixel);
-				part_type_size(_ptype2, 1, 1, 0, 0);
-				part_type_scale(_ptype2, 1, 1);
-				part_type_speed(_ptype2, 1, 1, 0, 0);
-				part_type_direction(_ptype2, 0, 359, 0, 0);
-				part_type_gravity(_ptype2, 0, 270);
-				part_type_orientation(_ptype2, 0, 0, 0, 0, false);
-				part_type_colour3(_ptype2, $FFFFFF, $FFFFFF, $FFFFFF);
-				part_type_alpha3(_ptype2, 1, 1, 1);
-				part_type_blend(_ptype2, false);
-				part_type_life(_ptype2, 30, 30);
-
-				var _pemit2 = part_emitter_create(_ps2);
-				part_emitter_region(_ps2, _pemit2, -16, 16, -16, 16, ps_shape_rectangle, ps_distr_linear);
-				part_emitter_burst(_ps2, _pemit2, _ptype2, 11);
-
-				part_system_position(_ps2, x, y);
-				#endregion
-				instance_destroy();	
-			}
-		}	
-	break;
+    break;
 	#endregion
 	
 	#region parry
 	case STATES.PARRY:
-		parry_time--;
-		global.parry = true;
-		
-		if(parry_time <= 0){
-			parry_time = 20;
-			state = STATES.MOVING;
-			global.parry = false;
+		// Não permite transição para o estado de parry enquanto estiver no dash
+		if(state != STATES.DASH){
+			parry_time--;
+			global.parry = true;
+
+			if(parry_time <= 0){
+				parry_time = 20;
+				state = STATES.MOVING;
+				global.parry = false;
+			}
 		}
 	break;
 	#endregion
 	
 	#region hit
 	case STATES.HIT:
-		spd_h = lengthdir_x(emp_veloc, emp_dir);
-		spd_v = lengthdir_y(emp_veloc, emp_dir);
+		// Não permite transição para o estado de hit enquanto estiver no dash
+		if(state != STATES.DASH){
+			spd_h = lengthdir_x(emp_veloc, emp_dir);
+			spd_v = lengthdir_y(emp_veloc, emp_dir);
     
-		emp_veloc = lerp(emp_veloc, 0, .05);
-		
-		if(!place_meeting(x + spd_h, y, obj_enemy_par) && !place_meeting(x + spd_h, y, obj_wall)){
-			x += spd_h;
-		}else{
-			spd_h = 0;
-		}
-		if(!place_meeting(x + spd_h, y, obj_enemy_par) && !place_meeting(x, y + spd_v, obj_wall)){
-			y += spd_v;
-		}else{
-			spd_v = 0;
-		}
-		
-		if(hit_timer <= 0){
-			state = STATES.MOVING;
+			emp_veloc = lerp(emp_veloc, 0, .05);
+			
+			if(!place_meeting(x + spd_h, y, obj_enemy_par) && !place_meeting(x + spd_h, y, obj_wall)){
+				x += spd_h;
+			}else{
+				spd_h = 0;
+			}
+			if(!place_meeting(x + spd_h, y, obj_enemy_par) && !place_meeting(x, y + spd_v, obj_wall)){
+				y += spd_v;
+			}else{
+				spd_v = 0;
+			}
+			
+			if(hit_timer <= 0){
+				state = STATES.MOVING;
+			}
 		}
 	break;
 	#endregion
 	
 	#region heal
 	case STATES.HEAL:
-		if(global.energy <= 0){
-			return false;	
-		}
+		// Não permite transição para o estado de heal enquanto estiver no dash
+		if(state != STATES.DASH){
+			if(global.energy <= 0){
+				return false;	
+			}
+			
+			global.healing = true;
+			timer_heal++;
 		
-		global.healing = true;
-		timer_heal++;
-	
-		if(timer_heal < 80){
-			part_emitter_region(ps, emitter, x - 10, x + 10, y - 10, y + 10, ps_shape_rectangle, ps_distr_linear);
-			part_emitter_stream(ps, emitter, ptype2, 1);
-			
-			part_emitter_region(ps, emitter2, x - 10, x + 10, y - 10, y + 10, ps_shape_rectangle, ps_distr_linear);
-			part_emitter_stream(ps, emitter2, ptype3, 1);
-		}else{
-			part_emitter_destroy(ps, emitter);
-			part_emitter_destroy(ps, emitter2);
-			part_particles_create(ps, x, y + 5, ptype1, 1);
-		}
+			if(timer_heal < 80){
+				part_emitter_region(ps, emitter, x - 10, x + 10, y - 10, y + 10, ps_shape_rectangle, ps_distr_linear);
+				part_emitter_stream(ps, emitter, ptype2, 1);
+				
+				part_emitter_region(ps, emitter2, x - 10, x + 10, y - 10, y + 10, ps_shape_rectangle, ps_distr_linear);
+				part_emitter_stream(ps, emitter2, ptype3, 1);
+			}else{
+				part_emitter_destroy(ps, emitter);
+				part_emitter_destroy(ps, emitter2);
+				part_particles_create(ps, x, y + 5, ptype1, 1);
+			}
 
-		if(timer_heal >= 80){
-			player_heal();
-			
-			timer_heal = 0;
-			heal_cooldown = 80;
-			can_heal = false;
-			state = STATES.MOVING;
-			
-			emitter = part_emitter_create(ps);
-			emitter2 = part_emitter_create(ps);
-			
-			global.healing = false;
+			if(timer_heal >= 80){
+				player_heal();
+				
+				timer_heal = 0;
+				heal_cooldown = 80;
+				can_heal = false;
+				state = STATES.MOVING;
+				
+				emitter = part_emitter_create(ps);
+				emitter2 = part_emitter_create(ps);
+				
+				global.healing = false;
+			}
 		}
 	break;
 	#endregion
@@ -353,6 +308,7 @@ switch(state){
 	break;
 	#endregion
 }
+
 
 #endregion
 
@@ -404,7 +360,7 @@ if(global.area_attack){
 	}
 }
 
-if(linha != noone){
+if(linha != noone) && global.can_line{
     linha.move();
 
     var _future_x = x + (linha.adv_x - x) * linha.lerp_spd;

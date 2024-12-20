@@ -17,6 +17,7 @@ if (time_per_attacks > 0){
 }
 #endregion
 
+show_debug_message(state)
 
 switch(state){
 	
