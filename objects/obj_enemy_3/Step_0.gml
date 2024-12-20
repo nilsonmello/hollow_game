@@ -3,6 +3,10 @@
 #region variables and timers
 event_inherited();
 
+with(my_weapon){
+    current_weapon = pistol
+}
+
 var _line_wall = collision_line(x, y, obj_player.x, obj_player.y, obj_wall, false, false);
 
 if (vida <= 0){

@@ -212,7 +212,7 @@ my_weapon.weapon_id = self;
 
 //inicial my_weapon events
 with(my_weapon){
-current_weapon = pistol
+current_weapon = vazio
 }
 //recoil timer
 recoil_pause_timer = 0;
