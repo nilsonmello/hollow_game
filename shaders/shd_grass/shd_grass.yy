@@ -1,7 +1,7 @@
 {
   "$GMShader":"",
-  "%Name":"sh_shd_bush",
-  "name":"sh_shd_bush",
+  "%Name":"shd_grass",
+  "name":"shd_grass",
   "parent":{
     "name":"Shaders",
     "path":"folders/Shaders.yy",

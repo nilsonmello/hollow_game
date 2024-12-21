@@ -63,9 +63,9 @@
     {"id":{"name":"collisions","path":"scripts/collisions/collisions.yy",},},
     {"id":{"name":"player_functions","path":"scripts/player_functions/player_functions.yy",},},
     {"id":{"name":"scr_variables","path":"scripts/scr_variables/scr_variables.yy",},},
-    {"id":{"name":"sh_shd_bush","path":"shaders/sh_shd_bush/sh_shd_bush.yy",},},
     {"id":{"name":"sh_shd_take_dmg","path":"shaders/sh_shd_take_dmg/sh_shd_take_dmg.yy",},},
     {"id":{"name":"sh_shd_vignette","path":"shaders/sh_shd_vignette/sh_shd_vignette.yy",},},
+    {"id":{"name":"shd_grass","path":"shaders/shd_grass/shd_grass.yy",},},
     {"id":{"name":"spr_back_2","path":"sprites/spr_back_2/spr_back_2.yy",},},
     {"id":{"name":"spr_background","path":"sprites/spr_background/spr_background.yy",},},
     {"id":{"name":"spr_bar_stamina","path":"sprites/spr_bar_stamina/spr_bar_stamina.yy",},},
@@ -118,5 +118,6 @@
   "templateType":"game",
   "TextureGroups":[
     {"$GMTextureGroup":"","%Name":"Default","autocrop":true,"border":2,"compressFormat":"bz2","customOptions":"","directory":"","groupParent":null,"isScaled":true,"loadType":"default","mipsToGenerate":0,"name":"Default","resourceType":"GMTextureGroup","resourceVersion":"2.0","targets":-1,},
+    {"$GMTextureGroup":"","%Name":"texgroup1","autocrop":false,"border":10,"compressFormat":"bz2","customOptions":"","directory":"","groupParent":null,"isScaled":true,"loadType":"default","mipsToGenerate":0,"name":"texgroup1","resourceType":"GMTextureGroup","resourceVersion":"2.0","targets":-1,},
   ],
 }

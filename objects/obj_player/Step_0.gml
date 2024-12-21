@@ -82,42 +82,42 @@ if(global.can_line){
 #endregion
 
 #region sprites
-//switch(state){
-	//case STATES.IDLE:
-		//if(!global.slow_motion){
-			//switch(_spr_dir){
-				//case 0:	sprite_index = spr_player_idle;	image_xscale = 1	break;
-				//case 90:	sprite_index = spr_player_idle_up;	break;
-				//case 180:	sprite_index = spr_player_idle;	image_xscale = -1	break;
-				//case 270:	sprite_index = spr_player_idle_down;	break;
-			//}
-		//}else{
-			//sprite_index = spr_player_power;
-		//}
-	//break;
-	//
-	//case STATES.MOVING:
-		//if(!global.slow_motion){
-			//switch(_spr_dir){
-				//case 0:	sprite_index = spr_player_walk_rl;	image_xscale = 1	break;
-				//case 90:	sprite_index = spr_walk_up;	break;
-				//case 180:	sprite_index = spr_player_walk_rl;	image_xscale = -1	break;
-				//case 270:	sprite_index = spr_walk_down;	break;
-			//}
-		//}else{
-			//sprite_index = spr_player_power	
-		//}
-	//break;
-	//
-	//case STATES.ATTAKING:
-	    //switch(_spr_dir){
-	        //case 0: sprite_index = spr_player_attack_rl; image_xscale = 1; break;
-	        //case 90: sprite_index = spr_player_attack_rl; break;
-	        //case 180: sprite_index = spr_player_attack_rl; image_xscale = -1; break;
-	        //case 270: sprite_index = spr_player_attack_rl; break;
-	    //}
-	//break;
-//}
+switch(state){
+	case STATES.IDLE:
+		if(!global.slow_motion){
+			switch(_spr_dir){
+				case 0:	sprite_index = spr_player_idle;	image_xscale = 1	break;
+				case 90:	sprite_index = spr_player_idle_up;	break;
+				case 180:	sprite_index = spr_player_idle;	image_xscale = -1	break;
+				case 270:	sprite_index = spr_player_idle_down;	break;
+			}
+		}else{
+			sprite_index = spr_player_power;
+		}
+	break;
+	
+	case STATES.MOVING:
+		if(!global.slow_motion){
+			switch(_spr_dir){
+				case 0:	sprite_index = spr_player_walk_rl;	image_xscale = 1	break;
+				case 90:	sprite_index = spr_walk_up;	break;
+				case 180:	sprite_index = spr_player_walk_rl;	image_xscale = -1	break;
+				case 270:	sprite_index = spr_walk_down;	break;
+			}
+		}else{
+			sprite_index = spr_player_power	
+		}
+	break;
+	
+	case STATES.ATTAKING:
+	    switch(_spr_dir){
+	        case 0: sprite_index = spr_player_attack_rl; image_xscale = 1; break;
+	        case 90: sprite_index = spr_player_attack_rl; break;
+	        case 180: sprite_index = spr_player_attack_rl; image_xscale = -1; break;
+	        case 270: sprite_index = spr_player_attack_rl; break;
+	    }
+	break;
+}
 #endregion
 
 #endregion
@@ -166,11 +166,10 @@ switch(state){
 	
 	#region dash
     case STATES.DASH:
-        if(global.is_dashing) {
-            // Enquanto estiver no dash, não permite transição para outros estados
+        if(global.is_dashing){
             if(dash_timer > 0){
                 dash_timer--;
-            } else {
+            }else{
                 state = STATES.MOVING;
                 global.is_dashing = false;
                 global.line = 0;
@@ -219,7 +218,6 @@ switch(state){
 	
 	#region parry
 	case STATES.PARRY:
-		// Não permite transição para o estado de parry enquanto estiver no dash
 		if(state != STATES.DASH){
 			parry_time--;
 			global.parry = true;
@@ -235,7 +233,6 @@ switch(state){
 	
 	#region hit
 	case STATES.HIT:
-		// Não permite transição para o estado de hit enquanto estiver no dash
 		if(state != STATES.DASH){
 			spd_h = lengthdir_x(emp_veloc, emp_dir);
 			spd_v = lengthdir_y(emp_veloc, emp_dir);
@@ -262,7 +259,6 @@ switch(state){
 	
 	#region heal
 	case STATES.HEAL:
-		// Não permite transição para o estado de heal enquanto estiver no dash
 		if(state != STATES.DASH){
 			if(global.energy <= 0){
 				return false;	
