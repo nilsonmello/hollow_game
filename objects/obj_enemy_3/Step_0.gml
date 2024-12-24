@@ -120,30 +120,30 @@ break;
 			recoil_gun = 12;
 		}
 		state = ENEMY_STATES.RECOVERY;
+        state_time = 50;
 	break;
 	#endregion
 
 	#region recovery
 	case ENEMY_STATES.RECOVERY:
-		var _dist_r = 180;
-		var _dir_r = point_direction(obj_player.x, obj_player.y, x, y);
-		
-		var _x = x + lengthdir_x(_dist_r, _dir_r);
-		var _y = y + lengthdir_y(_dist_r, _dir_r);
-		
-		if(!collision_line(x, y, _x, _y, obj_wall, true, false)){
-			x += lengthdir_x(1, _dir_r);
-			y += lengthdir_y(1, _dir_r);
-		}else{
-			var _ld = _dir_r + irandom_range(-45, 45);
-			
-			x += lengthdir_x(1, _ld);
-			y += lengthdir_y(1, _ld);
-			
-			if(distance_to_point(_x, _y < 10)){
-				state = ENEMY_STATES.IDLE;	
-			}
-		}
+        state_time--;
+    
+        var _total = 100;
+        var _dir = point_direction(obj_player.x, obj_player.y, x, y);
+        
+        var _target_x = x + lengthdir_x(_total, _dir);
+        var _target_y = y + lengthdir_y(_total, _dir);
+        
+        var _dist = 1;
+        var _move_dir = point_direction(x, y, _target_x, _target_y);
+        
+        x += lengthdir_x(_dist, _move_dir);
+        y += lengthdir_y(_dist, _move_dir);
+    
+        if(state_time <= 0){
+            state = ENEMY_STATES.IDLE;    
+        
+        }
 	break;
 	#endregion
 
