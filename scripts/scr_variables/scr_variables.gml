@@ -60,7 +60,7 @@ global.deflect_bullets = true;
 global.dash_cooldown = 23;
 
 //if he can use the line attack and if he will activate it
-global.can_line = false;
+global.can_line = true;
 global.line = false;
 
 //during dash shield

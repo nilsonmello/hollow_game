@@ -323,12 +323,13 @@ function line(_dist, _direction, _damage, _hitbox, _owner, _cost) : slashes(_dis
     adv_x = 0;
     adv_y = 0;
     dir_atk = _direction;
+    dist = _dist
 
     set_target = function(){
-        dir_atk = point_direction(owner.x, owner.y, obj_control.x, obj_control.y);
-        adv_x = owner.x + lengthdir_x(distance, dir_atk);
-        adv_y = owner.y + lengthdir_y(distance, dir_atk);
+        adv_x = owner.x + lengthdir_x(dist, dir_atk);
+        adv_y = owner.y + lengthdir_y(dist, dir_atk);
     };
+    
 
     move = function(){
         if(moving){
@@ -337,11 +338,6 @@ function line(_dist, _direction, _damage, _hitbox, _owner, _cost) : slashes(_dis
 
             owner.x = _new_x;
             owner.y = _new_y;
-
-            if(point_distance(owner.x, owner.y, adv_x, adv_y) < 10){
-                moving = false;
-                lerp_spd = 0.2;
-            }
 			
 			if(!variable_global_exists("attacked_enemies")){
 				global.attacked_enemies = ds_list_create();
@@ -455,7 +451,7 @@ function circle(_dist, _direction, _damage, _hitbox, _owner, _cost) : slashes(_d
     };
 }
 
-linha = new line(150, point_direction(x, y, obj_control.x, obj_control.y), 1, true, self, 0);
+linha = new line(50, point_direction(x, y, obj_control.x, obj_control.y), 1, true, self, 0);
 
 golpe_circular = new circle(100, 0, 10, true, self, 0);
 

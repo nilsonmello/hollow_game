@@ -1,2 +1,0 @@
-criar um estado de recuperação pós ataque pros inimigos
-criar a colisão da caminhada padrão dos inimigos com o player pra não entrarem um no outro

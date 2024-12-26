@@ -17,6 +17,7 @@ if(hit_cooldown > 0){
 #region movement keys
 var _spr_dir = move_dir;
 
+
 global.energy = clamp(global.energy, 0, global.energy_max);
 
 var _right = keyboard_check(ord("D"));
@@ -356,38 +357,48 @@ if(global.area_attack){
 	}
 }
 
-if(linha != noone) && global.can_line{
+if(linha != noone && global.can_line){
+    
+    
     linha.move();
 
     var _future_x = x + (linha.adv_x - x) * linha.lerp_spd;
     var _future_y = y + (linha.adv_y - y) * linha.lerp_spd;
+
+    if(point_distance(x, y, linha.adv_x, linha.adv_y) < 1){
+        linha.moving = false;
+        linha.lerp_spd = 0;
+        linha.adv_x = 0;
+        linha.adv_y = 0;
+        return; 
+    }
 
     if(place_meeting(_future_x, _future_y, obj_wall)){
         while(!place_meeting(x, y, obj_wall)){
             x += sign(_future_x - x) * 0.5;
             y += sign(_future_y - y) * 0.5;
         }
-		
         x -= sign(_future_x - x) * 0.5;
         y -= sign(_future_y - y) * 0.5;
-
         linha.moving = false;
         linha.lerp_spd = 0;
+        return;
     }
-	
+
     if(place_meeting(_future_x, _future_y, obj_enemy_par)){
         while(!place_meeting(x, y, obj_enemy_par)){
             x += sign(_future_x - x) * 0.5;
             y += sign(_future_y - y) * 0.5;
         }
-		
         x -= sign(_future_x - x) * 0.5;
         y -= sign(_future_y - y) * 0.5;
-
         linha.moving = false;
         linha.lerp_spd = 0;
+        return;
     }
 }
+
+
 #endregion
 
 #region power activation
