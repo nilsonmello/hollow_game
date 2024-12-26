@@ -20,7 +20,6 @@ if(_heal >= 1 && _heal <= 3){
     }
 }
 
-
 //player life
 var _life = global.life_at/2;
 
@@ -30,5 +29,3 @@ if(_life >= 1 && _life <= 5){
         draw_sprite_ext(spr_hud, 1, 40 + 16 * _i, 28, _escx, _escy, 0, c_white, 1);
     }
 }
-
-show_debug_overlay(view_enabled)

@@ -209,7 +209,7 @@ switch(state){
 	        atk_time--;
 	        warning = false;
 
-	        var _advance_dir = 10;
+	        var _advance_dir = 2;
 	        var _advance_distance = 2;
 
 	        var _box_x = x + lengthdir_x(_advance_dir, atk_direction);
@@ -272,7 +272,7 @@ switch(state){
 
 	        move_direction = choose(-1, 1);
 
-	        r_speed = 100 / radius;
+	        r_speed = 60 / radius;
 	        recovery = 1;
 	    }
 

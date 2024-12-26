@@ -251,41 +251,38 @@ function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost) : slas
         for(var _i = 0; _i < ds_list_size(_list); _i++){
             var _rec = _list[| _i];
             if(!ds_list_find_index(global.attacked_enemies, _rec)){
-                with (_rec) {
-
-                    var _is_critical = irandom(100) < global.critical;
-                    var _damage_to_apply = _is_critical ? other.dmg * 2 : other.dmg;
-					var _stamina = _is_critical ? 60 : 30;
-					
-                    //if(is_critical){
-                    //    part_particles_create(particle_crit, x, y, particle_spark, 1);
-                    //}
-
-                    escx = 1.5;
-                    escy = 1.5;
-                    hit_alpha = 1;
-                    timer_hit = 5;
-                    emp_dir = point_direction(obj_player.x, obj_player.y, x, y);
-                    global.combo++;
-                    obj_camera.alarm[1] = 5;
-
-                    switch(knocked){
-                        case 0:
-                            part_particles_create(particle_hit, x, y, particle_slash, 1);
-                            state = ENEMY_STATES.HIT;
-                            emp_timer = 5;
-                            emp_veloc = 6;
-                            stamina_at -= _stamina;
-                            alarm[2] = 30;
-                            break;
-
-                        case 1:
-                            state = ENEMY_STATES.KNOCKED;
-                            vida -= _damage_to_apply;
-                            hit = false;
-                            alarm[1] = 10;
-                            alarm[2] = 30;
-                            break;
+                with (_rec){
+                    if(!attacking){
+                        var _is_critical = irandom(100) < global.critical;
+                        var _damage_to_apply = _is_critical ? other.dmg * 2 : other.dmg;
+    					var _stamina = _is_critical ? 60 : 30;
+    
+                        escx = 1.5;
+                        escy = 1.5;
+                        hit_alpha = 1;
+                        timer_hit = 5;
+                        emp_dir = point_direction(obj_player.x, obj_player.y, x, y);
+                        global.combo++;
+                        obj_camera.alarm[1] = 5;
+    
+                        switch(knocked){
+                            case 0:
+                                part_particles_create(particle_hit, x, y, particle_slash, 1);
+                                state = ENEMY_STATES.HIT;
+                                emp_timer = 5;
+                                emp_veloc = 6;
+                                stamina_at -= _stamina;
+                                alarm[2] = 30;
+                                break;
+    
+                            case 1:
+                                state = ENEMY_STATES.KNOCKED;
+                                vida -= _damage_to_apply;
+                                hit = false;
+                                alarm[1] = 10;
+                                alarm[2] = 30;
+                                break;
+                        }
                     }
                 }
                 ds_list_add(global.attacked_enemies, _rec);
