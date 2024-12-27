@@ -1,3 +1,4 @@
+
 #region hit timers
 if(hit_timer > 0){
 	hit_timer--;
@@ -357,48 +358,33 @@ if(global.area_attack){
 	}
 }
 
-if(linha != noone && global.can_line){
+if(global.can_line){
+    if(global.line){
+        if(linha == undefined){
+            var _direction = point_direction(x, y, obj_control.x, obj_control.y);
     
+            if(point_distance(x, y, obj_control.x, obj_control.y) < 10){
+                direction = image_angle;
+            }
     
-    linha.move();
-
-    var _future_x = x + (linha.adv_x - x) * linha.lerp_spd;
-    var _future_y = y + (linha.adv_y - y) * linha.lerp_spd;
-
-    if(point_distance(x, y, linha.adv_x, linha.adv_y) < 1){
-        linha.moving = false;
-        linha.lerp_spd = 0;
-        linha.adv_x = 0;
-        linha.adv_y = 0;
-        return; 
+            linha = new line(50, _direction, 1, true, self, 0);
+    
+            linha.dir_atk = _direction;
+            linha.set_target();
+            linha.moving = true;
+        }
     }
 
-    if(place_meeting(_future_x, _future_y, obj_wall)){
-        while(!place_meeting(x, y, obj_wall)){
-            x += sign(_future_x - x) * 0.5;
-            y += sign(_future_y - y) * 0.5;
+    if(linha != undefined){
+        linha.move();
+    
+        if(point_distance(x, y, linha.adv_x, linha.adv_y) < 1){
+            linha.moving = false;
+            linha = undefined;
+            
         }
-        x -= sign(_future_x - x) * 0.5;
-        y -= sign(_future_y - y) * 0.5;
-        linha.moving = false;
-        linha.lerp_spd = 0;
-        return;
-    }
-
-    if(place_meeting(_future_x, _future_y, obj_enemy_par)){
-        while(!place_meeting(x, y, obj_enemy_par)){
-            x += sign(_future_x - x) * 0.5;
-            y += sign(_future_y - y) * 0.5;
-        }
-        x -= sign(_future_x - x) * 0.5;
-        y -= sign(_future_y - y) * 0.5;
-        linha.moving = false;
-        linha.lerp_spd = 0;
-        return;
     }
 }
-
-
 #endregion
 
 #region power activation
