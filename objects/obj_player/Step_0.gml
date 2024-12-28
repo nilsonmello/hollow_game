@@ -1,3 +1,5 @@
+show_debug_message(spd_h)
+show_debug_message(spd_v)
 
 #region hit timers
 if(hit_timer > 0){
@@ -377,9 +379,8 @@ if(global.can_line){
 
     if(linha != undefined){
         linha.move();
-        linha.activate();
     
-        if(point_distance(x, y, linha.adv_x, linha.adv_y) < 1){
+        if(point_distance(x, y, linha.adv_x, linha.adv_y) < 10){
             linha.moving = false;
             linha = undefined;
             

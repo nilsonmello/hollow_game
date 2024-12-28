@@ -335,16 +335,68 @@ function line(_dist, _direction, _damage, _hitbox, _owner, _cost) constructor{
     };
 
     move = function(){
+                show_debug_message("aaaaaa");
+
         if(moving){
             var _new_x = lerp(owner.x, adv_x, lerp_spd);
             var _new_y = lerp(owner.y, adv_y, lerp_spd);
 
             owner.x = _new_x;
             owner.y = _new_y;
+
+            if(!variable_global_exists("attacked_enemies")){
+                global.attacked_enemies = ds_list_create();
+            }
+
+            if(moving){
+                var _list = ds_list_create();
+                collision_rectangle_list(owner.x - 15, owner.y - 15, owner.x + 15, owner.y + 15, obj_enemy_par, false, false, _list, true);
+
+                for(var _i = 0; _i < ds_list_size(_list); _i++){
+                    var _rec = _list[| _i];
+
+                    if(!ds_list_find_index(global.attacked_enemies, _rec)){
+                        with(_rec){
+                            escx = 1.5;
+                            escy = 1.5;
+                            hit_alpha = 1;			
+                            timer_hit = 5;	
+                            emp_dir = point_direction(obj_player.x, obj_player.y, x, y);
+                            global.combo++;
+                            obj_camera.alarm[1] = 5;
+
+                            switch(knocked){
+                                case 0:
+                                    part_particles_create(particle_hit, x, y, particle_slash, 1);
+                                    state = ENEMY_STATES.HIT;
+                                    emp_timer = 8;
+                                    emp_veloc = 8;
+                                    stamina_at -= 30;
+                                    alarm[2] = 30;
+                                break;
+
+                                case 1:
+                                    state = ENEMY_STATES.KNOCKED;
+                                    emp_veloc = 12;
+                                    vida -= other.damage;
+                                    alarm[1] = 10;
+                                    alarm[2] = 30;
+                                break;
+                            }
+                        }
+                    ds_list_add(global.attacked_enemies, _rec);
+                    }
+                }
+            ds_list_destroy(_list);
+            }
+
+            if(variable_global_exists("attacked_enemies")){
+                ds_list_clear(global.attacked_enemies);
+            }	
         }
     };
-    
 }
+
 
 function circle(_dist, _direction, _damage, _hitbox, _owner, _cost) : slashes(_dist, _direction, _damage, _hitbox, _owner, _cost) constructor{
     active = false;
@@ -388,14 +440,11 @@ function circle(_dist, _direction, _damage, _hitbox, _owner, _cost) : slashes(_d
                                 break;
                         }
                         attack = true;
-                        
-        
                     }
                 }
                 ds_list_add(global.attacked_enemies, _rec);
             }
         }
-
         ds_list_destroy(_list);
 
         if(variable_global_exists("attacked_enemies")){

@@ -119,8 +119,6 @@ switch(state){
 	        y += vel_v;
 		}
 		
-
-		
 		if(timer_hit_at >= timer_hit){
 			state = ENEMY_STATES.IDLE
 			hit = true;

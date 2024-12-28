@@ -34,7 +34,6 @@ switch(state){
 	#region idle
     case ENEMY_STATES.IDLE:
 		state_time--;
-		
 
 		if(state_time <= 0){
 			state = ENEMY_STATES.CHOOSE;
