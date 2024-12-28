@@ -126,39 +126,42 @@ switch(state){
 	            alarm[1] = 0;
 	        }
 
-        if (emp_timer > 0){
-            emp_timer--;
-            vel_h = lengthdir_x(emp_veloc, emp_dir);
-            vel_v = lengthdir_y(emp_veloc, emp_dir);
+            if (emp_timer > 0){
+                emp_timer--;
+                vel_h = lengthdir_x(emp_veloc, emp_dir);
+                vel_v = lengthdir_y(emp_veloc, emp_dir);
+    
+                emp_veloc = lerp(emp_veloc, 0, .01);
+    
+                enemy_colide();
+    
+                x += vel_h;
+                y += vel_v;
+            }
 
-            emp_veloc = lerp(emp_veloc, 0, .01);
+            if (energy_count < max_energy){
+                var _exp = instance_create_layer(x, y, "Instances_player", obj_energy_dust);
+                _exp.direction = irandom(360);
+                _exp.speed = 2;
+    
+                energy_count++;
+            }
 
-            enemy_colide();
-
-            x += vel_h;
-            y += vel_v;
+        }else{
+            state = ENEMY_STATES.IDLE;
+            hit = true;
+            attack = false;
+            knocked = false;
         }
-
-        if (energy_count < max_energy){
-            var _exp = instance_create_layer(x, y, "Instances_player", obj_energy_dust);
-            _exp.direction = irandom(360);
-            _exp.speed = 2;
-
-            energy_count++;
-        }
-
-    }else{
-        state = ENEMY_STATES.IDLE;
-        hit = true;
-        attack = false;
-        knocked = false;
-    }
-break;
-#endregion
+    break;
+    #endregion
 	
 	#region waiting attack
 	case ENEMY_STATES.WAITING:
 		attacking = true;
+        
+        enemy_colide();
+    
 		if(time_per_attacks <= 0){
 			warning = true;
 			atk_wait--;
@@ -214,8 +217,10 @@ break;
 		var _move_speed = 2;
 		var _new_x = lerp(x, esc_x, 0.05);
 		var _new_y = lerp(y, esc_y, 0.05);
-
-		if(!place_meeting(_new_x, _new_y, obj_player) && !place_meeting(_new_x, _new_y, obj_wall)){
+        
+        enemy_colide();
+        
+		if(!place_meeting(_new_x, _new_y, obj_player) && !place_meeting(_new_x, _new_y, obj_wall) && !place_meeting(_new_x, _new_y, obj_enemy_par)){
 			x = _new_x;
 			y = _new_y;
 		}else{

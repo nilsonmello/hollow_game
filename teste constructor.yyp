@@ -55,7 +55,6 @@
     {"id":{"name":"obj_enemy","path":"objects/obj_enemy/obj_enemy.yy",},},
     {"id":{"name":"obj_energy_dust","path":"objects/obj_energy_dust/obj_energy_dust.yy",},},
     {"id":{"name":"obj_grass","path":"objects/obj_grass/obj_grass.yy",},},
-    {"id":{"name":"obj_hitbox_enemy","path":"objects/obj_hitbox_enemy/obj_hitbox_enemy.yy",},},
     {"id":{"name":"obj_particle","path":"objects/obj_particle/obj_particle.yy",},},
     {"id":{"name":"obj_player","path":"objects/obj_player/obj_player.yy",},},
     {"id":{"name":"obj_tree","path":"objects/obj_tree/obj_tree.yy",},},

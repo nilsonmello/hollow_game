@@ -216,7 +216,7 @@ switch(state){
 	        var __new_x = lerp(x, _advance_x, _advance_speed);
 	        var __new_y = lerp(y, _advance_y, _advance_speed);
 
-	        if(!place_meeting(__new_x, __new_y, obj_player) && !place_meeting(__new_x, __new_y, obj_wall)){
+	        if(!place_meeting(__new_x, __new_y, obj_player) && !place_meeting(__new_x, __new_y, obj_wall) && !place_meeting(__new_x, __new_y, obj_enemy_par)){
 	            x = __new_x;
 	            y = __new_y;
 	        }else{

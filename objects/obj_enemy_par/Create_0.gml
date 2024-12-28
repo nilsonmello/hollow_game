@@ -220,14 +220,27 @@ recoil_pause_timer = 0;
 //cooldown for the attack states
 state_cooldown = 0;
 
+
+check_timer = 0;
+
+
 function check_for_player(_distance){
+    if(check_timer > 0){
+        check_timer--;
+        return;
+    }
+    
+    check_timer = 20;
+
     var _line_wall = collision_line(x, y, obj_player.x, obj_player.y, obj_wall, false, false);
-    if(_line_wall){
+    var _linha = collision_line(x, y, obj_player.x, obj_player.y, obj_enemy_par, false, self);
+    
+    if(_line_wall or _linha){
         return false;
     }
     
     if(time_per_attacks <= 0){
-        if(distance_to_object(obj_player) <= _distance){
+        if (distance_to_object(obj_player) <= _distance){
             state = ENEMY_STATES.FOLLOW;
         }
     }
