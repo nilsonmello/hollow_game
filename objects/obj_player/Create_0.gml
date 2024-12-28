@@ -343,6 +343,7 @@ function line(_dist, _direction, _damage, _hitbox, _owner, _cost) constructor{
             owner.y = _new_y;
         }
     };
+    
 }
 
 function circle(_dist, _direction, _damage, _hitbox, _owner, _cost) : slashes(_dist, _direction, _damage, _hitbox, _owner, _cost) constructor{

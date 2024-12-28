@@ -377,6 +377,7 @@ if(global.can_line){
 
     if(linha != undefined){
         linha.move();
+        linha.activate();
     
         if(point_distance(x, y, linha.adv_x, linha.adv_y) < 1){
             linha.moving = false;
