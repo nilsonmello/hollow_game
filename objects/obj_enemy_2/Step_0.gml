@@ -206,23 +206,8 @@ switch(state){
 	    if(!has_attacked && atk_time > 0 && atk_cooldown <= 0){
 	        atk_time--;
 	        warning = false;
-
-	        var _advance_dir = 2;
+            enemy_attack();
 	        var _advance_distance = 2;
-
-	        var _box_x = x + lengthdir_x(_advance_dir, atk_direction);
-	        var _box_y = y + lengthdir_y(_advance_dir, atk_direction);
-
-			if(atk_time > 18 && !created_hitbox){
-			    var _box = instance_create_layer(_box_x, _box_y, "Instances_player", obj_hitbox_enemy);
-			    _box.image_angle = atk_direction;
-			    _box.sprite_index = spr_hitbox_enemy;
-			    _box.dmg = 2;
-			    _box.direction = atk_direction;
-			    _box.owner = id;
-			    _box.offset = 10;
-			    created_hitbox = true;
-			}
 
 	        var _advance_x = x + lengthdir_x(_advance_distance, atk_direction);
 	        var _advance_y = y + lengthdir_y(_advance_distance, atk_direction);
