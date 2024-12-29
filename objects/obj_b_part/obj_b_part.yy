@@ -1,21 +1,18 @@
 {
   "$GMObject":"",
-  "%Name":"obj_bush",
+  "%Name":"obj_b_part",
   "eventList":[
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
-  "name":"obj_bush",
+  "name":"obj_b_part",
   "overriddenProperties":[],
   "parent":{
     "name":"ambient",
     "path":"folders/Objetos/ambient.yy",
   },
-  "parentObjectId":{
-    "name":"obj_wall",
-    "path":"objects/obj_wall/obj_wall.yy",
-  },
+  "parentObjectId":null,
   "persistent":false,
   "physicsAngularDamping":0.1,
   "physicsDensity":0.5,
@@ -32,10 +29,10 @@
   "properties":[],
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
-  "solid":true,
+  "solid":false,
   "spriteId":{
-    "name":"spr_bush",
-    "path":"sprites/spr_bush/spr_bush.yy",
+    "name":"spr_leaf",
+    "path":"sprites/spr_leaf/spr_leaf.yy",
   },
   "spriteMaskId":null,
   "visible":true,

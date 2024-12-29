@@ -246,8 +246,23 @@ function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost) : slas
         var _attack_y = owner.y + lengthdir_y(distance, _dir);
 
         var _list = ds_list_create();
-        collision_circle_list(_attack_x, _attack_y, distance, obj_enemy_par, false, false, _list, true);
-
+        collision_circle_list(_attack_x, _attack_y, distance, obj_enemy_par, false, false, _list, true); 
+        
+        var _colide = collision_circle(_attack_x, _attack_y, distance, obj_bush, false, false);
+        
+        if(_colide){
+            var _part_num = irandom_range(7, 12);
+            
+            repeat(_part_num){
+                var _inst = instance_create_layer(_colide.x + irandom_range(-2, 2), _colide.y - 8, "Instances_player", obj_b_part);
+                _inst.direction = point_direction(owner.x, owner.y, _colide.x, _colide.y) + irandom_range(90, -90);
+            }
+            
+            with (_colide) {
+                image_index = 1;
+            }
+        }
+        
         for(var _i = 0; _i < ds_list_size(_list); _i++){
             var _rec = _list[| _i];
             if(!ds_list_find_index(global.attacked_enemies, _rec)){
@@ -465,4 +480,4 @@ timer_charge = 0;
 charged_attack = false;
 #endregion
 
-sprite_index = spr_player_idle
+//sprite_index = spr_player_idle

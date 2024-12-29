@@ -45,6 +45,7 @@
   "name":"teste constructor",
   "resources":[
     {"id":{"name":"notas","path":"notes/notas/notas.yy",},},
+    {"id":{"name":"obj_b_part","path":"objects/obj_b_part/obj_b_part.yy",},},
     {"id":{"name":"obj_box","path":"objects/obj_box/obj_box.yy",},},
     {"id":{"name":"obj_bullet","path":"objects/obj_bullet/obj_bullet.yy",},},
     {"id":{"name":"obj_bush","path":"objects/obj_bush/obj_bush.yy",},},
@@ -70,7 +71,6 @@
     {"id":{"name":"sh_shd_vignette","path":"shaders/sh_shd_vignette/sh_shd_vignette.yy",},},
     {"id":{"name":"shd_grass","path":"shaders/shd_grass/shd_grass.yy",},},
     {"id":{"name":"spr_back_2","path":"sprites/spr_back_2/spr_back_2.yy",},},
-    {"id":{"name":"spr_background","path":"sprites/spr_background/spr_background.yy",},},
     {"id":{"name":"spr_bar_stamina","path":"sprites/spr_bar_stamina/spr_bar_stamina.yy",},},
     {"id":{"name":"spr_bar","path":"sprites/spr_bar/spr_bar.yy",},},
     {"id":{"name":"spr_box","path":"sprites/spr_box/spr_box.yy",},},
@@ -99,6 +99,7 @@
     {"id":{"name":"spr_life_enemy_2","path":"sprites/spr_life_enemy_2/spr_life_enemy_2.yy",},},
     {"id":{"name":"spr_line_effect","path":"sprites/spr_line_effect/spr_line_effect.yy",},},
     {"id":{"name":"spr_line","path":"sprites/spr_line/spr_line.yy",},},
+    {"id":{"name":"spr_null","path":"sprites/spr_null/spr_null.yy",},},
     {"id":{"name":"spr_pistol","path":"sprites/spr_pistol/spr_pistol.yy",},},
     {"id":{"name":"spr_player_attack_rl","path":"sprites/spr_player_attack_rl/spr_player_attack_rl.yy",},},
     {"id":{"name":"spr_player_idle_down","path":"sprites/spr_player_idle_down/spr_player_idle_down.yy",},},

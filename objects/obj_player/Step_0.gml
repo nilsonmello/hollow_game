@@ -1,7 +1,4 @@
-show_debug_message(spd_h)
-show_debug_message(spd_v)
-
-#region hit timers
+#region hit timers 
 if(hit_timer > 0){
 	hit_timer--;
 }
