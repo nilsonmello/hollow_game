@@ -265,7 +265,7 @@ switch(state){
 	        var _new_x = center_x + lengthdir_x(radius, angle);
 	        var _new_y = center_y + lengthdir_y(radius, angle);
 
-	        if(!place_meeting(_new_x, _new_y, obj_player) && !place_meeting(_new_x, _new_y, obj_wall)){
+	        if(!place_meeting(_new_x, _new_y, obj_player) && !place_meeting(_new_x, _new_y, obj_wall) && !place_meeting(_new_x, _new_y, obj_enemy_par)){
 	            x = _new_x;
 	            y = _new_y;
 	        }else{
