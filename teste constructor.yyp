@@ -44,6 +44,7 @@
   },
   "name":"teste constructor",
   "resources":[
+    {"id":{"name":"AnimationCurve1","path":"animcurves/AnimationCurve1/AnimationCurve1.yy",},},
     {"id":{"name":"notas","path":"notes/notas/notas.yy",},},
     {"id":{"name":"obj_b_part","path":"objects/obj_b_part/obj_b_part.yy",},},
     {"id":{"name":"obj_box","path":"objects/obj_box/obj_box.yy",},},

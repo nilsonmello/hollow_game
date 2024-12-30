@@ -59,7 +59,7 @@ trail_fixed_positions = ds_list_create();
 trail_fixed_timer = ds_list_create();
 
 //speed movement
-advance_speed = .2
+advance_speed = .2;
 #endregion
 
 #region combo variables
@@ -233,7 +233,7 @@ function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost) : slas
     cost = _cost;
     active = false;
 
-    activate = function (){
+    activate = function(){
         active = true;
 
         if(!variable_global_exists("attacked_enemies")){
@@ -251,14 +251,17 @@ function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost) : slas
         var _colide = collision_circle(_attack_x, _attack_y, distance, obj_bush, false, false);
         
         if(_colide){
-            var _part_num = irandom_range(7, 12);
-            
-            repeat(_part_num){
-                var _inst = instance_create_layer(_colide.x + irandom_range(-2, 2), _colide.y - 8, "Instances_player", obj_b_part);
-                _inst.direction = point_direction(owner.x, owner.y, _colide.x, _colide.y) + irandom_range(90, -90);
+            if(_colide.image_index == 0){
+                var _part_num = irandom_range(7, 12);
+                
+                repeat(_part_num){
+                    var _inst = instance_create_layer(_colide.x + irandom_range(-2, 2), _colide.y - 8, "Instances_player", obj_b_part);
+                    _inst.direction = point_direction(owner.x, owner.y, _colide.x, _colide.y) + irandom_range(90, -90);
+                    obj_camera.alarm[1] = 5;
+                }
             }
             
-            with (_colide) {
+            with(_colide){
                 image_index = 1;
             }
         }
@@ -411,7 +414,6 @@ function line(_dist, _direction, _damage, _hitbox, _owner, _cost) constructor{
         }
     };
 }
-
 
 function circle(_dist, _direction, _damage, _hitbox, _owner, _cost) : slashes(_dist, _direction, _damage, _hitbox, _owner, _cost) constructor{
     active = false;

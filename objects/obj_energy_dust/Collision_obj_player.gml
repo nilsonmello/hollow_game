@@ -1,3 +1,4 @@
-//increase players energy and destroy
-global.energy += .5;
+if(global.energy < global.energy_max){
+    global.energy += 5;
+}
 instance_destroy();

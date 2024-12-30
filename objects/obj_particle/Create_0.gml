@@ -10,6 +10,6 @@ part_emitter_stream(part_system, part_emitter, part_type, 8);
 part_type_alpha3(part_type, 0, 1, 0);
 part_type_color1(part_type,  color_1);
 part_type_life(part_type, 200, 250);
-part_type_scale(part_type, 2, 2);
+part_type_scale(part_type, 1, 1);
 part_type_gravity(part_type, 0.001, 270);
-part_type_direction(part_type, 180, 180, 1, 0);
+part_type_direction(part_type, 180, 180, 1, 0); 
