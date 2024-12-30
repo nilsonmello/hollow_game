@@ -364,29 +364,32 @@ function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost) : slas
 	}
 }
 
+//line attack constructor
 function line(_dist, _direction, _damage, _hitbox, _owner, _cost) constructor{
+    //parameters
     cost = _cost;
     moving = false;
     lerp_spd = 0.2;
     damage = _damage;
-
+    
     adv_x = 0;
     adv_y = 0;
     dir_atk = _direction;
     dist = _dist;
-
+    
+    //verification of the player
     if(!is_undefined(_owner)){
         owner = _owner;
     }
     
+    //setting the target point
     set_target = function(){
         adv_x = owner.x + lengthdir_x(dist, dir_atk);
         adv_y = owner.y + lengthdir_y(dist, dir_atk);
     };
-
+    
+    //movement function
     move = function(){
-                show_debug_message("aaaaaa");
-
         if(moving){
             var _new_x = lerp(owner.x, adv_x, lerp_spd);
             var _new_y = lerp(owner.y, adv_y, lerp_spd);
@@ -397,7 +400,8 @@ function line(_dist, _direction, _damage, _hitbox, _owner, _cost) constructor{
             if(!variable_global_exists("attacked_enemies")){
                 global.attacked_enemies = ds_list_create();
             }
-
+            
+            // attack during the movement
             if(moving){
                 var _list = ds_list_create();
                 collision_rectangle_list(owner.x - 15, owner.y - 15, owner.x + 15, owner.y + 15, obj_enemy_par, false, false, _list, true);
@@ -447,10 +451,13 @@ function line(_dist, _direction, _damage, _hitbox, _owner, _cost) constructor{
     };
 }
 
+//circular attack constructor
 function circle(_dist, _direction, _damage, _hitbox, _owner, _cost) : slashes(_dist, _direction, _damage, _hitbox, _owner, _cost) constructor{
+    //parameters
     active = false;
     cost = _cost
     
+    //enemies list and attack
     activate = function(){
         active = true;
 
@@ -513,5 +520,3 @@ linha = undefined;
 timer_charge = 0;
 charged_attack = false;
 #endregion
-
-//sprite_index = spr_player_idle

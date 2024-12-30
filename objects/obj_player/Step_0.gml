@@ -4,6 +4,8 @@
 if(hit_timer > 0){
 	hit_timer--;
 }
+
+//player hit timer
 if(hit_cooldown > 0){
 	hit_cooldown--;
 	can_take_dmg = false;
@@ -18,7 +20,6 @@ if(hit_cooldown > 0){
 
 #region movement keys
 var _spr_dir = move_dir;
-
 
 global.energy = clamp(global.energy, 0, global.energy_max);
 
@@ -43,18 +44,23 @@ if(heal_cooldown > 0){
 	can_heal = true;	
 }
 
+//activate the regeneration
 if(keyboard_check(ord("H")) && can_heal && global.life_at < global.life){
 	state = STATES.HEAL;
 }
 #endregion
 
 #region dash control
+
+//dash direction
 dash_dir = move_dir;
 
+//dash cooldown control
 if(dash_cooldown > 0){
 	dash_cooldown--;	
 }
 
+//activate the dash
 if(keyboard_check_pressed(vk_space) && dash_cooldown <= 0){
     dash_pressed = current_time;
     global.is_dashing = true;
@@ -67,15 +73,17 @@ if(keyboard_check_pressed(vk_space) && dash_cooldown <= 0){
     }
 }
 
-// Controle da Linha
+//line control
 if(mouse_check_button_pressed(mb_left)){
     line_pressed = current_time;
 }
 
-var tolerance = 200; 
+//time for tolerance
+var _tolerance = 200; 
 
+//activate the line attack
 if(global.can_line){
-    if(global.is_dashing && abs(dash_pressed - line_pressed) <= tolerance){
+    if(global.is_dashing && abs(dash_pressed - line_pressed) <= _tolerance){
         global.line = true;
     }else{
         global.line = false;
@@ -84,7 +92,7 @@ if(global.can_line){
     
 #endregion
 
-#region sprites
+#region sprite control
 switch(state){
 	case STATES.IDLE:
 		if(!global.slow_motion){
