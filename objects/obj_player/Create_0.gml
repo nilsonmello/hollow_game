@@ -1,13 +1,8 @@
-advancing = false;
-time_attack = 0;
-advance_x = 0;
-advance_y = 0;
-
-
 #region variáveis de movimento
 
 //timer fos tates
 state_timer = 0;
+
 //first index for sprite
 sprite_index = spr_player_idle;
 
@@ -33,6 +28,7 @@ dash_timer = 0;
 //cooldown for dash
 dash_cooldown = 0;
 
+//variables to use the dash and the line attack
 dash_pressed = 0;
 line_pressed = 0;
 #endregion
@@ -66,6 +62,19 @@ trail_fixed_timer = ds_list_create();
 
 //speed movement
 advance_speed = .2;
+
+
+//basic attack variables
+
+//is advancing
+advancing = false;
+
+//time for the adnvancing
+time_attack = 0;
+
+//the target x and y
+advance_x = 0;
+advance_y = 0;
 #endregion
 
 #region combo variables
@@ -217,20 +226,26 @@ part_type_color3(particle_shadow, _red, _red_2, _red_3);
 #endregion
 
 #region constructor attacks
+
+//constructor base
 function slashes(_dist, _direction, _damage, _hitbox, _owner, _cost) constructor{
+    //parameter
     distance = _dist;
     dir_atk = _direction;
     dmg = _damage;
     create_hitbox = _hitbox;
     owner = _owner;
     cost = _cost;
-
+    
+    //base colide function
     collision = function(){
         show_debug_message("bateu");
     };
 }
 
+//basic attack
 function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost) : slashes(_dist, _direction, _damage, _hitbox, _owner, _cost) constructor{
+    //parameters
     distance = _dist;
     dir_atk = _direction;
     dmg = _damage;
@@ -239,23 +254,31 @@ function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost) : slas
     cost = _cost;
     active = false;
 
+    //attack
     activate = function(){
         active = true;
 
+        //list of enemies
         if(!variable_global_exists("attacked_enemies")){
             global.attacked_enemies = ds_list_create();
         }
-
+        
+        //direction
         var _dir = point_direction(owner.x, owner.y, mouse_x, mouse_y);
 
         var _attack_x = owner.x + lengthdir_x(distance, _dir);
         var _attack_y = owner.y + lengthdir_y(distance, _dir);
-
+        
+        //enemies list
         var _list = ds_list_create();
+        
+        //recive enemy information
         collision_circle_list(_attack_x, _attack_y, distance, obj_enemy_par, false, false, _list, true); 
         
+        //bush information
         var _colide = collision_circle(_attack_x, _attack_y, distance, obj_bush, false, false);
         
+        //apply the attack to bushes
         if(_colide){
             if(_colide.image_index == 0){
                 var _part_num = irandom_range(7, 12);
@@ -272,6 +295,7 @@ function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost) : slas
             }
         }
         
+        //apply attacks for the enemies
         for(var _i = 0; _i < ds_list_size(_list); _i++){
             var _rec = _list[| _i];
             if(!ds_list_find_index(global.attacked_enemies, _rec)){
@@ -312,7 +336,8 @@ function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost) : slas
                 ds_list_add(global.attacked_enemies, _rec);
             }
         }
-
+        
+        //reset the list and reset the attack
         ds_list_destroy(_list);
 
         if(variable_global_exists("attacked_enemies")){
@@ -321,7 +346,8 @@ function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost) : slas
         global.energy -= cost;
         active = false;
     };
-		
+    
+    //function for reflect bullets
 	bullet = function(){
         var _dir = point_direction(owner.x, owner.y, mouse_x, mouse_y);
 
