@@ -1,3 +1,9 @@
+advancing = false;
+time_attack = 0;
+advance_x = 0;
+advance_y = 0;
+
+
 #region variáveis de movimento
 
 //timer fos tates

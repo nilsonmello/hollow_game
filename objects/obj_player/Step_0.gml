@@ -1,3 +1,5 @@
+
+
 #region hit timers 
 if(hit_timer > 0){
 	hit_timer--;
@@ -328,12 +330,48 @@ if(_ma){
 }
 
 //basic attack
+// Configuração inicial para ativar o avanço
 if(_mb){ 
-	_basico.activate();
+    _basico.activate();
     if(global.deflect_bullets){
         _basico.bullet();
     }
+
+    time_attack = 5;
+    advancing = true;
+
+    // Calcular a direção e o ponto final do movimento fixo
+    var _direction = point_direction(x, y, mouse_x, mouse_y);
+    advance_x = x + lengthdir_x(64, _direction); // 64 é a distância fixa
+    advance_y = y + lengthdir_y(64, _direction);
 }
+
+// Garantir que o tempo não ultrapasse os limites
+time_attack = clamp(time_attack, 0, 5);
+
+if(advancing && time_attack > 0){
+    time_attack--;
+
+    var _advance_speed = 0.2;
+    var __nx = lerp(x, advance_x, _advance_speed);
+    var __ny = lerp(y, advance_y, _advance_speed);
+
+    var _collision_wall = place_meeting(__nx, __ny, obj_wall);
+    var _collision_enemy = place_meeting(__nx, __ny, obj_enemy_par);
+
+    if(!_collision_wall && !_collision_enemy){
+        x = __nx;
+        y = __ny;
+    }else{
+        advancing = false;
+    }
+
+    // Finalizar movimento ao atingir o ponto final
+    if(point_distance(x, y, advance_x, advance_y) < 1){
+        advancing = false;
+    }
+}
+
 
 //charged attack
 if(global.area_attack){
