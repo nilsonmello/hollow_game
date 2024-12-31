@@ -279,6 +279,7 @@ function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost) : slas
         
         //bush information
         var _colide = collision_circle(_attack_x, _attack_y, distance, obj_bush, false, false);
+        var _colide_2 = collision_circle(_attack_x, _attack_y, distance, obj_box, false, false);
         
         //apply the attack to bushes
         if(_colide){
@@ -288,6 +289,7 @@ function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost) : slas
                 repeat(_part_num){
                     var _inst = instance_create_layer(_colide.x + irandom_range(-2, 2), _colide.y - 8, "Instances_player", obj_b_part);
                     _inst.direction = point_direction(owner.x, owner.y, _colide.x, _colide.y) + irandom_range(90, -90);
+                    _inst.image_index = irandom(4);
                     obj_camera.alarm[1] = 5;
                 }
             }
@@ -296,6 +298,21 @@ function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost) : slas
                 image_index = 1;
             }
         }
+            
+        if(_colide_2){
+            var _part_num = irandom_range(7, 12);
+            
+            repeat(_part_num){
+                var _inst = instance_create_layer(_colide_2.x + irandom_range(-2, 2), _colide_2.y - 8, "Instances_player", obj_b_part);
+                _inst.direction = point_direction(owner.x, owner.y, _colide_2.x, _colide_2.y) + irandom_range(90, -90);
+                _inst.image_index = irandom_range(5, 8);
+                obj_camera.alarm[1] = 5;
+            }
+           with(_colide_2){
+               instance_destroy(_colide_2);
+           }
+        }
+    
         
         //apply attacks for the enemies
         for(var _i = 0; _i < ds_list_size(_list); _i++){
