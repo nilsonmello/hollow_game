@@ -199,7 +199,7 @@ stamina_at = stamina_t;
 knocked = false;
 
 //total and actual aenergy
-max_energy = 10;
+max_energy = 1;
 energy_count = 0;
 
 //shoot timer

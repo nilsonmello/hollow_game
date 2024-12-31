@@ -140,10 +140,10 @@ switch(state){
             }
 
             if (energy_count < max_energy){
-                var _exp = instance_create_layer(x, y, "Instances_player", obj_energy_dust);
-                _exp.direction = irandom(360);
-                _exp.speed = 2;
-    
+                var p = instance_create_layer(mouse_x, mouse_y, "Instances_player", obj_energy_dust);
+                p.dist = point_distance(obj_player.x, obj_player.y, mouse_x, mouse_y);
+                p.angle = point_direction(obj_player.x, obj_player.y, mouse_x, mouse_y);
+
                 energy_count++;
             }
 
@@ -242,10 +242,10 @@ switch(state){
         var _chances = irandom(2);
         
         if(_chances == 2){
-            repeat(6){
-                var _exp = instance_create_layer(x, y, "Instances_player", obj_energy_dust);
-                _exp.direction = irandom(360);
-                _exp.speed = 2;
+            repeat(1){
+                var p = instance_create_layer(x, y, "Instances_player", obj_energy_dust);
+                p.dist = point_distance(obj_player.x, obj_player.y, x, y);
+                p.angle = point_direction(obj_player.x, obj_player.y, x, y);
             }
         }
         instance_destroy();

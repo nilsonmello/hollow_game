@@ -8,8 +8,8 @@
   "name":"obj_particle",
   "overriddenProperties":[],
   "parent":{
-    "name":"controle",
-    "path":"folders/Objetos/controle.yy",
+    "name":"ambient",
+    "path":"folders/Objetos/ambient.yy",
   },
   "parentObjectId":null,
   "persistent":false,

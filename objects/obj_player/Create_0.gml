@@ -75,6 +75,8 @@ time_attack = 0;
 //the target x and y
 advance_x = 0;
 advance_y = 0;
+
+attack_cooldown = 0;
 #endregion
 
 #region combo variables

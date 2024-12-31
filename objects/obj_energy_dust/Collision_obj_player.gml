@@ -1,4 +1,4 @@
 if(global.energy < global.energy_max){
-    global.energy += 5;
+    global.energy += 10;
 }
 instance_destroy();

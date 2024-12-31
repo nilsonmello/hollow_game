@@ -1,5 +1,3 @@
-
-
 #region hit timers 
 if(hit_timer > 0){
 	hit_timer--;
@@ -338,23 +336,28 @@ if(_ma){
 }
 
 //basic attack
-// Configuração inicial para ativar o avanço
-if(_mb){ 
+if (attack_cooldown > 0) {
+    attack_cooldown--;
+}
+
+
+//advancing config
+if(_mb && attack_cooldown <= 0){ 
     _basico.activate();
     if(global.deflect_bullets){
         _basico.bullet();
     }
-
+    attack_cooldown = 15;
     time_attack = 5;
     advancing = true;
 
-    // Calcular a direção e o ponto final do movimento fixo
+    //first and last point
     var _direction = point_direction(x, y, mouse_x, mouse_y);
-    advance_x = x + lengthdir_x(64, _direction); // 64 é a distância fixa
-    advance_y = y + lengthdir_y(64, _direction);
+    advance_x = x + lengthdir_x(30, _direction);
+    advance_y = y + lengthdir_y(30, _direction);
 }
 
-// Garantir que o tempo não ultrapasse os limites
+//limiting the timer
 time_attack = clamp(time_attack, 0, 5);
 
 if(advancing && time_attack > 0){
