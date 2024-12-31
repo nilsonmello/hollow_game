@@ -312,7 +312,6 @@ function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost) : slas
                instance_destroy(_colide_2);
            }
         }
-    
         
         //apply attacks for the enemies
         for(var _i = 0; _i < ds_list_size(_list); _i++){

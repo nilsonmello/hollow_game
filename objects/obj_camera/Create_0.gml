@@ -1,5 +1,5 @@
 #region resolution and camera config
-resolution_width = 1920;
+resolution_width = 2560;
 resolution_height = 1080;
 
 //screen scale
@@ -33,5 +33,4 @@ alarm[0] = 1;
 darkness_value = 0;
 surf_dark = -1;
 darkness_target = 0;
-
 #endregion
