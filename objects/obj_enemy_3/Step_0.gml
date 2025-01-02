@@ -211,33 +211,28 @@ switch(state){
     #region recovery from last attack
     case ENEMY_STATES.RECOVERY:
         attacking = false;
-    
 
-        // Determinar direção de movimento (direita ou esquerda)
-        if (!moved) {
-            var _move_dir = choose(-90, 90); // -90 = esquerda, 90 = direita
+        if(!moved){
+            var _move_dir = choose(-90, 90);
             move_direction = point_direction(x, y, x + lengthdir_x(10, _move_dir), y + lengthdir_y(10, _move_dir));
-            moved = true; // Evitar recalcular na mesma recuperação
-            recovery_time = 50; // Tempo do movimento de recuperação
+            moved = true;
+            recovery_time = 50;
         }
     
-        // Aplicar movimento
-        if (recovery_time > 0) {
+        if(recovery_time > 0){
             recovery_time--;
             vel_h = lengthdir_x(1, move_direction);
             vel_v = lengthdir_y(1, move_direction);
     
-            enemy_colide(); // Garantir que não atravesse obstáculos
+            enemy_colide();
     
             x += vel_h;
             y += vel_v;
         } else {
-            // Finalizar recuperação e voltar ao estado inicial
             state = ENEMY_STATES.CHOOSE;
-            moved = false; // Resetar para próxima vez
+            moved = false;
             attacking = false;
         }
-
     break;
     #endregion
 
