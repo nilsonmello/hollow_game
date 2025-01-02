@@ -206,14 +206,7 @@ energy_count = 0;
 bullet_time = 0;
 #endregion
 
-//enemy weapon and weapon ID
-my_weapon = instance_create_layer(x, y, "Instances_enemies", obj_weapon_enemy);
-my_weapon.weapon_id = self;
 
-//inicial my_weapon events
-with(my_weapon){
-current_weapon = vazio
-}
 //recoil timer
 recoil_pause_timer = 0;
 
@@ -242,6 +235,8 @@ function check_for_player(_distance){
     if(time_per_attacks <= 0){
         if (distance_to_object(obj_player) <= _distance){
             state = ENEMY_STATES.FOLLOW;
+        }else{
+            state = ENEMY_STATES.CHOOSE;
         }
     }
 }
