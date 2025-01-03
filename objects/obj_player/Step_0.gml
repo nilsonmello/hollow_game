@@ -46,9 +46,8 @@ show_debug_message(state)
 show_debug_message(can_heal)
 
 //activate the regeneration
-if(keyboard_check(ord("H"))){
-
-	//state = STATES.HEAL;
+if(keyboard_check(ord("H")) && can_heal){
+	player_healing();
 }
 #endregion
 
@@ -269,40 +268,7 @@ switch(state){
 		}
 	break;
 	#endregion
-	
-	#region heal
-	case STATES.HEAL:
-		if(state != STATES.DASH){
-			global.healing = true;
-			timer_heal++;
-		
-			if(timer_heal < 80){
-				part_emitter_region(ps, emitter, x - 10, x + 10, y - 10, y + 10, ps_shape_rectangle, ps_distr_linear);
-				part_emitter_stream(ps, emitter, ptype2, 1);
-				
-				part_emitter_region(ps, emitter2, x - 10, x + 10, y - 10, y + 10, ps_shape_rectangle, ps_distr_linear);
-				part_emitter_stream(ps, emitter2, ptype3, 1);
-			}else{
-				part_emitter_destroy(ps, emitter);
-				part_emitter_destroy(ps, emitter2);
-				part_particles_create(ps, x, y + 5, ptype1, 1);
-			}
 
-			if(timer_heal >= 80){
-				player_heal();
-				
-				timer_heal = 0;
-				heal_cooldown = 80;
-				can_heal = false;
-				state = STATES.MOVING;
-				
-				emitter = part_emitter_create(ps);
-				emitter2 = part_emitter_create(ps);
-				
-				global.healing = false;
-			}
-		}
-	break;
 	#endregion
 	
 	#region death

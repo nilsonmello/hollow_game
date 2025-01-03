@@ -11,15 +11,35 @@ function player_parry(){
 }
 #endregion
 
-#region healing function
-function player_heal(){
-	
-    if(global.energy >= global.cost_r){
-        global.life_at += global.life * 0.2;
-        if(global.life_at > global.life){
-            global.life_at = global.life;
+#region player healing
+function player_healing(){
+    if(state != STATES.DASH){
+        
+        if(global.life_at >= global.life){
+            return false;    
         }
-        global.energy -= global.cost_r;
+    
+        if(global.energy < global.cost_r){
+            return false;
+        }
+        
+        global.healing = true;
+        timer_heal++;
+    
+        if(timer_heal >= 30){
+            if(global.energy >= global.cost_r){
+                global.life_at += global.life * 0.2;
+                if(global.life_at > global.life){
+                    global.life_at = global.life;
+                }
+                global.energy -= global.cost_r;
+            }
+            
+            timer_heal = 0;
+            heal_cooldown = 80;
+            can_heal = false;
+            global.healing = false;
+        }
     }
 }
 #endregion
