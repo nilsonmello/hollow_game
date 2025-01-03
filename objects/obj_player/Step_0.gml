@@ -42,9 +42,13 @@ if(heal_cooldown > 0){
 	can_heal = true;	
 }
 
+show_debug_message(state)
+show_debug_message(can_heal)
+
 //activate the regeneration
-if(keyboard_check(ord("H")) && can_heal && global.life_at < global.life){
-	state = STATES.HEAL;
+if(keyboard_check(ord("H"))){
+
+	//state = STATES.HEAL;
 }
 #endregion
 
@@ -269,10 +273,6 @@ switch(state){
 	#region heal
 	case STATES.HEAL:
 		if(state != STATES.DASH){
-			if(global.energy <= 0){
-				return false;	
-			}
-			
 			global.healing = true;
 			timer_heal++;
 		
