@@ -13,7 +13,7 @@ if(keyboard_check(ord("E"))){
         target_x = _line.x;
         target_y = _line.y;
     }else{
-        distan = 300;
+        distan = 150;
         target_x = full_target_x;
         target_y = full_target_y;
     }

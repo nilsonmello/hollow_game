@@ -324,7 +324,7 @@ function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost) : slas
 #region teste
 
 //distance to advance
-distan = 150;
+distan = 100;
 //direction to advance
 direc = 0;
 //speed
