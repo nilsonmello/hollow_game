@@ -403,13 +403,12 @@ if(advancing && time_attack > 0){
 #region hability activation
 area = clamp(area, 0, global.hab_range);
 
-if(global.energy >= global.energy_max){
+if(global.energy >= global.cost_hhab){
     global.can_attack = true;    
 }
 
 if(keyboard_check(ord("R")) && global.can_attack){
     if(global.energy > 0){
-        global.energy -= .3;
         global.slashing = true;
         global.slow_motion = true;
     }
@@ -464,6 +463,11 @@ if(keyboard_check(ord("R")) && global.can_attack){
     global.slow_motion = false;
     global.slashing = false;
 
+    if(keyboard_check_released(ord("R"))){
+        global.energy -= global.cost_hhab;  
+    }
+    
+    
     if(!moving_along_path && ds_list_size(path_list) > 0){
         moving_along_path = true;
         path_position_index = 0;
