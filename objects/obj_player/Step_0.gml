@@ -41,12 +41,45 @@ if(line_attack){
             line = false;
         }
     }
+    
+    var _enemy = collision_rectangle(x - 10, y - 10, x + 10, y + 10, obj_enemy_par, false, false);
+    
+    with(_enemy){
+        if(!attacking){
+            var _is_critical = irandom(100) < global.critical;
+            var _damage_to_apply = _is_critical ? other.damage * 2 : other.damage;
+            var _stamina = _is_critical ? 60 : 30;
+
+            escx = 1.5;
+            escy = 1.5;
+            hit_alpha = 1;
+            timer_hit = 5;
+            emp_dir = point_direction(obj_player.x, obj_player.y, x, y);
+            global.combo++;
+            obj_camera.alarm[1] = 5;
+
+            switch(knocked){
+                case 0:
+                    part_particles_create(particle_hit, x, y, particle_slash, 1);
+                    state = ENEMY_STATES.HIT;
+                    emp_timer = 5;
+                    emp_veloc = 6;
+                    stamina_at -= _stamina;
+                    alarm[2] = 30;
+                break;
+
+                case 1:
+                    state = ENEMY_STATES.KNOCKED;
+                    vida -= _damage_to_apply;
+                    hit = false;
+                    alarm[1] = 10;
+                    alarm[2] = 30;
+                break;
+            }
+        }
+    }
+
 }
-
-
-
-
-
 
 #region hit timers 
 if(hit_timer > 0){

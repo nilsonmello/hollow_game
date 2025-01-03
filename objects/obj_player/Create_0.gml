@@ -342,3 +342,6 @@ line = false;
 
 //timer for advance
 time_adv = 0;
+
+//attack damage
+damage = 1;
