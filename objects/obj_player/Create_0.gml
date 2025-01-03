@@ -353,10 +353,15 @@ function line(_dist, _direction, _damage, _hitbox, _owner, _cost) constructor{
         if(moving){
             var _new_x = lerp(owner.x, adv_x, lerp_spd);
             var _new_y = lerp(owner.y, adv_y, lerp_spd);
-
+            
+            if(collision_rectangle(owner.x - 6, owner.y - 8, owner.x + 6, owner.y + 8, obj_wall, false, false)){
+                moving = false;
+                lerp_spd = 0;
+                return;
+            }else{
             owner.x = _new_x;
             owner.y = _new_y;
-
+            }
             if(!variable_global_exists("attacked_enemies")){
                 global.attacked_enemies = ds_list_create();
             }

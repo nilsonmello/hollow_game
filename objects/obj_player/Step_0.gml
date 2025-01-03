@@ -395,7 +395,6 @@ if(global.can_line){
         if(point_distance(x, y, linha.adv_x, linha.adv_y) < 10){
             linha.moving = false;
             linha = undefined;
-            
         }
     }
 }
