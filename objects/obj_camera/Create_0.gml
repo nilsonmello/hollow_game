@@ -1,5 +1,5 @@
 #region resolution and camera config
-resolution_width = 2560;
+resolution_width = 1920;
 resolution_height = 1080;
 
 //screen scale

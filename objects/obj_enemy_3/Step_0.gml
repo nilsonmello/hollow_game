@@ -252,6 +252,7 @@ switch(state){
             }
         }
         instance_destroy();
+        instance_destroy(my_weapon);
     break;
     #endregion
 }
