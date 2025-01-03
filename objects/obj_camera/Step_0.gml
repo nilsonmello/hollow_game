@@ -1,15 +1,15 @@
 #region player hability shader control
 
-//if player hability is on, changes the dark value
-if(global.slashing){
-    darkness_target = .1;
-}else{
-    darkness_target = 1;
-}
-
-//changing the darkess value
-darkness_value = lerp(darkness_value, darkness_target, 0.1);
-#endregion
+////if player hability is on, changes the dark value
+//if(global.slashing){
+    //darkness_target = .1;
+//}else{
+    //darkness_target = 1;
+//}
+//
+////changing the darkess value
+//darkness_value = lerp(darkness_value, darkness_target, 0.1);
+//#endregion
 
 //lerp camera effect
 if(instance_exists(view_target)){

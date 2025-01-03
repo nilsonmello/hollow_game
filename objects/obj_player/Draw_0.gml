@@ -7,7 +7,7 @@ draw_sprite_ext(sprite_index, image_index, x, y, image_xscale, image_yscale, 0, 
 #endregion
 
 #region hability draw debug
-if(keyboard_check(ord("R")) && global.slashing){
+if(keyboard_check(ord("R")) && global.energy >= global.cost_hab){
 
     draw_circle(x, y, global.hab_range, true);
 
