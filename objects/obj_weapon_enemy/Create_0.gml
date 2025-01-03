@@ -1,5 +1,5 @@
 #region constructor
-function scr_create_weapon(_name, _dmg, _fire_rate, _bullet_sprite, _automatic, _bps, _weapon_spr, _custom_function, _reflect_function){
+function scr_create_weapon(_name, _dmg, _fire_rate, _bullet_sprite, _automatic, _bps, _weapon_spr, _custom_function, _reflect_function, _colide){
     return{
         name: _name,
         damage: _dmg,
@@ -11,6 +11,7 @@ function scr_create_weapon(_name, _dmg, _fire_rate, _bullet_sprite, _automatic, 
         weapon_sprite: _weapon_spr,
         custom_function: _custom_function,
         reflect_function: _reflect_function,
+        colide: _colide,
 
         shoot: function(_x, _y){
             if(shot_cooldown <= 0){
@@ -28,6 +29,7 @@ function scr_create_weapon(_name, _dmg, _fire_rate, _bullet_sprite, _automatic, 
                     // Atribuir funções
                     _bullet.custom_function = custom_function;
                     _bullet.reflect_function = reflect_function;
+                    _bullet.colide_walls = colide;
 
                     var _dir = _base_dir + (_spread * (_i - (bp_shoot - 1) / 2));
                     _bullet.direction = _dir;
@@ -47,7 +49,7 @@ function scr_create_weapon(_name, _dmg, _fire_rate, _bullet_sprite, _automatic, 
 #endregion
 
 #region guns
-vazio = scr_create_weapon("vazio", 0, 0, 0, 0, false, 0, function(){}, function(){});
+vazio = scr_create_weapon("vazio", 0, 0, 0, 0, false, 0, function(){}, function(){}, function(){});
 
 pistol = scr_create_weapon("Pistol", 5, 10, spr_dust, false, 1, spr_pistol, 
     function colide_pistol(_bullet){
@@ -102,6 +104,47 @@ pistol = scr_create_weapon("Pistol", 5, 10, spr_dust, false, 1, spr_pistol,
                 break;
             }
         }
+        instance_destroy(_bullet);
+    }, 
+
+    function colide_walls(_bullet){
+        //bush information
+        var _colide = collision_circle(_bullet.x, _bullet.y, 20, obj_bush, false, false);
+        var _colide_2 = collision_circle(_bullet.x, _bullet.y, 20, obj_box, false, false);
+        
+        //apply the attack to bushes
+        if(_colide){
+            if(_colide.image_index == 0){
+                var _part_num = irandom_range(7, 12);
+                
+                repeat(_part_num){
+                    var _inst = instance_create_layer(_colide.x + irandom_range(-2, 2), _colide.y - 8, "Instances_player", obj_b_part);
+                    _inst.direction = point_direction(_bullet.x, _bullet.y, _colide.x, _colide.y) + irandom_range(90, -90);
+                    _inst.image_index = irandom(4);
+                    obj_camera.alarm[1] = 5;
+                }                
+            }
+            
+            with(_colide){
+                image_index = 1;
+            }
+        }
+        
+      if(_colide_2){
+          var _part = irandom_range(7, 12);
+          
+          repeat(_part){
+             var _inst = instance_create_layer(_colide_2.x + irandom_range(-2, 2), _colide_2.y - 8, "Instances_player", obj_b_part);
+             _inst.direction = point_direction(_bullet.x, _bullet.y, _colide_2.x, _colide_2.y) + irandom_range(90, -90);
+              _inst.image_index = irandom_range(5, 8);
+              obj_camera.alarm[1] = 5;
+          }
+      } 
+        
+        with(_colide_2){
+            instance_destroy();
+        }
+        
         instance_destroy(_bullet);
     }
 );

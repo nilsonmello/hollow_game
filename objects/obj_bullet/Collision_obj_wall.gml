@@ -1,3 +1,3 @@
-if(coliding_walls != undefined){
-    coliding_walls(id);
+if(is_callable(colide_walls)){
+    colide_walls(self);
 }

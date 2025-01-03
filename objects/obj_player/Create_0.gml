@@ -3,9 +3,6 @@
 //timer fos tates
 state_timer = 0;
 
-//first index for sprite
-sprite_index = spr_player_idle;
-
 //direction for walk and sprite
 move_dir = 0;
 
@@ -92,7 +89,6 @@ enum STATES{
     MOVING,
     DASH,
 	PARRY,
-    HEAL,
     ATTAKING,
     HIT,
     DEATH,
@@ -136,60 +132,6 @@ hit_cooldown = 0;
 
 #region particles
 dust_time = 0;
-
-#region healing particles
-ps = part_system_create();
-part_system_draw_order(ps, true);
-part_system_depth(ps, 100);
-
-//globe sphere
-ptype1 = part_type_create();
-part_type_shape(ptype1, pt_shape_sphere);
-
-part_type_size(ptype1, .2, .5, 0.01, 0);
-part_type_scale(ptype1, 1, 1);
-part_type_speed(ptype1, 0, 0, 0, 0);
-part_type_direction(ptype1, 0, 0, 0, 0);
-part_type_gravity(ptype1, 0, 0);
-part_type_orientation(ptype1, 0, 0, 0, 0, false);
-part_type_colour3(ptype1, $FFFFFF, $FFFFFF, $FFFFFF);
-part_type_alpha3(ptype1, 0, .5, 0);
-part_type_blend(ptype1, false);
-part_type_life(ptype1, 60, 60);
-
-// pixel
-ptype2 = part_type_create();
-part_type_shape(ptype2, pt_shape_pixel);
-
-part_type_size(ptype2, 1, 1, 0.01, 0);
-part_type_scale(ptype2, 1, 1);
-part_type_speed(ptype2, 1, 1, 0, 0);
-part_type_direction(ptype2, 90, 90, 0, 0);
-part_type_gravity(ptype2, 0, 0);
-part_type_orientation(ptype2, 0, 0, 0, 0, false);
-part_type_colour3(ptype2, $FFFFFF, $FFFFFF, $FFFFFF);
-part_type_alpha3(ptype2, 0, .5, 0);
-part_type_blend(ptype2, false);
-part_type_life(ptype2, 30, 30);
-
-//lines
-ptype3 = part_type_create();
-part_type_sprite(ptype3, spr_line_effect, 0, 0, 0);
-
-part_type_size(ptype3, .2, .5, 0.01, 0);
-part_type_scale(ptype3, 1, 1);
-part_type_speed(ptype3, .5, .5, 0, 0);
-part_type_direction(ptype3, 90, 90, 0, 0);
-part_type_gravity(ptype3, 0, 0);
-part_type_orientation(ptype3, 0, 0, 0, 0, false);
-part_type_colour3(ptype3, $FFFFFF, $FFFFFF, $FFFFFF);
-part_type_alpha3(ptype3, .5, 1, 0);
-part_type_blend(ptype3, false);
-part_type_life(ptype3, 30, 30);
-
-emitter = part_emitter_create(ps);
-emitter2 = part_emitter_create(ps);
-#endregion
 
 #region walk particle
 particle_system_dust = part_system_create_layer("Instance_particle", true);

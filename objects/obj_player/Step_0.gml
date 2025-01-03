@@ -46,7 +46,7 @@ show_debug_message(state)
 show_debug_message(can_heal)
 
 //activate the regeneration
-if(keyboard_check(ord("H")) && can_heal){
+if(keyboard_check(ord("F")) && can_heal){
 	player_healing();
 }
 #endregion
