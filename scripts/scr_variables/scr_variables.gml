@@ -59,10 +59,6 @@ global.deflect_bullets = true;
 //variable to upgrade the chain dash
 global.dash_cooldown = 23;
 
-//if he can use the line attack and if he will activate it
-global.can_line = true;
-global.line = false;
-
 //during dash shield
 global.shield = false;
 #endregion

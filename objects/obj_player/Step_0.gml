@@ -73,24 +73,6 @@ if(keyboard_check_pressed(vk_space) && dash_cooldown <= 0){
         hit_cooldown = 8;
     }
 }
-
-//line control
-if(mouse_check_button_pressed(mb_left)){
-    line_pressed = current_time;
-}
-
-//time for tolerance
-var _tolerance = 200; 
-
-//activate the line attack
-if(global.can_line){
-    if(global.is_dashing && abs(dash_pressed - line_pressed) <= _tolerance){
-        global.line = true;
-    }else{
-        global.line = false;
-    }
-}
-    
 #endregion
 
 #region sprite control
@@ -184,46 +166,33 @@ switch(state){
             }else{
                 state = STATES.MOVING;
                 global.is_dashing = false;
-                global.line = 0;
             }
             
-            switch(global.line){
-                case 0:
-                    spd_h = lengthdir_x(dash_veloc, dash_dir);
-                    spd_v = lengthdir_y(dash_veloc, dash_dir);
-    
-                    state_timer++;
-                    if(state_timer >= 1){
-                        part_particles_create(particle_system, x, y, particle_shadow, 4);
-                        state_timer = 0;
-                    }
-    
-                    if(!place_meeting(x + spd_h, y, obj_enemy_par) && !place_meeting(x + spd_h, y, obj_wall)){
-                        x += spd_h;
-                    } else {
-                        spd_h = 0;
-                        state = STATES.MOVING;
-                        dash_timer = 0;
-                        global.is_dashing = false;
-                    }
-                    if(!place_meeting(x, y + spd_v, obj_enemy_par) && !place_meeting(x, y + spd_v, obj_wall)){
-                        y += spd_v;
-                    } else {
-                        spd_v = 0;
-                        state = STATES.MOVING;
-                        dash_timer = 0;
-                        global.is_dashing = false;
-                    }
-                break;
-        
-                case 1:
-                    if(linha != undefined){
-                        linha.set_target();
-                        linha.moving = true;
-                        linha.lerp_spd = 0.2;
-                    }
-                break;
-            }
+        spd_h = lengthdir_x(dash_veloc, dash_dir);
+        spd_v = lengthdir_y(dash_veloc, dash_dir);
+
+        state_timer++;
+        if(state_timer >= 1){
+            part_particles_create(particle_system, x, y, particle_shadow, 4);
+            state_timer = 0;
+        }
+
+        if(!place_meeting(x + spd_h, y, obj_enemy_par) && !place_meeting(x + spd_h, y, obj_wall)){
+            x += spd_h;
+        } else {
+            spd_h = 0;
+            state = STATES.MOVING;
+            dash_timer = 0;
+            global.is_dashing = false;
+        }
+        if(!place_meeting(x, y + spd_v, obj_enemy_par) && !place_meeting(x, y + spd_v, obj_wall)){
+            y += spd_v;
+        } else {
+            spd_v = 0;
+            state = STATES.MOVING;
+            dash_timer = 0;
+            global.is_dashing = false;
+        }
         }
     break;
 	#endregion
@@ -346,56 +315,6 @@ if(advancing && time_attack > 0){
     // Finalizar movimento ao atingir o ponto final
     if(point_distance(x, y, advance_x, advance_y) < 1){
         advancing = false;
-    }
-}
-
-
-//charged attack
-if(global.area_attack){
-	if(_mb2){
-		charged_attack = true;	
-	}else{
-		charged_attack = false;	
-	}
-
-	if(charged_attack){
-		if(timer_charge < _timer){
-			timer_charge++;	
-		}
-	}else{
-		if(_mb3){
-			if(timer_charge > 28){
-                golpe_circular.activate();
-			}
-		timer_charge = 0;
-		}
-	}
-}
-
-if(global.can_line){
-    if(global.line){
-        if(linha == undefined){
-            var _direction = point_direction(x, y, obj_control.x, obj_control.y);
-    
-            if(point_distance(x, y, obj_control.x, obj_control.y) < 10){
-                direction = image_angle;
-            }
-    
-            linha = new line(50, _direction, 1, true, self, 0);
-    
-            linha.dir_atk = _direction;
-            linha.set_target();
-            linha.moving = true;
-        }
-    }
-
-    if(linha != undefined){
-        linha.move();
-    
-        if(point_distance(x, y, linha.adv_x, linha.adv_y) < 10){
-            linha.moving = false;
-            linha = undefined;
-        }
     }
 }
 #endregion
