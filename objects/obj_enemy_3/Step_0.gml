@@ -159,13 +159,13 @@ switch(state){
             y += vel_v;
         }
     
-        //if(energy_count < max_energy){
-            //var _exp = instance_create_layer(x, y, "Instances_player", obj_energy_dust);
-            //_exp.direction = irandom(360);
-            //_exp.speed = 2;
-            //
-            //energy_count++;
-        //}
+        if(energy_count < max_energy){
+            var _exp = instance_create_layer(x, y, "Instances_player", obj_energy_dust);
+            _exp.direction = irandom(360);
+            _exp.speed = 2;
+            
+            energy_count++;
+        }
         
         }else{
             state = ENEMY_STATES.IDLE

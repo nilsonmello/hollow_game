@@ -8,9 +8,9 @@ global.energy = 0;
 // max energy
 global.energy_max = 15;
 
-global.c = 3;  // per combat regen
 global.cost_r = 5; // regen cost
-global.cost_hhab = 5;
+global.cost_hab = 5;
+
 
 // energy
 global.energy = global.energy_max;

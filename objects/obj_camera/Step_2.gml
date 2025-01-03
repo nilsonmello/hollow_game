@@ -1,6 +1,6 @@
 if(global.healing){
     zoom_target = 0.9;
-}else if(keyboard_check(ord("R")) && global.energy >= global.energy_max && global.slashing){
+}else if(global.energy >= global.energy_max && global.slashing){
     zoom_target = 0.8;
 }else{
     zoom_target = 1;

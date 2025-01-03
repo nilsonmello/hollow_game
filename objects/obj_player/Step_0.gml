@@ -1,4 +1,12 @@
-if(keyboard_check(ord("E"))){
+
+show_debug_message(global.can_attack)
+show_debug_message(global.slow_motion)
+show_debug_message(global.slashing)
+
+if(keyboard_check(ord("E")) && global.energy >= global.cost_hab){
+    global.can_attack = true;
+    global.slow_motion = true;
+    global.slashing = true;
     line = true;    
 
     direc = point_direction(x, y, obj_control.x, obj_control.y);
@@ -19,8 +27,12 @@ if(keyboard_check(ord("E"))){
     }
 }
 
-if(keyboard_check_released(ord("E"))){
+if(keyboard_check_released(ord("E")) && global.energy >= global.cost_hab){
+    global.energy -= global.cost_hab
+    global.slow_motion = false;
+    global.slashing = false;
     line_attack = true;
+    
     time_adv = 200;
 }
 
@@ -45,40 +57,37 @@ if(line_attack){
     var _enemy = collision_rectangle(x - 10, y - 10, x + 10, y + 10, obj_enemy_par, false, false);
     
     with(_enemy){
-        if(!attacking){
-            var _is_critical = irandom(100) < global.critical;
-            var _damage_to_apply = _is_critical ? other.damage * 2 : other.damage;
-            var _stamina = _is_critical ? 60 : 30;
+        var _is_critical = irandom(100) < global.critical;
+        var _damage_to_apply = _is_critical ? other.damage * 2 : other.damage;
+        var _stamina = _is_critical ? 60 : 30;
 
-            escx = 1.5;
-            escy = 1.5;
-            hit_alpha = 1;
-            timer_hit = 5;
-            emp_dir = point_direction(obj_player.x, obj_player.y, x, y);
-            global.combo++;
-            obj_camera.alarm[1] = 5;
+        escx = 1.5;
+        escy = 1.5;
+        hit_alpha = 1;
+        timer_hit = 5;
+        emp_dir = point_direction(obj_player.x, obj_player.y, x, y);
+        global.combo++;
+        obj_camera.alarm[1] = 5;
 
-            switch(knocked){
-                case 0:
-                    part_particles_create(particle_hit, x, y, particle_slash, 1);
-                    state = ENEMY_STATES.HIT;
-                    emp_timer = 5;
-                    emp_veloc = 6;
-                    stamina_at -= _stamina;
-                    alarm[2] = 30;
-                break;
+        switch(knocked){
+            case 0:
+                part_particles_create(particle_hit, x, y, particle_slash, 1);
+                state = ENEMY_STATES.HIT;
+                emp_timer = 5;
+                emp_veloc = 6;
+                stamina_at -= _stamina;
+                alarm[2] = 30;
+            break;
 
-                case 1:
-                    state = ENEMY_STATES.KNOCKED;
-                    vida -= _damage_to_apply;
-                    hit = false;
-                    alarm[1] = 10;
-                    alarm[2] = 30;
-                break;
-            }
+            case 1:
+                state = ENEMY_STATES.KNOCKED;
+                vida -= _damage_to_apply;
+                hit = false;
+                alarm[1] = 10;
+                alarm[2] = 30;
+            break;
         }
     }
-
 }
 
 #region hit timers 
@@ -327,8 +336,6 @@ switch(state){
 	break;
 	#endregion
 }
-
-
 #endregion
 
 #region sword dash
@@ -350,7 +357,7 @@ if(_ma){
 }
 
 //basic attack
-if (attack_cooldown > 0) {
+if(attack_cooldown > 0){
     attack_cooldown--;
 }
 
@@ -403,15 +410,15 @@ if(advancing && time_attack > 0){
 #region hability activation
 area = clamp(area, 0, global.hab_range);
 
-if(global.energy >= global.cost_hhab){
+if(global.energy >= global.cost_hab){
     global.can_attack = true;    
 }
 
 if(keyboard_check(ord("R")) && global.can_attack){
-    if(global.energy > 0){
+
         global.slashing = true;
         global.slow_motion = true;
-    }
+    
 
     ds_list_clear(enemy_list);
     ds_list_clear(path_list);
@@ -460,11 +467,12 @@ if(keyboard_check(ord("R")) && global.can_attack){
     path_position_index = 0;
 }else{ 
     area = 0;
-    global.slow_motion = false;
-    global.slashing = false;
+
 
     if(keyboard_check_released(ord("R"))){
-        global.energy -= global.cost_hhab;  
+        global.energy -= global.cost_hab;  
+        global.slow_motion = false;
+        global.slashing = false;
     }
     
     

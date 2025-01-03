@@ -1,7 +1,7 @@
 #region player hability shader control
 
 //if player hability is on, changes the dark value
-if(keyboard_check(ord("R")) && global.slashing){
+if(global.slashing){
     darkness_target = .1;
 }else{
     darkness_target = 1;
