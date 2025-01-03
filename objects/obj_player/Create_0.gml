@@ -24,10 +24,6 @@ dash_timer = 0;
 
 //cooldown for dash
 dash_cooldown = 0;
-
-//variables to use the dash and the line attack
-dash_pressed = 0;
-line_pressed = 0;
 #endregion
 
 #region hability variables
@@ -59,7 +55,6 @@ trail_fixed_timer = ds_list_create();
 
 //speed movement
 advance_speed = .2;
-
 
 //basic attack variables
 
@@ -323,12 +318,27 @@ function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost) : slas
 		}
 	}
 }
-
-
-
 #endregion
 
-#region charged attack variables
-timer_charge = 0;
-charged_attack = false;
-#endregion
+
+#region teste
+
+//distance to advance
+distan = 150;
+//direction to advance
+direc = 0;
+//speed
+vel_a = .1;
+
+//if he can activate
+line_attack = false;
+
+//final point
+target_x = 0;
+target_y = 0;
+
+//line draw indication
+line = false;
+
+//timer for advance
+time_adv = 0;

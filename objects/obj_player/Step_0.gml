@@ -1,3 +1,53 @@
+if(keyboard_check(ord("E"))){
+    line = true;    
+
+    direc = point_direction(x, y, obj_control.x, obj_control.y);
+    
+    var full_target_x = x + lengthdir_x(distan, direc);
+    var full_target_y = y + lengthdir_y(distan, direc);
+    
+    var _line = collision_line(x, y, full_target_x, full_target_y, obj_wall, true, false);
+
+    if(_line){
+        distan = point_distance(x, y, _line.x, _line.y);
+        target_x = _line.x;
+        target_y = _line.y;
+    }else{
+        distan = 300;
+        target_x = full_target_x;
+        target_y = full_target_y;
+    }
+}
+
+if(keyboard_check_released(ord("E"))){
+    line_attack = true;
+    time_adv = 200;
+}
+
+if(line_attack){
+    if(time_adv > 0){
+        var _new_x = lerp(x, target_x, vel_a);
+        var _new_y = lerp(y, target_y, vel_a);
+
+        if(collision_rectangle(_new_x - 5, _new_y - 9, _new_x + 5, _new_y + 9, obj_wall, false, false)){
+            line_attack = false;
+        }else{
+            x = _new_x;
+            y = _new_y;
+        }
+    
+        if(distance_to_point(target_x, target_y) < 10){
+            line_attack = false;
+            line = false;
+        }
+    }
+}
+
+
+
+
+
+
 #region hit timers 
 if(hit_timer > 0){
 	hit_timer--;
@@ -42,9 +92,6 @@ if(heal_cooldown > 0){
 	can_heal = true;	
 }
 
-show_debug_message(state)
-show_debug_message(can_heal)
-
 //activate the regeneration
 if(keyboard_check(ord("F")) && can_heal){
 	player_healing();
@@ -63,7 +110,6 @@ if(dash_cooldown > 0){
 
 //activate the dash
 if(keyboard_check_pressed(vk_space) && dash_cooldown <= 0){
-    dash_pressed = current_time;
     global.is_dashing = true;
     dash_timer = 8;
     dash_cooldown = global.dash_cooldown;
