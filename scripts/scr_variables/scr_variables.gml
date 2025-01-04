@@ -1,3 +1,6 @@
+global.hability = 0;
+
+
 //life and max life
 global.life = 10;
 global.life_at = global.life;
@@ -43,6 +46,8 @@ global.hab_dmg = 1;
 
 //player heal
 global.healing = false;
+
+global.active = false;
 
 #region basic attack upgrades
 //critical attack chance
