@@ -1,8 +1,3 @@
-
-show_debug_message(global.can_attack)
-show_debug_message(global.slow_motion)
-show_debug_message(global.slashing)
-
 if(keyboard_check(ord("E")) && global.energy >= global.cost_hab){
     global.can_attack = true;
     global.slow_motion = true;
@@ -54,7 +49,14 @@ if(line_attack){
         }
     }
     
+    //enemy colide
     var _enemy = collision_rectangle(x - 10, y - 10, x + 10, y + 10, obj_enemy_par, false, false);
+
+    //bush colide
+    var _colide = collision_circle(x, y, 20, obj_bush, false, false);
+    
+    //box colide
+    var _colide_2 = collision_circle(x, y, 20, obj_box, false, false);
     
     with(_enemy){
         var _is_critical = irandom(100) < global.critical;
@@ -86,6 +88,37 @@ if(line_attack){
                 alarm[1] = 10;
                 alarm[2] = 30;
             break;
+        }
+    }
+    
+    if(_colide){
+        if(_colide.image_index == 0){
+            var _part_num = irandom_range(7, 12);
+            
+            repeat(_part_num){
+                var _inst = instance_create_layer(_colide.x + irandom_range(-2, 2), _colide.y - 8, "Instances_player", obj_b_part);
+                _inst.direction = point_direction(x, y, _colide.x, _colide.y) + irandom_range(90, -90);
+                _inst.image_index = irandom(4);
+                obj_camera.alarm[1] = 5;
+            }
+        }
+        
+        with(_colide){
+            image_index = 1;
+        }
+    }
+        
+    if(_colide_2){
+        var _part_num = irandom_range(7, 12);
+        
+        repeat(_part_num){
+            var _inst = instance_create_layer(_colide_2.x + irandom_range(-2, 2), _colide_2.y - 8, "Instances_player", obj_b_part);
+            _inst.direction = point_direction(x, y, _colide_2.x, _colide_2.y) + irandom_range(90, -90);
+            _inst.image_index = irandom_range(5, 8);
+            obj_camera.alarm[1] = 5;
+        }
+        with(_colide_2){
+            instance_destroy(_colide_2);
         }
     }
 }
