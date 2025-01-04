@@ -216,7 +216,7 @@ switch(state){
 	        var __new_x = lerp(x, _advance_x, _advance_speed);
 	        var __new_y = lerp(y, _advance_y, _advance_speed);
 
-	        if(!place_meeting(__new_x, __new_y, obj_player) && !place_meeting(__new_x, __new_y, obj_wall) && !place_meeting(__new_x, __new_y, obj_enemy_par)){
+	        if(!place_meeting(__new_x, __new_y, obj_player) && !place_meeting(__new_x, __new_y, obj_wall) && !place_meeting(__new_x, __new_y, obj_enemy_par) && !place_meeting(__new_x, __new_y, obj_ambient)){
 	            x = __new_x;
 	            y = __new_y;
 	        }else{
@@ -265,7 +265,7 @@ switch(state){
 	        var _new_x = center_x + lengthdir_x(radius, angle);
 	        var _new_y = center_y + lengthdir_y(radius, angle);
 
-	        if(!place_meeting(_new_x, _new_y, obj_player) && !place_meeting(_new_x, _new_y, obj_wall) && !place_meeting(_new_x, _new_y, obj_enemy_par)){
+	        if(!place_meeting(_new_x, _new_y, obj_player) && !place_meeting(_new_x, _new_y, obj_wall) && !place_meeting(_new_x, _new_y, obj_enemy_par) && !place_meeting(_new_x, _new_y, obj_ambient)){
 	            x = _new_x;
 	            y = _new_y;
 	        }else{

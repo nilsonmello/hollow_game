@@ -230,12 +230,12 @@ switch(state){
 			spd_h = lengthdir_x(spd * _keys, move_dir);
 			spd_v = lengthdir_y(spd * _keys, move_dir);
 			
-			if(!place_meeting(x + spd_h, y, obj_enemy_par) && !place_meeting(x + spd_h, y, obj_wall)){
+			if(!place_meeting(x + spd_h, y, obj_enemy_par) && !place_meeting(x + spd_h, y, obj_wall) && !place_meeting(x + spd_h, y, obj_ambient)){
 				x += spd_h;
 			}else{
 				spd_h = 0;
 			}
-			if(!place_meeting(x, y + spd_v, obj_enemy_par) && !place_meeting(x, y + spd_v, obj_wall)){
+			if(!place_meeting(x, y + spd_v, obj_enemy_par) && !place_meeting(x, y + spd_v, obj_wall) && !place_meeting(x, y + spd_v, obj_ambient)){
 				y += spd_v;
 			}else{
 				spd_v = 0;
@@ -265,7 +265,7 @@ switch(state){
             state_timer = 0;
         }
 
-        if(!place_meeting(x + spd_h, y, obj_enemy_par) && !place_meeting(x + spd_h, y, obj_wall)){
+        if(!place_meeting(x + spd_h, y, obj_enemy_par) && !place_meeting(x + spd_h, y, obj_wall) && !place_meeting(x + spd_h, y, obj_ambient)){
             x += spd_h;
         } else {
             spd_h = 0;
@@ -273,7 +273,7 @@ switch(state){
             dash_timer = 0;
             global.is_dashing = false;
         }
-        if(!place_meeting(x, y + spd_v, obj_enemy_par) && !place_meeting(x, y + spd_v, obj_wall)){
+        if(!place_meeting(x, y + spd_v, obj_enemy_par) && !place_meeting(x, y + spd_v, obj_wall) && !place_meeting(x, y + spd_v, obj_ambient)){
             y += spd_v;
         } else {
             spd_v = 0;
@@ -308,12 +308,12 @@ switch(state){
     
 			emp_veloc = lerp(emp_veloc, 0, .05);
 			
-			if(!place_meeting(x + spd_h, y, obj_enemy_par) && !place_meeting(x + spd_h, y, obj_wall)){
+			if(!place_meeting(x + spd_h, y, obj_enemy_par) && !place_meeting(x + spd_h, y, obj_wall) && !place_meeting(x + spd_h, y, obj_ambient)){
 				x += spd_h;
 			}else{
 				spd_h = 0;
 			}
-			if(!place_meeting(x + spd_h, y, obj_enemy_par) && !place_meeting(x, y + spd_v, obj_wall)){
+			if(!place_meeting(x + spd_h, y, obj_enemy_par) && !place_meeting(x, y + spd_v, obj_wall) && !place_meeting(x, y + spd_v, obj_ambient)){
 				y += spd_v;
 			}else{
 				spd_v = 0;

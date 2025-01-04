@@ -13,8 +13,8 @@
     "path":"folders/Objetos/ambient.yy",
   },
   "parentObjectId":{
-    "name":"obj_wall",
-    "path":"objects/obj_wall/obj_wall.yy",
+    "name":"obj_ambient",
+    "path":"objects/obj_ambient/obj_ambient.yy",
   },
   "persistent":false,
   "physicsAngularDamping":0.1,
