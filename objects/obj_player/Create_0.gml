@@ -345,3 +345,6 @@ time_adv = 0;
 
 //attack damage
 damage = 1;
+
+//control for hability
+can_line = true;

@@ -68,7 +68,7 @@ function nearest_cardinal_direction(_direction){
 #endregion
 
 function player_line_attack(){
-    if(keyboard_check(ord("E")) && global.energy >= global.cost_hab){
+    if(keyboard_check(ord("E")) && global.energy >= global.cost_hab && can_line){
         if (global.hability == 2) {
             return false;
         }
@@ -113,6 +113,7 @@ function player_line_attack(){
     
     if(line_attack){
         if(time_adv > 0){
+            can_line = false;
             var _new_x = lerp(x, target_x, vel_a);
             var _new_y = lerp(y, target_y, vel_a);
     
@@ -126,6 +127,7 @@ function player_line_attack(){
             if(distance_to_point(target_x, target_y) < 10){
                 line_attack = false;
                 line = false;
+                can_line = true;
             }
         }
         
