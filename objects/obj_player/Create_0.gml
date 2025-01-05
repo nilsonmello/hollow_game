@@ -348,3 +348,5 @@ damage = 1;
 
 //control for hability
 can_line = true;
+
+sprite_index = spr_placeholder_player;

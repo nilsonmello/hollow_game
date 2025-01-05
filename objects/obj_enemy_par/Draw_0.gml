@@ -1,11 +1,11 @@
 #region self and sprites
 //enemie sprite
-draw_sprite_ext(sprite_index, image_index, x, y, escx, escy, 0, c_white, 1);
+draw_sprite_ext(sprite_index, image_index, x, y, image_xscale, image_yscale, 0, c_white, 1);
 
 //hit effect
 if(hit_alpha > 0){
 	gpu_set_fog(true, hit_color,0, 0);
-	draw_sprite_ext(sprite_index, image_index, x, y, escx, escy, 0, c_white, hit_alpha);
+	draw_sprite_ext(sprite_index, image_index, x, y, image_xscale, image_yscale, 0, c_white, hit_alpha);
 	gpu_set_fog(false, hit_color,0, 0);
 }
 

@@ -1,5 +1,30 @@
 #region state machine
 
+//var _direction = point_direction(x, y, obj_player.x, obj_player.y);
+//
+//var _intervalo = _direction == clamp(_direction, 90, 270);
+//
+//if (_intervalo) {
+    //image_xscale = -1;
+//}else {
+    //image_xscale = 1;
+//}
+//
+//show_debug_message(_direction)
+//
+//switch (state){
+    //case ENEMY_STATES.IDLE:
+        //case ENEMY_STATES.WAITING:
+            //sprite_index = spr_enemy_idle;
+    //break;
+    //
+    //case ENEMY_STATES.MOVE:
+        //case ENEMY_STATES.FOLLOW:
+            //case ENEMY_STATES.RECOVERY:
+            //sprite_index = spr_enemy_walk;
+    //break;
+//}
+
 #region life and cooldown
 event_inherited();
 var _line_wall = collision_line(x, y, obj_player.x, obj_player.y, obj_wall, false, false);

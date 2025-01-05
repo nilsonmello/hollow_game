@@ -71,44 +71,44 @@ if(keyboard_check_pressed(vk_space) && dash_cooldown <= 0){
 }
 #endregion
 
-#region sprite control
-switch(state){
-	case STATES.IDLE:
-		if(!global.slow_motion){
-			switch(_spr_dir){
-				case 0:	sprite_index = spr_player_idle;	image_xscale = 1	break;
-				case 90:	sprite_index = spr_player_idle_up;	break;
-				case 180:	sprite_index = spr_player_idle;	image_xscale = -1	break;
-				case 270:	sprite_index = spr_player_idle_down;	break;
-			}
-		}else{
-			sprite_index = spr_player_power;
-		}
-	break;
-	
-	case STATES.MOVING:
-		if(!global.slow_motion){
-			switch(_spr_dir){
-				case 0:	sprite_index = spr_player_walk_rl;	image_xscale = 1	break;
-				case 90:	sprite_index = spr_walk_up;	break;
-				case 180:	sprite_index = spr_player_walk_rl;	image_xscale = -1	break;
-				case 270:	sprite_index = spr_walk_down;	break;
-			}
-		}else{
-			sprite_index = spr_player_power	
-		}
-	break;
-	
-	case STATES.ATTAKING:
-	    switch(_spr_dir){
-	        case 0: sprite_index = spr_player_attack_rl; image_xscale = 1; break;
-	        case 90: sprite_index = spr_player_attack_rl; break;
-	        case 180: sprite_index = spr_player_attack_rl; image_xscale = -1; break;
-	        case 270: sprite_index = spr_player_attack_rl; break;
-	    }
-	break;
-}
-#endregion
+//#region sprite control
+//switch(state){
+	//case STATES.IDLE:
+		//if(!global.slow_motion){
+			//switch(_spr_dir){
+				//case 0:	sprite_index = spr_player_idle;	image_xscale = 1	break;
+				//case 90:	sprite_index = spr_player_idle_up;	break;
+				//case 180:	sprite_index = spr_player_idle;	image_xscale = -1	break;
+				//case 270:	sprite_index = spr_player_idle_down;	break;
+			//}
+		//}else{
+			//sprite_index = spr_player_power;
+		//}
+	//break;
+	//
+	//case STATES.MOVING:
+		//if(!global.slow_motion){
+			//switch(_spr_dir){
+				//case 0:	sprite_index = spr_player_walk_rl;	image_xscale = 1	break;
+				//case 90:	sprite_index = spr_walk_up;	break;
+				//case 180:	sprite_index = spr_player_walk_rl;	image_xscale = -1	break;
+				//case 270:	sprite_index = spr_walk_down;	break;
+			//}
+		//}else{
+			//sprite_index = spr_player_power	
+		//}
+	//break;
+	//
+	//case STATES.ATTAKING:
+	    //switch(_spr_dir){
+	        //case 0: sprite_index = spr_player_attack_rl; image_xscale = 1; break;
+	        //case 90: sprite_index = spr_player_attack_rl; break;
+	        //case 180: sprite_index = spr_player_attack_rl; image_xscale = -1; break;
+	        //case 270: sprite_index = spr_player_attack_rl; break;
+	    //}
+	//break;
+//}
+//#endregion
 
 #endregion
 

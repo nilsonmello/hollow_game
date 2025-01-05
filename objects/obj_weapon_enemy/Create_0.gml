@@ -19,7 +19,7 @@ function scr_create_weapon(_name, _dmg, _fire_rate, _bullet_sprite, _automatic, 
                 var _base_dir = point_direction(_x, _y, obj_player.x, obj_player.y);
 
                 for(var _i = 0; _i < bp_shoot; _i++){
-                    var _bullet = instance_create_layer(_x, _y, "Instances_enemies", obj_bullet);
+                    var _bullet = instance_create_layer(_x, _y, "Instances_player", obj_bullet);
                     _bullet.sprite_index = bullet_sprite;
                     _bullet.speed = 3;
                     _bullet.damage = damage;
