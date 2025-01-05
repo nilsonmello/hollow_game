@@ -37,7 +37,8 @@ switch(state){
 			state = ENEMY_STATES.CHOOSE;
 		}
     
-        check_for_player(150);
+    check_for_player(80);
+
     break;
 	#endregion	
 	
@@ -47,8 +48,8 @@ switch(state){
 			
 			var _dir = point_direction(x, y, x_point, y_point);
 			
-            vel_h = lengthdir_x(1, _dir);
-            vel_v = lengthdir_y(1, _dir);
+            vel_h = lengthdir_x(.8, _dir);
+            vel_v = lengthdir_y(.8, _dir);
 
 			enemy_colide();
 
@@ -63,7 +64,7 @@ switch(state){
 			state = ENEMY_STATES.CHOOSE;
 		}
     
-        check_for_player(150);
+        check_for_player(80);
     break;
 	#endregion
 
@@ -71,8 +72,8 @@ switch(state){
 	case ENEMY_STATES.FOLLOW:
 		var _dir_m = point_direction(x, y, obj_player.x, obj_player.y);
 			
-		vel_h = lengthdir_x(1, _dir_m);
-		vel_v = lengthdir_y(1, _dir_m);
+		vel_h = lengthdir_x(.8, _dir_m);
+		vel_v = lengthdir_y(.8, _dir_m);
 
 		enemy_colide();
 		
@@ -167,7 +168,7 @@ switch(state){
 			atk_wait--;
 		
 		    if(atk_wait <= 0){
-		        atk_time = 10;
+		        atk_time = 12;
 		        state = ENEMY_STATES.ATTACK;
 				dire = point_direction(x, y, obj_player.x, obj_player.y);
 		    }
@@ -196,7 +197,7 @@ switch(state){
                 enemy_attack();
 	        }
 	    }else{
-	        state = ENEMY_STATES.RECOVERY;
+	        state = ENEMY_STATES.MOVE;
 	        attacking = false;
 	        has_attacked = false;
 			time_per_attacks = 110;
@@ -211,26 +212,9 @@ switch(state){
 	#endregion
 
 	#region recovery
-	case ENEMY_STATES.RECOVERY:
-	recover_time--;
-	if(recover_time > 0){
-		var _move_speed = 2;
-		var _new_x = lerp(x, esc_x, 0.05);
-		var _new_y = lerp(y, esc_y, 0.05);
-        
-        enemy_colide();
-        
-		if(!place_meeting(_new_x, _new_y, obj_player) && !place_meeting(_new_x, _new_y, obj_wall) && !place_meeting(_new_x, _new_y, obj_enemy_par)){
-			x = _new_x;
-			y = _new_y;
-		}else{
-			r_speed = 0;	
-			state = ENEMY_STATES.MOVE;
-		}
-	}else{
-		state = ENEMY_STATES.CHOOSE;
-	}
-	break;
+	//case ENEMY_STATES.RECOVERY:
+
+	//break;
 	#endregion
 
 	#region death

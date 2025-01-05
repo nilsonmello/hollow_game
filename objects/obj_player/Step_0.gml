@@ -17,8 +17,6 @@ if(hit_cooldown > 0){
 #region comand keys
 
 #region movement keys
-var _spr_dir = move_dir;
-
 global.energy = clamp(global.energy, 0, global.energy_max);
 
 var _right = keyboard_check(ord("D"));
@@ -71,45 +69,91 @@ if(keyboard_check_pressed(vk_space) && dash_cooldown <= 0){
 }
 #endregion
 
-//#region sprite control
-//switch(state){
-	//case STATES.IDLE:
-		//if(!global.slow_motion){
-			//switch(_spr_dir){
-				//case 0:	sprite_index = spr_player_idle;	image_xscale = 1	break;
-				//case 90:	sprite_index = spr_player_idle_up;	break;
-				//case 180:	sprite_index = spr_player_idle;	image_xscale = -1	break;
-				//case 270:	sprite_index = spr_player_idle_down;	break;
-			//}
-		//}else{
-			//sprite_index = spr_player_power;
-		//}
-	//break;
-	//
-	//case STATES.MOVING:
-		//if(!global.slow_motion){
-			//switch(_spr_dir){
-				//case 0:	sprite_index = spr_player_walk_rl;	image_xscale = 1	break;
-				//case 90:	sprite_index = spr_walk_up;	break;
-				//case 180:	sprite_index = spr_player_walk_rl;	image_xscale = -1	break;
-				//case 270:	sprite_index = spr_walk_down;	break;
-			//}
-		//}else{
-			//sprite_index = spr_player_power	
-		//}
-	//break;
-	//
-	//case STATES.ATTAKING:
-	    //switch(_spr_dir){
-	        //case 0: sprite_index = spr_player_attack_rl; image_xscale = 1; break;
-	        //case 90: sprite_index = spr_player_attack_rl; break;
-	        //case 180: sprite_index = spr_player_attack_rl; image_xscale = -1; break;
-	        //case 270: sprite_index = spr_player_attack_rl; break;
-	    //}
-	//break;
-//}
-//#endregion
 
+#region sword dash
+var _mb = mouse_check_button_pressed(mb_left);
+var _mb2 = mouse_check_button(mb_left);
+var _mb3 = mouse_check_button_released(mb_left);
+
+var _ma = mouse_check_button_pressed(mb_right);
+
+var _timer = 10;
+var _basico = new basic_attack(20, point_direction(x, y, mouse_x, mouse_y), 1, true, self, 0);
+
+
+
+var _spr_dir = floor((point_direction(x, y, mouse_x, mouse_y) + 90) / 180) % 2;
+
+if (attack_cooldown <= 0){
+    switch (_spr_dir){
+        case 0:     sprite_index = spr_player_idle;    image_xscale = 1;  break;
+        case 1:     sprite_index = spr_player_idle;    image_xscale = -1;  break;
+    }
+}else{
+    switch(_spr_dir){
+        case 0:     sprite_index = spr_player_attack_rl;    image_xscale = 1;  break;
+        case 1:     sprite_index = spr_player_attack_rl;    image_xscale = -1;  break;
+    }  
+}
+
+
+
+parry_cooldown = clamp(parry_cooldown, 0, 70);
+parry_cooldown--;
+
+//parry
+if(_ma){
+    player_parry();
+}
+
+//basic attack
+if(attack_cooldown > 0){
+    attack_cooldown--;
+}
+
+
+//advancing config
+if(_mb && attack_cooldown <= 0){ 
+    _basico.activate();
+    if(global.deflect_bullets){
+        _basico.bullet();
+    }
+    attack_cooldown = 15;
+    time_attack = 5;
+    advancing = true;
+
+    //first and last point
+    var _direction = point_direction(x, y, mouse_x, mouse_y);
+    advance_x = x + lengthdir_x(30, _direction);
+    advance_y = y + lengthdir_y(30, _direction);
+}
+
+//limiting the timer
+time_attack = clamp(time_attack, 0, 5);
+
+if(advancing && time_attack > 0){
+    time_attack--;
+
+    var _advance_speed = 0.2;
+    var __nx = lerp(x, advance_x, _advance_speed);
+    var __ny = lerp(y, advance_y, _advance_speed);
+
+    var _collision_wall = place_meeting(__nx, __ny, obj_wall);
+    var _collision_enemy = place_meeting(__nx, __ny, obj_enemy_par);
+
+    if(!_collision_wall && !_collision_enemy){
+        x = __nx;
+        y = __ny;
+    }else{
+        advancing = false;
+    }
+
+    // Finalizar movimento ao atingir o ponto final
+    if(point_distance(x, y, advance_x, advance_y) < 1){
+        advancing = false;
+    }
+}
+#endregion
 #endregion
 
 switch(state){
@@ -121,17 +165,20 @@ switch(state){
 		if(_keys){
 			state = STATES.MOVING;
 		}
+
 	break;
 	#endregion
 	
 	#region walking
 	case STATES.MOVING:
+        if(attack_cooldown <= 0){
+
 		if(!keyboard_check(ord("R"))){
-			spd = 1.3;
+			spd = 1;
 		}else{
 			spd = 0;
 		}
-
+    
 		if(_keys){
 			move_dir = point_direction(0, 0, _right - _left, _down - _top);
 		
@@ -151,6 +198,7 @@ switch(state){
 		}else{
 			state = STATES.IDLE;
 		}
+        }
 	break;
 	#endregion
 	
@@ -246,98 +294,33 @@ switch(state){
 }
 #endregion
 
-#region sword dash
-var _mb = mouse_check_button_pressed(mb_left);
-var _mb2 = mouse_check_button(mb_left);
-var _mb3 = mouse_check_button_released(mb_left);
-
-var _ma = mouse_check_button_pressed(mb_right);
-
-var _timer = 30;
-var _basico = new basic_attack(20, point_direction(x, y, mouse_x, mouse_y), 1, true, self, 0);
-
-parry_cooldown = clamp(parry_cooldown, 0, 70);
-parry_cooldown--;
-
-//parry
-if(_ma){
-	player_parry();
-}
-
-//basic attack
-if(attack_cooldown > 0){
-    attack_cooldown--;
-}
 
 
-//advancing config
-if(_mb && attack_cooldown <= 0){ 
-    _basico.activate();
-    if(global.deflect_bullets){
-        _basico.bullet();
-    }
-    attack_cooldown = 15;
-    time_attack = 5;
-    advancing = true;
-
-    //first and last point
-    var _direction = point_direction(x, y, mouse_x, mouse_y);
-    advance_x = x + lengthdir_x(30, _direction);
-    advance_y = y + lengthdir_y(30, _direction);
-}
-
-//limiting the timer
-time_attack = clamp(time_attack, 0, 5);
-
-if(advancing && time_attack > 0){
-    time_attack--;
-
-    var _advance_speed = 0.2;
-    var __nx = lerp(x, advance_x, _advance_speed);
-    var __ny = lerp(y, advance_y, _advance_speed);
-
-    var _collision_wall = place_meeting(__nx, __ny, obj_wall);
-    var _collision_enemy = place_meeting(__nx, __ny, obj_enemy_par);
-
-    if(!_collision_wall && !_collision_enemy){
-        x = __nx;
-        y = __ny;
-    }else{
-        advancing = false;
-    }
-
-    // Finalizar movimento ao atingir o ponto final
-    if(point_distance(x, y, advance_x, advance_y) < 1){
-        advancing = false;
-    }
-}
-#endregion
-
-#region hability activation
-//função do ataque em area
-player_area_attack();
-
-//função do ataque em linha
-player_line_attack();
-#endregion
-
-#region dust walk
-if(dust_time <= 0){
-    dust_time = choose(10, 12);
-	candust = true;
-}else{
-    dust_time--;
-}
-
-if(xprevious != x and candust == true){
-	candust = false;
-	part_particles_create(particle_system_dust, x, y + 5, particle_dust, 10);
-}
-if(yprevious != y and candust == true){
-	candust = false;
-	part_particles_create(particle_system_dust, x, y, particle_dust, 10);
-}
-#endregion
+//#region hability activation
+////função do ataque em area
+//player_area_attack();
+//
+////função do ataque em linha
+//player_line_attack();
+//#endregion
+//
+//#region dust walk
+//if(dust_time <= 0){
+    //dust_time = choose(10, 12);
+	//candust = true;
+//}else{
+    //dust_time--;
+//}
+//
+//if(xprevious != x and candust == true){
+	//candust = false;
+	//part_particles_create(particle_system_dust, x, y + 5, particle_dust, 10);
+//}
+//if(yprevious != y and candust == true){
+	//candust = false;
+	//part_particles_create(particle_system_dust, x, y, particle_dust, 10);
+//}
+//#endregion
 
 #region hit indication
 hit_alpha = lerp(hit_alpha, 0, 0.1);

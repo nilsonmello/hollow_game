@@ -1,30 +1,5 @@
 #region state machine
 
-//var _direction = point_direction(x, y, obj_player.x, obj_player.y);
-//
-//var _intervalo = _direction == clamp(_direction, 90, 270);
-//
-//if (_intervalo) {
-    //image_xscale = -1;
-//}else {
-    //image_xscale = 1;
-//}
-//
-//show_debug_message(_direction)
-//
-//switch (state){
-    //case ENEMY_STATES.IDLE:
-        //case ENEMY_STATES.WAITING:
-            //sprite_index = spr_enemy_idle;
-    //break;
-    //
-    //case ENEMY_STATES.MOVE:
-        //case ENEMY_STATES.FOLLOW:
-            //case ENEMY_STATES.RECOVERY:
-            //sprite_index = spr_enemy_walk;
-    //break;
-//}
-
 #region life and cooldown
 event_inherited();
 var _line_wall = collision_line(x, y, obj_player.x, obj_player.y, obj_wall, false, false);
@@ -256,7 +231,7 @@ switch(state){
 	    if(count > 1){
 	        attacking = false;
 	        time_per_attacks = 250;
-	        state = ENEMY_STATES.RECOVERY;
+	        state = ENEMY_STATES.MOVE;
 	        count = 0;
 			
 			var _dist = distance_to_object(obj_player);
@@ -268,57 +243,11 @@ switch(state){
     break;
 	#endregion
 	
-	#region recovery from last attack
-	case ENEMY_STATES.RECOVERY:
-	    if(recovery == 0){
+	//#region recovery from last attack
+	//case ENEMY_STATES.RECOVERY:
 
-	        center_x = obj_player.x;
-	        center_y = obj_player.y;
-
-	        radius = point_distance(x, y, center_x, center_y);
-	        angle = point_direction(center_x, center_y, x, y);
-
-	        move_direction = choose(-1, 1);
-
-	        r_speed = 60 / radius;
-	        recovery = 1;
-	    }
-
-	    if(recovery == 1){
-	        angle += r_speed * move_direction;
-
-	        var _new_x = center_x + lengthdir_x(radius, angle);
-	        var _new_y = center_y + lengthdir_y(radius, angle);
-
-	        if(!place_meeting(_new_x, _new_y, obj_player) && !place_meeting(_new_x, _new_y, obj_wall) && !place_meeting(_new_x, _new_y, obj_enemy_par) && !place_meeting(_new_x, _new_y, obj_ambient)){
-	            x = _new_x;
-	            y = _new_y;
-	        }else{
-	            state = ENEMY_STATES.CHOOSE;
-	            center_x = 0;
-	            center_y = 0;
-	            angle = 0;
-	            radius = 0;
-	            r_speed = 0;
-	            recovery = 0;
-	            move_direction = 0;	
-			}
-
-	        if(time_per_attacks > 0){
-	            time_per_attacks--;
-	        }else{
-	            state = ENEMY_STATES.CHOOSE;
-	            center_x = 0;
-	            center_y = 0;
-	            angle = 0;
-	            radius = 0;
-	            r_speed = 0;
-	            recovery = 0;
-	            move_direction = 0;
-	        }
-	    }
-	break;
-	#endregion
+	//break;
+	//#endregion
 
 	#region death
     case ENEMY_STATES.DEATH:

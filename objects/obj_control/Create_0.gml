@@ -17,3 +17,8 @@ randomize();
 global.part_sist = part_system_create();
 
 part_system_depth(global.part_sist, -100);
+
+
+
+
+

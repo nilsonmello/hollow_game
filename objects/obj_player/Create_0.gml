@@ -11,7 +11,7 @@ spd_h = 0;
 spd_v = 0;
 
 //actual speed
-spd = 1.2;
+spd = 1;
 
 //dash direction
 dash_dir = 0;
@@ -250,12 +250,34 @@ function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost) : slas
            }
         }
         
+        
         //apply attacks for the enemies
         for(var _i = 0; _i < ds_list_size(_list); _i++){
             var _rec = _list[| _i];
             if(!ds_list_find_index(global.attacked_enemies, _rec)){
+
+                
                 with (_rec){
                     if(!attacking){
+                        
+                        repeat(6){
+                            with (instance_create_layer(x, y, "Instances_bellow", obj_particle_effect)){
+                                randomize();
+                                sprite_index = choose(spr_particle_line, spr_particle_line_2, spr_pixel);
+                                fric = .8;
+                                
+                                var relative_angle = point_direction(obj_player.x, obj_player.y, x, y) + irandom_range(-70, 70);
+                                var angle = point_direction(obj_player.x, obj_player.y, x, y);
+                                
+                                speed = choose(8, 10, 12);
+                                direction = relative_angle;
+                                speed = lerp(speed, 0, .1)
+                                image_angle = relative_angle;
+                            }
+                        }
+                        
+                        var _inst = instance_create_layer(x, y, "Instances_player", obj_hitstop);
+                        
                         var _is_critical = irandom(100) < global.critical;
                         var _damage_to_apply = _is_critical ? other.dmg * 2 : other.dmg;
     					var _stamina = _is_critical ? 60 : 30;
@@ -267,10 +289,9 @@ function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost) : slas
                         emp_dir = point_direction(obj_player.x, obj_player.y, x, y);
                         global.combo++;
                         obj_camera.alarm[1] = 5;
-    
+                        
                         switch(knocked){
                             case 0:
-                                part_particles_create(particle_hit, x, y, particle_slash, 1);
                                 state = ENEMY_STATES.HIT;
                                 emp_timer = 5;
                                 emp_veloc = 6;
@@ -349,4 +370,4 @@ damage = 1;
 //control for hability
 can_line = true;
 
-sprite_index = spr_placeholder_player;
+sprite_index = spr_player_idle;

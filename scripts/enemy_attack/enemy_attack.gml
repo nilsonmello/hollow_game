@@ -12,6 +12,9 @@ function enemy_attack(){
         with(obj_player){
             if(can_take_dmg){
                 if(!global.parry){
+                    var _inst = instance_create_layer(x, y, "Instances_player", obj_hitstop);
+                    _inst.spd = 10;
+                    
                     state = STATES.HIT;
                     hit_timer = 10;
                     hit_alpha = 1;
@@ -24,7 +27,7 @@ function enemy_attack(){
                     obj_control.alarm[0] = 60;
     
                     with(other){
-                        state = ENEMY_STATES.RECOVERY;
+                        state = ENEMY_STATES.CHOOSE;
                         attacking = false;
                         time_per_attacks = 110;
                         knocked_time = 20;

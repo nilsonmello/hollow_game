@@ -171,20 +171,7 @@ part_type_alpha3(particle_circle, .2, .8, .1);
 #endregion
 
 #region hit particles
-particle_hit  = part_system_create_layer("Instance_particle", true);
-particle_slash = part_type_create();
 
-part_type_sprite(particle_slash, spr_explosion, 0, 0, 0);
-part_type_size(particle_slash, .3, .4, .001, 0);
-
-part_type_color1(particle_slash, _color1);
-
-part_type_direction(particle_slash, 0, 180, 1, 1);
-part_type_speed(particle_slash, .8, 1, -0.004, 0);
-
-part_type_life(particle_slash, 20, 30);
-part_type_orientation(particle_slash, 0, 359, .1, 1, 0);
-part_type_alpha2(particle_slash, 1, 0.1);
 #endregion
 
 #endregion
