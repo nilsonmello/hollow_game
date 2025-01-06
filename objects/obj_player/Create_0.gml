@@ -245,7 +245,7 @@ function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost) : slas
                         repeat(6){
                             with (instance_create_layer(x, y, "Instances_bellow", obj_particle_effect)){
                                 randomize();
-                                sprite_index = choose(spr_particle_line, spr_particle_line_2, spr_pixel);
+                                sprite_index = choose(spr_particle_line, spr_particle_line_2);
                                 fric = .8;
                                 
                                 var relative_angle = point_direction(obj_player.x, obj_player.y, x, y) + irandom_range(-70, 70);
@@ -253,12 +253,31 @@ function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost) : slas
                                 
                                 speed = choose(20, 20);
                                 direction = relative_angle;
-                                speed = lerp(speed, 0, .1)
+                                speed = lerp(speed, 0, .1);
+                                image_xscale = 1.5;
+                                image_yscale = 1.5;
                                 image_angle = relative_angle;
                             }
                         }
                         
-                        var _inst = instance_create_layer(x, y, "Instances_player", obj_hitstop);
+                        repeat(4){
+                            with (instance_create_layer(x, y, "Instances_bellow", obj_particle_effect)){
+                                randomize();
+                                sprite_index = spr_pixel;
+                                fric = .8;
+                                
+                                var relative_angle = point_direction(obj_player.x, obj_player.y, x, y) + irandom_range(-70, 70);
+                                var angle = point_direction(obj_player.x, obj_player.y, x, y);
+                                
+                                speed = choose(10, 10);
+                                direction = relative_angle;
+                                speed = lerp(speed, 0, .1);
+                                image_xscale = 1.5;
+                                image_yscale = 1.5;
+                                image_angle = relative_angle;
+                            }
+                        }
+                    
                         
                         var _is_critical = irandom(100) < global.critical;
                         var _damage_to_apply = _is_critical ? other.dmg * 2 : other.dmg;
@@ -267,7 +286,7 @@ function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost) : slas
                         escx = 1.5;
                         escy = 1.5;
                         hit_alpha = 1;
-                        timer_hit = 5;
+                        timer_hit = 10;
                         emp_dir = point_direction(obj_player.x, obj_player.y, x, y);
                         global.combo++;
                         obj_camera.alarm[1] = 5;
@@ -279,6 +298,7 @@ function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost) : slas
                                 emp_veloc = 6;
                                 stamina_at -= _stamina;
                                 alarm[2] = 30;
+                                var _inst = instance_create_layer(x, y, "Instances_player", obj_hitstop);
                                 break;
     
                             case 1:
@@ -287,6 +307,7 @@ function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost) : slas
                                 hit = false;
                                 alarm[1] = 10;
                                 alarm[2] = 30;
+                                var _inst = instance_create_layer(x, y, "Instances_player", obj_hitstop);
                                 break;
                         }
                     }

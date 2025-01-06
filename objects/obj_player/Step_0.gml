@@ -144,12 +144,13 @@ if(_mb && attack_cooldown <= 0){
     _inst.direction = point_direction(x, y, mouse_x, mouse_y);
     _inst.sprite_index = spr_hitbox;
     _inst.image_angle = _inst.direction;
-    _inst.speed = 1
-    _inst.speed = 15;
+    _inst.speed = lerp(speed, 0, .1);
+    _inst.speed = 1;
+    _inst.speed = 8;
     _inst.fric = 0.8
     
     attack_cooldown = 15;
-    time_attack = 7;
+    time_attack = 10;
     advancing = true;
 
     //first and last point
@@ -333,14 +334,14 @@ switch(state){
 
 
 
-//#region hability activation
-////função do ataque em area
-//player_area_attack();
-//
-////função do ataque em linha
-//player_line_attack();
-//#endregion
-//
+#region hability activation
+//função do ataque em area
+player_area_attack();
+
+//função do ataque em linha
+player_line_attack();
+#endregion
+
 //#region dust walk
 //if(dust_time <= 0){
     //dust_time = choose(10, 12);

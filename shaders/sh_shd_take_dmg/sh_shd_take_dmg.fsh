@@ -8,7 +8,7 @@ float circle(vec2 pos, float size, float smooth) {
     return smoothstep(size - smooth, size + smooth, distance(pos, vec2(0.5)));
 }
 
-void main() {
+void main(){
     vec4 color = v_vColour;
     vec2 pos = v_vTexcoord;
 

@@ -75,7 +75,6 @@
     {"id":{"name":"scr_variables","path":"scripts/scr_variables/scr_variables.yy",},},
     {"id":{"name":"sh_shd_take_dmg","path":"shaders/sh_shd_take_dmg/sh_shd_take_dmg.yy",},},
     {"id":{"name":"sh_shd_vignette","path":"shaders/sh_shd_vignette/sh_shd_vignette.yy",},},
-    {"id":{"name":"shd_grass","path":"shaders/shd_grass/shd_grass.yy",},},
     {"id":{"name":"spr_back_2","path":"sprites/spr_back_2/spr_back_2.yy",},},
     {"id":{"name":"spr_bar_stamina","path":"sprites/spr_bar_stamina/spr_bar_stamina.yy",},},
     {"id":{"name":"spr_bar","path":"sprites/spr_bar/spr_bar.yy",},},
