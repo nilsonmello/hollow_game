@@ -69,7 +69,6 @@ if(keyboard_check_pressed(vk_space) && dash_cooldown <= 0){
 }
 #endregion
 
-
 #region sword dash
 var _mb = mouse_check_button_pressed(mb_left);
 var _mb2 = mouse_check_button(mb_left);
@@ -80,23 +79,45 @@ var _ma = mouse_check_button_pressed(mb_right);
 var _timer = 10;
 var _basico = new basic_attack(20, point_direction(x, y, mouse_x, mouse_y), 1, true, self, 0);
 
-
-
 var _spr_dir = floor((point_direction(x, y, mouse_x, mouse_y) + 90) / 180) % 2;
 
-if (attack_cooldown <= 0){
-    switch (_spr_dir){
-        case 0:     sprite_index = spr_player_idle;    image_xscale = 1;  break;
-        case 1:     sprite_index = spr_player_idle;    image_xscale = -1;  break;
+if(attack_cooldown <= 0){
+    if(spd_h == 0 && spd_v == 0){
+        switch(_spr_dir){
+            case 0:
+                sprite_index = spr_player_idle;
+                image_xscale = 1;
+                break;
+            case 1:
+                sprite_index = spr_player_idle;
+                image_xscale = -1;
+                break;
+        }
+    }else{
+        switch(_spr_dir){
+                        case 0:
+                sprite_index = spr_player_walk_rl;
+                image_xscale = 1;
+                break;
+            case 1:
+                sprite_index = spr_player_walk_rl;
+                image_xscale = -1;
+            break;
+
+        }
     }
 }else{
     switch(_spr_dir){
-        case 0:     sprite_index = spr_player_attack_rl;    image_xscale = 1;  break;
-        case 1:     sprite_index = spr_player_attack_rl;    image_xscale = -1;  break;
-    }  
+        case 0:
+            sprite_index = spr_player_attack_rl;
+            image_xscale = 1;
+            break;
+        case 1:
+            sprite_index = spr_player_attack_rl;
+            image_xscale = -1;
+        break;
+    }
 }
-
-
 
 parry_cooldown = clamp(parry_cooldown, 0, 70);
 parry_cooldown--;
@@ -118,8 +139,17 @@ if(_mb && attack_cooldown <= 0){
     if(global.deflect_bullets){
         _basico.bullet();
     }
+    
+    var _inst = instance_create_layer(x, y, "Instances_player", obj_particle_effect);
+    _inst.direction = point_direction(x, y, mouse_x, mouse_y);
+    _inst.sprite_index = spr_hitbox;
+    _inst.image_angle = _inst.direction;
+    _inst.speed = 1
+    _inst.speed = 15;
+    _inst.fric = 0.8
+    
     attack_cooldown = 15;
-    time_attack = 5;
+    time_attack = 7;
     advancing = true;
 
     //first and last point
@@ -161,6 +191,8 @@ switch(state){
 	#region idle
 	case STATES.IDLE:
 		spd = 0;
+        spd_h = 0;
+        spd_v = 0;
 		
 		if(_keys){
 			state = STATES.MOVING;
@@ -212,31 +244,36 @@ switch(state){
                 global.is_dashing = false;
             }
             
-        spd_h = lengthdir_x(dash_veloc, dash_dir);
-        spd_v = lengthdir_y(dash_veloc, dash_dir);
+            state_timer++;
+            
+            repeat(5){
+                var _inst = instance_create_layer(x, y, "Instances_player", obj_particle_effect);
+                _inst.speed = 1;
+                _inst.direction = dash_dir + 180;
+                _inst.image_angle = _inst.direction;
+                _inst.sprite_index = spr_dash;
+                _inst.fric = .8;   
+            }
 
-        state_timer++;
-        if(state_timer >= 1){
-            part_particles_create(particle_system, x, y, particle_shadow, 4);
-            state_timer = 0;
-        }
+            spd_h = lengthdir_x(dash_veloc, dash_dir);
+            spd_v = lengthdir_y(dash_veloc, dash_dir);
 
-        if(!place_meeting(x + spd_h, y, obj_enemy_par) && !place_meeting(x + spd_h, y, obj_wall) && !place_meeting(x + spd_h, y, obj_ambient)){
-            x += spd_h;
-        } else {
-            spd_h = 0;
-            state = STATES.MOVING;
-            dash_timer = 0;
-            global.is_dashing = false;
-        }
-        if(!place_meeting(x, y + spd_v, obj_enemy_par) && !place_meeting(x, y + spd_v, obj_wall) && !place_meeting(x, y + spd_v, obj_ambient)){
-            y += spd_v;
-        } else {
-            spd_v = 0;
-            state = STATES.MOVING;
-            dash_timer = 0;
-            global.is_dashing = false;
-        }
+            if(!place_meeting(x + spd_h, y, obj_enemy_par) && !place_meeting(x + spd_h, y, obj_wall) && !place_meeting(x + spd_h, y, obj_ambient)){
+                x += spd_h;
+            } else {
+                spd_h = 0;
+                state = STATES.MOVING;
+                dash_timer = 0;
+                global.is_dashing = false;
+            }
+            if(!place_meeting(x, y + spd_v, obj_enemy_par) && !place_meeting(x, y + spd_v, obj_wall) && !place_meeting(x, y + spd_v, obj_ambient)){
+                y += spd_v;
+            } else {
+                spd_v = 0;
+                state = STATES.MOVING;
+                dash_timer = 0;
+                global.is_dashing = false;
+            }
         }
     break;
 	#endregion

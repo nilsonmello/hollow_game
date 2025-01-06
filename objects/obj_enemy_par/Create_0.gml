@@ -136,7 +136,7 @@ part_type_subimage(particle_explosion, 0);
 part_type_size(particle_explosion, .4, .8, .001, 0)
 
 var _color1 = make_color_rgb(33, 33, 35);
-part_type_color1(particle_explosion, _color1);
+part_type_color1(particle_explosion, c_black);
 
 part_type_direction(particle_explosion, 0, 359, 0, 1);
 part_type_speed(particle_explosion, .5, 1, -.01, 0);
@@ -150,7 +150,7 @@ part_type_sprite(particle_explosion_2, spr_explosion, 0, 0, 0);
 part_type_size(particle_explosion_2, .1, .2, .001, 0);
 
 var _color2 = make_color_rgb(58, 56, 88);
-part_type_color1(particle_explosion_2, _color2);
+part_type_color1(particle_explosion_2, c_black);
 
 part_type_direction(particle_explosion_2, 0, 359, 0, 1);
 part_type_speed(particle_explosion_2, 1.2, 1.5, -0.004, 0);
@@ -164,7 +164,7 @@ part_type_sprite(particle_circle, spr_circle_outline, 1, 1, 1);
 part_type_size(particle_circle, 1, 1, .01, 0);
 
 var _color3 = make_color_rgb(100, 99, 101);
-part_type_color1(particle_circle, _color1);
+part_type_color1(particle_circle, c_black);
 
 part_type_life(particle_circle, 20, 20);
 part_type_alpha3(particle_circle, .2, .8, .1);

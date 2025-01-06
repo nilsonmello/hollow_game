@@ -144,24 +144,6 @@ part_type_orientation(particle_dust, 0, 180, .1, 1, 0);
 part_type_alpha3(particle_dust, 0.6, 0.4, 0.1);
 #endregion
 
-#region player shadow
-particle_system = part_system_create_layer("Instance_particle", true);
-
-particle_shadow = part_type_create();
-
-part_type_sprite(particle_shadow, spr_player_idle, 0, 0, 1);
-part_type_subimage(particle_shadow, 0)
-part_type_size(particle_shadow, 1, 1, 0, 0);
-part_type_life(particle_shadow, 25, 45);
-part_type_alpha1(particle_shadow, 0.5);
-
-var _red = make_color_rgb(53, 43, 66);
-var _red_2 = make_color_rgb(67, 67, 106);
-var _red_3 = make_color_rgb(75, 128, 202);
-
-part_type_color3(particle_shadow, _red, _red_2, _red_3);
-#endregion
-
 #endregion
 
 #region constructor attacks
@@ -269,7 +251,7 @@ function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost) : slas
                                 var relative_angle = point_direction(obj_player.x, obj_player.y, x, y) + irandom_range(-70, 70);
                                 var angle = point_direction(obj_player.x, obj_player.y, x, y);
                                 
-                                speed = choose(8, 10, 12);
+                                speed = choose(20, 20);
                                 direction = relative_angle;
                                 speed = lerp(speed, 0, .1)
                                 image_angle = relative_angle;
@@ -371,3 +353,5 @@ damage = 1;
 can_line = true;
 
 sprite_index = spr_player_idle;
+
+created = false;
