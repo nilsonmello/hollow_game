@@ -237,7 +237,6 @@ function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost) : slas
         for(var _i = 0; _i < ds_list_size(_list); _i++){
             var _rec = _list[| _i];
             if(!ds_list_find_index(global.attacked_enemies, _rec)){
-
                 
                 with (_rec){
                     if(!attacking){
