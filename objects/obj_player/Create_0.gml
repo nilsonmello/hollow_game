@@ -241,41 +241,7 @@ function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost) : slas
                 with (_rec){
                     if(!attacking){
                         
-                        repeat(6){
-                            with (instance_create_layer(x, y, "Instances_bellow", obj_particle_effect)){
-                                randomize();
-                                sprite_index = choose(spr_particle_line, spr_particle_line_2);
-                                fric = .8;
-                                
-                                var relative_angle = point_direction(obj_player.x, obj_player.y, x, y) + irandom_range(-70, 70);
-                                var angle = point_direction(obj_player.x, obj_player.y, x, y);
-                                
-                                speed = choose(20, 20);
-                                direction = relative_angle;
-                                speed = lerp(speed, 0, .1);
-                                image_xscale = 1.5;
-                                image_yscale = 1.5;
-                                image_angle = relative_angle;
-                            }
-                        }
-                        
-                        repeat(4){
-                            with (instance_create_layer(x, y, "Instances_bellow", obj_particle_effect)){
-                                randomize();
-                                sprite_index = spr_pixel;
-                                fric = .8;
-                                
-                                var relative_angle = point_direction(obj_player.x, obj_player.y, x, y) + irandom_range(-70, 70);
-                                var angle = point_direction(obj_player.x, obj_player.y, x, y);
-                                
-                                speed = choose(10, 10);
-                                direction = relative_angle;
-                                speed = lerp(speed, 0, .1);
-                                image_xscale = 1.5;
-                                image_yscale = 1.5;
-                                image_angle = relative_angle;
-                            }
-                        }
+                        particles();
                     
                         
                         var _is_critical = irandom(100) < global.critical;
@@ -306,7 +272,7 @@ function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost) : slas
                                 hit = false;
                                 alarm[1] = 10;
                                 alarm[2] = 30;
-                                var _inst = instance_create_layer(x, y, "Instances_player", obj_hitstop);
+                                var _inst2 = instance_create_layer(x, y, "Instances_player", obj_hitstop);
                                 break;
                         }
                     }

@@ -1,5 +1,6 @@
 if (line) {
     draw_line(x, y, target_x, target_y);
+    draw_circle(x, y, 100, true)
 }
 
 #region sprite draw

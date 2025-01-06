@@ -69,7 +69,7 @@ function nearest_cardinal_direction(_direction){
 
 function player_line_attack(){
     if(keyboard_check(ord("E")) && global.energy >= global.cost_hab && can_line){
-        if (global.hability == 2) {
+        if(global.hability == 2){
             return false;
         }
         
@@ -85,20 +85,28 @@ function player_line_attack(){
         var full_target_y = y + lengthdir_y(distan, direc);
         
         var _line = collision_line(x, y, full_target_x, full_target_y, obj_wall, true, false);
+        var _line_2 = collision_line(x, y, full_target_x, full_target_y, obj_enemy_par, true, false);
     
         if(_line){
-            distan = point_distance(x, y, _line.x, _line.y);
+            distan = 150;
             target_x = _line.x;
             target_y = _line.y;
+        }else if(_line_2){
+            distan = 150;
+
+                target_x = _line_2.x;
+                target_y = _line_2.y;
         }else{
             distan = 150;
             target_x = full_target_x;
             target_y = full_target_y;
         }
+        
+
     }
     
     if(keyboard_check_released(ord("E")) && global.energy >= global.cost_hab){
-        if (global.hability == 2) {
+        if(global.hability == 2){
             return false;
         }
         
@@ -141,6 +149,9 @@ function player_line_attack(){
         var _colide_2 = collision_circle(x, y, 20, obj_box, false, false);
         
         with(_enemy){
+            
+            particles();
+            
             var _is_critical = irandom(100) < global.critical;
             var _damage_to_apply = _is_critical ? other.damage * 2 : other.damage;
             var _stamina = _is_critical ? 60 : 30;
@@ -155,7 +166,6 @@ function player_line_attack(){
     
             switch(knocked){
                 case 0:
-                    part_particles_create(particle_hit, x, y, particle_slash, 1);
                     state = ENEMY_STATES.HIT;
                     emp_timer = 5;
                     emp_veloc = 6;
@@ -206,6 +216,14 @@ function player_line_attack(){
     }
 }
 
+
+
+
+
+
+
+
+
 function player_area_attack(){
     area = clamp(area, 0, global.hab_range);
     
@@ -214,7 +232,7 @@ function player_area_attack(){
     }
     
     if(keyboard_check(ord("R")) && global.can_attack){
-        if (global.hability == 1) {
+        if(global.hability == 1){
             return false;
         }
             global.hability = 2;
@@ -272,7 +290,7 @@ function player_area_attack(){
     
     
         if(keyboard_check_released(ord("R"))){
-            if (global.hability == 1) {
+            if(global.hability == 1){
                 return false;
             }
             
@@ -328,6 +346,9 @@ function player_area_attack(){
     
                 var _enemy_index = instance_position(_target_x, _target_y, obj_enemy_par);
                 if(_enemy_index != noone){
+                    
+                    particles();
+
                     _enemy_index.vida -= global.hab_dmg;
                     _enemy_index.stamina_at -= 100;
                     _enemy_index.emp_dir = point_direction(obj_player.x, obj_player.y, _enemy_index.x, _enemy_index.y);
@@ -350,4 +371,48 @@ function player_area_attack(){
     }
     #endregion
 }
+
+
+
+function particles(){
+    repeat(6){
+        with (instance_create_layer(x, y, "Instances_bellow", obj_particle_effect)){
+            randomize();
+            sprite_index = choose(spr_particle_line, spr_particle_line_2);
+            fric = .8;
+            
+            var relative_angle = point_direction(obj_player.x, obj_player.y, x, y) + irandom_range(-70, 70);
+            var angle = point_direction(obj_player.x, obj_player.y, x, y);
+            
+            speed = choose(20, 20);
+            direction = relative_angle;
+            speed = lerp(speed, 0, .1);
+            image_xscale = 1.5;
+            image_yscale = 1.5;
+            image_angle = relative_angle;
+        }
+    }
+    
+    repeat(4){
+        with (instance_create_layer(x, y, "Instances_bellow", obj_particle_effect)){
+            randomize();
+            sprite_index = spr_pixel;
+            fric = .8;
+            
+            var relative_angle = point_direction(obj_player.x, obj_player.y, x, y) + irandom_range(-70, 70);
+            var angle = point_direction(obj_player.x, obj_player.y, x, y);
+            
+            speed = choose(10, 10);
+            direction = relative_angle;
+            speed = lerp(speed, 0, .1);
+            image_xscale = 1.5;
+            image_yscale = 1.5;
+            image_angle = relative_angle;
+        }
+    }
+}
+
+
+
+
 

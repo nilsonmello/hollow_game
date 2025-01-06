@@ -1,3 +1,6 @@
+
+show_debug_overlay(true)
+
 #region hit timers 
 if(hit_timer > 0){
 	hit_timer--;
