@@ -6,6 +6,8 @@ alarm[1] = 0;
 alarm[2] = 0;
 #endregion
 
+line_mark = false;
+
 #region enemies state machine base
 state = ENEMY_STATES.IDLE;
 

@@ -25,7 +25,7 @@ function player_healing(){
         
         global.healing = true;
         timer_heal++;
-    
+
         if(timer_heal >= 30){
             if(global.energy >= global.cost_r){
                 global.life_at += global.life * 0.2;
@@ -72,37 +72,47 @@ function player_line_attack(){
         if(global.hability == 2){
             return false;
         }
-        
+    
         global.hability = 1;
         global.can_attack = true;
         global.slow_motion = true;
         global.slashing = true;
-        line = true;    
+        line = true;
+    
+        with(obj_enemy_par){
+            line_mark = false;
+        }
     
         direc = point_direction(x, y, obj_control.x, obj_control.y);
-        
+    
         var full_target_x = x + lengthdir_x(distan, direc);
         var full_target_y = y + lengthdir_y(distan, direc);
-        
+    
         var _line = collision_line(x, y, full_target_x, full_target_y, obj_wall, true, false);
         var _line_2 = collision_line(x, y, full_target_x, full_target_y, obj_enemy_par, true, false);
     
+        if(_line_2){
+            with(_line_2){
+                line_mark = true;
+            }
+    
+            var extra_distance = 100;
+            distan = point_distance(x, y, _line_2.x, _line_2.y) + extra_distance;
+    
+            target_x = x + lengthdir_x(distan, direc);
+            target_y = y + lengthdir_y(distan, direc);
+        }
+    
         if(_line){
-            distan = 150;
+            distan = point_distance(x, y, _line.x, _line.y);
             target_x = _line.x;
             target_y = _line.y;
         }else if(_line_2){
-            distan = 150;
-
-                target_x = _line_2.x;
-                target_y = _line_2.y;
         }else{
             distan = 150;
             target_x = full_target_x;
             target_y = full_target_y;
         }
-        
-
     }
     
     if(keyboard_check_released(ord("E")) && global.energy >= global.cost_hab){
@@ -115,7 +125,6 @@ function player_line_attack(){
         global.slashing = false;
         line_attack = true;
         global.hability = 0;
-        
         time_adv = 200;
     }
     
@@ -150,7 +159,7 @@ function player_line_attack(){
         
         with(_enemy){
             
-            particles();
+            particles(obj_player.x, obj_player.y, _enemy.x, _enemy.y, c_black, 6, 4);
             
             var _is_critical = irandom(100) < global.critical;
             var _damage_to_apply = _is_critical ? other.damage * 2 : other.damage;
@@ -216,14 +225,6 @@ function player_line_attack(){
     }
 }
 
-
-
-
-
-
-
-
-
 function player_area_attack(){
     area = clamp(area, 0, global.hab_range);
     
@@ -288,7 +289,6 @@ function player_area_attack(){
     }else{ 
         area = 0;
     
-    
         if(keyboard_check_released(ord("R"))){
             if(global.hability == 1){
                 return false;
@@ -347,7 +347,7 @@ function player_area_attack(){
                 var _enemy_index = instance_position(_target_x, _target_y, obj_enemy_par);
                 if(_enemy_index != noone){
                     
-                    particles();
+                    particles(obj_player.x, obj_player.y, _enemy_index.x, _enemy_index.y, c_black, 6, 4);
 
                     _enemy_index.vida -= global.hab_dmg;
                     _enemy_index.stamina_at -= 100;
@@ -372,47 +372,38 @@ function player_area_attack(){
     #endregion
 }
 
-
-
-function particles(){
-    repeat(6){
-        with (instance_create_layer(x, y, "Instances_bellow", obj_particle_effect)){
+function particles(_x_inicial, _y_inicial, _x_final, _y_final, _color, _number_1, _number_2){
+    repeat(_number_1){
+        with(instance_create_layer(_x_inicial, _y_inicial, "Instances_bellow", obj_particle_effect)){
             randomize();
             sprite_index = choose(spr_particle_line, spr_particle_line_2);
             fric = .8;
             
-            var relative_angle = point_direction(obj_player.x, obj_player.y, x, y) + irandom_range(-70, 70);
-            var angle = point_direction(obj_player.x, obj_player.y, x, y);
+            var relative_angle = point_direction(_x_inicial, _y_inicial, _x_final, _y_final) + irandom_range(-70, 70);
             
             speed = choose(20, 20);
             direction = relative_angle;
-            speed = lerp(speed, 0, .1);
             image_xscale = 1.5;
             image_yscale = 1.5;
             image_angle = relative_angle;
+            image_blend = _color;
         }
     }
     
-    repeat(4){
-        with (instance_create_layer(x, y, "Instances_bellow", obj_particle_effect)){
+    repeat(_number_2){
+        with(instance_create_layer(_x_inicial, _y_inicial, "Instances_bellow", obj_particle_effect)){
             randomize();
             sprite_index = spr_pixel;
             fric = .8;
             
-            var relative_angle = point_direction(obj_player.x, obj_player.y, x, y) + irandom_range(-70, 70);
-            var angle = point_direction(obj_player.x, obj_player.y, x, y);
+            var relative_angle = point_direction(_x_inicial, _y_inicial, _x_final, _y_final) + irandom_range(-70, 70);
             
             speed = choose(10, 10);
             direction = relative_angle;
-            speed = lerp(speed, 0, .1);
             image_xscale = 1.5;
             image_yscale = 1.5;
             image_angle = relative_angle;
+            image_blend = _color;
         }
     }
 }
-
-
-
-
-

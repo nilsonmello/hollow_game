@@ -8,10 +8,14 @@ function enemy_attack(){
     var _rect_x2 = x + lengthdir_x(_attack_offset, _direction) + _attack_range / 2;
     var _rect_y2 = y + lengthdir_y(_attack_offset, _direction) + _attack_range / 2;
     
+    var _x_init = x;
+    var _y_init = y;
+    
     if(collision_rectangle(_rect_x1, _rect_y1, _rect_x2, _rect_y2, obj_player, false, true)){
         with(obj_player){
             if(can_take_dmg){
                 if(!global.parry){
+                    particles(_x_init, _y_init, x, y, c_white, 6, 4);
                     var _inst = instance_create_layer(x, y, "Instances_player", obj_hitstop);
                     _inst.spd = 10;
                     

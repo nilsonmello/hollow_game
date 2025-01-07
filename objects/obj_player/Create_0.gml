@@ -241,9 +241,8 @@ function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost) : slas
                 with (_rec){
                     if(!attacking){
                         
-                        particles();
+                        particles(obj_player.x, obj_player.y, _rec.x, _rec.y, c_black, 6, 4);
                     
-                        
                         var _is_critical = irandom(100) < global.critical;
                         var _damage_to_apply = _is_critical ? other.dmg * 2 : other.dmg;
     					var _stamina = _is_critical ? 60 : 30;

@@ -151,6 +151,7 @@ if(_mb && attack_cooldown <= 0){
     _inst.speed = 1;
     _inst.speed = 8;
     _inst.fric = 0.8
+    _inst.image_blend = c_white;
     
     attack_cooldown = 15;
     time_attack = 10;
