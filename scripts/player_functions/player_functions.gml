@@ -8,6 +8,24 @@ function player_parry(){
 		}
 		state = STATES.PARRY
 		parry_cooldown = 70;
+        var _spr_dir = floor((point_direction(x, y, mouse_x, mouse_y) + 90) / 180) % 2;
+    
+        var _inst = instance_create_layer(x, y, "Instances_player", obj_particle_effect);
+        _inst.direction = point_direction(x, y, mouse_x, mouse_y);
+        _inst.sprite_index = spr_hitbox_parry;
+        _inst.speed = 0;
+        _inst.fric = 0.1
+        _inst.image_blend = c_white;
+    switch(_spr_dir){
+        case 0:
+            _inst.image_xscale = 1;
+            break;
+        case 1:
+            _inst.image_xscale = -1;
+            break;
+    }
+
+    
 }
 #endregion
 
@@ -245,6 +263,7 @@ function player_area_attack(){
     }
     
     if(keyboard_check(ord("R")) && global.can_attack){
+        image_xscale = 1;
         if(global.hability == 1){
             return false;
         }

@@ -89,6 +89,7 @@
     {"id":{"name":"spr_enemy","path":"sprites/spr_enemy/spr_enemy.yy",},},
     {"id":{"name":"spr_explosion","path":"sprites/spr_explosion/spr_explosion.yy",},},
     {"id":{"name":"spr_grass","path":"sprites/spr_grass/spr_grass.yy",},},
+    {"id":{"name":"spr_hitbox_parry","path":"sprites/spr_hitbox_parry/spr_hitbox_parry.yy",},},
     {"id":{"name":"spr_hitbox","path":"sprites/spr_hitbox/spr_hitbox.yy",},},
     {"id":{"name":"spr_hud","path":"sprites/spr_hud/spr_hud.yy",},},
     {"id":{"name":"spr_leaf","path":"sprites/spr_leaf/spr_leaf.yy",},},

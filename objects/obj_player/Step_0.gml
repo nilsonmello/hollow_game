@@ -89,22 +89,22 @@ if(attack_cooldown <= 0){
         switch(_spr_dir){
             case 0:
                 sprite_index = spr_player_idle;
-                //image_xscale = 1;
+                image_xscale = 1;
                 break;
             case 1:
                 sprite_index = spr_player_idle;
-                //image_xscale = -1;
+                image_xscale = -1;
                 break;
         }
     }else{
         switch(_spr_dir){
                         case 0:
                 sprite_index = spr_player_walk_rl;
-                //image_xscale = 1;
+                image_xscale = 1;
                 break;
             case 1:
                 sprite_index = spr_player_walk_rl;
-                //image_xscale = -1;
+                image_xscale = -1;
             break;
 
         }
@@ -113,15 +113,28 @@ if(attack_cooldown <= 0){
     switch(_spr_dir){
         case 0:
             sprite_index = spr_player_attack_rl;
-            //image_xscale = 1;
+            image_xscale = 1;
             break;
         case 1:
             sprite_index = spr_player_attack_rl;
-            //image_xscale = -1;
+            image_xscale = -1;
+        break;
+    }
+    
+
+}
+if (state == STATES.PARRY) {
+    switch(_spr_dir){
+        case 0:
+            sprite_index = spr_player_attack_rl;
+            image_xscale = 1;
+            break;
+        case 1:
+            sprite_index = spr_player_attack_rl;
+            image_xscale = -1;
         break;
     }
 }
-
 parry_cooldown = clamp(parry_cooldown, 0, 70);
 parry_cooldown--;
 

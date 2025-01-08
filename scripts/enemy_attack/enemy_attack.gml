@@ -52,6 +52,13 @@ function enemy_attack(){
                         attacking = false;
                         timer_hit = 20;
                         emp_timer = 10;
+                        hit_alpha = 1;
+                        
+                        particles(other.x, other.y, x, y, c_black, 4, 2);
+                        var _inst = instance_create_layer(x, y, "Instances_player", obj_hitstop);
+                        _inst.time = 2;
+                        
+                        layer_set_visible("screenshake_damaging_enemies", 1);
                         
                         alarm[2] = 30;
                         time_per_attacks = 110;
