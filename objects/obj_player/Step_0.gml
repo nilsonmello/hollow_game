@@ -365,3 +365,5 @@ if(yprevious != y and candust == true){
 #region hit indication
 hit_alpha = lerp(hit_alpha, 0, 0.1);
 #endregion
+
+rot += 4;

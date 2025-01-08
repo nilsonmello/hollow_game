@@ -340,3 +340,5 @@ can_line = true;
 sprite_index = spr_player_idle;
 
 created = false;
+
+rot = 0;

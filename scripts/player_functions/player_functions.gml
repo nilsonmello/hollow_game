@@ -67,7 +67,7 @@ function nearest_cardinal_direction(_direction){
 }
 #endregion
 
-function player_line_attack() {
+function player_line_attack(){
     if (keyboard_check(ord("E")) && global.energy >= global.cost_hab && can_line) {
         if (global.hability == 2) {
             return false;
@@ -104,14 +104,14 @@ function player_line_attack() {
 
             // Usar o primeiro inimigo para calcular a distância e os alvos
             var _first_enemy = enemies_hit[| 0];
-            var extra_distance = 100;
+            var extra_distance = 80;
             distan = point_distance(x, y, _first_enemy.x, _first_enemy.y) + extra_distance;
 
             target_x = x + lengthdir_x(distan, direc);
             target_y = y + lengthdir_y(distan, direc);
         } else {
             // Caso não haja inimigos atingidos
-            distan = 150;
+            distan = 100;
             target_x = full_target_x;
             target_y = full_target_y;
         }

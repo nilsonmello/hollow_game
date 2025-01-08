@@ -1,5 +1,5 @@
 if (line) {
-    draw_sprite(spr_sign, 0, target_x, target_y);
+    draw_sprite_ext(spr_teste, 0, target_x, target_y, 1, 1, rot, c_white, 1);
 }
 
 
