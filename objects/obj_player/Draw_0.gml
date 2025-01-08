@@ -1,9 +1,3 @@
-if (line) {
-    draw_sprite_ext(spr_teste, 0, target_x, target_y, 1, 1, rot, c_white, 1);
-}
-
-
-
 #region sprite draw
 draw_sprite_ext(sprite_index, image_index, x, y, image_xscale, image_yscale, 0, c_white, 1);
 #endregion

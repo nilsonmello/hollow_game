@@ -211,12 +211,6 @@ switch(state){
 	    break;
 	#endregion
 
-	#region recovery
-	//case ENEMY_STATES.RECOVERY:
-
-	//break;
-	#endregion
-
 	#region death
     case ENEMY_STATES.DEATH:
         part_particles_create(particle_system_explosion, x, y, particle_circle, 1); 
@@ -236,4 +230,5 @@ switch(state){
     break;
 	#endregion
 }
+
 #endregion

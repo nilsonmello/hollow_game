@@ -25,7 +25,7 @@
   ],
   "name":"spr_warning",
   "nineSlice":null,
-  "origin":9,
+  "origin":4,
   "parent":{
     "name":"hud",
     "path":"folders/Sprites/hud.yy",
@@ -84,7 +84,7 @@
     "visibleRange":null,
     "volume":1.0,
     "xorigin":10,
-    "yorigin":8,
+    "yorigin":10,
   },
   "swatchColours":null,
   "swfPrecision":0.5,

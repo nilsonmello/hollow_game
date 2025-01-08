@@ -28,7 +28,6 @@ function enemy_attack(){
     
                     can_take_dmg = false;
                     hit_cooldown = 60;
-                    obj_control.alarm[0] = 60;
     
                     with(other){
                         state = ENEMY_STATES.CHOOSE;

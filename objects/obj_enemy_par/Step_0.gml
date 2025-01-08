@@ -1,5 +1,10 @@
-
 rotation++;
+
+if(frame < 6){
+    frame += .4
+}else{
+    frame = 6;
+}
 
 #region enemies slow motion
 if(global.slashing){
@@ -26,3 +31,5 @@ if(stamina_at <= 10){
 
 stamina_at = clamp(stamina_at, 0, stamina_t);
 #endregion
+
+show_debug_message(image_speed)

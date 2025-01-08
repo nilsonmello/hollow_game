@@ -230,3 +230,8 @@ function check_for_player(_distance){
         }
     }
 }
+
+//variable for the draw arround the enemies using the mouse
+alligned = false;
+
+frame = 0;
