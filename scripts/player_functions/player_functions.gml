@@ -67,104 +67,113 @@ function nearest_cardinal_direction(_direction){
 }
 #endregion
 
-function player_line_attack(){
-    if(keyboard_check(ord("E")) && global.energy >= global.cost_hab && can_line){
-        if(global.hability == 2){
+function player_line_attack() {
+    if (keyboard_check(ord("E")) && global.energy >= global.cost_hab && can_line) {
+        if (global.hability == 2) {
             return false;
         }
-    
+
         global.hability = 1;
         global.can_attack = true;
         global.slow_motion = true;
         global.slashing = true;
         line = true;
-    
-        with(obj_enemy_par){
+
+        with (obj_enemy_par) {
             line_mark = false;
         }
-    
+
         direc = point_direction(x, y, obj_control.x, obj_control.y);
-    
+
         var full_target_x = x + lengthdir_x(distan, direc);
         var full_target_y = y + lengthdir_y(distan, direc);
-    
+
         var _line = collision_line(x, y, full_target_x, full_target_y, obj_wall, true, false);
-        var _line_2 = collision_line(x, y, full_target_x, full_target_y, obj_enemy_par, true, false);
-    
-        if(_line_2){
-            with(_line_2){
-                line_mark = true;
+        
+        // Obter todos os inimigos na linha
+        var enemies_hit = ds_list_create();
+        collision_line_list(x, y, full_target_x, full_target_y, obj_enemy_par, true, false, enemies_hit, false);
+
+        if (!ds_list_empty(enemies_hit)) {
+            for (var i = 0; i < ds_list_size(enemies_hit); i++) {
+                var _enemy = enemies_hit[| i];
+                with (_enemy) {
+                    line_mark = true;
+                }
             }
-    
+
+            // Usar o primeiro inimigo para calcular a distância e os alvos
+            var _first_enemy = enemies_hit[| 0];
             var extra_distance = 100;
-            distan = point_distance(x, y, _line_2.x, _line_2.y) + extra_distance;
-    
+            distan = point_distance(x, y, _first_enemy.x, _first_enemy.y) + extra_distance;
+
             target_x = x + lengthdir_x(distan, direc);
             target_y = y + lengthdir_y(distan, direc);
-        }
-    
-        if(_line){
-            distan = point_distance(x, y, _line.x, _line.y);
-            target_x = _line.x;
-            target_y = _line.y;
-        }else if(_line_2){
-        }else{
+        } else {
+            // Caso não haja inimigos atingidos
             distan = 150;
             target_x = full_target_x;
             target_y = full_target_y;
         }
+
+        ds_list_destroy(enemies_hit); // Destruir a lista após todas as verificações
+
+        if (_line) {
+            distan = point_distance(x, y, _line.x, _line.y);
+            target_x = _line.x;
+            target_y = _line.y;
+        }
     }
-    
-    if(keyboard_check_released(ord("E")) && global.energy >= global.cost_hab){
-        if(global.hability == 2){
+
+    if (keyboard_check_released(ord("E")) && global.energy >= global.cost_hab) {
+        if (global.hability == 2) {
             return false;
         }
-        
-        global.energy -= global.cost_hab
+
+        global.energy -= global.cost_hab;
         global.slow_motion = false;
         global.slashing = false;
         line_attack = true;
         global.hability = 0;
         time_adv = 200;
     }
-    
-    if(line_attack){
-        if(time_adv > 0){
+
+    if (line_attack) {
+        if (time_adv > 0) {
             can_line = false;
             var _new_x = lerp(x, target_x, vel_a);
             var _new_y = lerp(y, target_y, vel_a);
-    
-            if(collision_rectangle(_new_x - 5, _new_y - 9, _new_x + 5, _new_y + 9, obj_wall, false, false)){
+
+            if (collision_rectangle(_new_x - 5, _new_y - 9, _new_x + 5, _new_y + 9, obj_wall, false, false)) {
                 line_attack = false;
-            }else{
+            } else {
                 x = _new_x;
                 y = _new_y;
             }
-        
-            if(distance_to_point(target_x, target_y) < 10){
+
+            if (distance_to_point(target_x, target_y) < 10) {
                 line_attack = false;
                 line = false;
                 can_line = true;
             }
         }
-        
-        //enemy colide
+
+        // Colisão com inimigo
         var _enemy = collision_rectangle(x - 10, y - 10, x + 10, y + 10, obj_enemy_par, false, false);
-    
-        //bush colide
+
+        // Colisão com arbusto
         var _colide = collision_circle(x, y, 20, obj_bush, false, false);
-        
-        //box colide
+
+        // Colisão com caixa
         var _colide_2 = collision_circle(x, y, 20, obj_box, false, false);
-        
-        with(_enemy){
-            
+
+        with (_enemy) {
             particles(obj_player.x, obj_player.y, _enemy.x, _enemy.y, c_black, 6, 4);
-            
+
             var _is_critical = irandom(100) < global.critical;
             var _damage_to_apply = _is_critical ? other.damage * 2 : other.damage;
             var _stamina = _is_critical ? 60 : 30;
-    
+
             escx = 1.5;
             escy = 1.5;
             hit_alpha = 1;
@@ -172,58 +181,61 @@ function player_line_attack(){
             emp_dir = point_direction(obj_player.x, obj_player.y, x, y);
             global.combo++;
             obj_camera.alarm[1] = 5;
-    
-            switch(knocked){
+
+            switch (knocked) {
                 case 0:
                     state = ENEMY_STATES.HIT;
                     emp_timer = 5;
                     emp_veloc = 6;
                     stamina_at -= _stamina;
                     alarm[2] = 30;
-                break;
-    
+                    break;
+
                 case 1:
                     state = ENEMY_STATES.KNOCKED;
                     vida -= _damage_to_apply;
                     hit = false;
                     alarm[1] = 10;
                     alarm[2] = 30;
-                break;
+                    break;
             }
         }
-        
-        if(_colide){
-            if(_colide.image_index == 0){
+
+        if (_colide) {
+            if (_colide.image_index == 0) {
                 var _part_num = irandom_range(7, 12);
-                
-                repeat(_part_num){
+
+                repeat (_part_num) {
                     var _inst = instance_create_layer(_colide.x + irandom_range(-2, 2), _colide.y - 8, "Instances_player", obj_b_part);
                     _inst.direction = point_direction(x, y, _colide.x, _colide.y) + irandom_range(90, -90);
                     _inst.image_index = irandom(4);
                     obj_camera.alarm[1] = 5;
                 }
             }
-            
-            with(_colide){
+
+            with (_colide) {
                 image_index = 1;
             }
         }
-            
-        if(_colide_2){
+
+        if (_colide_2) {
             var _part_num = irandom_range(7, 12);
-            
-            repeat(_part_num){
+
+            repeat (_part_num) {
                 var _inst = instance_create_layer(_colide_2.x + irandom_range(-2, 2), _colide_2.y - 8, "Instances_player", obj_b_part);
                 _inst.direction = point_direction(x, y, _colide_2.x, _colide_2.y) + irandom_range(90, -90);
                 _inst.image_index = irandom_range(5, 8);
                 obj_camera.alarm[1] = 5;
             }
-            with(_colide_2){
+
+            with (_colide_2) {
                 instance_destroy(_colide_2);
             }
         }
     }
 }
+
+
 
 function player_area_attack(){
     area = clamp(area, 0, global.hab_range);

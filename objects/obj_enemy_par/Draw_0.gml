@@ -25,6 +25,6 @@ var _wid = stamina_at div 5
 //drawing bar stretched
 draw_sprite_stretched(spr_bar_stamina, 0, x - 10, y + 20, _wid, 3);
 
-if (line_mark){
-    draw_sprite(spr_sign, 0, x, y);
+if(line_mark){
+    draw_sprite_ext(spr_sign, 2, x, y, 1, 1, rotation, c_white, 1);
 }

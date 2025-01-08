@@ -336,8 +336,6 @@ switch(state){
 }
 #endregion
 
-
-
 #region hability activation
 //função do ataque em area
 player_area_attack();
@@ -346,23 +344,23 @@ player_area_attack();
 player_line_attack();
 #endregion
 
-//#region dust walk
-//if(dust_time <= 0){
-    //dust_time = choose(10, 12);
-	//candust = true;
-//}else{
-    //dust_time--;
-//}
-//
-//if(xprevious != x and candust == true){
-	//candust = false;
-	//part_particles_create(particle_system_dust, x, y + 5, particle_dust, 10);
-//}
-//if(yprevious != y and candust == true){
-	//candust = false;
-	//part_particles_create(particle_system_dust, x, y, particle_dust, 10);
-//}
-//#endregion
+#region dust walk
+if(dust_time <= 0){
+    dust_time = choose(10, 12);
+	candust = true;
+}else{
+    dust_time--;
+}
+
+if(xprevious != x and candust == true){
+	candust = false;
+	part_particles_create(particle_system_dust, x, y + 10, particle_dust, 10);
+}
+if(yprevious != y and candust == true){
+	candust = false;
+	part_particles_create(particle_system_dust, x, y, particle_dust, 10);
+}
+#endregion
 
 #region hit indication
 hit_alpha = lerp(hit_alpha, 0, 0.1);

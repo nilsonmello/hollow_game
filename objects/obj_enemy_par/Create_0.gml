@@ -205,6 +205,7 @@ state_cooldown = 0;
 
 check_timer = 0;
 
+rotation = 0;
 
 function check_for_player(_distance){
     if(check_timer > 0){

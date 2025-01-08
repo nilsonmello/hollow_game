@@ -1,7 +1,8 @@
 if (line) {
-    draw_line(x, y, target_x, target_y);
-    draw_circle(x, y, 150, true)
+    draw_sprite(spr_sign, 0, target_x, target_y);
 }
+
+
 
 #region sprite draw
 draw_sprite_ext(sprite_index, image_index, x, y, image_xscale, image_yscale, 0, c_white, 1);
@@ -94,7 +95,7 @@ for(var _i = 0; _i < ds_list_size(trail_fixed_positions); _i++){
 
     var _alpha = trail_fixed_timer[| _i] / 30;
     draw_set_alpha(_alpha);
-    draw_sprite_ext(spr_trail_2, 0, _position[0], _position[1], 1, 1, _angle, c_white, _alpha);
+    draw_sprite_ext(spr_trail_2, image_index, _position[0], _position[1], 1, 1, _angle, c_white, _alpha);
 }
 draw_set_alpha(1);
 #endregion

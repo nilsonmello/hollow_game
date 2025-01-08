@@ -1,3 +1,6 @@
+
+rotation++;
+
 #region enemies slow motion
 if(global.slashing){
 	move_speed = lerp(move_speed, .2, .07);
