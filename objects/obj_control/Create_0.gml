@@ -1,7 +1,7 @@
 #region mouse
 
 //mouse limiter variables
-orb_rad = 100;
+orb_rad = 120;
 orb_angle = 0;
 
 //removing cursor

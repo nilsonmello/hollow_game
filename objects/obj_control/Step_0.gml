@@ -28,17 +28,18 @@ if(_line){
 #region mouse config
 if(instance_exists(obj_player)){
 
-    //mouse direction
+    // Calculando a direção entre o jogador e o mouse
     var _dir = point_direction(obj_player.x, obj_player.y, mouse_x, mouse_y);
     
-    //max distance
-    var _dis = min(150, point_distance(obj_player.x, obj_player.y, mouse_x, mouse_y));
+    // Calculando a distância entre o jogador e o mouse
+    var _dis = min(orb_rad, point_distance(obj_player.x, obj_player.y, mouse_x, mouse_y)); // Limitar a distância pela orb_rad
     
-    //target settings
+    // Calculando as novas coordenadas do mouse com base na distância limitada
     var _tar_x = obj_player.x + lengthdir_x(_dis, _dir);
     var _tar_y = obj_player.y + lengthdir_y(_dis, _dir);
     
-    //moving object
+    // Movendo o mouse para as novas coordenadas
     x = _tar_x;
     y = _tar_y;
 }
+#endregion

@@ -5,21 +5,7 @@ draw_sprite_ext(sprite_index, image_index, x, y, image_xscale, image_yscale, 0, 
 #region hability draw debug
 if(keyboard_check(ord("R")) && global.hability == 2){
 
-    draw_circle(x, y, global.hab_range, true);
-
-
-	var _colors = [
-	    make_color_rgb(139, 0, 255),   // Roxo escuro
-	    make_color_rgb(157, 0, 255),   // Roxo médio
-	    make_color_rgb(175, 0, 255),   // Roxo com mais vermelho
-	    make_color_rgb(193, 0, 255),   // Lilás intenso
-	    make_color_rgb(211, 0, 255),   // Lilás
-	    make_color_rgb(229, 0, 255),   // Rosa claro
-	    make_color_rgb(247, 0, 255),   // Rosa mais vibrante
-	    make_color_rgb(255, 0, 247),   // Rosa com leve azul
-	    make_color_rgb(255, 0, 231),   // Rosa intenso
-	    make_color_rgb(255, 0, 255)    // Rosa puro
-	];
+    draw_sprite(spr_area, 0, x, y);
 
     if(enemy_list != undefined && ds_list_size(enemy_list) > 0){
         var _max_enemies = min(global.marked, ds_list_size(enemy_list));
@@ -34,14 +20,14 @@ if(keyboard_check(ord("R")) && global.hability == 2){
             var _first_enemy = _first_enemy_data[0];
             
             if(instance_exists(_first_enemy)){
-                draw_sprite(spr_sign, 0, _first_enemy.x, _first_enemy.y);
+                draw_sprite(spr_quad, frame, _first_enemy.x, _first_enemy.y);
             }
             
             var _dir = point_direction(x, y, _first_enemy.x, _first_enemy.y);
             var _dist = point_distance(x, y, _first_enemy.x, _first_enemy.y);
             
-            var _color_index = 0;
-            draw_sprite_ext(spr_line, 0, x, y, _dist / sprite_width, 1, _dir, _colors[_color_index], 1);
+
+            draw_sprite_ext(spr_line, 0, x, y, _dist / sprite_width, 1, _dir, c_white, 1);
 
             if(instance_exists(_enemy_prev) && instance_exists(_enemy_curr)){
                 if((_enemy_prev.object_index == obj_enemy || _enemy_prev.object_index == obj_enemy_2) &&
@@ -52,8 +38,7 @@ if(keyboard_check(ord("R")) && global.hability == 2){
                    
                     image_xscale = 1;
 
-                    _color_index = (_i + 1) mod array_length(_colors);
-                    draw_sprite_ext(spr_line, 0, _enemy_prev.x, _enemy_prev.y, _dist / sprite_width, 1, _dir, _colors[_color_index], 1);
+                    draw_sprite_ext(spr_line, 0, _enemy_prev.x, _enemy_prev.y, _dist / sprite_width, 1, _dir, c_white, 1);
                 }
             }
         }
@@ -62,7 +47,7 @@ if(keyboard_check(ord("R")) && global.hability == 2){
         var _last_enemy = _last_enemy_data[0];
         
         if(instance_exists(_last_enemy)){
-            draw_sprite(spr_sign, 1, _last_enemy.x, _last_enemy.y);
+            draw_sprite(spr_quad, frame, _last_enemy.x, _last_enemy.y);
         }
     }
 }
@@ -101,3 +86,8 @@ if(hit_alpha > 0){
 	gpu_set_fog(false, hit_color,0, 0);
 }
 #endregion
+
+if(line){
+    draw_sprite(spr_area, 0, x, y);
+    draw_sprite(spr_quad_2, 0, target_x, target_y);    
+}

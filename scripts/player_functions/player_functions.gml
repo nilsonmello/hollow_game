@@ -111,7 +111,7 @@ function player_line_attack(){
             target_y = y + lengthdir_y(distan, direc);
         } else {
             // Caso não haja inimigos atingidos
-            distan = 100;
+            distan = 120;
             target_x = full_target_x;
             target_y = full_target_y;
         }
@@ -248,9 +248,16 @@ function player_area_attack(){
         if(global.hability == 1){
             return false;
         }
-            global.hability = 2;
-            global.slashing = true;
-            global.slow_motion = true;
+        
+        if(frame < 6){
+            frame += .4
+        }else{
+            frame = 6;
+        }
+        
+        global.hability = 2;
+        global.slashing = true;
+        global.slow_motion = true;
         
     
         ds_list_clear(enemy_list);
@@ -354,6 +361,7 @@ function player_area_attack(){
                     path_position_index = ds_list_size(path_list) - 1;
                     move_speed = 0;
                     global.slashing = false;
+                    frame = 0;
                 }
     
                 var _enemy_index = instance_position(_target_x, _target_y, obj_enemy_par);

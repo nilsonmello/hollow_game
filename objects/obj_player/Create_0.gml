@@ -342,3 +342,5 @@ sprite_index = spr_player_idle;
 created = false;
 
 rot = 0;
+
+frame = 0;
