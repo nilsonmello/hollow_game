@@ -3,7 +3,7 @@ resolution_width = 1920;
 resolution_height = 1080;
 
 //screen scale
-resolution_scale = 4;
+resolution_scale = 5;
 
 //camera height and width
 global.view_width = resolution_width div resolution_scale;

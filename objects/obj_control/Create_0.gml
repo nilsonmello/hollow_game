@@ -1,14 +1,9 @@
-#region mouse
+randomize();
 
-//mouse limiter variables
 orb_rad = 120;
 orb_angle = 0;
 
-//removing cursor
 window_set_cursor(cr_none);
-#endregion
-
-randomize();
 
 global.part_sist = part_system_create();
 
