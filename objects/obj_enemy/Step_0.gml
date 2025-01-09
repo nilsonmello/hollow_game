@@ -120,6 +120,7 @@ switch(state){
 	
 	#region knocked
 	case ENEMY_STATES.KNOCKED:
+        
 	    stamina_at += .5;
 	    if (stamina_at < stamina_t){
 	        if (hit){

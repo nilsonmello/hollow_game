@@ -46,13 +46,14 @@ function enemy_attack(){
     
                     with(other){
                         state = ENEMY_STATES.KNOCKED;
-                        emp_dir = point_direction(obj_player.x, obj_player.y, other.x, other.y);
+                        emp_dir = point_direction(obj_player.x, obj_player.y, x, y);
                         emp_veloc = 6;
                         hit = true;
                         attacking = false;
                         timer_hit = 20;
                         emp_timer = 10;
                         hit_alpha = 1;
+                        spd = 0;
                         
                         particles(other.x, other.y, x, y, c_black, 4, 2);
                         var _inst = instance_create_layer(x, y, "Instances_player", obj_hitstop);

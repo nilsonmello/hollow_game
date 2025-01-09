@@ -3,51 +3,46 @@ draw_sprite_ext(sprite_index, image_index, x, y, image_xscale, image_yscale, 0, 
 #endregion
 
 #region hability draw debug
-if(keyboard_check(ord("R")) && global.hability == 2){
-
+if (keyboard_check(ord("R")) && global.hability == 2) {
     draw_sprite(spr_area, 0, x, y);
 
-    if(enemy_list != undefined && ds_list_size(enemy_list) > 0){
+    if (enemy_list != undefined && ds_list_size(enemy_list) > 0) {
         var _max_enemies = min(global.marked, ds_list_size(enemy_list));
-        
-        for(var _i = 0; _i < _max_enemies - 1; _i++){
-            var _enemy_data_prev = enemy_list[| _i];
-            var _enemy_data_curr = enemy_list[| _i + 1];
-            var _enemy_prev = _enemy_data_prev[0];
-            var _enemy_curr = _enemy_data_curr[0];
-			
-            var _first_enemy_data = enemy_list[| 0];
-            var _first_enemy = _first_enemy_data[0];
-            
-            if(instance_exists(_first_enemy)){
-                draw_sprite(spr_quad, frame, _first_enemy.x, _first_enemy.y);
-            }
-            
+
+        var _first_enemy_data = enemy_list[| 0];
+        var _first_enemy = _first_enemy_data[0];
+        if (instance_exists(_first_enemy)) {
+            draw_sprite(spr_quad, frame, _first_enemy.x, _first_enemy.y);
+
             var _dir = point_direction(x, y, _first_enemy.x, _first_enemy.y);
             var _dist = point_distance(x, y, _first_enemy.x, _first_enemy.y);
-            
 
             draw_sprite_ext(spr_line, 0, x, y, _dist / sprite_width, 1, _dir, c_white, 1);
-
-            if(instance_exists(_enemy_prev) && instance_exists(_enemy_curr)){
-                if((_enemy_prev.object_index == obj_enemy || _enemy_prev.object_index == obj_enemy_2) &&
-                   (_enemy_curr.object_index == obj_enemy || _enemy_curr.object_index == obj_enemy_2)){
-
-                    _dir = point_direction(_enemy_prev.x, _enemy_prev.y, _enemy_curr.x, _enemy_curr.y);
-                    _dist = point_distance(_enemy_prev.x, _enemy_prev.y, _enemy_curr.x, _enemy_curr.y);
-                   
-                    image_xscale = 1;
-
-                    draw_sprite_ext(spr_line, 0, _enemy_prev.x, _enemy_prev.y, _dist / sprite_width, 1, _dir, c_white, 1);
-                }
-            }
         }
 
-        var _last_enemy_data = enemy_list[| _max_enemies - 1];
-        var _last_enemy = _last_enemy_data[0];
-        
-        if(instance_exists(_last_enemy)){
-            draw_sprite(spr_quad, frame, _last_enemy.x, _last_enemy.y);
+        for (var _i = 0; _i < _max_enemies; _i++) {
+            var _enemy_data = enemy_list[| _i];
+            var _enemy = _enemy_data[0];
+
+            if (instance_exists(_enemy)) {
+                draw_sprite(spr_quad, frame, _enemy.x, _enemy.y);
+            }
+
+            if (_i < _max_enemies - 1) {
+                var _enemy_data_next = enemy_list[| _i + 1];
+                var _enemy_next = _enemy_data_next[0];
+
+                if (instance_exists(_enemy) && instance_exists(_enemy_next)) {
+                    if ((_enemy.object_index == obj_enemy || _enemy.object_index == obj_enemy_2) &&
+                        (_enemy_next.object_index == obj_enemy || _enemy_next.object_index == obj_enemy_2)) {
+
+                        var _dir = point_direction(_enemy.x, _enemy.y, _enemy_next.x, _enemy_next.y);
+                        var _dist = point_distance(_enemy.x, _enemy.y, _enemy_next.x, _enemy_next.y);
+
+                        draw_sprite_ext(spr_line, 0, _enemy.x, _enemy.y, _dist / sprite_width, 1, _dir, c_white, 1);
+                    }
+                }
+            }
         }
     }
 }
