@@ -6,18 +6,9 @@ if(frame < 6){
     frame = 6;
 }
 
-#region enemies slow motion
-if(global.slashing){
-	move_speed = lerp(move_speed, .2, .07);
-	vel = .1;
-	state = ENEMY_STATES.HIT;
-	timer_hit = 120;
-}else{
-	move_speed = lerp(move_speed, 1.3, .07);
-	vel = 12;
-    line_mark = false;
-}
-#endregion
+move_speed = lerp(move_speed, 1.3, .07);
+vel = 12;
+line_mark = false;
 
 #region hit alpha
 //decreases the hit_alpha value

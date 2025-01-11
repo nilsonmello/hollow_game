@@ -1,6 +1,3 @@
-
-show_debug_overlay(true)
-
 #region hit timers 
 if(hit_timer > 0){
 	hit_timer--;
@@ -222,32 +219,27 @@ switch(state){
 	#region walking
 	case STATES.MOVING:
         if(attack_cooldown <= 0){
-
-		if(!keyboard_check(ord("R"))){
 			spd = 1;
-		}else{
-			spd = 0;
-		}
-    
-		if(_keys){
-			move_dir = point_direction(0, 0, _right - _left, _down - _top);
-		
-			spd_h = lengthdir_x(spd * _keys, move_dir);
-			spd_v = lengthdir_y(spd * _keys, move_dir);
-			
-			if(!place_meeting(x + spd_h, y, obj_enemy_par) && !place_meeting(x + spd_h, y, obj_wall) && !place_meeting(x + spd_h, y, obj_ambient)){
-				x += spd_h;
-			}else{
-				spd_h = 0;
-			}
-			if(!place_meeting(x, y + spd_v, obj_enemy_par) && !place_meeting(x, y + spd_v, obj_wall) && !place_meeting(x, y + spd_v, obj_ambient)){
-				y += spd_v;
-			}else{
-				spd_v = 0;
-			}
-		}else{
-			state = STATES.IDLE;
-		}
+
+    		if(_keys){
+    			move_dir = point_direction(0, 0, _right - _left, _down - _top);
+    		
+    			spd_h = lengthdir_x(spd * _keys, move_dir);
+    			spd_v = lengthdir_y(spd * _keys, move_dir);
+    			
+    			if(!place_meeting(x + spd_h, y, obj_enemy_par) && !place_meeting(x + spd_h, y, obj_wall) && !place_meeting(x + spd_h, y, obj_ambient)){
+    				x += spd_h;
+    			}else{
+    				spd_h = 0;
+    			}
+    			if(!place_meeting(x, y + spd_v, obj_enemy_par) && !place_meeting(x, y + spd_v, obj_wall) && !place_meeting(x, y + spd_v, obj_ambient)){
+    				y += spd_v;
+    			}else{
+    				spd_v = 0;
+    			}
+    		}else{
+    			state = STATES.IDLE;
+    		}
         }
 	break;
 	#endregion
@@ -349,14 +341,6 @@ switch(state){
 }
 #endregion
 
-#region hability activation
-//função do ataque em area
-player_area_attack();
-
-//função do ataque em linha
-player_line_attack();
-#endregion
-
 #region dust walk
 if(dust_time <= 0){
     dust_time = choose(10, 12);
@@ -378,7 +362,3 @@ if(yprevious != y and candust == true){
 #region hit indication
 hit_alpha = lerp(hit_alpha, 0, 0.1);
 #endregion
-
-rot += 4;
-
-show_debug_message(frame)

@@ -19,7 +19,7 @@ if(warning){
 }
 #endregion
 
-if (alligned or line_mark){
+if (alligned){
     draw_sprite(spr_quad, frame, x, y);
 }else{
     frame = 0;

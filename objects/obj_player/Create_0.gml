@@ -26,32 +26,8 @@ dash_timer = 0;
 dash_cooldown = 0;
 #endregion
 
-#region hability variables
-//hability range
-area = 20;
-
-//enemy and path lists
-enemy_list = ds_list_create();
-path_list = ds_list_create();
-
-//actual position and if its moving
-moving_along_path = false;
-path_position_index = 0;
-
-//actual hability speed
-move_speed = 0;
-
-//trail length, positions and 
-trail_length = 10;
-trail_positions = ds_queue_create();
-trail_thickness = 2;
-
 //if can create the dust particles
 candust = true;
-
-//the second trial possibility
-trail_fixed_positions = ds_list_create();
-trail_fixed_timer = ds_list_create();
 
 //speed movement
 advance_speed = .2;
@@ -309,38 +285,4 @@ function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost) : slas
 #endregion
 
 
-#region teste
-
-//distance to advance
-distan = 100;
-//direction to advance
-direc = 0;
-//speed
-vel_a = .1;
-
-//if he can activate
-line_attack = false;
-
-//final point
-target_x = 0;
-target_y = 0;
-
-//line draw indication
-line = false;
-
-//timer for advance
-time_adv = 0;
-
-//attack damage
-damage = 1;
-
-//control for hability
-can_line = true;
-
 sprite_index = spr_player_idle;
-
-created = false;
-
-rot = 0;
-
-frame = 0;

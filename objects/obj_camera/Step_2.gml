@@ -1,7 +1,5 @@
 if(global.healing){
     zoom_target = 0.9;
-}else if(global.slashing && global.energy >= global.cost_hab){
-    zoom_target = 0.9;
 }else{
     zoom_target = 1;
 }
