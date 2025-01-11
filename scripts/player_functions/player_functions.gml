@@ -24,8 +24,6 @@ function player_parry(){
             _inst.image_xscale = -1;
             break;
     }
-
-    
 }
 #endregion
 
@@ -112,10 +110,10 @@ function player_line_attack(){
         var enemies_hit = ds_list_create();
         collision_line_list(x, y, full_target_x, full_target_y, obj_enemy_par, true, false, enemies_hit, false);
 
-        if (!ds_list_empty(enemies_hit)) {
-            for (var i = 0; i < ds_list_size(enemies_hit); i++) {
+        if(!ds_list_empty(enemies_hit)){
+            for(var i = 0; i < ds_list_size(enemies_hit); i++){
                 var _enemy = enemies_hit[| i];
-                with (_enemy) {
+                with(_enemy){
                     line_mark = true;
                 }
             }
@@ -252,8 +250,6 @@ function player_line_attack(){
         }
     }
 }
-
-
 
 function player_area_attack(){
     area = clamp(area, 0, global.hab_range);
