@@ -45,3 +45,15 @@ global.dash_cooldown = 23;
 //during dash shield
 global.shield = false;
 #endregion
+
+//variable to keep the information of the enemy
+global.target_enemy = 0
+
+//i can use the line attack
+global.line_ready = false;
+
+//the timer for the use of the hability
+global.line_attack_timer = 0;
+
+//timer for the line hability
+global.parry_timer = 0;

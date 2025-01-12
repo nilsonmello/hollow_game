@@ -1,3 +1,11 @@
+if (global.parry_timer > 0) {
+    global.parry_timer--;
+}
+
+if (global.parry_timer <= 0) {
+    global.target_enemy = noone;
+}
+
 #region hit timers 
 if(hit_timer > 0){
 	hit_timer--;
@@ -60,7 +68,7 @@ if(dash_cooldown > 0){
 if(keyboard_check_pressed(vk_space) && dash_cooldown <= 0){
     if(_keys){
         global.is_dashing = true;
-        dash_timer = 8;
+        dash_timer = 4;
         dash_cooldown = global.dash_cooldown;
         state = STATES.DASH;
         
@@ -79,7 +87,7 @@ var _mb3 = mouse_check_button_released(mb_left);
 var _ma = mouse_check_button_pressed(mb_right);
 
 var _timer = 10;
-var _basico = new basic_attack(20, point_direction(x, y, mouse_x, mouse_y), 1, true, self, 0);
+var _basico = new basic_attack(23, point_direction(x, y, mouse_x, mouse_y), 1, true, self, 0);
 
 var _spr_dir = floor((point_direction(x, y, mouse_x, mouse_y) + 90) / 180) % 2;
 
@@ -120,8 +128,6 @@ if(attack_cooldown <= 0){
             image_xscale = -1;
         break;
     }
-    
-
 }
 if(state == STATES.PARRY){
     switch(_spr_dir){
@@ -181,15 +187,13 @@ if(_mb && attack_cooldown <= 0){
 }
 player_line_attack();
 
-show_debug_message(correct_parry)
-
 //limiting the timer
 time_attack = clamp(time_attack, 0, 5);
 
 if(advancing && time_attack > 0){
     time_attack--;
 
-    var _advance_speed = 0.2;
+    var _advance_speed = 0.3;
     var __nx = lerp(x, advance_x, _advance_speed);
     var __ny = lerp(y, advance_y, _advance_speed);
 
@@ -300,7 +304,7 @@ switch(state){
 	
 	#region parry
     case STATES.PARRY:
-        if (state != STATES.DASH) {
+        if(state != STATES.DASH){
             parry_time--;
     
             global.parry = true;

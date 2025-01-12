@@ -44,6 +44,7 @@ function enemy_attack(){
                     }
                 }else{
                     parry_cooldown = 0;
+                    global.parry_timer = 30;
                     
                     var _enemy = collision_rectangle(x - 15, y - 15, x + 15, y + 15, obj_enemy_par, false, false);
                     if (instance_exists(_enemy)) {

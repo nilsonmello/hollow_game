@@ -1,8 +1,3 @@
-#region variáveis de movimento
-
-//timer fos tates
-state_timer = 0;
-
 //direction for walk and sprite
 move_dir = 0;
 
@@ -24,15 +19,9 @@ dash_timer = 0;
 
 //cooldown for dash
 dash_cooldown = 0;
-#endregion
-
-//if can create the dust particles
-candust = true;
 
 //speed movement
 advance_speed = .2;
-
-//basic attack variables
 
 //is advancing
 advancing = false;
@@ -44,13 +33,12 @@ time_attack = 0;
 advance_x = 0;
 advance_y = 0;
 
+//cooldown for basic attack
 attack_cooldown = 0;
-#endregion
 
-#region combo variables
+//cooldown for parry and time for parry
 parry_time = 20;
 parry_cooldown = 70;
-#endregion
 
 #region state machine
 
@@ -67,9 +55,11 @@ enum STATES{
 
 //estado atual
 state = STATES.MOVING;
+
+//timer fos tates
+state_timer = 0;
 #endregion
 
-#region player regen
 
 //can use healing
 can_heal = true;
@@ -79,9 +69,7 @@ timer_heal = 0;
 
 //cooldown for healing
 heal_cooldown = 80;
-#endregion
 
-#region hit variables
 hit_color = c_white;
 hit_alpha = 0;
 
@@ -99,10 +87,35 @@ hit_timer = 0;
 
 //cooldown for hits
 hit_cooldown = 0;
-#endregion
+
+//basic attack range
+range = 30
+
+//if the line attack can be executed
+line_attack = false;
+
+//if it is actualy in use
+line = false;
+can_line = false;
+
+//the distance for the line attack
+distan = 0;
+
+//the speed for the line attack
+vel_a = .2
+
+//the final x and y position for the line
+target_x = x;
+target_y = y;
+
+//the damage for the attack
+damage = 2;
 
 #region particles
 dust_time = 0;
+
+//if can create the dust particles
+candust = true;
 
 #region walk particle
 particle_system_dust = part_system_create_layer("Instance_particle", true);
@@ -225,7 +238,7 @@ function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost) : slas
                         escx = 1.5;
                         escy = 1.5;
                         hit_alpha = 1;
-                        timer_hit = 10;
+                        timer_hit = 5;
                         emp_dir = point_direction(obj_player.x, obj_player.y, x, y);
                         global.combo++;
                         obj_camera.alarm[1] = 5;
@@ -244,7 +257,7 @@ function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost) : slas
                                 state = ENEMY_STATES.KNOCKED;
                                 vida -= _damage_to_apply;
                                 hit = false;
-                                alarm[1] = 10;
+                                //alarm[1] = 5;
                                 alarm[2] = 30;
                                 var _inst2 = instance_create_layer(x, y, "Instances_player", obj_hitstop);
                             break;
@@ -285,23 +298,3 @@ function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost) : slas
 
 sprite_index = spr_player_idle;
 
-//basic range attack that makes a combo with the parry
-range = 30
-combo_time = 0;
-combo = false;
-
-line_attack = false;
-line = false;
-can_line = false;
-distan = 0;
-vel_a = .2
-
-target_x = x;
-target_y = y;
-
-damage = 2;
-
-global.target_enemy = 0
-global.line_ready = false;
-global.line_attack_timer = 0;
-correct_parry = false;

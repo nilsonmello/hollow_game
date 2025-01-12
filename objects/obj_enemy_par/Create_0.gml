@@ -183,13 +183,7 @@ knocked = false;
 //total and actual aenergy
 max_energy = 1;
 energy_count = 0;
-
-//shoot timer
-bullet_time = 0;
 #endregion
-
-//recoil timer
-recoil_pause_timer = 0;
 
 //cooldown for the attack states
 state_cooldown = 0;
