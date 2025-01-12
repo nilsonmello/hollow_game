@@ -139,27 +139,21 @@ parry_cooldown = clamp(parry_cooldown, 0, 70);
 parry_cooldown--;
 
 //parry
-if(keyboard_check_pressed(ord("F"))){
-    player_parry();
+if(mouse_check_button_pressed(mb_right)){
+    if(!parry_cooldown <= 0){
+        return false;	
+    }
+    state = STATES.PARRY;
 }
 
 //basic attack
 if(attack_cooldown > 0){
     attack_cooldown--;
 }
-
-if (combo_time > 0) {
-    combo_time--;
-    range = 200;
-} else {
-    range = 30;
-}
-
-show_debug_message(range)
-
+show_debug_message(global.line_attack_timer)
 //advancing config
 if(_mb && attack_cooldown <= 0){ 
-    if (combo_time <= 0) {
+    if (!global.line_ready) {
         _basico.activate();
         if(global.deflect_bullets){
             _basico.bullet();
@@ -183,11 +177,9 @@ if(_mb && attack_cooldown <= 0){
         var _direction = point_direction(x, y, mouse_x, mouse_y);
         advance_x = x + lengthdir_x(range, _direction);
         advance_y = y + lengthdir_y(range, _direction);
-    }else {
-    player_line_attack()
+    }
 }
-
-}
+player_line_attack();
 
 //limiting the timer
 time_attack = clamp(time_attack, 0, 5);
@@ -305,18 +297,39 @@ switch(state){
 	#endregion
 	
 	#region parry
-	case STATES.PARRY:
-		if(state != STATES.DASH){
-			parry_time--;
-			global.parry = true;
-
-			if(parry_time <= 0){
-				parry_time = 20;
-				state = STATES.MOVING;
-				global.parry = false;
-			}
-		}
-	break;
+    case STATES.PARRY:
+        if (state != STATES.DASH) {
+            parry_time--;
+    
+            global.parry = true;
+            parry_cooldown = 70;
+    
+            if (parry_time <= 0) {
+                parry_time = 20;
+                state = STATES.MOVING;
+                global.parry = false;
+            }
+    
+            var _enemy = collision_rectangle(x - 15, y - 15, x + 15, y + 15, obj_enemy_par, false, false);
+            if (instance_exists(_enemy)) {
+                global.target_enemy = _enemy;
+                global.line_ready = true;
+            }
+    
+            if (!instance_exists(obj_particle_effect)) {
+                var _inst = instance_create_layer(x, y, "Instances_player", obj_particle_effect);
+                _inst.direction = point_direction(x, y, mouse_x, mouse_y);
+                _inst.sprite_index = spr_hitbox_parry;
+                _inst.speed = 0;
+                _inst.fric = 0.1;
+                _inst.image_blend = c_white;
+    
+                var _spr_d = floor((point_direction(x, y, mouse_x, mouse_y) + 90) / 180) % 2;
+                _inst.image_xscale = (_spr_d == 0) ? 1 : -1;
+            }
+        }
+        break;
+    
 	#endregion
 	
 	#region hit

@@ -1,5 +1,4 @@
-global.hability = 0;
-
+global.executed = false;
 
 //life and max life
 global.life = 10;
@@ -12,7 +11,7 @@ global.energy = 0;
 global.energy_max = 15;
 
 global.cost_r = 5; // regen cost
-
+global.cost_hab = 2;
 // energy
 global.energy = global.energy_max;
 

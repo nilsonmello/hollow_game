@@ -1,33 +1,5 @@
 #region player parry
-function player_parry(){
-    if(!parry_cooldown <= 0){
-        return false;	
-    }
-    
-    state = STATES.PARRY
-    parry_cooldown = 70;
-    
-    combo_time = 200;
-    
-    var _spr_dir = floor((point_direction(x, y, mouse_x, mouse_y) + 90) / 180) % 2;
 
-    var _inst = instance_create_layer(x, y, "Instances_player", obj_particle_effect);
-    _inst.direction = point_direction(x, y, mouse_x, mouse_y);
-    _inst.sprite_index = spr_hitbox_parry;
-    _inst.speed = 0;
-    _inst.fric = 0.1
-    _inst.image_blend = c_white;
-    
-    switch(_spr_dir){
-        case 0:
-            _inst.image_xscale = 1;
-        break;
-    
-        case 1:
-            _inst.image_xscale = -1;
-        break;
-    }
-}
 #endregion
 
 #region player healing
@@ -118,6 +90,87 @@ function particles(_x_inicial, _y_inicial, _x_final, _y_final, _color, _number_1
             image_yscale = 1.5;
             image_angle = relative_angle;
             image_blend = _color;
+        }
+    }
+}
+
+
+function player_line_attack() {
+    // Verifica se o jogador pressionou "E" após o parry
+    if (global.line_ready && mouse_check_button_pressed(mb_left) && instance_exists(global.target_enemy)) {
+        // Define o inimigo como o alvo
+        var _enemy = global.target_enemy;
+        direc = point_direction(x, y, _enemy.x, _enemy.y);
+
+        var extra_distance = 80;
+        distan = point_distance(x, y, _enemy.x, _enemy.y) + extra_distance;
+
+        target_x = x + lengthdir_x(distan, direc);
+        target_y = y + lengthdir_y(distan, direc);
+
+        line_attack = true;
+        time_adv = 200;
+        can_line = false;
+
+        // Reseta o estado de ataque preparado
+        global.line_ready = false;
+        global.target_enemy = noone;
+    }
+
+    if (line_attack) {
+        if (time_adv > 0) {
+            var _new_x = lerp(x, target_x, vel_a);
+            var _new_y = lerp(y, target_y, vel_a);
+
+            if (collision_rectangle(_new_x - 5, _new_y - 9, _new_x + 5, _new_y + 9, obj_wall, false, false)) {
+                line_attack = false;
+            } else {
+                x = _new_x;
+                y = _new_y;
+            }
+
+            if (distance_to_point(target_x, target_y) < 10) {
+                line_attack = false;
+                line = false;
+                can_line = true;
+            }
+        }
+
+        // Colisão com inimigo
+        var _hit_enemy = collision_rectangle(x - 10, y - 10, x + 10, y + 10, obj_enemy_par, false, false);
+
+        with (_hit_enemy) {
+            particles(obj_player.x, obj_player.y, x, y, c_black, 6, 4);
+
+            var _is_critical = irandom(100) < global.critical;
+            var _damage_to_apply = _is_critical ? other.damage * 2 : other.damage;
+            var _stamina = _is_critical ? 60 : 30;
+
+            escx = 1.5;
+            escy = 1.5;
+            hit_alpha = 1;
+            timer_hit = 5;
+            emp_dir = point_direction(obj_player.x, obj_player.y, x, y);
+            global.combo++;
+            obj_camera.alarm[1] = 5;
+
+            switch (knocked) {
+                case 0:
+                    state = ENEMY_STATES.HIT;
+                    emp_timer = 5;
+                    emp_veloc = 6;
+                    stamina_at -= _stamina;
+                    alarm[2] = 30;
+                    break;
+
+                case 1:
+                    state = ENEMY_STATES.KNOCKED;
+                    vida -= _damage_to_apply;
+                    hit = false;
+                    alarm[1] = 10;
+                    alarm[2] = 30;
+                    break;
+            }
         }
     }
 }
