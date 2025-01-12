@@ -1,57 +1,16 @@
-if (global.parry_timer > 0) {
-    global.parry_timer--;
-}
-
-if (global.parry_timer <= 0) {
-    global.target_enemy = noone;
-}
-
-#region hit timers 
-if(hit_timer > 0){
-	hit_timer--;
-}
-
-//player hit timer
-if(hit_cooldown > 0){
-	hit_cooldown--;
-	can_take_dmg = false;
-}else{
-	can_take_dmg = true;
-}
-#endregion
-
-#region state machine
-
-#region comand keys
 
 #region movement keys
+//energy limit clamp
 global.energy = clamp(global.energy, 0, global.energy_max);
 
+//keyboard keys
 var _right = keyboard_check(ord("D"));
 var _left = keyboard_check(ord("A"));
 var _top = keyboard_check(ord("W"));
 var _down = keyboard_check(ord("S"));
-		
+
+//result od the key pressed
 var _keys = _right - _left != 0 || _down - _top != 0;
-#endregion
-
-#region death verification
-if(global.life_at <= 0){
-	state = STATES.DEATH;
-}
-#endregion
-
-#region healing button
-if(heal_cooldown > 0){
-	heal_cooldown--;	
-}else{
-	can_heal = true;	
-}
-
-//activate the regeneration
-if(keyboard_check(ord("Q")) && can_heal){
-	player_healing();
-}
 #endregion
 
 #region dash control
@@ -76,6 +35,171 @@ if(keyboard_check_pressed(vk_space) && dash_cooldown <= 0){
             hit_cooldown = 8;
         }  
     }
+}
+#endregion
+
+#region state machine
+//STATE MACHINE
+switch(state){
+	//IDLE
+	case STATES.IDLE:
+		spd = 0;
+        spd_h = 0;
+        spd_v = 0;
+		
+		if(_keys){
+			state = STATES.MOVING;
+		}
+	break;
+	
+	//MOVING
+	case STATES.MOVING:
+        if(attack_cooldown <= 0){
+			spd = 1;
+
+    		if(_keys){
+    			move_dir = point_direction(0, 0, _right - _left, _down - _top);
+    		
+    			spd_h = lengthdir_x(spd * _keys, move_dir);
+    			spd_v = lengthdir_y(spd * _keys, move_dir);
+    			
+    			if(!place_meeting(x + spd_h, y, obj_enemy_par) && !place_meeting(x + spd_h, y, obj_wall) && !place_meeting(x + spd_h, y, obj_ambient)){
+    				x += spd_h;
+    			}else{
+    				spd_h = 0;
+    			}
+    			if(!place_meeting(x, y + spd_v, obj_enemy_par) && !place_meeting(x, y + spd_v, obj_wall) && !place_meeting(x, y + spd_v, obj_ambient)){
+    				y += spd_v;
+    			}else{
+    				spd_v = 0;
+    			}
+    		}else{
+    			state = STATES.IDLE;
+    		}
+        }
+	break;
+	
+	//DASH
+    case STATES.DASH:
+        if(global.is_dashing){
+            if(dash_timer > 0){
+                dash_timer--;
+            }else{
+                state = STATES.MOVING;
+                global.is_dashing = false;
+            }
+            
+            state_timer++;
+            
+            repeat(5){
+                var _inst = instance_create_layer(x, y, "Instances_player", obj_particle_effect);
+                _inst.speed = 1;
+                _inst.direction = dash_dir + 180;
+                _inst.image_angle = _inst.direction;
+                _inst.sprite_index = spr_dash;
+                _inst.fric = .8;   
+            }
+
+            spd_h = lengthdir_x(dash_veloc, dash_dir);
+            spd_v = lengthdir_y(dash_veloc, dash_dir);
+
+            if(!place_meeting(x + spd_h, y, obj_enemy_par) && !place_meeting(x + spd_h, y, obj_wall) && !place_meeting(x + spd_h, y, obj_ambient)){
+                x += spd_h;
+            } else {
+                spd_h = 0;
+                state = STATES.MOVING;
+                dash_timer = 0;
+                global.is_dashing = false;
+            }
+            if(!place_meeting(x, y + spd_v, obj_enemy_par) && !place_meeting(x, y + spd_v, obj_wall) && !place_meeting(x, y + spd_v, obj_ambient)){
+                y += spd_v;
+            } else {
+                spd_v = 0;
+                state = STATES.MOVING;
+                dash_timer = 0;
+                global.is_dashing = false;
+            }
+        }
+    break;
+	
+	//PARRY
+    case STATES.PARRY:
+        if(state != STATES.DASH){
+            parry_time--;
+    
+            global.parry = true;
+            parry_cooldown = 70;
+    
+            if (parry_time <= 0) {
+                parry_time = 15;
+                state = STATES.MOVING;
+                global.parry = false;
+            }
+    
+            if (!instance_exists(obj_particle_effect)) {
+                var _inst = instance_create_layer(x, y, "Instances_player", obj_particle_effect);
+                _inst.direction = point_direction(x, y, mouse_x, mouse_y);
+                _inst.sprite_index = spr_hitbox_parry;
+                _inst.speed = 0;
+                _inst.fric = 0.1;
+                _inst.image_blend = c_white;
+    
+                var _spr_d = floor((point_direction(x, y, mouse_x, mouse_y) + 90) / 180) % 2;
+                _inst.image_xscale = (_spr_d == 0) ? 1 : -1;
+            }
+        }
+        break;
+	
+	//HIT
+	case STATES.HIT:
+		if(state != STATES.DASH){
+			spd_h = lengthdir_x(emp_veloc, emp_dir);
+			spd_v = lengthdir_y(emp_veloc, emp_dir);
+    
+			emp_veloc = lerp(emp_veloc, 0, .05);
+			
+			if(!place_meeting(x + spd_h, y, obj_enemy_par) && !place_meeting(x + spd_h, y, obj_wall) && !place_meeting(x + spd_h, y, obj_ambient)){
+				x += spd_h;
+			}else{
+				spd_h = 0;
+			}
+			if(!place_meeting(x + spd_h, y, obj_enemy_par) && !place_meeting(x, y + spd_v, obj_wall) && !place_meeting(x, y + spd_v, obj_ambient)){
+				y += spd_v;
+			}else{
+				spd_v = 0;
+			}
+			
+			if(hit_timer <= 0){
+				state = STATES.MOVING;
+			}
+		}
+	break;
+	
+	//DEATH
+	case STATES.DEATH:
+		state = STATES.IDLE;
+		global.life_at = global.life;
+		game_restart();
+	break;
+
+}
+#endregion
+
+#region dust walk
+if(dust_time <= 0){
+    dust_time = choose(10, 12);
+	candust = true;
+}else{
+    dust_time--;
+}
+
+if(xprevious != x and candust == true){
+	candust = false;
+	part_particles_create(particle_system_dust, x, y + 10, particle_dust, 10);
+}
+if(yprevious != y and candust == true){
+	candust = false;
+	part_particles_create(particle_system_dust, x, y, particle_dust, 10);
 }
 #endregion
 
@@ -114,7 +238,6 @@ if(attack_cooldown <= 0){
                 sprite_index = spr_player_walk_rl;
                 image_xscale = -1;
             break;
-
         }
     }
 }else{
@@ -213,181 +336,51 @@ if(advancing && time_attack > 0){
     }
 }
 #endregion
-#endregion
-
-switch(state){
-	
-	#region idle
-	case STATES.IDLE:
-		spd = 0;
-        spd_h = 0;
-        spd_v = 0;
-		
-		if(_keys){
-			state = STATES.MOVING;
-		}
-
-	break;
-	#endregion
-	
-	#region walking
-	case STATES.MOVING:
-        if(attack_cooldown <= 0){
-			spd = 1;
-
-    		if(_keys){
-    			move_dir = point_direction(0, 0, _right - _left, _down - _top);
-    		
-    			spd_h = lengthdir_x(spd * _keys, move_dir);
-    			spd_v = lengthdir_y(spd * _keys, move_dir);
-    			
-    			if(!place_meeting(x + spd_h, y, obj_enemy_par) && !place_meeting(x + spd_h, y, obj_wall) && !place_meeting(x + spd_h, y, obj_ambient)){
-    				x += spd_h;
-    			}else{
-    				spd_h = 0;
-    			}
-    			if(!place_meeting(x, y + spd_v, obj_enemy_par) && !place_meeting(x, y + spd_v, obj_wall) && !place_meeting(x, y + spd_v, obj_ambient)){
-    				y += spd_v;
-    			}else{
-    				spd_v = 0;
-    			}
-    		}else{
-    			state = STATES.IDLE;
-    		}
-        }
-	break;
-	#endregion
-	
-	#region dash
-    case STATES.DASH:
-        if(global.is_dashing){
-            if(dash_timer > 0){
-                dash_timer--;
-            }else{
-                state = STATES.MOVING;
-                global.is_dashing = false;
-            }
-            
-            state_timer++;
-            
-            repeat(5){
-                var _inst = instance_create_layer(x, y, "Instances_player", obj_particle_effect);
-                _inst.speed = 1;
-                _inst.direction = dash_dir + 180;
-                _inst.image_angle = _inst.direction;
-                _inst.sprite_index = spr_dash;
-                _inst.fric = .8;   
-            }
-
-            spd_h = lengthdir_x(dash_veloc, dash_dir);
-            spd_v = lengthdir_y(dash_veloc, dash_dir);
-
-            if(!place_meeting(x + spd_h, y, obj_enemy_par) && !place_meeting(x + spd_h, y, obj_wall) && !place_meeting(x + spd_h, y, obj_ambient)){
-                x += spd_h;
-            } else {
-                spd_h = 0;
-                state = STATES.MOVING;
-                dash_timer = 0;
-                global.is_dashing = false;
-            }
-            if(!place_meeting(x, y + spd_v, obj_enemy_par) && !place_meeting(x, y + spd_v, obj_wall) && !place_meeting(x, y + spd_v, obj_ambient)){
-                y += spd_v;
-            } else {
-                spd_v = 0;
-                state = STATES.MOVING;
-                dash_timer = 0;
-                global.is_dashing = false;
-            }
-        }
-    break;
-	#endregion
-	
-	#region parry
-    case STATES.PARRY:
-        if(state != STATES.DASH){
-            parry_time--;
-    
-            global.parry = true;
-            parry_cooldown = 70;
-    
-            if (parry_time <= 0) {
-                parry_time = 15;
-                state = STATES.MOVING;
-                global.parry = false;
-            }
-    
-            if (!instance_exists(obj_particle_effect)) {
-                var _inst = instance_create_layer(x, y, "Instances_player", obj_particle_effect);
-                _inst.direction = point_direction(x, y, mouse_x, mouse_y);
-                _inst.sprite_index = spr_hitbox_parry;
-                _inst.speed = 0;
-                _inst.fric = 0.1;
-                _inst.image_blend = c_white;
-    
-                var _spr_d = floor((point_direction(x, y, mouse_x, mouse_y) + 90) / 180) % 2;
-                _inst.image_xscale = (_spr_d == 0) ? 1 : -1;
-            }
-        }
-        break;
-    
-	#endregion
-	
-	#region hit
-	case STATES.HIT:
-		if(state != STATES.DASH){
-			spd_h = lengthdir_x(emp_veloc, emp_dir);
-			spd_v = lengthdir_y(emp_veloc, emp_dir);
-    
-			emp_veloc = lerp(emp_veloc, 0, .05);
-			
-			if(!place_meeting(x + spd_h, y, obj_enemy_par) && !place_meeting(x + spd_h, y, obj_wall) && !place_meeting(x + spd_h, y, obj_ambient)){
-				x += spd_h;
-			}else{
-				spd_h = 0;
-			}
-			if(!place_meeting(x + spd_h, y, obj_enemy_par) && !place_meeting(x, y + spd_v, obj_wall) && !place_meeting(x, y + spd_v, obj_ambient)){
-				y += spd_v;
-			}else{
-				spd_v = 0;
-			}
-			
-			if(hit_timer <= 0){
-				state = STATES.MOVING;
-			}
-		}
-	break;
-	#endregion
-
-	#endregion
-	
-	#region death
-	case STATES.DEATH:
-		state = STATES.IDLE;
-		global.life_at = global.life;
-		game_restart();
-	break;
-	#endregion
-}
-#endregion
-
-#region dust walk
-if(dust_time <= 0){
-    dust_time = choose(10, 12);
-	candust = true;
-}else{
-    dust_time--;
-}
-
-if(xprevious != x and candust == true){
-	candust = false;
-	part_particles_create(particle_system_dust, x, y + 10, particle_dust, 10);
-}
-if(yprevious != y and candust == true){
-	candust = false;
-	part_particles_create(particle_system_dust, x, y, particle_dust, 10);
-}
-#endregion
 
 #region hit indication
 hit_alpha = lerp(hit_alpha, 0, 0.1);
+#endregion
+
+#region healing button
+if(heal_cooldown > 0){
+	heal_cooldown--;	
+}else{
+	can_heal = true;	
+}
+
+//activate the regeneration
+if(keyboard_check(ord("Q")) && can_heal){
+	player_healing();
+}
+#endregion
+
+#region death verification
+if(global.life_at <= 0){
+	state = STATES.DEATH;
+}
+#endregion
+
+#region parry and hit timers
+//decreasing parry timer
+if (global.parry_timer > 0) {
+    global.parry_timer--;
+}
+
+//reseting variables based on timer
+if (global.parry_timer <= 0) {
+    global.target_enemy = noone;
+}
+ 
+//decreasing hit timer
+if(hit_timer > 0){
+	hit_timer--;
+}
+
+//reseting variavles based on timer
+if(hit_cooldown > 0){
+	hit_cooldown--;
+	can_take_dmg = false;
+}else{
+	can_take_dmg = true;
+}
 #endregion

@@ -1,3 +1,4 @@
+#region movement variables
 //direction for walk and sprite
 move_dir = 0;
 
@@ -7,7 +8,9 @@ spd_v = 0;
 
 //actual speed
 spd = 1;
+#endregion
 
+#region dash variables
 //dash direction
 dash_dir = 0;
 
@@ -19,7 +22,9 @@ dash_timer = 0;
 
 //cooldown for dash
 dash_cooldown = 0;
+#endregion
 
+#region attack variables
 //speed movement
 advance_speed = .2;
 
@@ -35,58 +40,6 @@ advance_y = 0;
 
 //cooldown for basic attack
 attack_cooldown = 0;
-
-//cooldown for parry and time for parry
-parry_time = 20;
-parry_cooldown = 70;
-
-#region state machine
-
-//variáveis de estado
-enum STATES{
-    IDLE,
-    MOVING,
-    DASH,
-	PARRY,
-    ATTAKING,
-    HIT,
-    DEATH,
-}
-
-//estado atual
-state = STATES.MOVING;
-
-//timer fos tates
-state_timer = 0;
-#endregion
-
-
-//can use healing
-can_heal = true;
-
-//timer for heal
-timer_heal = 0;
-
-//cooldown for healing
-heal_cooldown = 80;
-
-hit_color = c_white;
-hit_alpha = 0;
-
-//enemies can attack
-can_take_dmg = true;
-
-//veloc for hit
-emp_veloc = 4;
-
-//direction
-emp_dir = 0;
-
-//timer for can hit again
-hit_timer = 0;
-
-//cooldown for hits
-hit_cooldown = 0;
 
 //basic attack range
 range = 30
@@ -110,6 +63,62 @@ target_y = y;
 
 //the damage for the attack
 damage = 2;
+
+//cooldown for parry and time for parry
+parry_time = 20;
+parry_cooldown = 70;
+#endregion
+
+#region state machine
+
+//variáveis de estado
+enum STATES{
+    IDLE,
+    MOVING,
+    DASH,
+	PARRY,
+    ATTAKING,
+    HIT,
+    DEATH,
+}
+
+//estado atual
+state = STATES.MOVING;
+
+//timer fos tates
+state_timer = 0;
+#endregion
+
+#region healing variables
+//can use healing
+can_heal = true;
+
+//timer for heal
+timer_heal = 0;
+
+//cooldown for healing
+heal_cooldown = 80;
+#endregion
+
+#region hit variables
+hit_color = c_white;
+hit_alpha = 0;
+
+//enemies can attack
+can_take_dmg = true;
+
+//veloc for hit
+emp_veloc = 4;
+
+//direction
+emp_dir = 0;
+
+//timer for can hit again
+hit_timer = 0;
+
+//cooldown for hits
+hit_cooldown = 0;
+#endregion
 
 #region particles
 dust_time = 0;
@@ -297,4 +306,3 @@ function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost) : slas
 #endregion
 
 sprite_index = spr_player_idle;
-
