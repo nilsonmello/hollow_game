@@ -288,3 +288,8 @@ sprite_index = spr_player_idle;
 //basic range attack that makes a combo with the parry
 range = 30;
 combo_time = 0;
+
+line_attack = false;
+line = false;
+distan = 0;
+vel_a = .1

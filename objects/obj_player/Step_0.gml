@@ -159,29 +159,34 @@ show_debug_message(range)
 
 //advancing config
 if(_mb && attack_cooldown <= 0){ 
-    _basico.activate();
-    if(global.deflect_bullets){
-        _basico.bullet();
-    }
+    if (combo_time <= 0) {
+        _basico.activate();
+        if(global.deflect_bullets){
+            _basico.bullet();
+        }
+        
+        var _inst = instance_create_layer(x, y, "Instances_player", obj_particle_effect);
+        _inst.direction = point_direction(x, y, mouse_x, mouse_y);
+        _inst.sprite_index = spr_hitbox;
+        _inst.image_angle = _inst.direction;
+        _inst.speed = lerp(speed, 0, .1);
+        _inst.speed = 1;
+        _inst.speed = 8;
+        _inst.fric = 0.8
+        _inst.image_blend = c_white;
+        
+        attack_cooldown = 15;
+        time_attack = 15;
+        advancing = true;
     
-    var _inst = instance_create_layer(x, y, "Instances_player", obj_particle_effect);
-    _inst.direction = point_direction(x, y, mouse_x, mouse_y);
-    _inst.sprite_index = spr_hitbox;
-    _inst.image_angle = _inst.direction;
-    _inst.speed = lerp(speed, 0, .1);
-    _inst.speed = 1;
-    _inst.speed = 8;
-    _inst.fric = 0.8
-    _inst.image_blend = c_white;
-    
-    attack_cooldown = 15;
-    time_attack = 15;
-    advancing = true;
+        //first and last point
+        var _direction = point_direction(x, y, mouse_x, mouse_y);
+        advance_x = x + lengthdir_x(range, _direction);
+        advance_y = y + lengthdir_y(range, _direction);
+    }else {
+    player_line_attack()
+}
 
-    //first and last point
-    var _direction = point_direction(x, y, mouse_x, mouse_y);
-    advance_x = x + lengthdir_x(range, _direction);
-    advance_y = y + lengthdir_y(range, _direction);
 }
 
 //limiting the timer
