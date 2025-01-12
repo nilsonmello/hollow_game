@@ -123,7 +123,7 @@ if(attack_cooldown <= 0){
     
 
 }
-if (state == STATES.PARRY) {
+if(state == STATES.PARRY){
     switch(_spr_dir){
         case 0:
             sprite_index = spr_player_attack_rl;
@@ -150,7 +150,7 @@ if(mouse_check_button_pressed(mb_right)){
 if(attack_cooldown > 0){
     attack_cooldown--;
 }
-show_debug_message(global.line_attack_timer)
+
 //advancing config
 if(_mb && attack_cooldown <= 0){ 
     if (!global.line_ready) {
@@ -180,6 +180,8 @@ if(_mb && attack_cooldown <= 0){
     }
 }
 player_line_attack();
+
+show_debug_message(correct_parry)
 
 //limiting the timer
 time_attack = clamp(time_attack, 0, 5);
@@ -305,15 +307,9 @@ switch(state){
             parry_cooldown = 70;
     
             if (parry_time <= 0) {
-                parry_time = 20;
+                parry_time = 15;
                 state = STATES.MOVING;
                 global.parry = false;
-            }
-    
-            var _enemy = collision_rectangle(x - 15, y - 15, x + 15, y + 15, obj_enemy_par, false, false);
-            if (instance_exists(_enemy)) {
-                global.target_enemy = _enemy;
-                global.line_ready = true;
             }
     
             if (!instance_exists(obj_particle_effect)) {

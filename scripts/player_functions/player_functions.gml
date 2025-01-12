@@ -97,7 +97,7 @@ function particles(_x_inicial, _y_inicial, _x_final, _y_final, _color, _number_1
 
 function player_line_attack() {
     // Verifica se o jogador pressionou "E" após o parry
-    if (global.line_ready && mouse_check_button_pressed(mb_left) && instance_exists(global.target_enemy)) {
+    if (global.line_ready && mouse_check_button_pressed(mb_left) && instance_exists(global.target_enemy)){
         // Define o inimigo como o alvo
         var _enemy = global.target_enemy;
         direc = point_direction(x, y, _enemy.x, _enemy.y);

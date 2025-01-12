@@ -304,3 +304,4 @@ damage = 2;
 global.target_enemy = 0
 global.line_ready = false;
 global.line_attack_timer = 0;
+correct_parry = false;

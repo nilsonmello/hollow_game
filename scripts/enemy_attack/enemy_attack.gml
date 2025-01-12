@@ -44,6 +44,13 @@ function enemy_attack(){
                     }
                 }else{
                     parry_cooldown = 0;
+                    
+                    var _enemy = collision_rectangle(x - 15, y - 15, x + 15, y + 15, obj_enemy_par, false, false);
+                    if (instance_exists(_enemy)) {
+                        global.target_enemy = _enemy;
+                        global.line_ready = true;
+                    }
+                    
                     with(other){
                         state = ENEMY_STATES.KNOCKED;
                         emp_dir = point_direction(obj_player.x, obj_player.y, x, y);
@@ -54,6 +61,8 @@ function enemy_attack(){
                         emp_timer = 10;
                         hit_alpha = 1;
                         spd = 0;
+                        
+                        correct_parry = true;
                         
                         particles(other.x, other.y, x, y, c_black, 4, 2);
                         var _inst = instance_create_layer(x, y, "Instances_player", obj_hitstop);
