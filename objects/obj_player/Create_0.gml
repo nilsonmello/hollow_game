@@ -284,3 +284,7 @@ function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost) : slas
 #endregion
 
 sprite_index = spr_player_idle;
+
+//basic range attack that makes a combo with the parry
+range = 30;
+combo_time = 0;

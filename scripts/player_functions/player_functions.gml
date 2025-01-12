@@ -7,6 +7,8 @@ function player_parry(){
     state = STATES.PARRY
     parry_cooldown = 70;
     
+    combo_time = 200;
+    
     var _spr_dir = floor((point_direction(x, y, mouse_x, mouse_y) + 90) / 180) % 2;
 
     var _inst = instance_create_layer(x, y, "Instances_player", obj_particle_effect);

@@ -148,6 +148,15 @@ if(attack_cooldown > 0){
     attack_cooldown--;
 }
 
+if (combo_time > 0) {
+    combo_time--;
+    range = 200;
+} else {
+    range = 30;
+}
+
+show_debug_message(range)
+
 //advancing config
 if(_mb && attack_cooldown <= 0){ 
     _basico.activate();
@@ -166,13 +175,13 @@ if(_mb && attack_cooldown <= 0){
     _inst.image_blend = c_white;
     
     attack_cooldown = 15;
-    time_attack = 10;
+    time_attack = 15;
     advancing = true;
 
     //first and last point
     var _direction = point_direction(x, y, mouse_x, mouse_y);
-    advance_x = x + lengthdir_x(30, _direction);
-    advance_y = y + lengthdir_y(30, _direction);
+    advance_x = x + lengthdir_x(range, _direction);
+    advance_y = y + lengthdir_y(range, _direction);
 }
 
 //limiting the timer
