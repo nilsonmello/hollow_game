@@ -1,14 +1,13 @@
-rotation++;
-
+//animation frames
 if(frame < 6){
     frame += .4
 }else{
     frame = 6;
 }
 
+//speed
 move_speed = lerp(move_speed, 1.3, .07);
 vel = 12;
-line_mark = false;
 
 #region hit alpha
 //decreases the hit_alpha value

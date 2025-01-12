@@ -41,7 +41,7 @@ if(heal_cooldown > 0){
 }
 
 //activate the regeneration
-if(keyboard_check(ord("F")) && can_heal){
+if(keyboard_check(ord("Q")) && can_heal){
 	player_healing();
 }
 #endregion
@@ -58,13 +58,15 @@ if(dash_cooldown > 0){
 
 //activate the dash
 if(keyboard_check_pressed(vk_space) && dash_cooldown <= 0){
-    global.is_dashing = true;
-    dash_timer = 8;
-    dash_cooldown = global.dash_cooldown;
-    state = STATES.DASH;
-    
-    if(global.shield){
-        hit_cooldown = 8;
+    if(_keys){
+        global.is_dashing = true;
+        dash_timer = 8;
+        dash_cooldown = global.dash_cooldown;
+        state = STATES.DASH;
+        
+        if(global.shield){
+            hit_cooldown = 8;
+        }  
     }
 }
 #endregion
@@ -87,18 +89,19 @@ if(attack_cooldown <= 0){
             case 0:
                 sprite_index = spr_player_idle;
                 image_xscale = 1;
-                break;
+            break;
             case 1:
                 sprite_index = spr_player_idle;
                 image_xscale = -1;
-                break;
+            break;
         }
     }else{
-        switch(_spr_dir){
-                        case 0:
+        switch(_spr_dir){ 
+            case 0:
                 sprite_index = spr_player_walk_rl;
                 image_xscale = 1;
-                break;
+            break;
+            
             case 1:
                 sprite_index = spr_player_walk_rl;
                 image_xscale = -1;
@@ -136,7 +139,7 @@ parry_cooldown = clamp(parry_cooldown, 0, 70);
 parry_cooldown--;
 
 //parry
-if(_ma){
+if(keyboard_check_pressed(ord("F"))){
     player_parry();
 }
 
@@ -144,7 +147,6 @@ if(_ma){
 if(attack_cooldown > 0){
     attack_cooldown--;
 }
-
 
 //advancing config
 if(_mb && attack_cooldown <= 0){ 

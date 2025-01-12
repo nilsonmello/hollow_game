@@ -18,7 +18,6 @@ if (time_per_attacks > 0){
 #endregion
 
 switch(state){
-	
     #region choose
     case ENEMY_STATES.CHOOSE:
 		state_time = irandom_range(70, 120);
@@ -46,24 +45,24 @@ switch(state){
     case ENEMY_STATES.MOVE:
 		state_time--;
 			
-			var _dir = point_direction(x, y, x_point, y_point);
-			
-            vel_h = lengthdir_x(.8, _dir);
-            vel_v = lengthdir_y(.8, _dir);
+        var _dir = point_direction(x, y, x_point, y_point);
+        
+        vel_h = lengthdir_x(.8, _dir);
+        vel_v = lengthdir_y(.8, _dir);
 
-			enemy_colide();
+        enemy_colide();
 
-		if(distance_to_point(x_point, y_point) > vel_h and distance_to_point(x_point, y_point) > vel_v){
-			x += vel_h;
-			y += vel_v;
-		}else{
-			state = ENEMY_STATES.CHOOSE;	
+        if(distance_to_point(x_point, y_point) > vel_h and distance_to_point(x_point, y_point) > vel_v){
+            x += vel_h;
+            y += vel_v;
+        }else{
+            state = ENEMY_STATES.CHOOSE;	
         }
-		
-		if(state_time <= 0){
-			state = ENEMY_STATES.CHOOSE;
-		}
-    
+        
+        if(state_time <= 0){
+            state = ENEMY_STATES.CHOOSE;
+        }
+
         check_for_player(80);
     break;
 	#endregion

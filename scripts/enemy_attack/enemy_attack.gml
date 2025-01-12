@@ -43,7 +43,7 @@ function enemy_attack(){
                         esc_y = y + lengthdir_y(50, _away);
                     }
                 }else{
-    
+                    parry_cooldown = 0;
                     with(other){
                         state = ENEMY_STATES.KNOCKED;
                         emp_dir = point_direction(obj_player.x, obj_player.y, x, y);

@@ -6,8 +6,6 @@ alarm[1] = 0;
 alarm[2] = 0;
 #endregion
 
-line_mark = false;
-
 #region enemies state machine base
 state = ENEMY_STATES.IDLE;
 
@@ -171,11 +169,6 @@ part_type_color1(particle_circle, c_black);
 part_type_life(particle_circle, 20, 20);
 part_type_alpha3(particle_circle, .2, .8, .1);
 #endregion
-
-#region hit particles
-
-#endregion
-
 #endregion
 
 #region stamina and energy
@@ -195,17 +188,14 @@ energy_count = 0;
 bullet_time = 0;
 #endregion
 
-
 //recoil timer
 recoil_pause_timer = 0;
 
 //cooldown for the attack states
 state_cooldown = 0;
 
-
+//check for player timer
 check_timer = 0;
-
-rotation = 0;
 
 function check_for_player(_distance){
     if(check_timer > 0){
@@ -234,4 +224,5 @@ function check_for_player(_distance){
 //variable for the draw arround the enemies using the mouse
 alligned = false;
 
+//actual frame
 frame = 0;

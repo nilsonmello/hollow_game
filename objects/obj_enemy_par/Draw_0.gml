@@ -19,6 +19,7 @@ if(warning){
 }
 #endregion
 
+//mouse alligned to the enemy
 if (alligned){
     draw_sprite(spr_quad, frame, x, y);
 }else{

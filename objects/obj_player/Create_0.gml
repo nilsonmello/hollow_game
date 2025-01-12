@@ -208,7 +208,6 @@ function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost) : slas
            }
         }
         
-        
         //apply attacks for the enemies
         for(var _i = 0; _i < ds_list_size(_list); _i++){
             var _rec = _list[| _i];
@@ -248,7 +247,7 @@ function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost) : slas
                                 alarm[1] = 10;
                                 alarm[2] = 30;
                                 var _inst2 = instance_create_layer(x, y, "Instances_player", obj_hitstop);
-                                break;
+                            break;
                         }
                     }
                 }
@@ -283,6 +282,5 @@ function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost) : slas
 	}
 }
 #endregion
-
 
 sprite_index = spr_player_idle;
