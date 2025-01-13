@@ -1,7 +1,6 @@
-spd = 10;
-max_dist = 200;
-origin_x = obj_player.x;
-origin_y = obj_player.y;
-dir = 0;
-state = "launched";
+spd = 10; 
+max_dist = 200; 
+origin_x = x; 
+origin_y = y;
 target_enemy = noone;
+state = "launched";

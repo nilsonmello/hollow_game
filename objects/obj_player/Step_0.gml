@@ -335,7 +335,7 @@ if (_mb && attack_cooldown <= 0) {
 }
 
 
-//player_line_attack();
+player_line_attack();
 
 //limiting the timer
 time_attack = clamp(time_attack, 0, 5);
@@ -411,8 +411,6 @@ if(hit_cooldown > 0){
 	can_take_dmg = true;
 }
 #endregion
-
-
 
 if (keyboard_check_pressed(ord("E"))) {
     var _hook = instance_create_layer(x, y, "Instances_player", obj_hook);

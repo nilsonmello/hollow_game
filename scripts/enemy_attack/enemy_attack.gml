@@ -59,7 +59,7 @@ function enemy_attack(){
                         hit = true;
                         attacking = false;
                         timer_hit = 20;
-                        emp_timer = 10;
+                        emp_timer = 20;
                         hit_alpha = 1;
                         spd = 0;
                         
