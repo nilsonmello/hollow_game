@@ -179,6 +179,8 @@ switch(state){
 	case STATES.DEATH:
 		state = STATES.IDLE;
 		global.life_at = global.life;
+        global.target_enemy = noone;
+        game_set_speed(60, gamespeed_fps);
 		game_restart();
 	break;
 
@@ -334,7 +336,6 @@ if (_mb && attack_cooldown <= 0) {
         advance_y = y + lengthdir_y(range, _direction);
     }
 }
-
 
 player_line_attack();
 

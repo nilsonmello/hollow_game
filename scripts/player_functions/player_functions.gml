@@ -1,7 +1,3 @@
-#region player parry
-
-#endregion
-
 #region player healing
 function player_healing(){
     if(state != STATES.DASH){
@@ -32,29 +28,6 @@ function player_healing(){
             global.healing = false;
         }
     }
-}
-#endregion
-
-#region preserving directional sprites
-function nearest_cardinal_direction(_direction){
-    var _directions = [0, 90, 180, 270];
-    
-    _direction = _direction mod 360;
-    if (_direction < 0) _direction += 360;
-
-    var _min_diff = 360;
-    var _nearest_direction = _directions[0];
-    
-    for(var _i = 0; _i < array_length(_directions); _i++){
-        var _diff = abs(_direction - _directions[_i]);
-        
-        if(_diff < _min_diff){
-            _min_diff = _diff;
-            _nearest_direction = _directions[_i];
-        }
-    }
-    
-    return _nearest_direction;
 }
 #endregion
 
