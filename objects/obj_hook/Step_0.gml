@@ -19,25 +19,25 @@ if (state == "launched") {
 }
 
 if (state == "retracting") {
-    var _dir_back = point_direction(x, y, origin_x, origin_y);
+    var _dir_back = point_direction(x, y, obj_player.x, obj_player.y);
     x += lengthdir_x(spd, _dir_back);
     y += lengthdir_y(spd, _dir_back);
 
     if (instance_exists(target_enemy)) {
-        var _dist_to_player = point_distance(target_enemy.x, target_enemy.y, origin_x, origin_y);
+        var _dist_to_player = point_distance(target_enemy.x, target_enemy.y, obj_player.x, obj_player.y);
 
         if (_dist_to_player > 40) {
             target_enemy.x = x;
             target_enemy.y = y;
         } else {
-            var _front_dir = point_direction(origin_x, origin_y, target_enemy.x, target_enemy.y);
+            var _front_dir = point_direction(obj_player.x, obj_player.y, target_enemy.x, target_enemy.y);
             var _stop_dist = 40;
-            target_enemy.x = origin_x + lengthdir_x(_stop_dist, _front_dir);
-            target_enemy.y = origin_y + lengthdir_y(_stop_dist, _front_dir);
+            target_enemy.x = obj_player.x + lengthdir_x(_stop_dist, _front_dir);
+            target_enemy.y = obj_player.y + lengthdir_y(_stop_dist, _front_dir);
         }
     }
 
-    if (point_distance(x, y, origin_x, origin_y) < 5) {
+    if (point_distance(x, y, obj_player.x, obj_player.y) < 5) {
         if (instance_exists(target_enemy)) {
             with (target_enemy) {
                 state = ENEMY_STATES.HIT;
