@@ -31,7 +31,7 @@ if (state == "retracting") {
             target_enemy.y = y;
         } else {
             var _front_dir = point_direction(obj_player.x, obj_player.y, target_enemy.x, target_enemy.y);
-            var _stop_dist = 40;
+            var _stop_dist = 20;
             target_enemy.x = obj_player.x + lengthdir_x(_stop_dist, _front_dir);
             target_enemy.y = obj_player.y + lengthdir_y(_stop_dist, _front_dir);
         }
