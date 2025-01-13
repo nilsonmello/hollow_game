@@ -22,27 +22,22 @@ if (state == "retracting") {
     x += lengthdir_x(spd, _dir_back);
     y += lengthdir_y(spd, _dir_back);
 
-    // Se tiver um inimigo capturado, mova-o
     if (instance_exists(target_enemy)) {
         var _dist_to_player = point_distance(target_enemy.x, target_enemy.y, origin_x, origin_y);
 
-        // Verifica se o inimigo está muito perto do jogador
-        if (_dist_to_player > 40) { // Ajuste 40 para a distância desejada
+        if (_dist_to_player > 40) {
             target_enemy.x = x;
             target_enemy.y = y;
         } else {
-            // Calcula a posição "à frente" do jogador
             var _front_dir = point_direction(origin_x, origin_y, target_enemy.x, target_enemy.y);
-            var _stop_dist = 40; // Distância à frente do jogador
+            var _stop_dist = 40;
             target_enemy.x = origin_x + lengthdir_x(_stop_dist, _front_dir);
             target_enemy.y = origin_y + lengthdir_y(_stop_dist, _front_dir);
         }
     }
 
-    // Finaliza quando o gancho retorna ao jogador
     if (point_distance(x, y, origin_x, origin_y) < 5) {
         if (instance_exists(target_enemy)) {
-            // Aplica dano ou estado no inimigo capturado
             with (target_enemy) {
                 state = ENEMY_STATES.HIT;
                 emp_dir = point_direction(x, y, obj_player.x, obj_player.y);

@@ -163,7 +163,7 @@ function slashes(_dist, _direction, _damage, _hitbox, _owner, _cost) constructor
 }
 
 //basic attack
-function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost) : slashes(_dist, _direction, _damage, _hitbox, _owner, _cost) constructor{
+function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost, _combo) : slashes(_dist, _direction, _damage, _hitbox, _owner, _cost) constructor{
     //parameters
     distance = _dist;
     dir_atk = _direction;
@@ -172,6 +172,7 @@ function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost) : slas
     owner = _owner;
     cost = _cost;
     active = false;
+    combo = _combo;
 
     //attack
     activate = function(){
@@ -242,21 +243,32 @@ function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost) : slas
                     
                         var _is_critical = irandom(100) < global.critical;
                         var _damage_to_apply = _is_critical ? other.dmg * 2 : other.dmg;
-    					var _stamina = _is_critical ? 60 : 30;
+    					var _stamina = 50
     
                         escx = 1.5;
                         escy = 1.5;
                         hit_alpha = 1;
-                        timer_hit = 5;
                         emp_dir = point_direction(obj_player.x, obj_player.y, x, y);
                         global.combo++;
                         obj_camera.alarm[1] = 5;
                         
+                        switch (other.combo) {
+                            case 1:
+                                emp_timer = 5;
+                                emp_veloc = 6;
+                                timer_hit = 5;
+                            break;
+                            
+                            case 2:
+                                emp_timer = 20;
+                                emp_veloc = 6; 
+                                timer_hit = 20;
+                            break;
+                        }
+                        
                         switch(knocked){
                             case 0:
                                 state = ENEMY_STATES.HIT;
-                                emp_timer = 5;
-                                emp_veloc = 6;
                                 stamina_at -= _stamina;
                                 alarm[2] = 30;
                                 var _inst = instance_create_layer(x, y, "Instances_player", obj_hitstop);

@@ -25,3 +25,5 @@ if (alligned){
 }else{
     frame = 0;
 }
+
+draw_text(x, y - 13, string(stamina_at))

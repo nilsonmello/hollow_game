@@ -211,7 +211,7 @@ var _mb3 = mouse_check_button_released(mb_left);
 var _ma = mouse_check_button_pressed(mb_right);
 
 var _timer = 10;
-var _basico = new basic_attack(23, point_direction(x, y, mouse_x, mouse_y), 1, true, self, 0);
+var _basico = new basic_attack(23, point_direction(x, y, mouse_x, mouse_y), 1, true, self, 0, combo);
 
 var _spr_dir = floor((point_direction(x, y, mouse_x, mouse_y) + 90) / 180) % 2;
 

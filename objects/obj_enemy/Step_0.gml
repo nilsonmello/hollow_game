@@ -94,19 +94,20 @@ switch(state){
 		timer_hit_at++;
 		time_per_attacks = 40;
 		
-		if(emp_timer > 0){
-			emp_timer--;
-			
-	        vel_h = lengthdir_x(emp_veloc, emp_dir);
-	        vel_v = lengthdir_y(emp_veloc, emp_dir);
-
-	        emp_veloc = lerp(emp_veloc, 0, .01);
-		
-			enemy_colide();
-
-	        x += vel_h;
-	        y += vel_v;
-		}
+        if (emp_timer > 0) {
+            emp_timer--;
+            
+            vel_h = lengthdir_x(emp_veloc, emp_dir);
+            vel_v = lengthdir_y(emp_veloc, emp_dir);
+        
+            emp_veloc = lerp(emp_veloc, 0, .01);
+        
+            enemy_colide();
+        
+            x += vel_h;
+            y += vel_v;
+        }
+    
 		
 		if(timer_hit_at >= timer_hit){
 			state = ENEMY_STATES.IDLE
