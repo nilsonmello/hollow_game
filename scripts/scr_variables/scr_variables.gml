@@ -57,3 +57,5 @@ global.line_attack_timer = 0;
 
 //timer for the line hability
 global.parry_timer = 0;
+
+global.hooking = false;

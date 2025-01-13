@@ -4,3 +4,4 @@ origin_x = x;
 origin_y = y;
 target_enemy = noone;
 state = "launched";
+dir = 0;

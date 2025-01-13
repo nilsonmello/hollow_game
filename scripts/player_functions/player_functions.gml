@@ -94,15 +94,22 @@ function particles(_x_inicial, _y_inicial, _x_final, _y_final, _color, _number_1
     }
 }
 
-
 function player_line_attack() {
     if (global.line_ready && mouse_check_button_pressed(mb_left) && instance_exists(global.target_enemy)) {
-        var _hook = instance_create_layer(x, y, "Instances_player", obj_hook);
-        _hook.dir = point_direction(x, y, mouse_x, mouse_y);
-        _hook.origin_x = x;
-        _hook.origin_y = y;
-        _hook.target_enemy = global.target_enemy;
-
-        global.line_ready = false;
+        if (!instance_exists(obj_hook)) {
+            
+            if (distance_to_object(global.target_enemy) < 40) {
+                return false;
+            }
+            
+            var _hook = instance_create_layer(x, y, "Instances_player", obj_hook);
+            
+            _hook.origin_x = x;
+            _hook.origin_y = y;
+            _hook.target_enemy = global.target_enemy;
+            _hook.dir = point_direction(x, y, _hook.target_enemy.x, _hook.target_enemy.y);
+    
+            global.line_ready = false;   
+        }
     }
 }
