@@ -306,3 +306,6 @@ function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost) : slas
 #endregion
 
 sprite_index = spr_player_idle;
+
+combo = 0;
+combo_time = 0;

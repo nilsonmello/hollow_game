@@ -275,39 +275,67 @@ if(mouse_check_button_pressed(mb_right)){
     state = STATES.PARRY;
 }
 
-//basic attack
-if(attack_cooldown > 0){
+if (combo_time > 0) {
+    combo_time--;
+    if (combo_time <= 0) {
+        combo = 0; // Reseta o combo apenas quando o tempo expira
+    }
+}
+
+// Basic attack cooldown
+if (attack_cooldown > 0) {
     attack_cooldown--;
 }
 
-//advancing config
-if(_mb && attack_cooldown <= 0){ 
+// Check attack input
+if (_mb && attack_cooldown <= 0) { 
     if (!global.line_ready) {
+        // Ativa ataque
         _basico.activate();
-        if(global.deflect_bullets){
+        if (global.deflect_bullets) {
             _basico.bullet();
         }
-        
+
+        if (combo_time > 0 && combo < 3) {
+            combo++;
+        } else {
+            combo = 1;
+        }
+
+        combo_time = 40;
+
         var _inst = instance_create_layer(x, y, "Instances_player", obj_particle_effect);
-        _inst.direction = point_direction(x, y, mouse_x, mouse_y);
-        _inst.sprite_index = spr_hitbox;
-        _inst.image_angle = _inst.direction;
-        _inst.speed = lerp(speed, 0, .1);
-        _inst.speed = 1;
-        _inst.speed = 8;
-        _inst.fric = 0.8
-        _inst.image_blend = c_white;
+
+        switch (combo) {
+            case 1:
+                _inst.sprite_index = spr_hitbox;
+                break;
+            case 2:
+                _inst.sprite_index = spr_hitbox_2;
+                break;
+            case 3:
+                _inst.sprite_index = spr_hitbox_3;
+                break;
+        }
         
-        attack_cooldown = 15;
+        _inst.direction = point_direction(x, y, mouse_x, mouse_y);
+        _inst.image_angle = _inst.direction;
+        _inst.speed = 8;
+        _inst.fric = 0.8;
+        _inst.image_blend = c_white;
+
+        attack_cooldown = 10;
         time_attack = 15;
         advancing = true;
-    
-        //first and last point
+
+        // Calcula posição final para avanço
         var _direction = point_direction(x, y, mouse_x, mouse_y);
         advance_x = x + lengthdir_x(range, _direction);
         advance_y = y + lengthdir_y(range, _direction);
     }
 }
+
+
 player_line_attack();
 
 //limiting the timer
