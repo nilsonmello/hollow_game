@@ -26,16 +26,18 @@ if (state == "retracting") {
         var _dist_to_player = point_distance(target_enemy.x, target_enemy.y, origin_x, origin_y);
 
         if (_dist_to_player > 40) {
+            // Atualiza a posição do inimigo para seguir o gancho
             target_enemy.x = x;
             target_enemy.y = y;
         } else {
+            // Garante que o inimigo pare sempre em frente ao jogador
             var _front_dir = point_direction(origin_x, origin_y, target_enemy.x, target_enemy.y);
-            var _stop_dist = 40;
-            target_enemy.x = origin_x + lengthdir_x(_stop_dist, _front_dir);
-            target_enemy.y = origin_y + lengthdir_y(_stop_dist, _front_dir);
+            target_enemy.x = origin_x + lengthdir_x(40, _front_dir);
+            target_enemy.y = origin_y + lengthdir_y(40, _front_dir);
         }
     }
 
+    // Verifica se o gancho retornou completamente
     if (point_distance(x, y, origin_x, origin_y) < 5) {
         if (instance_exists(target_enemy)) {
             with (target_enemy) {

@@ -1,4 +1,4 @@
-spd = 10; 
+spd = 12; 
 max_dist = 200; 
 origin_x = x; 
 origin_y = y;
