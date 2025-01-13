@@ -278,7 +278,7 @@ if(mouse_check_button_pressed(mb_right)){
 if (combo_time > 0) {
     combo_time--;
     if (combo_time <= 0) {
-        combo = 0; // Reseta o combo apenas quando o tempo expira
+        combo = 0;
     }
 }
 
@@ -289,54 +289,53 @@ if (attack_cooldown > 0) {
 
 // Check attack input
 if (_mb && attack_cooldown <= 0) { 
-    if (!global.line_ready) {
-        // Ativa ataque
-        _basico.activate();
-        if (global.deflect_bullets) {
-            _basico.bullet();
-        }
 
-        if (combo_time > 0 && combo < 3) {
-            combo++;
-        } else {
-            combo = 1;
-        }
-
-        combo_time = 40;
-
-        var _inst = instance_create_layer(x, y, "Instances_player", obj_particle_effect);
-
-        switch (combo) {
-            case 1:
-                _inst.sprite_index = spr_hitbox;
-                break;
-            case 2:
-                _inst.sprite_index = spr_hitbox_2;
-                break;
-            case 3:
-                _inst.sprite_index = spr_hitbox_3;
-                break;
-        }
-        
-        _inst.direction = point_direction(x, y, mouse_x, mouse_y);
-        _inst.image_angle = _inst.direction;
-        _inst.speed = 8;
-        _inst.fric = 0.8;
-        _inst.image_blend = c_white;
-
-        attack_cooldown = 10;
-        time_attack = 15;
-        advancing = true;
-
-        // Calcula posição final para avanço
-        var _direction = point_direction(x, y, mouse_x, mouse_y);
-        advance_x = x + lengthdir_x(range, _direction);
-        advance_y = y + lengthdir_y(range, _direction);
+    // Ativa ataque
+    _basico.activate();
+    if (global.deflect_bullets) {
+        _basico.bullet();
     }
+
+    if (combo_time > 0 && combo < 3) {
+        combo++;
+    } else {
+        combo = 1;
+    }
+
+    combo_time = 40;
+
+    var _inst = instance_create_layer(x, y, "Instances_player", obj_particle_effect);
+
+    switch (combo) {
+        case 1:
+            _inst.sprite_index = spr_hitbox;
+            break;
+        case 2:
+            _inst.sprite_index = spr_hitbox_2;
+            break;
+        case 3:
+            _inst.sprite_index = spr_hitbox_3;
+            break;
+    }
+    
+    _inst.direction = point_direction(x, y, mouse_x, mouse_y);
+    _inst.image_angle = _inst.direction;
+    _inst.speed = 8;
+    _inst.fric = 0.8;
+    _inst.image_blend = c_white;
+
+    attack_cooldown = 10;
+    time_attack = 15;
+    advancing = true;
+
+    // Calcula posição final para avanço
+    var _direction = point_direction(x, y, mouse_x, mouse_y);
+    advance_x = x + lengthdir_x(range, _direction);
+    advance_y = y + lengthdir_y(range, _direction);
 }
 
 
-player_line_attack();
+//player_line_attack();
 
 //limiting the timer
 time_attack = clamp(time_attack, 0, 5);
@@ -412,3 +411,10 @@ if(hit_cooldown > 0){
 	can_take_dmg = true;
 }
 #endregion
+
+
+
+if (keyboard_check_pressed(ord("E"))) {
+    var _hook = instance_create_layer(x, y, "Instances_player", obj_hook);
+    _hook.dir = point_direction(x, y, mouse_x, mouse_y);
+}

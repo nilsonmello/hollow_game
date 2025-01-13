@@ -60,6 +60,7 @@
     {"id":{"name":"obj_energy_dust","path":"objects/obj_energy_dust/obj_energy_dust.yy",},},
     {"id":{"name":"obj_grass","path":"objects/obj_grass/obj_grass.yy",},},
     {"id":{"name":"obj_hitstop","path":"objects/obj_hitstop/obj_hitstop.yy",},},
+    {"id":{"name":"obj_hook","path":"objects/obj_hook/obj_hook.yy",},},
     {"id":{"name":"obj_particle_effect","path":"objects/obj_particle_effect/obj_particle_effect.yy",},},
     {"id":{"name":"obj_particle","path":"objects/obj_particle/obj_particle.yy",},},
     {"id":{"name":"obj_player","path":"objects/obj_player/obj_player.yy",},},
