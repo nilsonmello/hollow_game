@@ -251,7 +251,17 @@ function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost, _combo
                     
                         var _is_critical = irandom(100) < global.critical;
                         var _damage_to_apply = _is_critical ? other.dmg * 2 : other.dmg;
-    					var _stamina = 50
+    					var _stamina = 0
+                        
+                        switch (size) {
+                            case 1:
+                                _stamina = 50;
+                            break;
+                            
+                            case 2:
+                                _stamina = 25
+                            break;
+                        }
     
                         escx = 1.5;
                         escy = 1.5;
@@ -361,6 +371,8 @@ activate = function(){
                 stamina_at = 0;
                 layer_set_visible("screenshake_damaging_enemies", 1);
                 state = ENEMY_STATES.KNOCKED;
+                warning = false
+                attacking = false;
                 emp_veloc = 8;
                 vida -= other.damage;
                 hit = false;
@@ -378,11 +390,12 @@ activate = function(){
     }
 
     active = false;
+    global.energy -= cost
 };
 
 }
 
-golpe_circular = new circle(50, 0, 1, true, self, 0);
+golpe_circular = new circle(50, 0, 1, true, self, 5);
 #endregion
 
 sprite_index = spr_player_idle;
