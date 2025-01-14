@@ -8,7 +8,7 @@
   "managed":true,
   "name":"obj_enemy",
   "overriddenProperties":[
-    {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"obj_enemy_par","path":"objects/obj_enemy_par/obj_enemy_par.yy",},"propertyId":{"name":"vel","path":"objects/obj_enemy_par/obj_enemy_par.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"1",},
+    {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"obj_enemy_par","path":"objects/obj_enemy_par/obj_enemy_par.yy",},"propertyId":{"name":"vel","path":"objects/obj_enemy_par/obj_enemy_par.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":".2",},
     {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"obj_enemy_par","path":"objects/obj_enemy_par/obj_enemy_par.yy",},"propertyId":{"name":"vel_h","path":"objects/obj_enemy_par/obj_enemy_par.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"0",},
     {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"obj_enemy_par","path":"objects/obj_enemy_par/obj_enemy_par.yy",},"propertyId":{"name":"vel_v","path":"objects/obj_enemy_par/obj_enemy_par.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"0",},
     {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"obj_enemy_par","path":"objects/obj_enemy_par/obj_enemy_par.yy",},"propertyId":{"name":"dest_x","path":"objects/obj_enemy_par/obj_enemy_par.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"0",},
@@ -25,6 +25,7 @@
     {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"obj_enemy_par","path":"objects/obj_enemy_par/obj_enemy_par.yy",},"propertyId":{"name":"calc_path_delay","path":"objects/obj_enemy_par/obj_enemy_par.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"30",},
     {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"obj_enemy_par","path":"objects/obj_enemy_par/obj_enemy_par.yy",},"propertyId":{"name":"attack_dis","path":"objects/obj_enemy_par/obj_enemy_par.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"60",},
     {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"obj_enemy_par","path":"objects/obj_enemy_par/obj_enemy_par.yy",},"propertyId":{"name":"emp_dir","path":"objects/obj_enemy_par/obj_enemy_par.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"0",},
+    {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"obj_enemy_par","path":"objects/obj_enemy_par/obj_enemy_par.yy",},"propertyId":{"name":"vel_mov","path":"objects/obj_enemy_par/obj_enemy_par.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":".9",},
   ],
   "parent":{
     "name":"inimigos",

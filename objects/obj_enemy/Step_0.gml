@@ -1,4 +1,5 @@
 #region state machine
+show_debug_message(vel_mov)
 
 #region variables and timers
 event_inherited();
@@ -47,8 +48,8 @@ switch(state){
 			
         var _dir = point_direction(x, y, x_point, y_point);
         
-        vel_h = lengthdir_x(.8, _dir);
-        vel_v = lengthdir_y(.8, _dir);
+        vel_h = lengthdir_x(vel_mov, _dir);
+        vel_v = lengthdir_y(vel_mov, _dir);
 
         enemy_colide();
 
@@ -71,8 +72,8 @@ switch(state){
 	case ENEMY_STATES.FOLLOW:
 		var _dir_m = point_direction(x, y, obj_player.x, obj_player.y);
 			
-		vel_h = lengthdir_x(.8, _dir_m);
-		vel_v = lengthdir_y(.8, _dir_m);
+		vel_h = lengthdir_x(vel_mov, _dir_m);
+		vel_v = lengthdir_y(vel_mov, _dir_m);
 
 		enemy_colide();
 		
@@ -183,11 +184,12 @@ switch(state){
 	case ENEMY_STATES.ATTACK:
 	    atk_time--;
 		warning = false;
-		
+		vel_mov = 13;
+    
 	    if(atk_time > 0){
-	        vel = lerp(vel, 0, 0.5);
-	        vel_h = lengthdir_x(vel, dire);
-	        vel_v = lengthdir_y(vel, dire);
+	        vel_mov = lerp(vel_mov, 0, 0.5);
+	        vel_h = lengthdir_x(vel_mov, dire);
+	        vel_v = lengthdir_y(vel_mov, dire);
             
 	        enemy_colide();
 
@@ -203,7 +205,8 @@ switch(state){
 	        has_attacked = false;
 			time_per_attacks = 110;
 			recover_time = 60;
-			
+            vel_mov = .9
+            
 			var _away = point_direction(obj_player.x, obj_player.y, x, y);
 			
 			esc_x = x + lengthdir_x(50, _away);

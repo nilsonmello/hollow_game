@@ -55,7 +55,7 @@ switch(state){
 	//MOVING
 	case STATES.MOVING:
         if(attack_cooldown <= 0){
-			spd = 1;
+			spd = .9;
 
     		if(_keys){
     			move_dir = point_direction(0, 0, _right - _left, _down - _top);

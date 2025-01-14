@@ -7,7 +7,7 @@ spd_h = 0;
 spd_v = 0;
 
 //actual speed
-spd = 1;
+spd = .9;
 #endregion
 
 #region dash variables
