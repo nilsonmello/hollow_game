@@ -286,7 +286,6 @@ function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost, _combo
                                 state = ENEMY_STATES.KNOCKED;
                                 vida -= _damage_to_apply;
                                 hit = false;
-                                //alarm[1] = 5;
                                 alarm[2] = 30;
                                 var _inst2 = instance_create_layer(x, y, "Instances_player", obj_hitstop);
                             break;
@@ -358,27 +357,15 @@ activate = function(){
                 timer_hit = 5;
                 emp_dir = point_direction(obj_player.x, obj_player.y, x, y);
                 global.combo++;
-
-                switch(knocked){
-                    case 0:
-                        layer_set_visible("screenshake_damaging_enemies", 1);
-                        state = ENEMY_STATES.HIT;
-                        emp_timer = 5;
-                        emp_veloc = 6;
-                        stamina_at -= 30;
-                        alarm[2] = 30;
-                        break;
-
-                    case 1:
-                        layer_set_visible("screenshake_damaging_enemies", 1);
-                        state = ENEMY_STATES.KNOCKED;
-                        emp_veloc = 8;
-                        vida -= other.damage;
-                        hit = false;
-                        alarm[1] = 10;
-                        alarm[2] = 30;
-                    break;
-                }
+                knocked = 1;
+                stamina_at = 0;
+                layer_set_visible("screenshake_damaging_enemies", 1);
+                state = ENEMY_STATES.KNOCKED;
+                emp_veloc = 8;
+                vida -= other.damage;
+                hit = false;
+                alarm[1] = 10;
+                alarm[2] = 30;
             }
             ds_list_add(global.attacked_enemies, _rec);
         }

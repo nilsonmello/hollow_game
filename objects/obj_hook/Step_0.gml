@@ -46,29 +46,80 @@ if (state == "retracting") {
         y += lengthdir_y(spd, _dir_back);
 
         if (instance_exists(target_enemy)) {
-            var _dist_to_player = point_distance(target_enemy.x, target_enemy.y, obj_player.x, obj_player.y);
-
-            if (_dist_to_player > 40) {
-                target_enemy.x = x;
-                target_enemy.y = y;
-            } else {
-                var _front_dir = point_direction(obj_player.x, obj_player.y, target_enemy.x, target_enemy.y);
-                var _stop_dist = 20;
-                target_enemy.x = obj_player.x + lengthdir_x(_stop_dist, _front_dir);
-                target_enemy.y = obj_player.y + lengthdir_y(_stop_dist, _front_dir);
+            switch (target_enemy.size) {
+                case 1:
+                    if (instance_exists(target_enemy)) {
+                        var _dist_to_player = point_distance(target_enemy.x, target_enemy.y, obj_player.x, obj_player.y);
+            
+                        if (_dist_to_player > 40) {
+                            target_enemy.x = x;
+                            target_enemy.y = y;
+                        } else {
+                            var _front_dir = point_direction(obj_player.x, obj_player.y, target_enemy.x, target_enemy.y);
+                            var _stop_dist = 20;
+                            target_enemy.x = obj_player.x + lengthdir_x(_stop_dist, _front_dir);
+                            target_enemy.y = obj_player.y + lengthdir_y(_stop_dist, _front_dir);
+                        }
+                    }
+            
+                    if (point_distance(x, y, obj_player.x, obj_player.y) < 5) {
+                        if (instance_exists(target_enemy)) {
+                            with (target_enemy) {
+                                state = ENEMY_STATES.HIT;
+                                emp_dir = point_direction(x, y, obj_player.x, obj_player.y);
+                                emp_veloc = 6;
+                            }
+                        }
+                        global.hooking = false;
+                        instance_destroy();
+                    }
+                    break;
+                
+                case 2:
+                    if (target_wall) {
+                        var _dir_to_wall = point_direction(obj_player.x, obj_player.y, wall_x, wall_y);
+                        var _stop_dist = 30;
+                        var _dist_to_wall = point_distance(obj_player.x, obj_player.y, wall_x, wall_y);
+                
+                        if (_dist_to_wall > _stop_dist) {
+                            obj_player.x += lengthdir_x(spd, _dir_to_wall);
+                            obj_player.y += lengthdir_y(spd, _dir_to_wall);
+                        } else {
+                            global.hooking = false;
+                            instance_destroy();
+                        }
+                    } else {
+                        if (instance_exists(target_enemy)) {
+                            var _dir_to_enemy = point_direction(obj_player.x, obj_player.y, target_enemy.x, target_enemy.y);
+                            var _stop_dist = 40;
+                            var _dist_to_enemy = point_distance(obj_player.x, obj_player.y, target_enemy.x, target_enemy.y);
+                
+                            if (_dist_to_enemy > _stop_dist) {
+                                obj_player.x += lengthdir_x(spd, _dir_to_enemy);
+                                obj_player.y += lengthdir_y(spd, _dir_to_enemy);
+                            } else {
+                                global.hooking = false;
+                                instance_destroy();
+                            }
+                        } else {
+                            var _dir_back = point_direction(x, y, obj_player.x, obj_player.y);
+                            x += lengthdir_x(spd, _dir_back);
+                            y += lengthdir_y(spd, _dir_back);
+                
+                            if (point_distance(x, y, obj_player.x, obj_player.y) < 5) {
+                                global.hooking = false;
+                                instance_destroy();
+                            }
+                        }
+                    }
+                    break;
             }
-        }
-
-        if (point_distance(x, y, obj_player.x, obj_player.y) < 5) {
-            if (instance_exists(target_enemy)) {
-                with (target_enemy) {
-                    state = ENEMY_STATES.HIT;
-                    emp_dir = point_direction(x, y, obj_player.x, obj_player.y);
-                    emp_veloc = 6;
-                }
+        } else {
+            // Correção: Finaliza o gancho caso `target_enemy` não exista
+            if (point_distance(x, y, obj_player.x, obj_player.y) < 5) {
+                global.hooking = false;
+                instance_destroy();
             }
-            global.hooking = false;
-            instance_destroy();
         }
     }
 }

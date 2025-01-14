@@ -8,3 +8,4 @@ dir = 0;
 target_wall = false;
 wall_x = x;
 wall_y = y;
+target_size = 0;

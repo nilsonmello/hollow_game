@@ -220,3 +220,5 @@ alligned = false;
 
 //actual frame
 frame = 0;
+
+size = 1;

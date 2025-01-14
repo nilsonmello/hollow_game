@@ -1,5 +1,5 @@
 #region state machine
-
+size = 2;
 #region life and cooldown
 event_inherited();
 var _line_wall = collision_line(x, y, obj_player.x, obj_player.y, obj_wall, false, false);
