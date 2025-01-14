@@ -3,7 +3,7 @@ x = mouse_x;
 y = mouse_y;
 #endregion
 
-with (obj_enemy_par) 
+with (obj_enemy_par) {
     alligned = false;
 }
 
@@ -22,7 +22,6 @@ if (_line) {
 
     var _tracking_strength = _max_strength
 
-    // Ajustar posição do mouse
     x = lerp(x, _enemy_x, _tracking_strength);
     y = lerp(y, _enemy_y, _tracking_strength);
 
