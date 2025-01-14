@@ -334,64 +334,64 @@ function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost, _combo
 }
 
 function circle(_dist, _direction, _damage, _hitbox, _owner, _cost) : slashes(_dist, _direction, _damage, _hitbox, _owner, _cost) constructor{
-active = false;
-cost = _cost
-damage = _damage
-
-activate = function(){
-    active = true;
-    
-    var _inst = instance_create_layer(owner.x, owner.y, "Instances_player", obj_particle_effect);
-    _inst.sprite_index = spr_hitbox_area;
-
-    _inst.image_angle = _inst.direction;
-
-    _inst.fric = 0.8;
-    _inst.image_blend = c_white;
-    
-    if(!variable_global_exists("attacked_enemies")){
-        global.attacked_enemies = ds_list_create();
-    }
-
-    var _list = ds_list_create();
-    collision_circle_list(owner.x, owner.y, distance, obj_enemy_par, false, false, _list, true);
-
-    for (var _i = 0; _i < ds_list_size(_list); _i++){
-        var _rec = _list[| _i];
-
-        if(!ds_list_find_index(global.attacked_enemies, _rec)){
-            with(_rec){
-                escx = 1.5;
-                escy = 1.5;
-                hit_alpha = 1;
-                timer_hit = 5;
-                emp_dir = point_direction(obj_player.x, obj_player.y, x, y);
-                global.combo++;
-                knocked = 1;
-                stamina_at = 0;
-                layer_set_visible("screenshake_damaging_enemies", 1);
-                state = ENEMY_STATES.KNOCKED;
-                warning = false
-                attacking = false;
-                emp_veloc = 8;
-                vida -= other.damage;
-                hit = false;
-                alarm[1] = 10;
-                alarm[2] = 30;
-            }
-            ds_list_add(global.attacked_enemies, _rec);
-        }
-    }
-
-    ds_list_destroy(_list);
-
-    if(variable_global_exists("attacked_enemies")){
-        ds_list_clear(global.attacked_enemies);
-    }
-
     active = false;
-    global.energy -= cost
-};
+    cost = _cost
+    damage = _damage
+
+    activate = function(){
+        active = true;
+        
+        var _inst = instance_create_layer(owner.x, owner.y, "Instances_player", obj_particle_effect);
+        _inst.sprite_index = spr_hitbox_area;
+    
+        _inst.image_angle = _inst.direction;
+    
+        _inst.fric = 0.8;
+        _inst.image_blend = c_white;
+        
+        if(!variable_global_exists("attacked_enemies")){
+            global.attacked_enemies = ds_list_create();
+        }
+    
+        var _list = ds_list_create();
+        collision_circle_list(owner.x, owner.y, distance, obj_enemy_par, false, false, _list, true);
+    
+        for (var _i = 0; _i < ds_list_size(_list); _i++){
+            var _rec = _list[| _i];
+    
+            if(!ds_list_find_index(global.attacked_enemies, _rec)){
+                with(_rec){
+                    escx = 1.5;
+                    escy = 1.5;
+                    hit_alpha = 1;
+                    timer_hit = 5;
+                    emp_dir = point_direction(obj_player.x, obj_player.y, x, y);
+                    global.combo++;
+                    knocked = 1;
+                    stamina_at = 0;
+                    layer_set_visible("screenshake_damaging_enemies", 1);
+                    state = ENEMY_STATES.KNOCKED;
+                    warning = false
+                    attacking = false;
+                    emp_veloc = 8;
+                    vida -= other.damage;
+                    hit = false;
+                    alarm[1] = 10;
+                    alarm[2] = 30;
+                }
+                ds_list_add(global.attacked_enemies, _rec);
+            }
+        }
+    
+        ds_list_destroy(_list);
+    
+        if(variable_global_exists("attacked_enemies")){
+            ds_list_clear(global.attacked_enemies);
+        }
+    
+        active = false;
+        global.energy -= cost
+    };
 
 }
 
