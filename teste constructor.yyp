@@ -93,6 +93,7 @@
     {"id":{"name":"spr_grass","path":"sprites/spr_grass/spr_grass.yy",},},
     {"id":{"name":"spr_hitbox_2","path":"sprites/spr_hitbox_2/spr_hitbox_2.yy",},},
     {"id":{"name":"spr_hitbox_3","path":"sprites/spr_hitbox_3/spr_hitbox_3.yy",},},
+    {"id":{"name":"spr_hitbox_area","path":"sprites/spr_hitbox_area/spr_hitbox_area.yy",},},
     {"id":{"name":"spr_hitbox_parry","path":"sprites/spr_hitbox_parry/spr_hitbox_parry.yy",},},
     {"id":{"name":"spr_hitbox","path":"sprites/spr_hitbox/spr_hitbox.yy",},},
     {"id":{"name":"spr_hud","path":"sprites/spr_hud/spr_hud.yy",},},

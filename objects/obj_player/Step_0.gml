@@ -1,4 +1,4 @@
-
+show_debug_message(global.hooking)
 #region movement keys
 //energy limit clamp
 global.energy = clamp(global.energy, 0, global.energy_max);
@@ -289,11 +289,28 @@ if (attack_cooldown > 0) {
     attack_cooldown--;
 }
 
+if (_mb2) {
+    if (actual_timer <= timer_charge) {
+        actual_timer++;
+    }
+} else {
+    if (mouse_check_button_released(_mb2)) && actual_timer >= timer_charge{
+        golpe_circular.activate();
+        actual_timer = 0;
+    }
+    if (actual_timer < timer_charge) {
+        actual_timer = 0
+    }
+}
+
+show_debug_message(actual_timer)
+
 // Check attack input
 if (_mb && attack_cooldown <= 0) { 
 
     // Ativa ataque
     _basico.activate();
+    actual_timer = 0;
     if (global.deflect_bullets) {
         _basico.bullet();
     }
@@ -418,4 +435,8 @@ if (keyboard_check_pressed(ord("E"))) {
         var _hook = instance_create_layer(x, y, "Instances_player", obj_hook);
         _hook.dir = point_direction(x, y, mouse_x, mouse_y);
     }
+}
+
+if (keyboard_check_pressed(ord("C"))) {
+    golpe_circular.activate();
 }
