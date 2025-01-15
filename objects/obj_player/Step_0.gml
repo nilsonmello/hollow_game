@@ -302,8 +302,6 @@ if (_mb2) {
     }
 }
 
-show_debug_message(actual_timer)
-
 // Check attack input
 if (_mb && attack_cooldown <= 0) { 
 

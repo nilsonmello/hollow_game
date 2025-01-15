@@ -18,7 +18,7 @@ function enemy_attack(){
                     particles(_x_init, _y_init, x, y, c_white, 6, 4);
                     var _inst = instance_create_layer(x, y, "Instances_player", obj_hitstop);
                     _inst.spd = 10;
-                    
+                    //
                     state = STATES.HIT;
                     hit_timer = 10;
                     hit_alpha = 1;
@@ -35,12 +35,6 @@ function enemy_attack(){
                         time_per_attacks = 110;
                         knocked_time = 20;
                         has_attacked = false;
-                        recover_time = 60;
-    
-                        var _away = point_direction(obj_player.x, obj_player.y, x, y);
-    
-                        esc_x = x + lengthdir_x(50, _away);
-                        esc_y = y + lengthdir_y(50, _away);
                     }
                 }else{
                     parry_cooldown = 0;

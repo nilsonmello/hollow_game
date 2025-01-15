@@ -26,5 +26,8 @@ if (alligned){
     frame = 0;
 }
 
-var _escx = stamina_at
-draw_sprite_stretched(spr_bar, 0, x - 7, y + 20, _escx, 1.5)
+//escala da barra
+var _escx = stamina_at;
+
+//desenho da barra de energia
+draw_sprite_stretched(spr_bar, 0, x - 7, y + 20, _escx, 1.5);

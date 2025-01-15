@@ -5,10 +5,6 @@ if(frame < 6){
     frame = 6;
 }
 
-//speed
-move_speed = lerp(move_speed, 1.3, .07);
-vel = 12;
-
 #region hit alpha
 //decreases the hit_alpha value
 hit_alpha = lerp(hit_alpha, 0, 0.1);
