@@ -5,17 +5,17 @@ function enemy_colide(){
             place_meeting(x + vel_h, y, obj_player) ||
             place_meeting(x + vel_h, y, obj_enemy_par) ||
             place_meeting(x + vel_h, y, obj_ambient)){
-
-            if(state != ENEMY_STATES.KNOCKED){
-                while(!place_meeting(x + sign(vel_h) * step_size, y, obj_wall) &&
-                    !place_meeting(x + sign(vel_h) * step_size, y, obj_player) &&
-                    !place_meeting(x + sign(vel_h) * step_size, y, obj_enemy_par) &&
-                    !place_meeting(x + sign(vel_h) * step_size, y, obj_ambient)){
-                    x += sign(vel_h) * step_size;
-                }
-                vel_h = 0;
-                emp_timer = 0;
+            
+            while(!place_meeting(x + sign(vel_h) * step_size, y, obj_wall) &&
+                !place_meeting(x + sign(vel_h) * step_size, y, obj_player) &&
+                !place_meeting(x + sign(vel_h) * step_size, y, obj_enemy_par) &&
+                !place_meeting(x + sign(vel_h) * step_size, y, obj_ambient)){
+                x += sign(vel_h) * step_size;
             }
+            
+            vel_h = 0;
+            emp_timer = 0;
+            emp_veloc = 0;
         }
     }
 
@@ -24,17 +24,17 @@ function enemy_colide(){
             place_meeting(x, y + vel_v, obj_player) ||
             place_meeting(x, y + vel_v, obj_enemy_par) ||
             place_meeting(x, y + vel_v, obj_ambient)){
-
-            if(state != ENEMY_STATES.KNOCKED){
-                while(!place_meeting(x, y + sign(vel_v) * step_size, obj_wall) &&
-                    !place_meeting(x, y + sign(vel_v) * step_size, obj_player) &&
-                    !place_meeting(x, y + sign(vel_v) * step_size, obj_enemy_par) &&
-                    !place_meeting(x, y + sign(vel_v) * step_size, obj_ambient)){
-                    y += sign(vel_v) * step_size;
-                }
-                vel_v = 0;
-                emp_timer = 0;
+            
+            while(!place_meeting(x, y + sign(vel_v) * step_size, obj_wall) &&
+                !place_meeting(x, y + sign(vel_v) * step_size, obj_player) &&
+                !place_meeting(x, y + sign(vel_v) * step_size, obj_enemy_par) &&
+                !place_meeting(x, y + sign(vel_v) * step_size, obj_ambient)){
+                y += sign(vel_v) * step_size;
             }
+            
+            vel_v = 0;
+            emp_timer = 0;
+            emp_veloc = 0;
         }
     }
 }
