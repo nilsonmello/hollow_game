@@ -339,6 +339,10 @@ function circle(_dist, _direction, _damage, _hitbox, _owner, _cost) : slashes(_d
     damage = _damage
 
     activate = function(){
+        if (global.energy < cost) {
+            return false;
+        }
+        
         active = true;
         
         var _inst = instance_create_layer(owner.x, owner.y, "Instances_player", obj_particle_effect);

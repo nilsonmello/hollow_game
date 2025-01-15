@@ -436,7 +436,3 @@ if (keyboard_check_pressed(ord("E"))) {
         _hook.dir = point_direction(x, y, mouse_x, mouse_y);
     }
 }
-
-if (keyboard_check_pressed(ord("C"))) {
-    golpe_circular.activate();
-}
