@@ -34,6 +34,7 @@
     {"$GMFolder":"","%Name":"enemies","folderPath":"folders/Sprites/enemies.yy","name":"enemies","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"hud","folderPath":"folders/Sprites/hud.yy","name":"hud","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"player","folderPath":"folders/Sprites/player.yy","name":"player","resourceType":"GMFolder","resourceVersion":"2.0",},
+    {"$GMFolder":"","%Name":"grapple","folderPath":"folders/Sprites/player/grapple.yy","name":"grapple","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"hitboxes","folderPath":"folders/Sprites/player/hitboxes.yy","name":"hitboxes","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"player","folderPath":"folders/Sprites/player/player.yy","name":"player","resourceType":"GMFolder","resourceVersion":"2.0",},
   ],

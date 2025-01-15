@@ -78,5 +78,6 @@ function player_line_attack() {
             global.line_ready = false;   
         }
         obj_hook.state = "launched"
+        obj_hook.target_enemy = global.target_enemy;
     }
 }
