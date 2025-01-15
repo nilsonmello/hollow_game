@@ -222,4 +222,4 @@ alligned = false;
 frame = 0;
 
 //the actual size of the enemy
-size = 1;
+size = 2;

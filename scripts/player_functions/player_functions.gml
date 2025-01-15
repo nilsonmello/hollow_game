@@ -74,7 +74,6 @@ function player_line_attack() {
             if (distance_to_object(global.target_enemy) < 40) {
                 return false;
             }
-    
             global.line_ready = false;   
         }
         obj_hook.state = "launched"
