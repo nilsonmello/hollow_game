@@ -74,15 +74,9 @@ function player_line_attack() {
             if (distance_to_object(global.target_enemy) < 40) {
                 return false;
             }
-            
-            var _hook = instance_create_layer(x, y, "Instances_player", obj_hook);
-            
-            _hook.origin_x = x;
-            _hook.origin_y = y;
-            _hook.target_enemy = global.target_enemy;
-            _hook.dir = point_direction(x, y, _hook.target_enemy.x, _hook.target_enemy.y);
     
             global.line_ready = false;   
         }
+        obj_hook.state = "launched"
     }
 }

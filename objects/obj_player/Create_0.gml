@@ -406,3 +406,7 @@ golpe_circular = new circle(50, 0, 1, true, self, 5);
 #endregion
 
 sprite_index = spr_player_idle;
+
+if (!instance_exists(obj_hook)) {
+    var _hook = instance_create_layer(x, y, "Instances_player", obj_hook);
+}

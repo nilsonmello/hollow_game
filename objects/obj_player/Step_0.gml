@@ -1,4 +1,3 @@
-show_debug_message(global.hooking)
 #region movement keys
 //energy limit clamp
 global.energy = clamp(global.energy, 0, global.energy_max);
@@ -429,10 +428,3 @@ if(hit_cooldown > 0){
 	can_take_dmg = true;
 }
 #endregion
-
-if (keyboard_check_pressed(ord("E"))) {
-    if (!instance_exists(obj_hook)) {
-        var _hook = instance_create_layer(x, y, "Instances_player", obj_hook);
-        _hook.dir = point_direction(x, y, mouse_x, mouse_y);
-    }
-}
