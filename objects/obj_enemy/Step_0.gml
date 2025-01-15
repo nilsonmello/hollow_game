@@ -187,7 +187,6 @@ switch (state) {
                 enemy_attack();
             }
         } else {
-
             vel_mov = .9;
             state = ENEMY_STATES.MOVE;
             attacking = false;
