@@ -365,6 +365,10 @@ function circle(_dist, _direction, _damage, _hitbox, _owner, _cost) : slashes(_d
     
             if(!ds_list_find_index(global.attacked_enemies, _rec)){
                 with(_rec){
+                    emp_timer = 3;
+                    emp_veloc = 3;
+                    timer_hit = 5;
+                    
                     escx = 1.5;
                     escy = 1.5;
                     hit_alpha = 1;
@@ -396,7 +400,6 @@ function circle(_dist, _direction, _damage, _hitbox, _owner, _cost) : slashes(_d
         active = false;
         global.energy -= cost
     };
-
 }
 
 golpe_circular = new circle(50, 0, 1, true, self, 5);
