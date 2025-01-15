@@ -70,13 +70,19 @@ function particles(_x_inicial, _y_inicial, _x_final, _y_final, _color, _number_1
 function player_line_attack() {
     if (global.line_ready && mouse_check_button_pressed(mb_left) && instance_exists(global.target_enemy)) {
         if (!instance_exists(obj_hook)) {
+            var hook_instance = instance_create_layer(obj_player.x, obj_player.y, "Instances", obj_hook);
             
-            if (distance_to_object(global.target_enemy) < 40) {
-                return false;
-            }
-            global.line_ready = false;   
+            var launch_dir = point_direction(obj_player.x, obj_player.y, global.target_enemy.x, global.target_enemy.y);
+            hook_instance.dir = launch_dir;
+            hook_instance.state = "launched";
+            hook_instance.target_enemy = global.target_enemy;
+        } else {
+            obj_hook.state = "launched";
+            obj_hook.target_enemy = global.target_enemy;
+            
+            obj_hook.dir = point_direction(obj_player.x, obj_player.y, global.target_enemy.x, global.target_enemy.y);
         }
-        obj_hook.state = "launched"
-        obj_hook.target_enemy = global.target_enemy;
+
+        global.line_ready = false;
     }
 }
