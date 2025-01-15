@@ -26,4 +26,5 @@ if (alligned){
     frame = 0;
 }
 
-draw_text(x, y - 13, string(stamina_at))
+var _escx = stamina_at
+draw_sprite_stretched(spr_bar, 0, x - 7, y + 20, _escx, 1.5)
