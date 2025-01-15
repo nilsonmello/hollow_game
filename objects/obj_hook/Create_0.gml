@@ -13,7 +13,7 @@ target_size = 0;
 orbit_distance = 10
 orbit_angle = 0;
 
-launch_origin_x = obj_player.x; // Origem do lançamento é o jogador
+launch_origin_x = obj_player.x;
 launch_origin_y = obj_player.y;
 
 orbit_speed = 1

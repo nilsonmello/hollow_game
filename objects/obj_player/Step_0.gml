@@ -360,7 +360,7 @@ time_attack = clamp(time_attack, 0, 5);
 if(advancing && time_attack > 0){
     time_attack--;
 
-    var _advance_speed = 0.1;
+    var _advance_speed = 0.2;
     var __nx = lerp(x, advance_x, _advance_speed);
     var __ny = lerp(y, advance_y, _advance_speed);
 

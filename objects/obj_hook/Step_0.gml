@@ -1,52 +1,58 @@
+var front_layer_id = layer_get_id("Instances_bellow");
+var back_layer_id = layer_get_id("Instances_above");
+
 if (state == "orbiting") {
     orbit_angle += orbit_speed;
-    var new_x = lengthdir_x(orbit_distance, orbit_angle);
-    var new_y = lengthdir_y(orbit_distance, orbit_angle);
+    var orbit_distance_x = orbit_distance;
+    var orbit_distance_y = orbit_distance * 0.5;
+
+    var new_x = lengthdir_x(orbit_distance_x, orbit_angle);
+    var new_y = lengthdir_y(orbit_distance_y, orbit_angle);
 
     x = obj_player.x + new_x;
     y = obj_player.y + new_y;
 
+    if (y > obj_player.y) {
+        layer = back_layer_id;
+    } else {
+        layer = front_layer_id;
+    }
+
     if (keyboard_check_pressed(ord("E"))) {
-        // Zera valores de órbita antes do lançamento
         orbit_distance = 0;
         orbit_angle = 0;
         orbit_speed = 0;
         
-        // Ajusta a posição do gancho para o jogador
         x = obj_player.x;
         y = obj_player.y;
 
-        // Calcula a direção diretamente para o mouse
         var mouse_dir = point_direction(obj_player.x, obj_player.y, mouse_x, mouse_y);
 
-        // Defina o estado para "lançado" e registre a posição de origem
         state = "launched";
         launch_origin_x = obj_player.x;
         launch_origin_y = obj_player.y;
-        dir = mouse_dir;  // Define a direção para o mouse
+        dir = mouse_dir;
     }
 }
+
+
 
 if (state == "launched") {
     global.hooking = true;
 
-    // Movimenta o gancho na direção do mouse
     x += lengthdir_x(spd, dir);
     y += lengthdir_y(spd, dir);
 
-    // Verifica se o gancho atingiu a distância máxima
     if (point_distance(launch_origin_x, launch_origin_y, x, y) >= max_dist) {
         state = "retracting";
     }
 
-    // Verifica se o gancho atingiu um inimigo
     var _enemy = instance_place(x, y, obj_enemy_par);
     if (instance_exists(_enemy)) {
         state = "retracting";
         target_enemy = _enemy;
     }
 
-    // Verifica se o gancho atingiu uma parede
     if (place_meeting(x, y, obj_wall)) {
         state = "retracting";
         target_wall = true;
@@ -201,4 +207,3 @@ if (state == "retracting") {
         }
     }
 }
-
