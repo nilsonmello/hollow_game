@@ -356,7 +356,9 @@ function circle(_dist, _direction, _damage, _hitbox, _owner, _cost) : slashes(_d
         if(!variable_global_exists("attacked_enemies")){
             global.attacked_enemies = ds_list_create();
         }
-    
+        
+        layer_set_visible("screenshake_damaging_enemies", 1);
+        
         var _list = ds_list_create();
         collision_circle_list(owner.x, owner.y, distance, obj_enemy_par, false, false, _list, true);
     
@@ -364,6 +366,9 @@ function circle(_dist, _direction, _damage, _hitbox, _owner, _cost) : slashes(_d
             var _rec = _list[| _i];
     
             if(!ds_list_find_index(global.attacked_enemies, _rec)){
+                
+                particles(_rec.x, _rec.y, _rec.x, _rec.y, c_black, 6, 4);
+                
                 with(_rec){
                     emp_timer = 3;
                     emp_veloc = 3;

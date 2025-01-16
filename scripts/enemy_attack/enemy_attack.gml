@@ -18,7 +18,7 @@ function enemy_attack(){
                     particles(_x_init, _y_init, x, y, c_white, 6, 4);
                     var _inst = instance_create_layer(x, y, "Instances_player", obj_hitstop);
                     _inst.spd = 10;
-                    //
+                    
                     state = STATES.HIT;
                     hit_timer = 10;
                     hit_alpha = 1;
