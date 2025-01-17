@@ -17,3 +17,4 @@ if(stamina_at <= 10){
 
 stamina_at = clamp(stamina_at, 0, stamina_t);
 #endregion
+
