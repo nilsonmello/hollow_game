@@ -54,8 +54,13 @@ if (global.hooking) {
             var _previous = global.enemy_list[| (global.index == 0) ? ds_list_size(global.enemy_list) - 1 : global.index - 1];
             
             //ativa a marca do atual e desmarca a do anterior
-            with (_selected) {
-                alligned = true;
+            if (instance_exists(_selected)) {
+                with (_selected) {
+                    alligned = true;
+                }   
+            } else {
+              ds_list_delete(global.enemy_list, global.index);
+              global.index = -1;  
             }
             with (_previous) {
                 alligned = false;
@@ -70,13 +75,4 @@ if (global.hooking) {
     }
 }
 
-
-
-
-
-
-
-
-show_debug_message(ds_list_size(global.enemy_list))
 show_debug_message(global.index)
-show_debug_message(global.hooking)

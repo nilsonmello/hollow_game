@@ -37,7 +37,7 @@ if (state == "orbiting") {
 }
 
 if (state == "launched") {
-    if (global.index >= 0 && global.index < ds_list_size(global.enemy_list)) {
+    if (global.index != -1 && global.index < ds_list_size(global.enemy_list)) {
         var selected_enemy = global.enemy_list[| global.index];
         if (instance_exists(selected_enemy)) {
             var enemy_x = selected_enemy.x;
