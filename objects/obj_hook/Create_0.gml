@@ -18,6 +18,3 @@ launch_origin_y = obj_player.y;
 
 orbit_speed = 1
 wall_exists = true;
-
-selected_enemy_index = -1;
-enemy_list = ds_list_create();

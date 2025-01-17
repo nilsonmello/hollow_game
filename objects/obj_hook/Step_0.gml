@@ -36,45 +36,28 @@ if (state == "orbiting") {
 }
 
 if (state == "launched") {
-    if (global.selected_enemy_index >= 0 && global.selected_enemy_index < ds_list_size(global.enemy_list)) {
-        var selected_enemy = global.enemy_list[| global.selected_enemy_index];
-        if (instance_exists(selected_enemy)) {
-            var enemy_x = selected_enemy.x;
-            var enemy_y = selected_enemy.y;
+    target_enemy = noone;
+    global.hooking = true;
 
-            dir = point_direction(x, y, enemy_x, enemy_y);
+    x += lengthdir_x(spd, dir);
+    y += lengthdir_y(spd, dir);
 
-            x += lengthdir_x(spd, dir);
-            y += lengthdir_y(spd, dir);
+    if (point_distance(launch_origin_x, launch_origin_y, x, y) >= max_dist) {
+        state = "retracting";
+    }
 
-            if (point_distance(x, y, enemy_x, enemy_y) < 10) {
-                state = "retracting";
-                target_enemy = selected_enemy;
-            }
-        } else {
-            state = "retracting";
-        }
-    } else {
-        x += lengthdir_x(spd, dir);
-        y += lengthdir_y(spd, dir);
-    
-        if (point_distance(launch_origin_x, launch_origin_y, x, y) >= max_dist) {
-            state = "retracting";
-        }
-    
-        var _enemy = instance_place(x, y, obj_enemy_par);
-        if (instance_exists(_enemy)) {
-            state = "retracting";
-            target_enemy = _enemy;
-        }
-    
-        if (place_meeting(x, y, obj_wall)) {
-            state = "retracting";
-            target_wall = true;
-            wall_x = x;     
-            wall_y = y;
-            wall_exists = true;
-        }
+    var _enemy = instance_place(x, y, obj_enemy_par);
+    if (instance_exists(_enemy)) {
+        state = "retracting";
+        target_enemy = _enemy;
+    }
+
+    if (place_meeting(x, y, obj_wall)) {
+        state = "retracting";
+        target_wall = true;
+        wall_x = x;     
+        wall_y = y;
+        wall_exists = true;
     }
 }
 

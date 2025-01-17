@@ -426,6 +426,3 @@ if(hit_cooldown > 0){
 	can_take_dmg = true;
 }
 #endregion
-
-show_debug_message("Selected Enemy Index: " + string(global.selected_enemy_index));
-show_debug_message("Enemy List Size: " + string(ds_list_size(global.enemy_list)));
