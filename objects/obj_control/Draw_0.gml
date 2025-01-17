@@ -1,5 +1,3 @@
-draw_self();
-
 var _width = 10;
 var _height = 4;
 
@@ -21,4 +19,8 @@ if(_heal >= 1 && _heal <= 3){
     }
 }
 
-draw_sprite(spr_mouse, 0, mouse_x, mouse_y)
+if (!global.hooking) {
+    draw_sprite(spr_mouse, image_index, mouse_x, mouse_y);
+} else {
+    draw_sprite(spr_dot, image_index, mouse_x, mouse_y);
+}
