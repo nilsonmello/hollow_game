@@ -62,8 +62,8 @@ if (global.hooking) {
             }
         }
 
-        //mudar indice no R
-        if (keyboard_check_pressed(ord("R"))) {
+        //mudar indice no mouse para cima
+        if (mouse_wheel_up()) {
             // Desmarcar o inimigo atual
             if (instance_exists(_selected)) {
                 with (_selected) {
@@ -74,7 +74,7 @@ if (global.hooking) {
             // aatualizar o indice
             global.index = (global.index + 1) mod ds_list_size(global.enemy_list);
 
-            // Marcar o próximo inimigo
+            //marcar o próximo inimigo
             _selected = global.enemy_list[| global.index];
             if (instance_exists(_selected)) {
                 with (_selected) {
@@ -82,8 +82,29 @@ if (global.hooking) {
                 }
             }
         }
+        
+        //mudar índice no mouse para baixo
+        if (mouse_wheel_down()) {
+            //desmarcar o inimigo atual
+            if (instance_exists(_selected)) {
+                with (_selected) {
+                    alligned = false;
+                }
+            }
+        
+            global.index = (global.index - 1 + ds_list_size(global.enemy_list)) mod ds_list_size(global.enemy_list);
+        
+            //marcar o próximo inimigo
+            _selected = global.enemy_list[| global.index];
+            if (instance_exists(_selected)) {
+                with (_selected) {
+                    alligned = true;
+                }
+            }
+        }
+        
     } else {
-        // Se não tiver inimigos na lista, resetar o índice
+        //se não tiver inimigos na lista, resetar o índice
         global.index = -1;
     }
 } else {
