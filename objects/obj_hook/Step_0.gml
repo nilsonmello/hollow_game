@@ -37,7 +37,6 @@ if (state == "orbiting") {
 
 if (state == "launched") {
     target_enemy = noone;
-    global.hooking = true;
 
     x += lengthdir_x(spd, dir);
     y += lengthdir_y(spd, dir);
@@ -71,7 +70,6 @@ if (state == "retracting") {
             obj_player.x += lengthdir_x(spd, _dir_to_wall);
             obj_player.y += lengthdir_y(spd, _dir_to_wall);
         } else {
-            global.hooking = false;
             state = "orbiting";
             
             launch_origin_x = obj_player.x;
@@ -115,7 +113,6 @@ if (state == "retracting") {
                                 emp_veloc = 6;
                             }
                         }
-                        global.hooking = false;
                         state = "orbiting";
                         
                         launch_origin_x = obj_player.x;
@@ -138,7 +135,7 @@ if (state == "retracting") {
                                 obj_player.x += lengthdir_x(spd, _dir_to_wall);
                                 obj_player.y += lengthdir_y(spd, _dir_to_wall);
                             } else {
-                                global.hooking = false;
+
                                 state = "orbiting";
                                 
                                 launch_origin_x = obj_player.x;
@@ -162,7 +159,6 @@ if (state == "retracting") {
                                     obj_player.x += lengthdir_x(spd, _dir_to_enemy);
                                     obj_player.y += lengthdir_y(spd, _dir_to_enemy);
                                 } else {
-                                    global.hooking = false;
                                     state = "orbiting";
                                     
                                     launch_origin_x = obj_player.x;
@@ -178,7 +174,6 @@ if (state == "retracting") {
                                 y += lengthdir_y(spd, _dir_back);
                     
                                 if (point_distance(x, y, obj_player.x, obj_player.y) < 5) {
-                                    global.hooking = false;
                                     state = "orbiting";
                                     
                                     launch_origin_x = obj_player.x;
@@ -213,7 +208,6 @@ if (state == "retracting") {
                                     emp_veloc = 6;
                                 }
                             }
-                            global.hooking = false;
                             state = "orbiting";
                             
                             launch_origin_x = obj_player.x;
@@ -228,7 +222,6 @@ if (state == "retracting") {
             }
         } else {
             if (point_distance(x, y, obj_player.x, obj_player.y) < 5) {
-                global.hooking = false;
                 state = "orbiting";
                 
                 launch_origin_x = obj_player.x;

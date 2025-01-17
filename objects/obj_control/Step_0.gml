@@ -1,33 +1,82 @@
-#region mouse config
-x = mouse_x;
-y = mouse_y;
-#endregion
+//lista temporária
+var _temp_list = ds_list_create();
 
-with (obj_enemy_par) {
-    alligned = false;
-}
+//perceber inimigos
+var _enemies = collision_circle_list(x, y, 10000, obj_enemy_par, false,false, _temp_list, false);
 
-var _line = collision_line(obj_player.x, obj_player.y, x, y, obj_enemy_par, false, false);
-
-if (_line) {
-    sprite_index = spr_dot;
-
-    var _enemy_x = _line.x;
-    var _enemy_y = _line.y;
-
-    var _distance = point_distance(obj_player.x, obj_player.y, _enemy_x, _enemy_y);
-    var _max_distance = 200;
-    var _min_strength = 0.2;
-    var _max_strength = 1.5;
-
-    var _tracking_strength = _max_strength
-
-    x = lerp(x, _enemy_x, _tracking_strength);
-    y = lerp(y, _enemy_y, _tracking_strength);
-
-    with (_line) {
-        alligned = true;
+//caso existam
+if (_enemies > 0) {
+    //itera pelos inimigos
+    for (var i = 0; i < ds_list_size(_temp_list); i++) {
+        //instancia os inimigos na lista
+        var _enemy = _temp_list[| i]
+        
+        //variavel apra impedir adicionar a mesma instancia duas vezes
+        var already_in_list = false;
+        //itera novamente agora pela lista global
+        for (var j = 0; j < ds_list_size(global.enemy_list); j++) {
+            //caso ele já esteja na lista, variavel verdadeira
+            if (global.enemy_list[| j] == _enemy) {
+                already_in_list = true;
+                break;
+            }
+        }
+        //adiciona apenas se não estiver na lista
+        if (!already_in_list) {
+            ds_list_add(global.enemy_list, _enemy);
+        }
     }
-} else {
-    sprite_index = spr_mouse;
 }
+
+//destrói a lista temporária
+ds_list_destroy(_temp_list);
+
+//caso aperte F habilita a trava de inimigo
+if (keyboard_check_pressed(ord("F"))) {
+    global.hooking = !global.hooking;
+}
+
+//caso ative a trava
+if (global.hooking) {
+    //R para mudar o indice
+    if (keyboard_check_pressed(ord("R"))) {
+        
+        //contagem do indice de acordo com o tamanho da lista
+        if (ds_list_size(global.enemy_list) > 0) {
+            if (global.index < ds_list_size(global.enemy_list) - 1) {
+                global.index++;    
+            } else {
+                global.index = 0;
+            }
+            
+            //o atual e o anterior dos inimigos
+            var _selected = global.enemy_list[| global.index];
+            var _previous = global.enemy_list[| (global.index == 0) ? ds_list_size(global.enemy_list) - 1 : global.index - 1];
+            
+            //ativa a marca do atual e desmarca a do anterior
+            with (_selected) {
+                alligned = true;
+            }
+            with (_previous) {
+                alligned = false;
+            }
+        }
+    }
+//caso desative a trava, index -1 e destrava o inimigo atual    
+} else {
+    global.index = -1;
+    with (obj_enemy_par) {
+        alligned = false;
+    }
+}
+
+
+
+
+
+
+
+
+show_debug_message(ds_list_size(global.enemy_list))
+show_debug_message(global.index)
+show_debug_message(global.hooking)
