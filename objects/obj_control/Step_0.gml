@@ -31,48 +31,65 @@ if (_enemies > 0) {
 //destrói a lista temporária
 ds_list_destroy(_temp_list);
 
-//caso aperte F habilita a trava de inimigo
+//apertar F para a trava
 if (keyboard_check_pressed(ord("F"))) {
     global.hooking = !global.hooking;
 }
 
-//caso ative a trava
+// Caso ative a trava
 if (global.hooking) {
-    //R para mudar o indice
-    if (keyboard_check_pressed(ord("R"))) {
-        
-        //contagem do indice de acordo com o tamanho da lista
-        if (ds_list_size(global.enemy_list) > 0) {
-            if (global.index < ds_list_size(global.enemy_list) - 1) {
-                global.index++;    
-            } else {
-                global.index = 0;
-            }
-            
-            //o atual e o anterior dos inimigos
-            var _selected = global.enemy_list[| global.index];
-            var _previous = global.enemy_list[| (global.index == 0) ? ds_list_size(global.enemy_list) - 1 : global.index - 1];
-            
-            //ativa a marca do atual e desmarca a do anterior
-            if (instance_exists(_selected)) {
-                with (_selected) {
-                    alligned = true;
-                }   
-            } else {
-              ds_list_delete(global.enemy_list, global.index);
-              global.index = -1;  
-            }
-            with (_previous) {
-                alligned = false;
+    //tirar inimigos destruídos da lista e atualizar o índice
+    for (var i = ds_list_size(global.enemy_list) - 1; i >= 0; i--) {
+        var _enemy = global.enemy_list[| i];
+        if (!instance_exists(_enemy)) {
+            ds_list_delete(global.enemy_list, i);
+            //se o inimigo destruído era o selecionado, ajustar o índice para o próximo
+            if (i == global.index) {
+                global.index = (i < ds_list_size(global.enemy_list)) ? i : 0;
             }
         }
     }
-//caso desative a trava, index -1 e destrava o inimigo atual    
+
+    // se ainda existirem inimigos, garantir que o índice seja válido
+    if (ds_list_size(global.enemy_list) > 0) {
+        global.index = clamp(global.index, 0, ds_list_size(global.enemy_list) - 1);
+
+        //selecionar o inimigo no índice atual
+        var _selected = global.enemy_list[| global.index];
+        if (instance_exists(_selected)) {
+            with (_selected) {
+                alligned = true;
+            }
+        }
+
+        //mudar indice no R
+        if (keyboard_check_pressed(ord("R"))) {
+            // Desmarcar o inimigo atual
+            if (instance_exists(_selected)) {
+                with (_selected) {
+                    alligned = false;
+                }
+            }
+
+            // aatualizar o indice
+            global.index = (global.index + 1) mod ds_list_size(global.enemy_list);
+
+            // Marcar o próximo inimigo
+            _selected = global.enemy_list[| global.index];
+            if (instance_exists(_selected)) {
+                with (_selected) {
+                    alligned = true;
+                }
+            }
+        }
+    } else {
+        // Se não tiver inimigos na lista, resetar o índice
+        global.index = -1;
+    }
 } else {
+    // desativar a trava
     global.index = -1;
     with (obj_enemy_par) {
         alligned = false;
     }
 }
-
-show_debug_message(global.index)
