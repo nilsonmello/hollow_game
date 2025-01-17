@@ -57,6 +57,20 @@ if (state == "launched") {
             // Caso o inimigo selecionado não exista, voltar ao comportamento original
             state = "retracting";
         }
+        
+        var _enemy = instance_place(x, y, obj_enemy_par);
+        if (instance_exists(_enemy)) {
+            state = "retracting";
+            target_enemy = _enemy;
+        }
+    
+        if (place_meeting(x, y, obj_wall)) {
+            state = "retracting";
+            target_wall = true;
+            wall_x = x;     
+            wall_y = y;
+            wall_exists = true;
+        }
     } else {
         target_enemy = noone;
         x += lengthdir_x(spd, dir);
