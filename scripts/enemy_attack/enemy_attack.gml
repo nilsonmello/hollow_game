@@ -44,8 +44,30 @@ function enemy_attack(){
                     if (instance_exists(_enemy)) {
                         global.target_enemy = _enemy;
                         global.line_ready = true;
-                    }
                     
+                        if (global.index >= 0 && global.index < ds_list_size(global.enemy_list)) {
+                            var previous_enemy = global.enemy_list[| global.index];
+                            if (instance_exists(previous_enemy)) {
+                                with (previous_enemy) {
+                                    alligned = false;
+                                }
+                            }
+                        }
+                    
+                        for (var i = 0; i < ds_list_size(global.enemy_list); i++) {
+                            if (global.enemy_list[| i] == _enemy) {
+                                global.index = i;
+                                break;
+                            }
+                        }
+
+                        if (instance_exists(global.target_enemy)) {
+                            with (global.target_enemy) {
+                                alligned = true;
+                            }
+                        }
+                    }
+
                     with(other){
                         state = ENEMY_STATES.KNOCKED;
                         emp_dir = point_direction(obj_player.x, obj_player.y, x, y);
