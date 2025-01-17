@@ -15,7 +15,6 @@
 
 if (instance_exists(view_target)) {
     if (global.hooking) {
-        var _dist = 100;
         var _enemy = undefined;
 
         if (ds_list_size(global.enemy_list) > 0 && global.index >= 0 && global.index < ds_list_size(global.enemy_list)) {
@@ -34,8 +33,21 @@ if (instance_exists(view_target)) {
         }
 
         if (instance_exists(_enemy)) {
-            var target_x = lerp(view_target.x, _enemy.x, 0.3);
-            var target_y = lerp(view_target.y, _enemy.y, 0.3);
+            var dist_x = abs(view_target.x - _enemy.x);
+            var dist_y = abs(view_target.y - _enemy.y);
+            var distance = max(dist_x, dist_y);
+
+            var target_zoom = clamp(1 + (distance / 1000), 1, 2);
+            zoom_scale = lerp(zoom_scale, target_zoom, 0.1);
+
+            global.view_width = resolution_width div resolution_scale * zoom_scale;
+            global.view_height = resolution_height div resolution_scale * zoom_scale;
+
+            surface_resize(application_surface, global.view_width * resolution_scale, global.view_height * resolution_scale);
+            display_set_gui_size(global.view_width, global.view_height);
+
+            var target_x = (view_target.x + _enemy.x) / 2;
+            var target_y = (view_target.y + _enemy.y) / 2;
         } else {
             var target_x = view_target.x;
             var target_y = view_target.y;
@@ -49,8 +61,6 @@ if (instance_exists(view_target)) {
 
         camera_set_view_pos(view_camera[0], x, y);
     } else {
-        var _dist = 100;
-
         var target_x = lerp(view_target.x, mouse_x, 0.3);
         var target_y = lerp(view_target.y, mouse_y, 0.3);
 

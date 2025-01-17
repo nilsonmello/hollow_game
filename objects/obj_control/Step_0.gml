@@ -32,8 +32,10 @@ if (_enemies > 0) {
 ds_list_destroy(_temp_list);
 
 //apertar F para a trava
-if (keyboard_check_pressed(ord("F"))) {
-    global.hooking = !global.hooking;
+if (_enemies > 0) {
+    global.hooking = true;
+} else {
+  global.hooking = false;  
 }
 
 // Caso ative a trava
