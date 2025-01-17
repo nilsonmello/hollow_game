@@ -18,7 +18,6 @@ if (instance_exists(view_target)) {
         var _dist = 100;
         var _enemy = undefined;
 
-        // Verificar se há inimigos na lista
         if (ds_list_size(global.enemy_list) > 0 && global.index >= 0 && global.index < ds_list_size(global.enemy_list)) {
             _enemy = global.enemy_list[| global.index];
 
