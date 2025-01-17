@@ -43,7 +43,6 @@ if (state == "launched") {
             var enemy_x = selected_enemy.x;
             var enemy_y = selected_enemy.y;
 
-            // Garantir que o gancho vai para o inimigo selecionado
             dir = point_direction(x, y, enemy_x, enemy_y);
 
             x += lengthdir_x(spd, dir);
@@ -54,7 +53,6 @@ if (state == "launched") {
                 target_enemy = selected_enemy;
             }
         } else {
-            // Caso o inimigo selecionado não exista, voltar ao comportamento original
             state = "retracting";
         }
         

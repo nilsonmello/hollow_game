@@ -19,8 +19,8 @@ if(_heal >= 1 && _heal <= 3){
     }
 }
 
-if (!global.hooking) {
-    draw_sprite(spr_mouse, image_index, mouse_x, mouse_y);
-} else {
+if (global.hooking && ds_list_size(global.enemy_list) > 0) {
     draw_sprite(spr_dot, image_index, mouse_x, mouse_y);
+} else {
+    draw_sprite(spr_mouse, image_index, mouse_x, mouse_y);
 }
