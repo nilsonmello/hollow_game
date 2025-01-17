@@ -20,3 +20,5 @@ if(_heal >= 1 && _heal <= 3){
         draw_sprite_ext(spr_cure, 0, obj_player.x - 14 + 8 * _i, obj_player.y - 17, 1, 1, 0, c_white, 1);
     }
 }
+
+draw_sprite(spr_mouse, 0, mouse_x, mouse_y)
