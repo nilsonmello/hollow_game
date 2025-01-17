@@ -1,34 +1,50 @@
+//layers for the orbiting state
 var front_layer_id = layer_get_id("Instances_bellow");
 var back_layer_id = layer_get_id("Instances_above");
 
+//orbiting state
 if (state == "orbiting") {
+    
+    //reset the target
     target_enemy = noone;
+    
+    //increasing the angle
     orbit_angle += orbit_speed;
+    
+    //distance x and y to do the orbit
     var orbit_distance_x = orbit_distance;
     var orbit_distance_y = orbit_distance * 0.5;
-
+    
+    //creating the movement
     var new_x = lengthdir_x(orbit_distance_x, orbit_angle);
     var new_y = lengthdir_y(orbit_distance_y, orbit_angle);
-
+    
+    //keeping it near by the player
     x = obj_player.x + new_x;
     y = obj_player.y + new_y;
-
+    
+    //using y to change the hook layer during the orbit
     if (y > obj_player.y) {
         layer = back_layer_id;
     } else {
         layer = front_layer_id;
     }
-
+    
+    //launching the hoook
     if (keyboard_check_pressed(ord("E"))) {
+        //closing the orbit
         orbit_distance = 0;
         orbit_angle = 0;
         orbit_speed = 0;
         
+        //centralizing with the player
         x = obj_player.x;
         y = obj_player.y;
-
+        
+        //choose direction
         var mouse_dir = point_direction(obj_player.x, obj_player.y, mouse_x, mouse_y);
-
+        
+        //inicial and final direction
         state = "launched";
         launch_origin_x = obj_player.x;
         launch_origin_y = obj_player.y;
@@ -36,6 +52,7 @@ if (state == "orbiting") {
     }
 }
 
+//launched state
 if (state == "launched") {
     if (global.index != -1 && global.index < ds_list_size(global.enemy_list)) {
         var selected_enemy = global.enemy_list[| global.index];
