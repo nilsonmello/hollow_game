@@ -296,11 +296,22 @@ if (_mb2) {
     if (mouse_check_button_released(_mb2)) && actual_timer >= timer_charge{
         golpe_circular.activate();
         actual_timer = 0;
+        combo_charge = 100;
     }
     if (actual_timer < timer_charge) {
         actual_timer = 0
     }
 }
+
+if (combo_charge > 0) {
+    combo_charge--;
+    
+    global.target_enemy = target;
+    player_line_attack();
+}
+
+
+
 
 // Check attack input
 if (_mb && attack_cooldown <= 0) { 
