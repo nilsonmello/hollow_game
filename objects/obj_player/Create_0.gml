@@ -370,14 +370,14 @@ function circle(_dist, _direction, _damage, _hitbox, _owner, _cost) : slashes(_d
                 particles(_rec.x, _rec.y, _rec.x, _rec.y, c_black, 6, 4);
                 
                 with(_rec){
-                    emp_timer = 3;
+                    emp_timer = 10;
                     emp_veloc = 3;
-                    timer_hit = 5;
+                    timer_hit = 10;
                     
                     escx = 1.5;
                     escy = 1.5;
                     hit_alpha = 1;
-                    timer_hit = 5;
+                    timer_hit = 10;
                     emp_dir = point_direction(obj_player.x, obj_player.y, x, y);
                     global.combo++;
                     knocked = 1;
