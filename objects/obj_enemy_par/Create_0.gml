@@ -199,10 +199,14 @@ function check_for_player(_distance){
     
     check_timer = 20;
 
-    var _line_wall = collision_line(x, y, obj_player.x, obj_player.y, obj_wall, false, false);
+    var _line_wall_1 = collision_line(x - 8, y - 8, obj_player.x, obj_player.y, obj_wall, false, false);
+    var _line_wall_2 = collision_line(x - 8, y + 8, obj_player.x, obj_player.y, obj_wall, false, false);
+    var _line_wall_3 = collision_line(x + 8, y - 8, obj_player.x, obj_player.y, obj_wall, false, false);
+    var _line_wall_4 = collision_line(x + 8, y + 8, obj_player.x, obj_player.y, obj_wall, false, false);
+    
     var _linha = collision_line(x, y, obj_player.x, obj_player.y, obj_enemy_par, false, self);
     
-    if(_line_wall or _linha){
+    if(_line_wall_1 or _line_wall_2 or _line_wall_3 or _line_wall_4 or _linha){
         return false;
     }
     
