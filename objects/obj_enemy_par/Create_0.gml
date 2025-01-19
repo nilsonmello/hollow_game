@@ -219,6 +219,9 @@ function check_for_player(_distance){
     }
 }
 
+//variable for the search area of the enemie
+range = 100;
+
 //variable for the draw arround the enemies using the mouse
 alligned = false;
 
