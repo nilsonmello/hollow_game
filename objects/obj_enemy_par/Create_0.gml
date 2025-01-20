@@ -13,7 +13,6 @@ enum ENEMY_STATES{
 	CHOOSE,
 	IDLE,
 	MOVE,
-	FOLLOW,
 	HIT,
 	KNOCKED,
 	WAITING,
@@ -191,36 +190,62 @@ state_cooldown = 0;
 //check for player timer
 check_timer = 0;
 
-function check_for_player(_distance){
-    if(check_timer > 0){
+path = path_add();
+path_delay = 30;
+calc_timer = irandom(60);
+
+function check_for_player(_distance) {
+    if (check_timer > 0) {
         check_timer--;
         return;
     }
-    
+
     check_timer = 20;
 
     var _line_wall_1 = collision_line(x - 8, y - 8, obj_player.x, obj_player.y, obj_wall, false, false);
     var _line_wall_2 = collision_line(x - 8, y + 8, obj_player.x, obj_player.y, obj_wall, false, false);
     var _line_wall_3 = collision_line(x + 8, y - 8, obj_player.x, obj_player.y, obj_wall, false, false);
     var _line_wall_4 = collision_line(x + 8, y + 8, obj_player.x, obj_player.y, obj_wall, false, false);
-    
+
     var _linha = collision_line(x, y, obj_player.x, obj_player.y, obj_enemy_par, false, self);
-    
-    if(_line_wall_1 or _line_wall_2 or _line_wall_3 or _line_wall_4 or _linha){
-        return false;
-    }
-    
-    if(time_per_attacks <= 0){
-        if (distance_to_object(obj_player) <= _distance){
-            state = ENEMY_STATES.FOLLOW;
-        }else{
-            state = ENEMY_STATES.CHOOSE;
+
+    if (time_per_attacks <= 0) {
+        if (distance_to_object(obj_player) <= _distance) {
+            mp_grid_clear_all(global.mp_grid);
+            mp_grid_add_instances(global.mp_grid, obj_wall, false);
+
+            var _found_player = mp_grid_path(global.mp_grid, path, x, y, obj_player.x, obj_player.y, true);
+
+            if (distance_to_object(obj_player) > 40) {
+                if (_found_player) {
+                    path_start(path, move_speed, path_action_stop, false);
+                }
+            } else {
+                path_end();
+                
+                if (!_line_wall_1 && !_line_wall_2 && !_line_wall_3 && !_line_wall_4) {
+                    state = ENEMY_STATES.WAITING;
+                    atk_wait = 60;
+                } else {
+                    mp_grid_clear_all(global.mp_grid);
+                    mp_grid_add_instances(global.mp_grid, obj_wall, false);
+
+                    var _recalculate = mp_grid_path(global.mp_grid, path, x, y, obj_player.x, obj_player.y, true);
+
+                    if (_recalculate) {
+                        path_start(path, move_speed, path_action_stop, false);
+                    } else {
+                        state = ENEMY_STATES.CHOOSE;
+                    }
+                }
+            }
         }
     }
 }
 
+
 //variable for the search area of the enemie
-range = 100;
+range = 150;
 
 //variable for the draw arround the enemies using the mouse
 alligned = false;

@@ -23,3 +23,8 @@ if (global.hooking && ds_list_size(global.enemy_list) > 0) {
 } else {
     draw_sprite(spr_mouse, image_index, mouse_x, mouse_y);
 }
+
+if (keyboard_check(ord("J"))) {
+    mp_grid_draw(global.mp_grid)
+       
+}

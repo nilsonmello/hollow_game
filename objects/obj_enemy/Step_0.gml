@@ -64,37 +64,6 @@ switch (state) {
     break;
     #endregion
 
-    #region follow player
-    case ENEMY_STATES.FOLLOW:
-        var _dir_m = point_direction(x, y, obj_player.x, obj_player.y);
-
-        vel_h = lengthdir_x(vel_mov, _dir_m);
-        vel_v = lengthdir_y(vel_mov, _dir_m);
-
-        enemy_colide();
-
-        x += vel_h;
-        y += vel_v;
-
-        var _line_wall_1 = collision_line(x - 8, y - 8, obj_player.x, obj_player.y, obj_wall, false, false);
-        var _line_wall_2 = collision_line(x - 8, y + 8, obj_player.x, obj_player.y, obj_wall, false, false);
-        var _line_wall_3 = collision_line(x + 8, y - 8, obj_player.x, obj_player.y, obj_wall, false, false);
-        var _line_wall_4 = collision_line(x + 8, y + 8, obj_player.x, obj_player.y, obj_wall, false, false);
-        
-        var _linha = collision_line(x, y, obj_player.x, obj_player.y, obj_enemy_par, false, self);
-        
-        if (distance_to_object(obj_player) < 40) {
-            if(_line_wall_1 or _line_wall_2 or _line_wall_3 or _line_wall_4 or _linha){
-                return false;
-            }
-            state = ENEMY_STATES.WAITING;
-            atk_wait = 60;
-        } else if(distance_to_object(obj_player) > range){
-            state = ENEMY_STATES.CHOOSE;
-        }
-    break;
-    #endregion
-
     #region hit
     case ENEMY_STATES.HIT:
         attacking = false;

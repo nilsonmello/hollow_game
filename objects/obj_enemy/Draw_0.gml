@@ -15,3 +15,5 @@ switch(vida){
 		draw_sprite(spr_life_enemy_1, 2, x, y + 15);
 	break;
 }
+
+draw_path(path, x, y, false)
