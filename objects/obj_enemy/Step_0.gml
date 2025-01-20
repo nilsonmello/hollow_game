@@ -4,9 +4,6 @@ size = 1;
 #region variables and timers
 event_inherited();
 
-// Checking for walls in the way
-var _line_wall = collision_line(x, y, obj_player.x, obj_player.y, obj_wall, false, false);
-
 // Case enemy is dead
 if (vida <= 0) {
     state = ENEMY_STATES.DEATH;
@@ -79,7 +76,17 @@ switch (state) {
         x += vel_h;
         y += vel_v;
 
+        var _line_wall_1 = collision_line(x - 8, y - 8, obj_player.x, obj_player.y, obj_wall, false, false);
+        var _line_wall_2 = collision_line(x - 8, y + 8, obj_player.x, obj_player.y, obj_wall, false, false);
+        var _line_wall_3 = collision_line(x + 8, y - 8, obj_player.x, obj_player.y, obj_wall, false, false);
+        var _line_wall_4 = collision_line(x + 8, y + 8, obj_player.x, obj_player.y, obj_wall, false, false);
+        
+        var _linha = collision_line(x, y, obj_player.x, obj_player.y, obj_enemy_par, false, self);
+        
         if (distance_to_object(obj_player) < 40) {
+            if(_line_wall_1 or _line_wall_2 or _line_wall_3 or _line_wall_4 or _linha){
+                return false;
+            }
             state = ENEMY_STATES.WAITING;
             atk_wait = 60;
         } else if(distance_to_object(obj_player) > range){
