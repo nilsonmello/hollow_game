@@ -144,6 +144,9 @@ if (state == "retracting") {
             switch (target_enemy.size) {
                 case 1:
                     if (instance_exists(target_enemy)) {
+                        with (target_enemy) {
+                            path_end()
+                        }
                         var _dist_to_player = point_distance(target_enemy.x, target_enemy.y, obj_player.x, obj_player.y);
             
                         if (_dist_to_player > 40) {
@@ -179,6 +182,7 @@ if (state == "retracting") {
                 case 2:
                     if (target_enemy.state != ENEMY_STATES.KNOCKED){
                         if (target_wall && wall_exists) {
+
                             var _dir_to_wall = point_direction(obj_player.x, obj_player.y, wall_x, wall_y);
                             var _stop_dist = 30;
                             var _dist_to_wall = point_distance(obj_player.x, obj_player.y, wall_x, wall_y);
@@ -203,6 +207,10 @@ if (state == "retracting") {
                             }
                         } else {
                             if (instance_exists(target_enemy)) {
+                                with (target_enemy) {
+                                    path_end()
+                                }
+                                
                                 var _dir_to_enemy = point_direction(obj_player.x, obj_player.y, target_enemy.x, target_enemy.y);
                                 var _stop_dist = 40;
                                 var _dist_to_enemy = point_distance(obj_player.x, obj_player.y, target_enemy.x, target_enemy.y);

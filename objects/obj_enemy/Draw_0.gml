@@ -16,4 +16,9 @@ switch(vida){
 	break;
 }
 
-draw_path(path, x, y, false)
+//draw_path(path, x, y, false);
+//
+//draw_line(x - 8, y - 8, obj_player.x, obj_player.y);
+//draw_line(x - 8, y + 8, obj_player.x, obj_player.y);
+//draw_line(x + 8, y - 8, obj_player.x, obj_player.y);
+//draw_line(x + 8, y + 8, obj_player.x, obj_player.y);
