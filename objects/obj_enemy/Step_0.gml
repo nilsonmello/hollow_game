@@ -64,6 +64,11 @@ switch (state) {
     break;
     #endregion
 
+    case ENEMY_STATES.STOP:
+        state_time--;
+    show_message("aaaa")
+    break;
+    
     #region hit
     case ENEMY_STATES.HIT:
         attacking = false;
