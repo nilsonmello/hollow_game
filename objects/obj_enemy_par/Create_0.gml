@@ -195,6 +195,10 @@ path = path_add();
 path_delay = 30;
 calc_timer = irandom(60);
 
+nearby = false;
+path_walk = 0;
+
+
 function check_for_player(_distance) {
     if (check_timer > 0) {
         check_timer--;
@@ -203,74 +207,44 @@ function check_for_player(_distance) {
 
     check_timer = 10;
 
-    // Verificar linhas de visão para o jogador
     var _line_wall_1 = collision_line(x - 8, y - 8, obj_player.x, obj_player.y, obj_wall, false, false);
     var _line_wall_2 = collision_line(x - 8, y + 8, obj_player.x, obj_player.y, obj_wall, false, false);
     var _line_wall_3 = collision_line(x + 8, y - 8, obj_player.x, obj_player.y, obj_wall, false, false);
     var _line_wall_4 = collision_line(x + 8, y + 8, obj_player.x, obj_player.y, obj_wall, false, false);
 
-    var _linha = collision_line(x, y, obj_player.x, obj_player.y, obj_enemy_par, false, self);
+    nearby = false;
 
-    // Marcar células 2x2 ocupadas ao redor de outros inimigos
-    with (obj_enemy_par) {
-        if (id != other.id) {
-            var _cell_x = x div TS;
-            var _cell_y = y div TS;
+    var _list = ds_list_create();
+    var _rec = collision_rectangle_list(x - 20, y - 20, x + 20, y + 20, obj_enemy_par, false, false, _list, false);
 
-            for (var _dx = -1; _dx <= 0; _dx++) {
-                for (var _dy = -1; _dy <= 0; _dy++) {
-                    mp_grid_add_cell(global.mp_grid, _cell_x + _dx, _cell_y + _dy);
-                }
+    if (ds_list_size(_list) > 0) {
+        for (var i = 0; i < ds_list_size(_list); i++) {
+            var _enemy = ds_list_find_value(_list, i);
+            if (_enemy != id) {
+                nearby = true;
+                break;
             }
         }
     }
+    ds_list_destroy(_list); 
 
-    // Verificar se o jogador está dentro da distância
     if (time_per_attacks <= 0) {
         if (distance_to_object(obj_player) <= _distance) {
             mp_grid_clear_all(global.mp_grid);
             mp_grid_add_instances(global.mp_grid, obj_wall, false);
 
-            // Marcar novamente células ocupadas no mp_grid
-            with (obj_enemy_par) {
-                if (id != other.id) {
-                    var _cell_x = x div TS;
-                    var _cell_y = y div TS;
-
-                    for (var _dx = -1; _dx <= 0; _dx++) {
-                        for (var _dy = -1; _dy <= 0; _dy++) {
-                            mp_grid_add_cell(global.mp_grid, _cell_x + _dx, _cell_y + _dy);
-                        }
-                    }
-                }
-            }
-
-            // Tentar encontrar o jogador usando o mp_grid
             var _found_player = mp_grid_path(global.mp_grid, path, x, y, obj_player.x, obj_player.y, true);
 
-            if (_found_player) {
+            if (nearby) {
+                path_end();
+                path_walk = irandom_range(60, 80); 
+                return; 
+            }
+
+            if (_found_player && path_walk <= 0) {
                 if (distance_to_object(obj_player) > 40) {
                     path_start(path, move_speed, path_action_stop, false);
 
-                    // Verificar células ocupadas ao longo do caminho
-                    var _path_length = path_get_number(path);
-                    for (var i = 0; i < _path_length; i++) {
-                        var _path_pos_x = path_get_x(path, i) div TS;
-                        var _path_pos_y = path_get_y(path, i) div TS;
-
-                        // Verificar área de 2x2 células
-                        for (var _dx = -1; _dx <= 0; _dx++) {
-                            for (var _dy = -1; _dy <= 0; _dy++) {
-                                if (mp_grid_get_cell(global.mp_grid, _path_pos_x + _dx, _path_pos_y + _dy)) {
-                                    path_end();
-
-                                    state = ENEMY_STATES.STOP;
-                                    state_time = 100;
-                                    return;
-                                }
-                            }
-                        }
-                    }
                 } else {
                     path_end();
                     if (!_line_wall_1 && !_line_wall_2 && !_line_wall_3 && !_line_wall_4) {
@@ -284,7 +258,6 @@ function check_for_player(_distance) {
         }
     }
 }
-
 
 //variable for the search area of the enemie
 range = 150;

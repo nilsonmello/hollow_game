@@ -1,3 +1,8 @@
+if (path_walk > 0) {
+    path_walk--;
+}
+
+
 //animation frames
 if(frame < 6){
     frame += .4
