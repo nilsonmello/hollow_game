@@ -220,7 +220,6 @@ function check_for_player(_distance) {
                 if (_found_player) {
                     path_start(path, move_speed, path_action_stop, false);
                 }
-                
             } else {
                 path_end();
                 
@@ -244,6 +243,7 @@ function check_for_player(_distance) {
     }
 }
 
+
 //variable for the search area of the enemie
 range = 150;
 
@@ -255,5 +255,3 @@ frame = 0;
 
 //the actual size of the enemy
 size = 2;
-
-hooked = false;

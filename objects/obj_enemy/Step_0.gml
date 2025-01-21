@@ -1,5 +1,5 @@
 // State Machine for Enemy with corrections to speed management
-size = 2;
+size = 1;
 
 #region variables and timers
 event_inherited();

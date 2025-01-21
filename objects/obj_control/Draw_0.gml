@@ -25,5 +25,6 @@ if (global.hooking && ds_list_size(global.enemy_list) > 0) {
 }
 
 if (keyboard_check(ord("J"))) {
-    mp_grid_draw(global.mp_grid);
+    mp_grid_draw(global.mp_grid)
+       
 }
