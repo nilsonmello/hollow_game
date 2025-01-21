@@ -34,7 +34,10 @@ switch (state) {
             state = ENEMY_STATES.CHOOSE;
         }
 
-        check_for_player(range);
+        if (timer_check <= 0) {
+            check_for_player(range);
+    
+        }
     break;
     #endregion
 
@@ -59,15 +62,59 @@ switch (state) {
         if (state_time <= 0) {
             state = ENEMY_STATES.CHOOSE;
         }
-
-        check_for_player(range);
+        if (timer_check <= 0) {
+            check_for_player(range);
+    
+        }
     break;
     #endregion
 
     case ENEMY_STATES.STOP:
+        attacking = false;
         state_time--;
-    show_message("aaaa")
-    break;
+        timer_check = 50;
+
+        var _target_x, _target_y;
+        var _path_found = false;
+        var _attempts = 0;
+        var _max_attempts = 10;
+
+        while (!_path_found && _attempts < _max_attempts) {
+            _target_x = x + irandom_range(-100, 100);
+            _target_y = y + irandom_range(-100, 100);
+
+            var _min_dist_ok = true;
+            var _list = ds_list_create();
+            var _rec = collision_rectangle_list(_target_x - 20, _target_y - 20, _target_x + 20, _target_y + 20, obj_enemy_par, false, false, _list, false);
+
+            if (ds_list_size(_list) > 0) {
+                _min_dist_ok = false;
+            }
+
+            ds_list_destroy(_list);
+
+            if (_min_dist_ok) {
+                mp_grid_clear_all(global.mp_grid);
+                mp_grid_add_instances(global.mp_grid, obj_wall, false);
+                mp_grid_add_instances(global.mp_grid, obj_enemy_par, false);
+
+                if (mp_grid_path(global.mp_grid, path, x, y, _target_x, _target_y, true)) {
+                    _path_found = true;
+                }
+            }
+
+            _attempts++;
+        }
+
+        if (_path_found) {
+            path_start(path, move_speed, path_action_stop, false);
+            state_time = irandom_range(30, 60);
+        } else {
+            state = ENEMY_STATES.MOVE;
+            state_time = irandom_range(80, 120);
+        }
+        break;
+    
     
     #region hit
     case ENEMY_STATES.HIT:

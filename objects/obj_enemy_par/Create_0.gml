@@ -198,7 +198,6 @@ calc_timer = irandom(60);
 nearby = false;
 path_walk = 0;
 
-
 function check_for_player(_distance) {
     if (check_timer > 0) {
         check_timer--;
@@ -228,36 +227,37 @@ function check_for_player(_distance) {
     }
     ds_list_destroy(_list); 
 
-    if (time_per_attacks <= 0) {
-        if (distance_to_object(obj_player) <= _distance) {
-            mp_grid_clear_all(global.mp_grid);
-            mp_grid_add_instances(global.mp_grid, obj_wall, false);
+    if (distance_to_object(obj_player) <= _distance) {
+        mp_grid_clear_all(global.mp_grid);
+        mp_grid_add_instances(global.mp_grid, obj_wall, false);
 
-            var _found_player = mp_grid_path(global.mp_grid, path, x, y, obj_player.x, obj_player.y, true);
+        var _found_player = mp_grid_path(global.mp_grid, path, x, y, obj_player.x, obj_player.y, true);
 
-            if (nearby) {
+        if (nearby) {
+            path_end();
+            path_walk = irandom_range(60, 80); 
+            state = ENEMY_STATES.STOP
+            return; 
+        }
+
+        if (_found_player && path_walk <= 0) {
+            if (distance_to_object(obj_player) > 40) {
+                path_start(path, move_speed, path_action_stop, false);
+
+            } else {
                 path_end();
-                path_walk = irandom_range(60, 80); 
-                return; 
-            }
-
-            if (_found_player && path_walk <= 0) {
-                if (distance_to_object(obj_player) > 40) {
-                    path_start(path, move_speed, path_action_stop, false);
-
+                if (!_line_wall_1 && !_line_wall_2 && !_line_wall_3 && !_line_wall_4) {
+                    state = ENEMY_STATES.WAITING;
+                    atk_wait = 60;
                 } else {
-                    path_end();
-                    if (!_line_wall_1 && !_line_wall_2 && !_line_wall_3 && !_line_wall_4) {
-                        state = ENEMY_STATES.WAITING;
-                        atk_wait = 60;
-                    } else {
-                        state = ENEMY_STATES.CHOOSE;
-                    }
+                    state = ENEMY_STATES.CHOOSE;
                 }
             }
         }
     }
 }
+
+
 
 //variable for the search area of the enemie
 range = 150;
@@ -270,3 +270,5 @@ frame = 0;
 
 //the actual size of the enemy
 size = 2;
+
+timer_check = 0;
