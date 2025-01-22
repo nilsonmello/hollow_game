@@ -15,9 +15,6 @@ global.cost_hab = 2;
 // energy
 global.energy = global.energy_max;
 
-//player dash
-global.is_dashing = false;
-
 //atk cooldown
 global.can_attack = false;
 

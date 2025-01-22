@@ -8,7 +8,7 @@ var _left = keyboard_check(ord("A"));
 var _top = keyboard_check(ord("W"));
 var _down = keyboard_check(ord("S"));
 
-//result od the key pressed
+//result of the key pressed
 var _keys = _right - _left != 0 || _down - _top != 0;
 #endregion
 
@@ -25,12 +25,18 @@ if(dash_cooldown > 0){
 //activate the dash
 if(keyboard_check_pressed(vk_space) && dash_cooldown <= 0){
     if(_keys){
-        global.is_dashing = true;
+        //time to dash
         dash_timer = 4;
+        
+        //cooldown for dash
         dash_cooldown = global.dash_cooldown;
+        
+        //change state to dash
         state = STATES.DASH;
         
+        //if the dash can interrupt enemy attacks
         if(global.shield){
+            //he cant be attacked
             hit_cooldown = 8;
         }  
     }
@@ -42,10 +48,12 @@ if(keyboard_check_pressed(vk_space) && dash_cooldown <= 0){
 switch(state){
 	//IDLE
 	case STATES.IDLE:
+        //set speed to zero
 		spd = 0;
         spd_h = 0;
         spd_v = 0;
 		
+        //if press the movement buttons, change state to move
 		if(_keys){
 			state = STATES.MOVING;
 		}
@@ -80,44 +88,39 @@ switch(state){
 	
 	//DASH
     case STATES.DASH:
-        if(global.is_dashing){
-            if(dash_timer > 0){
-                dash_timer--;
-            }else{
-                state = STATES.MOVING;
-                global.is_dashing = false;
-            }
+        if(dash_timer > 0){
+            dash_timer--;
+        }else{
+            state = STATES.MOVING;
+        }          
             
-            state_timer++;
-            
-            repeat(5){
-                var _inst = instance_create_layer(x, y, "Instances_player", obj_particle_effect);
-                _inst.speed = 1;
-                _inst.direction = dash_dir + 180;
-                _inst.image_angle = _inst.direction;
-                _inst.sprite_index = spr_dash;
-                _inst.fric = .8;   
-            }
+        state_timer++;
+        
+        repeat(5){
+            var _inst = instance_create_layer(x, y, "Instances_player", obj_particle_effect);
+            _inst.speed = 1;
+            _inst.direction = dash_dir + 180;
+            _inst.image_angle = _inst.direction;
+            _inst.sprite_index = spr_dash;
+            _inst.fric = .8;   
+        }
 
-            spd_h = lengthdir_x(dash_veloc, dash_dir);
-            spd_v = lengthdir_y(dash_veloc, dash_dir);
+        spd_h = lengthdir_x(dash_veloc, dash_dir);
+        spd_v = lengthdir_y(dash_veloc, dash_dir);
 
-            if(!place_meeting(x + spd_h, y, obj_enemy_par) && !place_meeting(x + spd_h, y, obj_wall) && !place_meeting(x + spd_h, y, obj_ambient)){
-                x += spd_h;
-            } else {
-                spd_h = 0;
-                state = STATES.MOVING;
-                dash_timer = 0;
-                global.is_dashing = false;
-            }
-            if(!place_meeting(x, y + spd_v, obj_enemy_par) && !place_meeting(x, y + spd_v, obj_wall) && !place_meeting(x, y + spd_v, obj_ambient)){
-                y += spd_v;
-            } else {
-                spd_v = 0;
-                state = STATES.MOVING;
-                dash_timer = 0;
-                global.is_dashing = false;
-            }
+        if(!place_meeting(x + spd_h, y, obj_enemy_par) && !place_meeting(x + spd_h, y, obj_wall) && !place_meeting(x + spd_h, y, obj_ambient)){
+            x += spd_h;
+        } else {
+            spd_h = 0;
+            state = STATES.MOVING;
+            dash_timer = 0;
+        }
+        if(!place_meeting(x, y + spd_v, obj_enemy_par) && !place_meeting(x, y + spd_v, obj_wall) && !place_meeting(x, y + spd_v, obj_ambient)){
+            y += spd_v;
+        } else {
+            spd_v = 0;
+            state = STATES.MOVING;
+            dash_timer = 0;
         }
     break;
 	
