@@ -10,5 +10,3 @@ part_system_depth(global.part_sist, -100);
 //enemy list and the index of the list
 global.enemy_list = ds_list_create();
 global.index = -1;
-
-global.mp_grid = 0;

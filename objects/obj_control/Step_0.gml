@@ -1,62 +1,63 @@
-//lista temporária
+//temporary list to store detected enemies
 var _temp_list = ds_list_create();
 
-//perceber inimigos
-var _enemies = collision_circle_list(x, y, 10000, obj_enemy_par, false,false, _temp_list, false);
+//detect enemies within a large radius
+var _enemies = collision_circle_list(x, y, 10000, obj_enemy_par, false, false, _temp_list, false);
 
-//caso existam
+//if there are enemies in the area
 if (_enemies > 0) {
-    //itera pelos inimigos
+    //iterate through the temporary list of enemies
     for (var i = 0; i < ds_list_size(_temp_list); i++) {
-        //instancia os inimigos na lista
-        var _enemy = _temp_list[| i]
+        //get the enemy instance from the list
+        var _enemy = _temp_list[| i];
         
-        //variavel apra impedir adicionar a mesma instancia duas vezes
+        //variable to check if the enemy is already in the global list
         var already_in_list = false;
-        //itera novamente agora pela lista global
+
+        //iterate through the global list of enemies
         for (var j = 0; j < ds_list_size(global.enemy_list); j++) {
-            //caso ele já esteja na lista, variavel verdadeira
+            //if the enemy is already in the global list, mark as true
             if (global.enemy_list[| j] == _enemy) {
                 already_in_list = true;
                 break;
             }
         }
-        //adiciona apenas se não estiver na lista
+        //add to the global list if not already present
         if (!already_in_list) {
             ds_list_add(global.enemy_list, _enemy);
         }
     }
 }
 
-//destrói a lista temporária
+//destroy the temporary list
 ds_list_destroy(_temp_list);
 
-//apertar F para a trava
+//activate or deactivate enemy lock based on the detected count
 if (_enemies > 0) {
     global.hooking = true;
 } else {
-  global.hooking = false;  
+    global.hooking = false;  
 }
 
-// Caso ative a trava
+//if enemy lock is active
 if (global.hooking) {
-    //tirar inimigos destruídos da lista e atualizar o índice
+    //remove destroyed enemies from the global list and update the index
     for (var i = ds_list_size(global.enemy_list) - 1; i >= 0; i--) {
         var _enemy = global.enemy_list[| i];
         if (!instance_exists(_enemy)) {
             ds_list_delete(global.enemy_list, i);
-            //se o inimigo destruído era o selecionado, ajustar o índice para o próximo
+            //adjust the index if the destroyed enemy was the selected one
             if (i == global.index) {
                 global.index = (i < ds_list_size(global.enemy_list)) ? i : 0;
             }
         }
     }
 
-    // se ainda existirem inimigos, garantir que o índice seja válido
+    //ensure the index is valid if there are still enemies in the list
     if (ds_list_size(global.enemy_list) > 0) {
         global.index = clamp(global.index, 0, ds_list_size(global.enemy_list) - 1);
 
-        //selecionar o inimigo no índice atual
+        //get the enemy selected by the current index
         var _selected = global.enemy_list[| global.index];
         if (instance_exists(_selected)) {
             with (_selected) {
@@ -64,19 +65,19 @@ if (global.hooking) {
             }
         }
 
-        //mudar indice no mouse para cima
+        //change the index upwards when scrolling the mouse wheel up
         if (mouse_wheel_up()) {
-            // Desmarcar o inimigo atual
+            //deselect the currently selected enemy
             if (instance_exists(_selected)) {
                 with (_selected) {
                     alligned = false;
                 }
             }
 
-            // aatualizar o indice
+            //update the index to the next enemy
             global.index = (global.index + 1) mod ds_list_size(global.enemy_list);
 
-            //marcar o próximo inimigo
+            //mark the next enemy as selected
             _selected = global.enemy_list[| global.index];
             if (instance_exists(_selected)) {
                 with (_selected) {
@@ -85,18 +86,19 @@ if (global.hooking) {
             }
         }
         
-        //mudar índice no mouse para baixo
+        //change the index downwards when scrolling the mouse wheel down
         if (mouse_wheel_down()) {
-            //desmarcar o inimigo atual
+            //deselect the currently selected enemy
             if (instance_exists(_selected)) {
                 with (_selected) {
                     alligned = false;
                 }
             }
         
+            //update the index to the previous enemy
             global.index = (global.index - 1 + ds_list_size(global.enemy_list)) mod ds_list_size(global.enemy_list);
         
-            //marcar o próximo inimigo
+            //mark the previous enemy as selected
             _selected = global.enemy_list[| global.index];
             if (instance_exists(_selected)) {
                 with (_selected) {
@@ -106,11 +108,11 @@ if (global.hooking) {
         }
         
     } else {
-        //se não tiver inimigos na lista, resetar o índice
+        //if there are no enemies in the list, reset the index
         global.index = -1;
     }
 } else {
-    // desativar a trava
+    //deactivate the lock and deselect all enemies
     global.index = -1;
     with (obj_enemy_par) {
         alligned = false;

@@ -46,7 +46,6 @@
   },
   "name":"teste constructor",
   "resources":[
-    {"id":{"name":"AnimationCurve1","path":"animcurves/AnimationCurve1/AnimationCurve1.yy",},},
     {"id":{"name":"notas","path":"notes/notas/notas.yy",},},
     {"id":{"name":"Note2","path":"notes/Note2/Note2.yy",},},
     {"id":{"name":"obj_ambient","path":"objects/obj_ambient/obj_ambient.yy",},},
