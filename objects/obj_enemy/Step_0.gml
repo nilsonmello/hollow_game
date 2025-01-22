@@ -1,3 +1,5 @@
+show_debug_message(time_per_attacks)
+
 // State Machine for Enemy with corrections to speed management
 size = 1;
 
@@ -33,11 +35,13 @@ switch (state) {
         if (state_time <= 0) {
             state = ENEMY_STATES.CHOOSE;
         }
-
-        if (timer_check <= 0) {
-            check_for_player(range);
     
+    if (distance_to_object(obj_player) < 100) {
+        if (time_per_attacks > 0) {
+            return false;
         }
+        state = ENEMY_STATES.FOLLOW;
+    }
     break;
     #endregion
 
@@ -62,58 +66,36 @@ switch (state) {
         if (state_time <= 0) {
             state = ENEMY_STATES.CHOOSE;
         }
-        if (timer_check <= 0) {
-            check_for_player(range);
     
+        if (distance_to_object(obj_player) < 100) {
+            if (time_per_attacks > 0) {
+                return false;
+            }
+            state = ENEMY_STATES.FOLLOW;
         }
     break;
     #endregion
 
-    case ENEMY_STATES.STOP:
-        attacking = false;
-        state_time--;
-        timer_check = 50;
-
-        var _target_x, _target_y;
-        var _path_found = false;
-        var _attempts = 0;
-        var _max_attempts = 10;
-
-        while (!_path_found && _attempts < _max_attempts) {
-            _target_x = x + irandom_range(-100, 100);
-            _target_y = y + irandom_range(-100, 100);
-
-            var _min_dist_ok = true;
-            var _list = ds_list_create();
-            var _rec = collision_rectangle_list(_target_x - 20, _target_y - 20, _target_x + 20, _target_y + 20, obj_enemy_par, false, false, _list, false);
-
-            if (ds_list_size(_list) > 0) {
-                _min_dist_ok = false;
-            }
-
-            ds_list_destroy(_list);
-
-            if (_min_dist_ok) {
-                mp_grid_clear_all(global.mp_grid);
-                mp_grid_add_instances(global.mp_grid, obj_wall, false);
-                mp_grid_add_instances(global.mp_grid, obj_enemy_par, false);
-
-                if (mp_grid_path(global.mp_grid, path, x, y, _target_x, _target_y, true)) {
-                    _path_found = true;
-                }
-            }
-
-            _attempts++;
+    case ENEMY_STATES.FOLLOW:
+        var _dir_follow = point_direction(x, y, obj_player.x, obj_player.y);
+        
+        vel_h = lengthdir_x(1, _dir_follow);   
+        vel_v = lengthdir_y(1, _dir_follow);
+    
+        enemy_colide();
+    
+        x += vel_h;    
+        y += vel_v;
+    
+        if (distance_to_object(obj_player) < 40) {
+            state = ENEMY_STATES.WAITING;
+            atk_wait = 60;
         }
-
-        if (_path_found) {
-            path_start(path, move_speed, path_action_stop, false);
-            state_time = irandom_range(30, 60);
-        } else {
-            state = ENEMY_STATES.MOVE;
-            state_time = irandom_range(80, 120);
+    
+        if (distance_to_object(obj_player) > 120) {
+            state = ENEMY_STATES.CHOOSE;
         }
-        break;
+    break;
     
     
     #region hit

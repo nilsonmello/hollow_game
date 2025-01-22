@@ -14,7 +14,7 @@ enum ENEMY_STATES{
 	IDLE,
 	MOVE,
 	HIT,
-    STOP,
+    FOLLOW,
 	KNOCKED,
 	WAITING,
 	ATTACK,
@@ -188,80 +188,6 @@ energy_count = 0;
 //cooldown for the attack states
 state_cooldown = 0;
 
-//check for player timer
-check_timer = 0;
-
-path = path_add();
-path_delay = 30;
-calc_timer = irandom(60);
-
-nearby = false;
-path_walk = 0;
-
-function check_for_player(_distance) {
-    if (check_timer > 0) {
-        check_timer--;
-        return;
-    }
-
-    check_timer = 10;
-
-    var _line_wall_1 = collision_line(x - 8, y - 8, obj_player.x, obj_player.y, obj_wall, false, false);
-    var _line_wall_2 = collision_line(x - 8, y + 8, obj_player.x, obj_player.y, obj_wall, false, false);
-    var _line_wall_3 = collision_line(x + 8, y - 8, obj_player.x, obj_player.y, obj_wall, false, false);
-    var _line_wall_4 = collision_line(x + 8, y + 8, obj_player.x, obj_player.y, obj_wall, false, false);
-
-    nearby = false;
-
-    var _list = ds_list_create();
-    var _rec = collision_rectangle_list(x - 20, y - 20, x + 20, y + 20, obj_enemy_par, false, false, _list, false);
-
-    if (ds_list_size(_list) > 0) {
-        for (var i = 0; i < ds_list_size(_list); i++) {
-            var _enemy = ds_list_find_value(_list, i);
-            if (_enemy != id) {
-                nearby = true;
-                break;
-            }
-        }
-    }
-    ds_list_destroy(_list); 
-
-    if (distance_to_object(obj_player) <= _distance) {
-        mp_grid_clear_all(global.mp_grid);
-        mp_grid_add_instances(global.mp_grid, obj_wall, false);
-
-        var _found_player = mp_grid_path(global.mp_grid, path, x, y, obj_player.x, obj_player.y, true);
-
-        if (nearby) {
-            path_end();
-            path_walk = irandom_range(60, 80); 
-            state = ENEMY_STATES.STOP
-            return; 
-        }
-
-        if (_found_player && path_walk <= 0) {
-            if (distance_to_object(obj_player) > 40) {
-                path_start(path, move_speed, path_action_stop, false);
-
-            } else {
-                path_end();
-                if (!_line_wall_1 && !_line_wall_2 && !_line_wall_3 && !_line_wall_4) {
-                    state = ENEMY_STATES.WAITING;
-                    atk_wait = 60;
-                } else {
-                    state = ENEMY_STATES.CHOOSE;
-                }
-            }
-        }
-    }
-}
-
-
-
-//variable for the search area of the enemie
-range = 150;
-
 //variable for the draw arround the enemies using the mouse
 alligned = false;
 
@@ -274,3 +200,5 @@ size = 2;
 //timer para a checagem
 //aaaaaaaaaaa
 timer_check = 0;
+
+hitted = false;

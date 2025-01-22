@@ -246,7 +246,6 @@ function basic_attack(_dist, _direction, _damage, _hitbox, _owner, _cost, _combo
                 
                 with (_rec){
                     if(!attacking){
-                        
                         particles(obj_player.x, obj_player.y, _rec.x, _rec.y, c_black, 6, 4);
                     
                         var _is_critical = irandom(100) < global.critical;

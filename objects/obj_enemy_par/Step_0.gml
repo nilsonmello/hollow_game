@@ -1,10 +1,4 @@
-if (path_walk > 0) {
-    path_walk--;
-}
 
-if (timer_check > 0) {
-    timer_check--;
-}
 
 //animation frames
 if(frame < 6){
