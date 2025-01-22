@@ -96,7 +96,7 @@ switch (state) {
             state = ENEMY_STATES.CHOOSE;
         }
     break;
-    
+    //bicho filho da puta
     
     #region hit
     case ENEMY_STATES.HIT:
