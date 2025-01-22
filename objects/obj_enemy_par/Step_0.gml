@@ -17,5 +17,6 @@ if(stamina_at <= 10){
 	knocked = true;
 }
 
+//limiting stamina
 stamina_at = clamp(stamina_at, 0, stamina_t);
 #endregion
