@@ -98,6 +98,18 @@ if (state == "launched") {
         
         //if reach a wall
         if (place_meeting(x, y, obj_wall)) {
+            wall_type = 0;
+            //change state and pull to the wall
+            state = "retracting";
+            target_wall = true;
+            wall_x = x;     
+            wall_y = y;
+            wall_exists = true;
+        }
+        
+        //if reach a wall
+        if (place_meeting(x, y, obj_hook_move)) {
+            wall_type = 1;
             //change state and pull to the wall
             state = "retracting";
             target_wall = true;
@@ -124,6 +136,17 @@ if (state == "launched") {
         } 
         //if reach a wall, retract 
         if (place_meeting(x, y, obj_wall)) {
+            wall_type = 0;
+            state = "retracting";
+            target_wall = true;
+            wall_x = x;     
+            wall_y = y;
+            wall_exists = true;
+        }
+        
+        //if reach a wall, retract 
+        if (place_meeting(x, y, obj_hook_move)) {
+            wall_type = 1;
             state = "retracting";
             target_wall = true;
             wall_x = x;     
@@ -137,33 +160,68 @@ if (state == "launched") {
 if (state == "retracting") {
     //if hit a wall
     if (target_wall && wall_exists) {
-        //keep direction, distance to stop and distance to the wall
+            //keep direction, distance to stop and distance to the wall
         var _dir_to_wall = point_direction(obj_player.x, obj_player.y, wall_x, wall_y);
         var _stop_dist = 30;
         var _dist_to_wall = point_distance(obj_player.x, obj_player.y, wall_x, wall_y);
         
-        //while distance to the wall is bigger tha stop_dist
-        if (_dist_to_wall > _stop_dist) {
-            //move the player
-            obj_player.x += lengthdir_x(spd, _dir_to_wall);
-            obj_player.y += lengthdir_y(spd, _dir_to_wall);
-        } else {
-            //stop the player and change the state
-            state = "orbiting";
+        switch (wall_type) {
+            case 0:
+                //while distance to the wall is bigger tha stop_dist
+                if (_dist_to_wall > _stop_dist) {
+                    //move the player
+                    obj_player.x += lengthdir_x(spd, _dir_to_wall);
+                    obj_player.y += lengthdir_y(spd, _dir_to_wall);
+                } else {
+                    //stop the player and change the state
+                    state = "orbiting";
+                    
+                    //initial x and y for the launch
+                    launch_origin_x = obj_player.x;
+                    launch_origin_y = obj_player.y;
+                    
+                    //reseting target_wall
+                    if (target_wall) {
+                        wall_exists = false;
+                    }
+                    
+                    //reseting the orbit variables
+                    orbit_distance = 10;
+                    orbit_angle = 0;
+                    orbit_speed = 1;
+                }
+            break;
             
-            //initial x and y for the launch
-            launch_origin_x = obj_player.x;
-            launch_origin_y = obj_player.y;
-            
-            //reseting target_wall
-            if (target_wall) {
-                wall_exists = false;
-            }
-            
-            //reseting the orbit variables
-            orbit_distance = 10;
-            orbit_angle = 0;
-            orbit_speed = 1;
+            case 1:
+                //while distance to the wall is bigger tha stop_dist
+                if (_dist_to_wall > _stop_dist && !is_drifting) {
+                    //move the player
+                    obj_player.x += lengthdir_x(spd, _dir_to_wall);
+                    obj_player.y += lengthdir_y(spd, _dir_to_wall);
+                } else {
+                    
+                    is_drifting = true;
+                    
+                    if (is_drifting) {
+                        //stop the player and change the state
+                        state = "orbiting";
+                        
+                        //initial x and y for the launch
+                        launch_origin_x = obj_player.x;
+                        launch_origin_y = obj_player.y;
+                        
+                        //reseting target_wall
+                        if (target_wall) {
+                            wall_exists = false;
+                        }
+                        
+                        //reseting the orbit variables
+                        orbit_distance = 10;
+                        orbit_angle = 0;
+                        orbit_speed = 1; 
+                    }
+                }
+            break;
         }
     } else {
         //direction to return
