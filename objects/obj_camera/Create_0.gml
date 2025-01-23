@@ -17,6 +17,9 @@ view_spd = 0.1;
 zoom_scale = 1;
 zoom_target = 1;
 
+//maximum distance to active the aim
+max_distance = 500;
+
 //setting size of the camera
 window_set_size(global.view_width * resolution_scale, global.view_height * resolution_scale);
 surface_resize(application_surface, global.view_width * resolution_scale, global.view_height * resolution_scale);

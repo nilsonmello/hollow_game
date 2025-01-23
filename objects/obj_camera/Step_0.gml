@@ -74,6 +74,7 @@ if (instance_exists(view_target)) {
         //set the camera's view position
         camera_set_view_pos(view_camera[0], x, y);
     } else {
+        
         //if the player is not "hooking", center the camera between the player and the mouse
         var target_x = lerp(view_target.x, mouse_x, 0.3);
         var target_y = lerp(view_target.y, mouse_y, 0.3);

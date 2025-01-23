@@ -1,3 +1,5 @@
+
+show_debug_message(distance_to_object(obj_player));
 // State Machine for Enemy with corrections to speed management
 size = 1;
 
