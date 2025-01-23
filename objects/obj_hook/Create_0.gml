@@ -40,3 +40,10 @@ orbit_speed = 1
 
 //if it finds a wall
 wall_exists = true;
+
+wall_type = 0;
+is_drifting = false;
+
+drift_time_started = false;
+drift_time = 0;
+drift_start_time = 0;

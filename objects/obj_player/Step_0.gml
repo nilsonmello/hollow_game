@@ -76,12 +76,12 @@ switch(state){
     			spd_v = lengthdir_y(spd * _keys, move_dir);
     			
                 //collisions
-    			if(!place_meeting(x + spd_h, y, obj_enemy_par) && !place_meeting(x + spd_h, y, obj_wall) && !place_meeting(x + spd_h, y, obj_ambient)){
+    			if(!place_meeting(x + spd_h, y, collision_list)){
     				x += spd_h;
     			}else{
     				spd_h = 0;
     			}
-    			if(!place_meeting(x, y + spd_v, obj_enemy_par) && !place_meeting(x, y + spd_v, obj_wall) && !place_meeting(x, y + spd_v, obj_ambient)){
+    			if(!place_meeting(x, y + spd_v, collision_list)){
     				y += spd_v;
     			}else{
     				spd_v = 0;

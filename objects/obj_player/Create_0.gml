@@ -557,3 +557,11 @@ golpe_circular = new circle(50, 0, 1, true, self, 5);
 if (!instance_exists(obj_hook)) {
     var _hook = instance_create_layer(x, y, "Instances_player", obj_hook);
 }
+
+
+collision_list = [
+obj_wall,
+obj_enemy_par,
+obj_ambient
+]
+
