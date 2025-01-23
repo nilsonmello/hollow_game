@@ -1,5 +1,3 @@
-show_debug_message(time_per_attacks)
-
 // State Machine for Enemy with corrections to speed management
 size = 1;
 
@@ -96,7 +94,6 @@ switch (state) {
             state = ENEMY_STATES.CHOOSE;
         }
     break;
-    //bicho filho da puta
     
     #region hit
     case ENEMY_STATES.HIT:

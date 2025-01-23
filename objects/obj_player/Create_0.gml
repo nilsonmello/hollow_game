@@ -44,26 +44,6 @@ attack_cooldown = 0;
 //basic attack range
 range = 30
 
-//if the line attack can be executed
-line_attack = false;
-
-//if it is actualy in use
-line = false;
-can_line = false;
-
-//the distance for the line attack
-distan = 0;
-
-//the speed for the line attack
-vel_a = .2
-
-//the final x and y position for the line
-target_x = x;
-target_y = y;
-
-//the damage for the attack
-damage = 2;
-
 //charge timer for the charged attack
 actual_timer = 0;
 timer_charge = 50;

@@ -154,8 +154,6 @@ function enemy_attack(){
                         //turn on layer effect
                         layer_set_visible("screenshake_damaging_enemies", 1);
                         
-                        alarm[2] = 30;
-                        
                         //attack cooldown
                         time_per_attacks = 110;
                         

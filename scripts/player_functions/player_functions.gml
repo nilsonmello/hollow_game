@@ -21,26 +21,25 @@ function player_healing(){
         //if the timer reach the limit
         if(timer_heal >= 30){
             //if the energy is bigger than cost
-            if(global.energy >= global.cost_r){
-                //increase player's life
-                global.life_at += global.life * 0.2;
-                if(global.life_at > global.life){
-                    global.life_at = global.life;
-                }
-                //decrease the energy
-                global.energy -= global.cost_r;
+            
+            //increase player's life
+            global.life_at += global.life * 0.2;
+            if(global.life_at > global.life){
+                global.life_at = global.life;
             }
-            //reset the timer
-            timer_heal = 0;
-            
-            //cooldown for the cure
-            heal_cooldown = 80;
-            
-            //check if the player can use the healing
-            can_heal = false;
-            
-            //reset to false
-            global.healing = false;
+            //decrease the energy
+            global.energy -= global.cost_r;
+        //reset the timer
+        timer_heal = 0;
+        
+        //cooldown for the cure
+        heal_cooldown = 80;
+        
+        //check if the player can use the healing
+        can_heal = false;
+        
+        //reset to false
+        global.healing = false;
         }
     }
 }

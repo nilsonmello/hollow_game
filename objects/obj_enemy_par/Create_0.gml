@@ -2,8 +2,6 @@
 //cooldown per player attacks
 alarm[1] = 0;
 
-//time between attacks to mantain the players combo 
-alarm[2] = 0;
 #endregion
 
 #region enemies state machine base
