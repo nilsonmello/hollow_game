@@ -564,4 +564,3 @@ obj_wall,
 obj_enemy_par,
 obj_ambient
 ]
-
