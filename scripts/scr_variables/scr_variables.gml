@@ -56,3 +56,20 @@ global.line_attack_timer = 0;
 global.parry_timer = 0;
 
 global.hooking = false;
+
+//posições para o gancho ao identificar paredes
+global.wall_x = 0;
+global.wall_y = 0;
+
+//verificação para impedir lançamento caso o gancho já tenha sido lançado
+global.disparado = false;
+
+//ataque atual do jogador
+global.combo = 0;
+
+//timer global
+global.combo_timer = 0;
+
+
+
+

@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"state_sys",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"state_sys",
+  "parent":{
+    "name":"player",
+    "path":"folders/Scripts/player.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}
