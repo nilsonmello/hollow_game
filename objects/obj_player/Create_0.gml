@@ -16,6 +16,9 @@ obj_ambient
 
 can_take_dmg = true;
 
+sprite_index = spr_player_idle
+
+
 lsm_init();
 
 function apply_movement(move_h, move_v) {
@@ -44,6 +47,7 @@ function handle_attack() {
     }
 
     if (INP.attack() && attack_cooldown <= 0) {
+
         attack_cooldown = ATTACK_COOLDOWN_DURATION;
 
         var _dir = point_direction(x, y, mouse_x, mouse_y);
@@ -75,8 +79,8 @@ lsm_add_free_state({
         handle_attack();
     },
     draw: function() {
-        draw_sprite_ext(spr_player_idle, image_index, x, y, image_xscale, image_yscale, 0, c_white, image_alpha)
-    },
+        draw_sprite_ext(sprite_index, image_index, x, y, image_xscale, image_yscale, 0, c_white, image_alpha)
+    }
 });
 
 // Estado Idle
@@ -91,7 +95,10 @@ lsm_add("idle", {
             hsp = lerp(hsp, 0, DCC);
             vsp = lerp(vsp, 0, DCC);
         }
-    }
+    },
+    draw: function() {
+        sprite_index = spr_player_idle
+    },
 });
 
 // Estado Run
@@ -109,7 +116,10 @@ lsm_add("run", {
         if (current_state == "sliding") {
             lsm_change("sliding");
         }
-    }
+    },
+    draw: function() {
+        sprite_index = spr_player_walk_rl;
+    },
 });
 
 // Estado Dash
@@ -172,9 +182,6 @@ lsm_add("sliding", {
             lsm_change("idle");
         }
     },
-    draw: function() {
-        draw_self();
-    }
 });
 
 current_state = "idle";
