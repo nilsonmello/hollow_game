@@ -1,9 +1,9 @@
-#macro MAX_HSP 3
-#macro MAX_VSP 3
-#macro ACC 0.1
-#macro DCC 0.1
-#macro DASH_SPEED 10
-#macro DASH_DURATION 5
+#macro MAX_HSP 2
+#macro MAX_VSP 2
+#macro ACC 0.2
+#macro DCC 0.2
+#macro DASH_SPEED 8
+#macro DASH_DURATION 3
 #macro P_SPD 6
 #macro COMBO_MAX 3
 #macro COMBO_RESET_TIME 25

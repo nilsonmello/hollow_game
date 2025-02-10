@@ -29,7 +29,7 @@ function create_hitbox(_x, _y, _dir, _offset, _speed, _alarm_time) {
 
     var _sw = instance_create_depth(_sw_x, _sw_y, depth - 1, obj_hitbox);
     _sw.direction = _dir;
-    _sw.speed = _speed;
+    _sw.speed = lerp(speed, _speed, .1);
     _sw.alarm[0] = _alarm_time;
 
     return _sw;
@@ -47,7 +47,7 @@ function handle_attack() {
         attack_cooldown = ATTACK_COOLDOWN_DURATION;
 
         var _dir = point_direction(x, y, mouse_x, mouse_y);
-        var _sw = create_hitbox(x, y, _dir, 0, 8, 10);
+        var _sw = create_hitbox(x, y, _dir, 0, 40, 10);
 
         hsp = lengthdir_x(8, _dir);
         vsp = lengthdir_y(8, _dir);
@@ -158,8 +158,8 @@ lsm_add("morte", {
 lsm_add("sliding", {
     enter: function() {
         var _dir_to_wall = point_direction(x, y, global.wall_x, global.wall_y);
-        hsp = lengthdir_x(20, _dir_to_wall);
-        vsp = lengthdir_y(20, _dir_to_wall);
+        hsp = lengthdir_x(10, _dir_to_wall);
+        vsp = lengthdir_y(10, _dir_to_wall);
     },
     step: function() {
         move_x(hsp, list_colision);

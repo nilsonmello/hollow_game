@@ -5,7 +5,7 @@ function Gancho(_vel, _max_dist, _owner) constructor {
     max_dist_sqr = _max_dist * _max_dist;
     origin_x = _owner.x;
     origin_y = _owner.y;
-    orbit_distance = 70;
+    orbit_distance = 10
     orbit_angle = 0;
     orbit_speed = 1;
     target_enemy = noone;
@@ -89,7 +89,7 @@ function Gancho(_vel, _max_dist, _owner) constructor {
                 return collision_instance;
             }
             
-            if (collision_instance.object_index == obj_enemy_par) {
+            if (collision_instance.object_index == obj_enemy) {
                 return collision_instance;
             }
         }
@@ -103,7 +103,7 @@ function Gancho(_vel, _max_dist, _owner) constructor {
             global.wall_y = owner.y;
             wall_exists = true;
             retorno = true;
-        } else if (collision_instance.object_index == obj_enemy_par) {
+        } else if (collision_instance.object_index == obj_enemy) {
             target_enemy = collision_instance;
             retorno = true;
         }
@@ -142,7 +142,7 @@ function Gancho(_vel, _max_dist, _owner) constructor {
 
     pullEnemy = function() {
         var _dir_to_player = point_direction(target_enemy.x, target_enemy.y, obj_player.x, obj_player.y);
-        var _pull_speed = spd * 0.8;
+        var _pull_speed = 1;
 
         target_enemy.x += lengthdir_x(_pull_speed, _dir_to_player);
         target_enemy.y += lengthdir_y(_pull_speed, _dir_to_player);
@@ -164,4 +164,4 @@ function Gancho(_vel, _max_dist, _owner) constructor {
     }
 }
 
-hook = new Gancho(20, 600, self);
+hook = new Gancho(10, 200, self);

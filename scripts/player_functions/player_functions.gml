@@ -139,3 +139,9 @@ function player_line_attack() {
         global.line_ready = false;
     }
 }
+
+
+
+
+
+
