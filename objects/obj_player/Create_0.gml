@@ -12,12 +12,11 @@ list_colision = [
 obj_wall,
 obj_enemy_par,
 obj_ambient
-]
+];
 
 can_take_dmg = true;
 
 sprite_index = spr_player_idle
-
 
 lsm_init();
 
@@ -32,6 +31,7 @@ function create_hitbox(_x, _y, _dir, _offset, _speed, _alarm_time) {
 
     var _sw = instance_create_depth(_sw_x, _sw_y, depth - 1, obj_hitbox);
     _sw.direction = _dir;
+    _sw.image_angle = _dir
     _sw.speed = lerp(speed, _speed, .1);
     _sw.alarm[0] = _alarm_time;
 
@@ -45,13 +45,32 @@ function handle_attack() {
     if (global.combo_timer <= 0 && global.combo > 0) {
         global.combo = 0;
     }
+    
+    if (global.combo = 3) {
+        global.combo = 0;
+    }
 
     if (INP.attack() && attack_cooldown <= 0) {
+        global.can_move = false;
 
         attack_cooldown = ATTACK_COOLDOWN_DURATION;
 
         var _dir = point_direction(x, y, mouse_x, mouse_y);
-        var _sw = create_hitbox(x, y, _dir, 0, 40, 10);
+        var _sw = create_hitbox(x, y, _dir, 0, 20, 10);
+        
+        switch (global.combo) {
+            case 1:
+                _sw.sprite_index = spr_hitbox;
+            break;
+            
+            case 2:
+                _sw.sprite_index = spr_hitbox_2;
+            break;
+            
+            case 3:
+                _sw.sprite_index = spr_hitbox_3;
+            break;
+        }
 
         hsp = lengthdir_x(8, _dir);
         vsp = lengthdir_y(8, _dir);
@@ -63,8 +82,11 @@ function handle_attack() {
 function handle_parry() {
     if (INP.parry()) {
         var _dir = point_direction(x, y, mouse_x, mouse_y);
-        create_hitbox(x, y, _dir, 20, 0, 10);
+        var _p = create_hitbox(x, y, _dir, 20, 0, 10);
+        _p.sprite_index = spr_hitbox_parry;
+        
         global.parry = true;
+        global.can_move = false;
     }
 }
 
@@ -77,8 +99,20 @@ lsm_add_free_state({
 
         handle_parry(); 
         handle_attack();
+        
+        global.combo = clamp(global.combo, 0, 3);
     },
     draw: function() {
+        var _spr_dir = floor((point_direction(x, y, mouse_x, mouse_y) + 90) / 180) % 2;
+        switch (_spr_dir) {
+            case 0:
+                image_xscale = 1
+            break
+            case 1:
+                image_xscale = -1
+            break
+        }
+        
         draw_sprite_ext(sprite_index, image_index, x, y, image_xscale, image_yscale, 0, c_white, image_alpha)
     }
 });
@@ -106,7 +140,7 @@ lsm_add("run", {
     step: function() {
         var move_h = INP.r() - INP.l();
         var move_v = INP.d() - INP.u();
-
+        
         apply_movement(move_h, move_v);
 
         if (move_h == 0 && move_v == 0) {

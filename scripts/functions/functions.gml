@@ -6,10 +6,10 @@
 #macro DASH_DURATION 3
 #macro P_SPD 6
 #macro COMBO_MAX 3
-#macro COMBO_RESET_TIME 25
+#macro COMBO_RESET_TIME 30
 #macro ATTACK_COOLDOWN_DURATION 15
 
-#macro MAX_ENERGY 80
+#macro MAX_ENERGY 90
 #macro MAX_LIFE 5
 
 ///@desc imputs de movimento

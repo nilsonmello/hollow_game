@@ -1,1 +1,2 @@
 hitted = false;
+global.combo++;

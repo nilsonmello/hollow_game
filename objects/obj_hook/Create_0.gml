@@ -5,7 +5,7 @@ function Gancho(_vel, _max_dist, _owner) constructor {
     max_dist_sqr = _max_dist * _max_dist;
     origin_x = _owner.x;
     origin_y = _owner.y;
-    orbit_distance = 10
+    orbit_distance = 10;
     orbit_angle = 0;
     orbit_speed = 1;
     target_enemy = noone;
@@ -142,7 +142,7 @@ function Gancho(_vel, _max_dist, _owner) constructor {
 
     pullEnemy = function() {
         var _dir_to_player = point_direction(target_enemy.x, target_enemy.y, obj_player.x, obj_player.y);
-        var _pull_speed = 1;
+        var _pull_speed = 10;
 
         target_enemy.x += lengthdir_x(_pull_speed, _dir_to_player);
         target_enemy.y += lengthdir_y(_pull_speed, _dir_to_player);
@@ -150,7 +150,7 @@ function Gancho(_vel, _max_dist, _owner) constructor {
         owner.y = target_enemy.y;
 
         var _dist_to_player = point_distance(target_enemy.x, target_enemy.y, obj_player.x, obj_player.y);
-        if (_dist_to_player <= 60) {
+        if (_dist_to_player <= 40) {
             resetState();
         }
     }
